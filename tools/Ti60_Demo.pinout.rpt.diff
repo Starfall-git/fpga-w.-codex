@@ -1,0 +1,130 @@
+--- 
+
++++ 
+
+@@ -3,3 +3,3 @@
+
+ # Version: 2026.1.132
+-# Date: 2026-09-14 20:29
++# Date: 2026-09-16 22:21
+ 
+@@ -26,3 +26,3 @@
+
+ |     A9     |               --UNUSED--              |     GPIOT_N_11     |               |              |      1.8 V       |  2B  |             |                         User IO                          |
+-|    A10     |              lvds_txd3.P              |     GPIOT_P_14     |     Output    |              |      1.8 V       |  2B  |             |                    User IO/MIPI_GCLK                     |
++|    A10     |               --UNUSED--              |     GPIOT_P_14     |               |              |      1.8 V       |  2B  |             |                    User IO/MIPI_GCLK                     |
+ |    A11     |              hdmi_txd0.P              | GPIOT_P_17_PLLIN1  |     Output    |              |      1.8 V       |  2B  |             |                    User IO/PLL_CLKIN                     |
+@@ -37,3 +37,3 @@
+
+ |     B5     |              cmos_data[4]             |      GPIOL_10      |     Input     | 3.3 V LVCMOS |      3.3 V       |  TL  |             |                         User IO                          |
+-|     B6     |               lvds_txc.P              |     GPIOT_P_01     |     Output    |              |      1.8 V       |  2A  |             |                         User IO                          |
++|     B6     |               --UNUSED--              |     GPIOT_P_01     |               |              |      1.8 V       |  2A  |             |                         User IO                          |
+ |     B7     |              csi_sda_io.P             |     GPIOT_P_06     | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  2A  |             |                         User IO                          |
+@@ -41,3 +41,3 @@
+
+ |     B9     |               --UNUSED--              |     GPIOT_P_11     |               |              |      1.8 V       |  2B  |             |                         User IO                          |
+-|    B10     |              lvds_txd3.N              |     GPIOT_N_14     |     Output    |              |      1.8 V       |  2B  |             |                    User IO/MIPI_GCLK                     |
++|    B10     |               --UNUSED--              |     GPIOT_N_14     |               |              |      1.8 V       |  2B  |             |                    User IO/MIPI_GCLK                     |
+ |    B11     |              hdmi_txd0.N              |     GPIOT_N_17     |     Output    |              |      1.8 V       |  2B  |             |                    User IO/PLL_CLKIN                     |
+@@ -52,3 +52,3 @@
+
+ |     C5     |                clk_24m                |  GPIOL_11_PLLIN2   |     Input     | 3.3 V LVCMOS |      3.3 V       |  TL  |             |                    User IO/PLL_CLKIN                     |
+-|     C6     |               lvds_txc.N              |     GPIOT_N_01     |     Output    |              |      1.8 V       |  2A  |             |                         User IO                          |
++|     C6     |               --UNUSED--              |     GPIOT_N_01     |               |              |      1.8 V       |  2A  |             |                         User IO                          |
+ |     C7     |                --VCC--                |      VCCIO2A       |     Power     |              |      1.8 V       |  2A  |             |                       VCCIO Power                        |
+@@ -56,8 +56,8 @@
+
+ |     C9     |             csi_ctl1_io.N             | GPIOT_N_10_CLK7_N  | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  2B  |             |                    User IO/GCLK/RCLK                     |
+-|    C10     |              lvds_txd0.P              |     GPIOT_P_13     |     Output    |              |      1.8 V       |  2B  |             |                       User IO/VREF                       |
++|    C10     |               --UNUSED--              |     GPIOT_P_13     |               |              |      1.8 V       |  2B  |             |                       User IO/VREF                       |
+ |    C11     |                --VCC--                |      VCCIO2B       |     Power     |              |      1.8 V       |  2B  |             |                       VCCIO Power                        |
+-|    C12     |               cmos_xclk               |      GPIOR_16      |     Output    | 3.3 V LVCMOS |      3.3 V       |  TR  |             |                         User IO                          |
+-|    C13     |               csi_rxc.P               |     GPIOR_P_17     |     Input     |              |      1.2 V       |  3A  |             |               User IO/MIPI_GCLK/MIPI_RCLK                |
+-|    C14     |               csi_rxd1.P              | GPIOR_P_19_PLLIN0  |     Input     |              |      1.2 V       |  3A  |             |                    User IO/PLL_CLKIN                     |
+-|    C15     |               csi_rxd1.N              |     GPIOR_N_19     |     Input     |              |      1.2 V       |  3A  |             |                    User IO/PLL_CLKIN                     |
++|    C12     |               --UNUSED--              |      GPIOR_16      |     Input     |              |      3.3 V       |  TR  | weak pullup |                         User IO                          |
++|    C13     |               --UNUSED--              |     GPIOR_P_17     |               |              |      1.2 V       |  3A  |             |               User IO/MIPI_GCLK/MIPI_RCLK                |
++|    C14     |               --UNUSED--              | GPIOR_P_19_PLLIN0  |               |              |      1.2 V       |  3A  |             |                    User IO/PLL_CLKIN                     |
++|    C15     |               --UNUSED--              |     GPIOR_N_19     |               |              |      1.2 V       |  3A  |             |                    User IO/PLL_CLKIN                     |
+ |     D1     |              lcd_blen_o.P             |     GPIOL_P_16     |     Output    | 1.8 V LVCMOS |      1.8 V       |  1B  |             |               User IO/MIPI_GCLK/MIPI_RCLK                |
+@@ -68,11 +68,11 @@
+
+ |     D6     |                --VCC--                |      VCCIO2A       |     Power     |              |      1.8 V       |  2A  |             |                       VCCIO Power                        |
+-|     D7     |              lvds_txd2.N              |     GPIOT_N_05     |     Output    |              |      1.8 V       |  2A  |             |                         User IO                          |
++|     D7     |               --UNUSED--              |     GPIOT_N_05     |               |              |      1.8 V       |  2A  |             |                         User IO                          |
+ |     D8     |             dsi_resetn_o.N            | GPIOT_N_09_CLK6_N  |     Output    | 1.8 V LVCMOS |      1.8 V       |  2B  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
+ |     D9     |                --VCC--                |      VCCIO2B       |     Power     |              |      1.8 V       |  2B  |             |                       VCCIO Power                        |
+-|    D10     |              lvds_txd0.N              |     GPIOT_N_13     |     Output    |              |      1.8 V       |  2B  |             |                         User IO                          |
++|    D10     |               --UNUSED--              |     GPIOT_N_13     |               |              |      1.8 V       |  2B  |             |                         User IO                          |
+ |    D11     |               --UNUSED--              |     REF_RES_2B     |     Input     |              |      1.8 V       |  2B  |             |                                                          |
+ |    D12     |               cmos_href               |      GPIOR_20      |     Input     | 3.3 V LVCMOS |      3.3 V       |  TR  |             |                         User IO                          |
+-|    D13     |               csi_rxc.N               |     GPIOR_N_17     |     Input     |              |      1.2 V       |  3A  |             |               User IO/MIPI_GCLK/MIPI_RCLK                |
+-|    D14     |               csi_rxd0.N              |     GPIOR_N_18     |     Input     |              |      1.2 V       |  3A  |             |                         User IO                          |
+-|    D15     |               csi_rxd0.P              |     GPIOR_P_18     |     Input     |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    D13     |               --UNUSED--              |     GPIOR_N_17     |               |              |      1.2 V       |  3A  |             |               User IO/MIPI_GCLK/MIPI_RCLK                |
++|    D14     |               --UNUSED--              |     GPIOR_N_18     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    D15     |               --UNUSED--              |     GPIOR_P_18     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
+ |     E1     |     --NSTATUS-- / lcd_r7_0_io[0].P    | GPIOL_P_15_NSTATUS | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  1B  |             |                User IO/VREF/Configuration                |
+@@ -83,11 +83,11 @@
+
+ |     E6     |              hdmi_txd1.P              | GPIOT_P_00_PLLIN1  |     Output    |              |      1.8 V       |  2A  |             |                  User IO/PLL_CLKIN/VREF                  |
+-|     E7     |              lvds_txd2.P              |     GPIOT_P_05     |     Output    |              |      1.8 V       |  2A  |             |                         User IO                          |
++|     E7     |               --UNUSED--              |     GPIOT_P_05     |               |              |      1.8 V       |  2A  |             |                         User IO                          |
+ |     E8     |              csi_scl_io.P             | GPIOT_P_09_CLK6_P  | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  2B  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
+-|     E9     |              lvds_txd1.N              |     GPIOT_N_12     |     Output    |              |      1.8 V       |  2B  |             |                         User IO                          |
++|     E9     |               --UNUSED--              |     GPIOT_N_12     |               |              |      1.8 V       |  2B  |             |                         User IO                          |
+ |    E10     |              uart_tx_o.P              |  GPIOT_P_16_EXTFB  |     Output    | 1.8 V LVCMOS |      1.8 V       |  2B  |             |                    User IO/PLL_EXTFB                     |
+ |    E11     |                --VCC--                |       VCCAUX       |     Power     |              |      1.5 V       |  4B  |             |                                                          |
+-|    E12     |               csi_rxd2.N              |     GPIOR_N_15     |     Input     |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    E12     |               --UNUSED--              |     GPIOR_N_15     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
+ |    E13     |                --VCC--                |        VCC         |     Power     |              |                  |      |             |                     0.95 V VCC Power                     |
+-|    E14     |               csi_rxd3.N              |     GPIOR_N_16     |     Input     |              |      1.2 V       |  3A  |             |                         User IO                          |
+-|    E15     |               csi_rxd3.P              |     GPIOR_P_16     |     Input     |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    E14     |               --UNUSED--              |     GPIOR_N_16     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    E15     |               --UNUSED--              |     GPIOR_P_16     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
+ |     F1     |            lcd_r7_0_io[2].P           |     GPIOL_P_14     | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  1B  |             |                         User IO                          |
+@@ -100,9 +100,9 @@
+
+ |     F8     |               hdmi_txc.N              |     GPIOT_N_04     |     Output    |              |      1.8 V       |  2A  |             |                         User IO                          |
+-|     F9     |              lvds_txd1.P              |     GPIOT_P_12     |     Output    |              |      1.8 V       |  2B  |             |                         User IO                          |
++|     F9     |               --UNUSED--              |     GPIOT_P_12     |               |              |      1.8 V       |  2B  |             |                         User IO                          |
+ |    F10     |              uart_rx_i.N              |     GPIOT_N_16     |     Input     | 1.8 V LVCMOS |      1.8 V       |  2B  | weak pullup |                    User IO/PLL_EXTFB                     |
+-|    F11     |               dsi_txd2.N              |     GPIOR_N_14     |     Output    |              |      1.2 V       |  3A  |             |                         User IO                          |
+-|    F12     |               csi_rxd2.P              |     GPIOR_P_15     |     Input     |              |      1.2 V       |  3A  |             |                         User IO                          |
+-|    F13     |               dsi_txc.N               |     GPIOR_N_12     |     Output    |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    F11     |               --UNUSED--              |     GPIOR_N_14     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    F12     |               --UNUSED--              |     GPIOR_P_15     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    F13     |               --UNUSED--              |     GPIOR_N_12     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
+ |    F14     |                --VCC--                |      VCCIO3A       |     Power     |              |      1.2 V       |  3A  |             |                       VCCIO Power                        |
+-|    F15     |               dsi_txd1.N              |     GPIOR_N_13     |     Output    |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    F15     |               --UNUSED--              |     GPIOR_N_13     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
+ |     G1     |            lcd_r7_0_io[5].N           | GPIOL_N_09_CLK2_N  | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  1B  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
+@@ -117,7 +117,7 @@
+
+ |    G10     |                --VCC--                |      VCCA_TR       |     Power     |              |                  |      |             |                     0.95 V PLL Power                     |
+-|    G11     |               dsi_txd2.P              |     GPIOR_P_14     |     Output    |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    G11     |               --UNUSED--              |     GPIOR_P_14     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
+ |    G12     |                --VCC--                |      VCCIO3A       |     Power     |              |      1.2 V       |  3A  |             |                       VCCIO Power                        |
+-|    G13     |               dsi_txc.P               |     GPIOR_P_12     |     Output    |              |      1.2 V       |  3A  |             |                         User IO                          |
+-|    G14     |               dsi_txd0.N              | GPIOR_N_11_CLK8_N  |     Output    |              |      1.2 V       |  3A  |             |                    User IO/GCLK/RCLK                     |
+-|    G15     |               dsi_txd1.P              |     GPIOR_P_13     |     Output    |              |      1.2 V       |  3A  |             |                       User IO/VREF                       |
++|    G13     |               --UNUSED--              |     GPIOR_P_12     |               |              |      1.2 V       |  3A  |             |                         User IO                          |
++|    G14     |               --UNUSED--              | GPIOR_N_11_CLK8_N  |               |              |      1.2 V       |  3A  |             |                    User IO/GCLK/RCLK                     |
++|    G15     |               --UNUSED--              |     GPIOR_P_13     |               |              |      1.2 V       |  3A  |             |                       User IO/VREF                       |
+ |     H1     |            lcd_r7_0_io[4].P           | GPIOL_P_09_CLK2_P  | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  1B  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
+@@ -133,5 +133,5 @@
+
+ |    H11     |                reset.N                | GPIOR_N_08_CLK11_N |     Output    |  1.5 V SSTL  |      1.5 V       |  3B  |             |                    User IO/GCLK/RCLK                     |
+-|    H12     |               dsi_txd3.N              | GPIOR_N_10_CLK9_N  |     Output    |              |      1.2 V       |  3A  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
+-|    H13     |               dsi_txd3.P              | GPIOR_P_10_CLK9_P  |     Output    |              |      1.2 V       |  3A  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
+-|    H14     |               dsi_txd0.P              | GPIOR_P_11_CLK8_P  |     Output    |              |      1.2 V       |  3A  |             |                    User IO/GCLK/RCLK                     |
++|    H12     |               --UNUSED--              | GPIOR_N_10_CLK9_N  |               |              |      1.2 V       |  3A  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
++|    H13     |               --UNUSED--              | GPIOR_P_10_CLK9_P  |               |              |      1.2 V       |  3A  |             |          User IO/GCLK/MIPI_GCLK/RCLK/MIPI_RCLK           |
++|    H14     |               --UNUSED--              | GPIOR_P_11_CLK8_P  |               |              |      1.2 V       |  3A  |             |                    User IO/GCLK/RCLK                     |
+ |    H15     |                clk_n.N                | GPIOR_N_09_CLK10_N |     Output    |  1.5 V SSTL  |      1.5 V       |  3B  |             |                    User IO/GCLK/RCLK                     |
+@@ -183,3 +183,3 @@
+
+ |     M1     |      --CDI0-- / lcd_g7_0_io[0].P      |  GPIOL_P_03_CDI0   | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  1A  |             |                  User IO/Configuration                   |
+-|     M2     |         --CSO-- / lcd_pclk_o.N        |   GPIOL_N_02_CSO   |     Output    | 1.8 V LVCMOS |      1.8 V       |  1A  |             |        User IO/MIPI_GCLK/MIPI_RCLK/Configuration         |
++|     M2     |                --CSO--                |   GPIOL_N_02_CSO   |               |              |      1.8 V       |  1A  |             |        User IO/MIPI_GCLK/MIPI_RCLK/Configuration         |
+ |     M3     |                --VCC--                |        VCC         |     Power     |              |                  |      |             |                     0.95 V VCC Power                     |
