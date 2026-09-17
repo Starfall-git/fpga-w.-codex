@@ -1,0 +1,400 @@
+--- 
+
++++ 
+
+@@ -3,3 +3,3 @@
+
+ Version: 2026.1.132
+-Date: 2026-09-14 20:29
++Date: 2026-09-16 22:21
+ 
+@@ -39,6 +39,6 @@
+
+ control: 0 / 1 (0.0%)
+-gpio: 23 / 23 (100.0%)
+-hsio: 68.0 / 70 (97.14%)
+-	gpio: 98
+-	lvds or mipi lane: 19
++gpio: 22 / 23 (95.65%)
++hsio: 52.5 / 70 (75.0%)
++	gpio: 97
++	lvds or mipi lane: 4
+ hsio_bg: 0 / 8 (0.0%)
+@@ -47,3 +47,3 @@
+
+ osc: 0 / 1 (0.0%)
+-pll: 4 / 4 (100.0%)
++pll: 2 / 4 (50.0%)
+ seu: 0 / 1 (0.0%)
+@@ -88,6 +88,2 @@
+
+ +---------------+-----------------+------+
+-|    clk_27m    | PLL_TR0.CLKOUT2 | GCLK |
+-|    clk_54m    | PLL_TR0.CLKOUT3 | GCLK |
+-|  clk_lvds_1x  | PLL_TR0.CLKOUT0 | GCLK |
+-|  clk_lvds_7x  | PLL_TR0.CLKOUT1 | GCLK |
+ |   clk_pixel   | PLL_TL0.CLKOUT1 | GCLK |
+@@ -98,7 +94,2 @@
+
+ |    core_clk   | PLL_BR0.CLKOUT1 | GCLK |
+-|    csi_rxc    | GPIOR_PN_17.ALT | GCLK |
+-| dsi_byteclk_i | PLL_BL0.CLKOUT1 | GCLK |
+-|  dsi_refclk_i | PLL_BL0.CLKOUT0 | GCLK |
+-|  dsi_serclk_i | PLL_BL0.CLKOUT3 | GCLK |
+-|  dsi_txcclk_i | PLL_BL0.CLKOUT2 | GCLK |
+ |    tac_clk    | PLL_BR0.CLKOUT2 | GCLK |
+@@ -116,6 +107,6 @@
+
+ +--------------+----------------+
+-|      B0      |      5/14      |
++|      B0      |      4/14      |
+ |      B1      |      5/14      |
+ |      L0      |      0/4       |
+-|      L1      |      1/4       |
++|      L1      |      0/4       |
+ |      L2      |      0/4       |
+@@ -130,8 +121,8 @@
+
+ |      R3      |      1/4       |
+-|      R4      |      3/4       |
+-|      R5      |      2/4       |
++|      R4      |      0/4       |
++|      R5      |      0/4       |
+ |      R6      |      0/4       |
+ |      R7      |      0/4       |
+-|      T0      |      5/14      |
+-|      T1      |      7/14      |
++|      T0      |      3/14      |
++|      T1      |      3/14      |
+ +--------------+----------------+
+@@ -179,3 +170,2 @@
+
+ | lcd_g7_0_io[7] |     CBSEL1     |
+-|   lcd_pclk_o   |      CSO       |
+ | lcd_r7_0_io[0] |    NSTATUS     |
+@@ -241,3 +231,2 @@
+
+ |   cmos_vsync   |  GPIOL_03  | input  |       I(R)      |      T0      |    TL    | 3.3 V LVCMOS |      GPIOL_03      |      A3     |
+-|   cmos_xclk    |  GPIOR_16  | clkout |                 |      T1      |    TR    | 3.3 V LVCMOS |      GPIOR_16      |     C12     |
+ |       cs       | GPIOB_N_08 | output |       O(R)      |      B0      |    4B    |  1.5 V SSTL  | GPIOB_N_08_CLK14_N |      M8     |
+@@ -290,3 +279,2 @@
+
+ |    lcd_hs_o    | GPIOL_P_06 | output |                 |              |    1A    | 1.8 V LVCMOS |     GPIOL_P_06     |      K3     |
+-|   lcd_pclk_o   | GPIOL_N_02 | clkout |                 |      L1      |    1A    | 1.8 V LVCMOS |   GPIOL_N_02_CSO   |      M2     |
+ |   lcd_pwm_o    | GPIOL_N_16 | output |                 |              |    1B    | 1.8 V LVCMOS |     GPIOL_N_16     |      C1     |
+@@ -326,12 +314,2 @@
+
+ 
+-
+-Clkout GPIO Configuration:
+-==========================
+-
+-+---------------+--------------+----------------+
+-| Instance Name |  Clock Pin   | Drive Strength |
+-+---------------+--------------+----------------+
+-|   cmos_xclk   |   clk_27m    |       4        |
+-|   lcd_pclk_o  | ~clk_lvds_1x |       8        |
+-+---------------+--------------+----------------+
+ 
+@@ -484,10 +462,8 @@
+
+ 
+-+---------------+----------+--------------+--------------+-----------------+---------------+----------------+--------------+---------------+--------------+---------------+---------+
+-| Instance Name | Resource | Clock Region | Clock Source | Reference Clock | Feedback Mode | Feedback Clock |   Clkout0    |    Clkout1    |   Clkout2    |    Clkout3    | Clkout4 |
+-+---------------+----------+--------------+--------------+-----------------+---------------+----------------+--------------+---------------+--------------+---------------+---------+
+-|    ddr_pll    | PLL_BR0  |    B1,R0     |     core     |     clk_sys     |      core     |    core_clk    |  tdqss_clk   |    core_clk   |   tac_clk    |    twd_clk    |         |
+-|    dsi_pll    | PLL_BL0  |    B0,L1     |     core     |     clk_sys     |     local     |  dsi_refclk_i  | dsi_refclk_i | dsi_byteclk_i | dsi_txcclk_i |  dsi_serclk_i |         |
+-|    lvds_pll   | PLL_TR0  |    R7,T1     |     core     |     clk_sys     |     local     |  clk_lvds_1x   | clk_lvds_1x  |  clk_lvds_7x  |   clk_27m    |    clk_54m    |         |
+-|    sys_pll    | PLL_TL0  |    L7,T0     |   external   |     clk_24m     |      core     |    clk_sys     |   clk_sys    |   clk_pixel   | clk_pixel_2x | clk_pixel_10x |         |
+-+---------------+----------+--------------+--------------+-----------------+---------------+----------------+--------------+---------------+--------------+---------------+---------+
+++---------------+----------+--------------+--------------+-----------------+---------------+----------------+-----------+-----------+--------------+---------------+---------+
++| Instance Name | Resource | Clock Region | Clock Source | Reference Clock | Feedback Mode | Feedback Clock |  Clkout0  |  Clkout1  |   Clkout2    |    Clkout3    | Clkout4 |
+++---------------+----------+--------------+--------------+-----------------+---------------+----------------+-----------+-----------+--------------+---------------+---------+
++|    ddr_pll    | PLL_BR0  |    B1,R0     |     core     |     clk_sys     |      core     |    core_clk    | tdqss_clk |  core_clk |   tac_clk    |    twd_clk    |         |
++|    sys_pll    | PLL_TL0  |    L7,T0     |   external   |     clk_24m     |      core     |    clk_sys     |  clk_sys  | clk_pixel | clk_pixel_2x | clk_pixel_10x |         |
+++---------------+----------+--------------+--------------+-----------------+---------------+----------------+-----------+-----------+--------------+---------------+---------+
+ 
+@@ -584,174 +560,2 @@
+
+ 
+-Instance Name                 : dsi_pll
+-Resource                      : PLL_BL0
+-Reset Pin Name                : dsi_pll_rstn_o
+-Locked Pin Name               : dsi_pll_lock
+-Clock Source                  : core
+-Reference Clock               : clk_sys
+-Feedback Mode                 : local
+-Feedback Clock                : dsi_refclk_i
+-
+-Reference Clock Frequency     : 96.0000 MHz
+-Reference Clock Period        : 10.4167 ns
+-Multiplier (M)                : 1
+-Pre-Divider (N)               : 2
+-VCO Frequency                 : 5376.0000 MHz
+-Post-Divider (O)              : 4
+-PLL Frequency                 : 1344.0000 MHz
+-
+-Output Clock 0
+-Clock Pin Name                : dsi_refclk_i
+-Output Divider                : 28
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 0
+-Phase Degree                  : 0.0000
+-Invert Output                 : false
+-Output Frequency              : 48.0000 MHz
+-Output Period                 : 20.833 ns
+-
+-Output Clock 1
+-Clock Pin Name                : dsi_byteclk_i
+-Output Divider                : 32
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 0
+-Phase Degree                  : 0.0000
+-Invert Output                 : false
+-Output Frequency              : 42.0000 MHz
+-Output Period                 : 23.810 ns
+-
+-Output Clock 2
+-Clock Pin Name                : dsi_txcclk_i
+-Output Divider                : 8
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 6
+-Phase Degree                  : 135.0000
+-Invert Output                 : false
+-Output Frequency              : 168.0000 MHz
+-Output Period                 : 5.952 ns
+-
+-Output Clock 3
+-Clock Pin Name                : dsi_serclk_i
+-Output Divider                : 8
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 2
+-Phase Degree                  : 45.0000
+-Invert Output                 : false
+-Output Frequency              : 168.0000 MHz
+-Output Period                 : 5.952 ns
+-
+-Frequency calculations:
+-	VCO = REFCLK * ((M * FBK) /N)
+-	    = 96.0000 MHz * ((1*112) /2)
+-	    = 5376.0000 MHz
+-	PLL = VCO / O
+-	    = 5376.0000 MHz / 4
+-	    = 1344.0000 MHz
+-
+-	CLKOUT0 = PLL / CLKOUT0_DIV
+-	        = 1344.0000 MHz / 28
+-	        = 48.0000 MHz
+-	CLKOUT1 = PLL / CLKOUT1_DIV
+-	        = 1344.0000 MHz / 32
+-	        = 42.0000 MHz
+-	CLKOUT2 = PLL / CLKOUT2_DIV
+-	        = 1344.0000 MHz / 8
+-	        = 168.0000 MHz
+-	CLKOUT3 = PLL / CLKOUT3_DIV
+-	        = 1344.0000 MHz / 8
+-	        = 168.0000 MHz
+-
+-SDC Constraints:
+-	create_clock -period 20.833 -name dsi_refclk_i [get_ports {dsi_refclk_i}]
+-	create_clock -period 23.810 -name dsi_byteclk_i [get_ports {dsi_byteclk_i}]
+-	create_clock -waveform {2.232 5.208} -period 5.952 -name dsi_txcclk_i [get_ports {dsi_txcclk_i}]
+-	create_clock -waveform {0.744 3.720} -period 5.952 -name dsi_serclk_i [get_ports {dsi_serclk_i}]
+-
+-***** PLL 2 *****
+-
+-Instance Name                 : lvds_pll
+-Resource                      : PLL_TR0
+-Reset Pin Name                : lvds_pll_rstn_o
+-Locked Pin Name               : lvds_pll_lock
+-Clock Source                  : core
+-Reference Clock               : clk_sys
+-Feedback Mode                 : local
+-Feedback Clock                : clk_lvds_1x
+-
+-Reference Clock Frequency     : 96.0000 MHz
+-Reference Clock Period        : 10.4167 ns
+-Multiplier (M)                : 1
+-Pre-Divider (N)               : 2
+-VCO Frequency                 : 5376.0000 MHz
+-Post-Divider (O)              : 4
+-PLL Frequency                 : 1344.0000 MHz
+-
+-Output Clock 0
+-Clock Pin Name                : clk_lvds_1x
+-Output Divider                : 28
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 0
+-Phase Degree                  : 0.0000
+-Invert Output                 : false
+-Output Frequency              : 48.0000 MHz
+-Output Period                 : 20.833 ns
+-
+-Output Clock 1
+-Clock Pin Name                : clk_lvds_7x
+-Output Divider                : 4
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 2
+-Phase Degree                  : 90.0000
+-Invert Output                 : false
+-Output Frequency              : 336.0000 MHz
+-Output Period                 : 2.976 ns
+-
+-Output Clock 2
+-Clock Pin Name                : clk_27m
+-Output Divider                : 84
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 0
+-Phase Degree                  : 0.0000
+-Invert Output                 : false
+-Output Frequency              : 16.0000 MHz
+-Output Period                 : 62.500 ns
+-
+-Output Clock 3
+-Clock Pin Name                : clk_54m
+-Output Divider                : 42
+-Dynamic Phase Shift           : Disable
+-Phase Setting                 : 0
+-Phase Degree                  : 0.0000
+-Invert Output                 : false
+-Output Frequency              : 32.0000 MHz
+-Output Period                 : 31.250 ns
+-
+-Frequency calculations:
+-	VCO = REFCLK * ((M * FBK) /N)
+-	    = 96.0000 MHz * ((1*112) /2)
+-	    = 5376.0000 MHz
+-	PLL = VCO / O
+-	    = 5376.0000 MHz / 4
+-	    = 1344.0000 MHz
+-
+-	CLKOUT0 = PLL / CLKOUT0_DIV
+-	        = 1344.0000 MHz / 28
+-	        = 48.0000 MHz
+-	CLKOUT1 = PLL / CLKOUT1_DIV
+-	        = 1344.0000 MHz / 4
+-	        = 336.0000 MHz
+-	CLKOUT2 = PLL / CLKOUT2_DIV
+-	        = 1344.0000 MHz / 84
+-	        = 16.0000 MHz
+-	CLKOUT3 = PLL / CLKOUT3_DIV
+-	        = 1344.0000 MHz / 42
+-	        = 32.0000 MHz
+-
+-SDC Constraints:
+-	create_clock -period 20.833 -name clk_lvds_1x [get_ports {clk_lvds_1x}]
+-	create_clock -waveform {0.744 2.232} -period 2.976 -name clk_lvds_7x [get_ports {clk_lvds_7x}]
+-	create_clock -period 62.500 -name clk_27m [get_ports {clk_27m}]
+-	create_clock -period 31.250 -name clk_54m [get_ports {clk_54m}]
+-
+-***** PLL 3 *****
+-
+ Instance Name                 : sys_pll
+@@ -854,6 +658,6 @@
+
+ +----------+-----------------+
+-| CLKMUX_B |        6        |
++| CLKMUX_B |        4        |
+ | CLKMUX_L |        4        |
+-| CLKMUX_R |        6        |
+-| CLKMUX_T |        2        |
++| CLKMUX_R |        0        |
++| CLKMUX_T |        1        |
+ +----------+-----------------+
+@@ -866,12 +670,10 @@
+
+ 
+-+---------------+---------+--------------+-----------------+--------+
+-|     Input     | Mux Pin | Top Mux: Sel | Bottom Mux: Sel | Output |
+-+---------------+---------+--------------+-----------------+--------+
+-|  dsi_serclk_i | PLL0[3] |              |     BOT_1: 1    | OUT[1] |
+-|  dsi_txcclk_i | PLL0[2] |              |     BOT_2: 1    | OUT[2] |
+-|  dsi_refclk_i | PLL0[0] |              |     BOT_3: 1    | OUT[3] |
+-|   tdqss_clk   | PLL1[0] |              |     BOT_4: 2    | OUT[4] |
+-|    tac_clk    | PLL1[2] |              |     BOT_5: 2    | OUT[5] |
+-| dsi_byteclk_i | PLL0[1] |              |     BOT_6: 0    | OUT[6] |
+-+---------------+---------+--------------+-----------------+--------+
+++-----------+---------+--------------+-----------------+--------+
++|   Input   | Mux Pin | Top Mux: Sel | Bottom Mux: Sel | Output |
+++-----------+---------+--------------+-----------------+--------+
++|  core_clk | PLL1[1] |              |     BOT_1: 2    | OUT[1] |
++| tdqss_clk | PLL1[0] |              |     BOT_4: 2    | OUT[4] |
++|  tac_clk  | PLL1[2] |              |     BOT_5: 2    | OUT[5] |
++|  twd_clk  | PLL1[3] |              |     BOT_6: 2    | OUT[6] |
+++-----------+---------+--------------+-----------------+--------+
+ 
+@@ -904,15 +706,2 @@
+
+ 
+-Clock mux assignment:
+-
+-+-------------+-----------+--------------+-----------------+--------+
+-|    Input    |  Mux Pin  | Top Mux: Sel | Bottom Mux: Sel | Output |
+-+-------------+-----------+--------------+-----------------+--------+
+-| clk_lvds_7x |  PLL1[1]  |   TOP_2: 1   |     BOT_0: 2    | OUT[0] |
+-|   twd_clk   |  PLL0[3]  |              |     BOT_1: 1    | OUT[1] |
+-|  csi_rxc_i  | MIPI_CLK2 |              |     BOT_3: 2    | OUT[3] |
+-| clk_lvds_1x |  PLL1[0]  |              |     BOT_4: 2    | OUT[4] |
+-|   clk_27m   |  PLL1[2]  |              |     BOT_5: 2    | OUT[5] |
+-|   core_clk  |  PLL0[1]  |              |     BOT_6: 0    | OUT[6] |
+-+-------------+-----------+--------------+-----------------+--------+
+-
+ Dynamic Muxes
+@@ -931,3 +720,2 @@
+
+ | cmos_pclk | GPIO[0] |              |     BOT_5: 1    | OUT[5] |
+-|  clk_54m  | PLL1[3] |              |     BOT_6: 2    | OUT[6] |
+ +-----------+---------+--------------+-----------------+--------+
+@@ -973,7 +761,2 @@
+
+ |   hdmi_txd2   | GPIOT_PN_03 |    GPIOT_N_03,GPIOT_P_03     |    A6,A5     |      T0      | out  | hdmi_txd2_o | hdmi_txd2_oe |       10      |  Disable  | clk_pixel_10x |   clk_pixel    | hdmi_txd2_rst_o |        lvds       |      typical      |  medium low  |   0   |
+-|    lvds_txc   | GPIOT_PN_01 |    GPIOT_N_01,GPIOT_P_01     |    C6,B6     |      T0      | out  |  lvds_txc_o | lvds_txc_oe  |       7       |  Disable  |  clk_lvds_7x  |  clk_lvds_1x   |  lvds_txc_rst_o |        lvds       |      typical      |  medium low  |   0   |
+-|   lvds_txd0   | GPIOT_PN_13 |    GPIOT_N_13,GPIOT_P_13     |   D10,C10    |      T1      | out  | lvds_txd0_o | lvds_txd0_oe |       7       |  Disable  |  clk_lvds_7x  |  clk_lvds_1x   | lvds_txd0_rst_o |        lvds       |      typical      |  medium low  |   0   |
+-|   lvds_txd1   | GPIOT_PN_12 |    GPIOT_N_12,GPIOT_P_12     |    E9,F9     |      T1      | out  | lvds_txd1_o | lvds_txd1_oe |       7       |  Disable  |  clk_lvds_7x  |  clk_lvds_1x   | lvds_txd1_rst_o |        lvds       |      typical      |  medium low  |   0   |
+-|   lvds_txd2   | GPIOT_PN_05 |    GPIOT_N_05,GPIOT_P_05     |    D7,E7     |      T0      | out  | lvds_txd2_o | lvds_txd2_oe |       7       |  Disable  |  clk_lvds_7x  |  clk_lvds_1x   | lvds_txd2_rst_o |        lvds       |      typical      |  medium low  |   0   |
+-|   lvds_txd3   | GPIOT_PN_14 |    GPIOT_N_14,GPIOT_P_14     |   B10,A10    |      T1      | out  | lvds_txd3_o | lvds_txd3_oe |       7       |  Disable  |  clk_lvds_7x  |  clk_lvds_1x   | lvds_txd3_rst_o |        lvds       |      typical      |  medium low  |   0   |
+ +---------------+-------------+------------------------------+--------------+--------------+------+-------------+--------------+---------------+-----------+---------------+----------------+-----------------+-------------------+-------------------+--------------+-------+
+@@ -990,11 +773,3 @@
+
+ 
+-+---------------+-------------+------------------------------+--------------+--------------+-------+------------+-----------+------------+---------------+------------+------------+-------+
+-| Instance Name |   Resource  |          Pad Names           | Package Pins | Clock Region | Group |    Mode    | Conn Type | LP Reverse | FIFO Crossing | Byte Clock | Delay Mode | Delay |
+-+---------------+-------------+------------------------------+--------------+--------------+-------+------------+-----------+------------+---------------+------------+------------+-------+
+-|    csi_rxc    | GPIOR_PN_17 |    GPIOR_N_17,GPIOR_P_17     |   D13,C13    |      R6      |   I8  | clock lane |    gclk   |  Disable   |    Disable    | csi_rxc_i  |            |   0   |
+-|    csi_rxd0   | GPIOR_PN_18 |    GPIOR_N_18,GPIOR_P_18     |   D14,D15    |    R6,R7     |   I8  | data lane  |           |  Disable   |    Disable    | csi_rxc_i  |   static   |   17  |
+-|    csi_rxd1   | GPIOR_PN_19 | GPIOR_N_19,GPIOR_P_19_PLLIN0 |   C15,C14    |      R7      |   I8  | data lane  |           |  Disable   |    Disable    | csi_rxc_i  |   static   |   17  |
+-|    csi_rxd2   | GPIOR_PN_15 |    GPIOR_N_15,GPIOR_P_15     |   E12,F12    |      R6      |   I8  | data lane  |           |  Disable   |    Disable    | csi_rxc_i  |   static   |   17  |
+-|    csi_rxd3   | GPIOR_PN_16 |    GPIOR_N_16,GPIOR_P_16     |   E14,E15    |      R6      |   I8  | data lane  |           |  Disable   |    Disable    | csi_rxc_i  |   static   |   17  |
+-+---------------+-------------+------------------------------+--------------+--------------+-------+------------+-----------+------------+---------------+------------+------------+-------+
++No MIPI RX Lane was configured
+ 
+@@ -1004,11 +779,3 @@
+
+ 
+-+---------------+-------------+-------------------------------------+--------------+--------------+------------+------------+----------------+--------------+-------+
+-| Instance Name |   Resource  |              Pad Names              | Package Pins | Clock Region |    Mode    | LP Reverse | Parallel Clock | Serial Clock | Delay |
+-+---------------+-------------+-------------------------------------+--------------+--------------+------------+------------+----------------+--------------+-------+
+-|    dsi_txc    | GPIOR_PN_12 |        GPIOR_N_12,GPIOR_P_12        |   F13,G13    |      R4      | clock lane |  Disable   | dsi_byteclk_i  | dsi_txcclk_i |   0   |
+-|    dsi_txd0   | GPIOR_PN_11 | GPIOR_N_11_CLK8_N,GPIOR_P_11_CLK8_P |   G14,H14    |      R4      | data lane  |   Enable   | dsi_byteclk_i  | dsi_serclk_i |   0   |
+-|    dsi_txd1   | GPIOR_PN_13 |        GPIOR_N_13,GPIOR_P_13        |   F15,G15    |      R5      | data lane  |   Enable   | dsi_byteclk_i  | dsi_serclk_i |   0   |
+-|    dsi_txd2   | GPIOR_PN_14 |        GPIOR_N_14,GPIOR_P_14        |   F11,G11    |      R5      | data lane  |   Enable   | dsi_byteclk_i  | dsi_serclk_i |   0   |
+-|    dsi_txd3   | GPIOR_PN_10 | GPIOR_N_10_CLK9_N,GPIOR_P_10_CLK9_P |   H12,H13    |      R4      | data lane  |   Enable   | dsi_byteclk_i  | dsi_serclk_i |   0   |
+-+---------------+-------------+-------------------------------------+--------------+--------------+------------+------------+----------------+--------------+-------+
++No MIPI TX Lane was configured
+ 
+@@ -1018,9 +785,7 @@
+
+ 
+-+---------------+---------------+----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+-| Instance Name | Instance Type | Severity |           Rule           |                                                                        Description                                                                         |
+-+---------------+---------------+----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+-|    dsi_txd3   |  mipi_tx_lane | warning  | mipi_ln_rule_tx_distance | These HSIO GPIO must be placed at least 1 pair away from MIPI Lane dsi_txd3 in order to avoid noise coupling from GPIO to MIPI Lane: GPIOR_N_09,GPIOR_P_09 |
+-|   hdmi_txd0   |    lvds_tx    | warning  |  lvds_rule_tx_distance   |     These HSIO GPIO must be placed at least 1 pair away from LVDS hdmi_txd0 in order to avoid noise coupling from GPIO to LVDS: GPIOT_N_16,GPIOT_P_16      |
+-|   lvds_txd2   |    lvds_tx    | warning  |  lvds_rule_tx_distance   |     These HSIO GPIO must be placed at least 1 pair away from LVDS lvds_txd2 in order to avoid noise coupling from GPIO to LVDS: GPIOT_N_06,GPIOT_P_06      |
+-+---------------+---------------+----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
+++---------------+---------------+----------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
++| Instance Name | Instance Type | Severity |          Rule         |                                                                    Description                                                                    |
+++---------------+---------------+----------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
++|   hdmi_txd0   |    lvds_tx    | warning  | lvds_rule_tx_distance | These HSIO GPIO must be placed at least 1 pair away from LVDS hdmi_txd0 in order to avoid noise coupling from GPIO to LVDS: GPIOT_N_16,GPIOT_P_16 |
+++---------------+---------------+----------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
+ 

@@ -1,0 +1,237 @@
+           
+           Elitestek FPGA Placement and Routing.
+           Version: 2026.1.132.3.9 
+           Compiled: May 29 2026.
+           
+           Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
+
+           
+           The Tool Is Based on VPR of University of Toronto,
+           a free open source code under MIT license.
+           
+WARNING  : Found 40 warnings in the post-synthesis netlist.
+INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+INFO     : Creating interface clock pin clk_cam_xclk [DBMsg::NetlistInterfaceClockPinCreated]
+INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+INFO     : XLR count after merging: 6236
+INFO     : Netlist has 3792 luts, 2844 ffs and 753 adders [PackerMsg::NetlistStatistics]
+INFO     : Packed into 6236 clusters with 2.6108081(1.0649455) inputs(outputs) per cluster for a total of 16281(6641) inputs(outputs) [PackerMsg::ClusterPackingStatistics]
+INFO     : Packed into 6236 xlrs with 2.6108081(1.0649455) inputs(outputs) per xlr for a total of 16281(6641) inputs(outputs) [PackerMsg::XLRPackingStatistics]
+INFO     : Packed 0 fracturable DSPs into 0 clusters [PackerMsg::DSPPackingStatistics]
+INFO     : Packing took 0.9949166 seconds [FlowMsg::StageDuration]
+INFO     :     Packing took 1.3125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Packing virtual memory usage: begin = 60.608 MB, end = 123.892 MB, delta = 63.284 MB [FlowMsg::VMUsage]
+INFO     :     Packing peak virtual memory usage = 123.896 MB [FlowMsg::VMUsage::Peak]
+INFO     : Packing resident set memory usage: begin = 64.556 MB, end = 135.764 MB, delta = 71.208 MB [FlowMsg::RSSUsage]
+INFO     :     Packing peak resident set memory usage = 135.764 MB [FlowMsg::RSSUsage::Peak]
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid object(s) found for 'clk_cam_feedback'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid object(s) found for 'clk_pixel_2x'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:30] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] Unable to run 'set_input_delay' constraint due to warnings found
+INFO     : SDC file 'C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc' parsed successfully.
+INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_wr_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
+WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_RFIFO_16.u_R0_FIFO_16/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_wr_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
+WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_rd_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
+WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_RFIFO_16.u_R0_FIFO_16/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_rd_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
+INFO     : Starting Global Placer with 32 threads ...
+            ----------     -------  --------------     -------
+             Iteration       WHPWL Worst Slack (ps) Convergence
+            ----------     -------  --------------     -------
+INFO     :           1      842257             246         4.4%
+INFO     :           2      575672             175         7.3%
+INFO     :           3      401465             246        11.5%
+INFO     :           4      307306             246        17.6%
+INFO     :           5      243785             246        26.2%
+INFO     :           6      217179             246        32.7%
+INFO     :           7      198848             246        39.8%
+INFO     :           8      188782             175        44.3%
+INFO     :           9      182615             199        49.0%
+INFO     :          10      175117             246        54.9%
+INFO     :          11      171848             246        60.5%
+INFO     :          12      168901             175        67.3%
+INFO     :          13      167208             246        71.3%
+INFO     :          14      165471             175        73.0%
+INFO     :          15      164620             175        73.6%
+INFO     :          16      163655             175        74.7%
+INFO     :          17      162869             246        75.6%
+INFO     :          18      163618             246        77.3%
+INFO     :          19      162358             246        79.1%
+INFO     :          20      161385             246        80.4%
+INFO     :          21      160485             246        81.5%
+INFO     :          22      160356             246        83.1%
+INFO     :          23      159620             199        84.8%
+INFO     :          24      159883             199        86.2%
+INFO     :          25      158914             199        87.6%
+INFO     :          26      158632             180        89.1%
+INFO     :          27      158432             198        90.4%
+INFO     :          28      158515             198        91.0%
+INFO     :          29      158547             199        92.0%
+INFO     :          30      159243             198        92.6%
+INFO     :          31      158919             123        93.7%
+INFO     :          32      158999             123        94.8%
+INFO     :          33      158645             149        95.9%
+INFO     :          34      155168             105        96.5%
+INFO     :          35      155436             198        97.8%
+INFO     :          36      155511             105        98.8%
+INFO     :          37      156231             105        99.0%
+INFO     :          38      156150             105        99.4%
+INFO     :          39      156411             105        99.5%
+INFO     :          40      156504             105        99.5%
+INFO     : GP: best_placement: wpd: 50.4518
+INFO     : Starting Annealer
+            ----------     -------  --------------     -------
+             Iteration       WHPWL  Delay Max (ps)     R Limit
+            ----------     -------  --------------     -------
+INFO     :           0       63790             436        30.0
+INFO     :           1       70707             343        29.4
+INFO     :           2       70091             332        28.2
+INFO     :           3       68157             332        26.7
+INFO     :           4       65593             332        25.1
+INFO     :           5       63887             310        23.4
+INFO     :           6       62620             310        21.8
+INFO     :           7       61780             310        20.2
+INFO     :           8       60853             310        18.8
+INFO     :           9       60220             310        17.3
+INFO     :          10       59221             310        16.0
+INFO     :          11       58950            1846        14.8
+INFO     :          12       58007            1836        13.6
+INFO     :          13       58095            1812        12.5
+INFO     :          14       56953            1824        11.6
+INFO     :          15       57026            1835        10.6
+INFO     :          16       55873            1803         9.8
+INFO     :          17       56056            1790         9.0
+INFO     :          18       55371            1790         8.2
+INFO     :          19       55182            1828         7.5
+INFO     :          20       54294            1824         6.9
+INFO     :          21       54765            1824         6.3
+INFO     :          22       53589            1843         5.8
+INFO     :          23       53960            1843         5.3
+INFO     :          24       53190            1848         4.9
+INFO     :          25       53531            1824         4.5
+INFO     :          26       52432            1824         4.1
+INFO     :          27       53433            1824         3.8
+INFO     :          28       52209            1824         3.5
+INFO     :          29       52697            1824         3.2
+INFO     :          30       52122            1836         2.9
+INFO     :          31       52297            1836         2.7
+INFO     :          32       51908            1836         2.5
+INFO     :          33       51604            1836         2.3
+INFO     :          34       51625            1935         2.1
+INFO     :          35       51863            1809         1.9
+INFO     :          36       51950            1847         1.8
+INFO     :          37       51373            1839         1.6
+INFO     :          38       52079            1805         1.5
+INFO     :          39       51695            1805         1.4
+INFO     :          40       51318            1891         1.2
+INFO     :          41       51477            1859         1.1
+INFO     : DP: best_placement: wpd: 40.5974
+INFO     : Placement successful: 6282 cells are placed
+INFO     : Peak congestion smeared over 4x4 of the chip is 0.674266 at 155,40
+INFO     : Peak congestion smeared over 1/16 of the chip is 0.473091 at 150,108
+INFO     : Peak congestion smeared over 1/4 of the chip is 0.271929 at 117,85
+INFO     : Congestion-weighted HPWL per net: 14.6416
+INFO     : Post-placement cluster-level checks is successful
+INFO     : Post-placement primitive-level checks is successful
+INFO     : Placement took 11.3447809 seconds [FlowMsg::StageDuration]
+INFO     :     Placement took 29.3125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Placement virtual memory usage: begin = 79.188 MB, end = 175.66 MB, delta = 96.472 MB [FlowMsg::VMUsage]
+INFO     :     Placement peak virtual memory usage = 210.076 MB [FlowMsg::VMUsage::Peak]
+INFO     : Placement resident set memory usage: begin = 91.724 MB, end = 191.424 MB, delta = 99.7 MB [FlowMsg::RSSUsage]
+INFO     :     Placement peak resident set memory usage = 228.056 MB [FlowMsg::RSSUsage::Peak]
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid object(s) found for 'clk_cam_feedback'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid object(s) found for 'clk_pixel_2x'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:30] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] Unable to run 'set_input_delay' constraint due to warnings found
+INFO     : SDC file 'C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc' parsed successfully.
+Maximum possible analyzed clocks frequency
+ Clock Name  Period (ns)  Frequency (MHz)     Edge
+ tdqss_clk      1.917        521.648         (R-R)
+ core_clk       3.871        258.331         (R-R)
+ tac_clk        1.969        507.872         (R-R)
+ twd_clk        1.911        523.286         (R-R)
+ clk_sys        5.974        167.392         (R-R)
+ clk_pixel      4.447        224.871         (R-R)
+ cmos_pclk      5.588        178.955         (F-R)
+
+Geomean max period: 3.287
+
+Setup (Max) Clock Relationship
+  Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
+   tdqss_clk        tdqss_clk           2.604           0.687            (R-R)
+   tdqss_clk        core_clk            2.604           2.180            (R-R)
+   core_clk         tdqss_clk           2.604           1.483            (R-R)
+   core_clk         core_clk            5.208           1.337            (R-R)
+   core_clk         tac_clk             2.604           2.180            (R-R)
+   core_clk         twd_clk             0.541           0.991            (R-R)
+   tac_clk          core_clk            2.604           2.047            (R-R)
+   tac_clk          tac_clk             2.604           0.635            (R-R)
+   twd_clk          twd_clk             2.604           0.693            (R-R)
+   clk_sys          clk_sys            10.417           4.443            (R-R)
+   clk_pixel        clk_pixel          13.441           8.994            (R-R)
+   cmos_pclk        cmos_pclk          10.000           8.194            (R-R)
+   cmos_pclk        cmos_pclk           5.000           2.206            (F-R)
+
+Hold (Min) Clock Relationship
+  Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
+   tdqss_clk        tdqss_clk           0.000           -0.590           (R-R)
+   tdqss_clk        core_clk            0.000            0.175           (R-R)
+   core_clk         tdqss_clk           0.000            0.175           (R-R)
+   core_clk         core_clk            0.000           -0.268           (R-R)
+   core_clk         tac_clk             0.000            0.175           (R-R)
+   core_clk         twd_clk            -1.883            1.368           (R-R)
+   tac_clk          core_clk            0.000            0.175           (R-R)
+   tac_clk          tac_clk             0.000           -0.820           (R-R)
+   twd_clk          twd_clk             0.000           -0.070           (R-R)
+   clk_sys          clk_sys             0.000           -0.473           (R-R)
+   clk_pixel        clk_pixel           0.000            0.161           (R-R)
+   cmos_pclk        cmos_pclk           0.000            0.161           (R-R)
+   cmos_pclk        cmos_pclk          -5.000            6.520           (F-R)
+
+WARNING  : Clock domain between tdqss_clk (rising) and tdqss_clk (rising) may not meet (slack: -0.590 ns) the hold (min) timing requirement
+WARNING  : Clock domain between core_clk (rising) and core_clk (rising) may not meet (slack: -0.268 ns) the hold (min) timing requirement
+WARNING  : Clock domain between tac_clk (rising) and tac_clk (rising) may not meet (slack: -0.820 ns) the hold (min) timing requirement
+WARNING  : Clock domain between twd_clk (rising) and twd_clk (rising) may not meet (slack: -0.070 ns) the hold (min) timing requirement
+WARNING  : Clock domain between clk_sys (rising) and clk_sys (rising) may not meet (slack: -0.473 ns) the hold (min) timing requirement
+INFO     : Write Timing Report to "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.place.timing.rpt" ...

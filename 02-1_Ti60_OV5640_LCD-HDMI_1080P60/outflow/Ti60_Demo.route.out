@@ -1,0 +1,326 @@
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Router Setup
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : [Setup Parallel Routing Scheduler]
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Route Circuit with 32 threads
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Beneficial skew enabled! Optimizing clock skews ... 
+INFO     : Non-legalized beneficial skew improved geomean CPD by 0.26% (from 3056ps to 3048ps)
+INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1978ps to 1978ps)
+INFO     : CSS improved CPD of clock core_clk by 0.00% (from 3858ps to 3858ps)
+INFO     : CSS improved CPD of clock tac_clk by 0.00% (from 1916ps to 1916ps)
+INFO     : CSS improved CPD of clock twd_clk by -0.86% (from 2103ps to 2121ps)
+INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 5679ps to 5679ps)
+INFO     : CSS improved CPD of clock clk_pixel by 0.00% (from 4359ps to 4359ps)
+INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 3275ps to 3275ps)
+INFO     : Discretized beneficial skew improved geomean CPD by -0.13% (from 3056ps to 3060ps in 6 iterations and 0.3 sec)
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Overridding delay budgets for 404 synchronizer-related pins
+INFO     : Iter  1: overlap=11129   heapops=1762561    (0%) cpd=239   frr=1.00  msec=1020
+INFO     : [Setup Delay Budgets | 190.1 ms]
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Hold Fixing
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Total min wire delay:   2279875
+INFO     : Hold fix wire delay:        173
+INFO     : Hold fix delay ratio:     0.01%
+INFO     : Pins requiring hold fix:  0.01%
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Iter  2: overlap=4693    heapops=1242682    (34%) cpd=239   frr=1.00  msec=365
+INFO     : Iter  3: overlap=2815    heapops=915918     (53%) cpd=239   frr=1.00  msec=271
+INFO     : Iter  4: overlap=1557    heapops=663056     (65%) cpd=239   frr=1.00  msec=225
+INFO     : Iter  5: overlap=737     heapops=442716     (74%) cpd=239   frr=1.00  msec=177
+INFO     : Iter  6: overlap=357     heapops=275851     (80%) cpd=239   frr=1.00  msec=134
+INFO     : [Rebuild Parallel Routing Scheduler]
+INFO     : Iter  7: overlap=137     heapops=186231     (84%) cpd=239   frr=1.00  msec=132
+INFO     : Iter  8: overlap=32      heapops=77801      (86%) cpd=239   frr=1.00  msec=80
+INFO     : Iter  9: overlap=10      heapops=46429      (87%) cpd=239   frr=1.00  msec=66
+INFO     : Iter 10: overlap=1       heapops=40386      (87%) cpd=239   frr=1.00  msec=65
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Beneficial skew enabled! Optimizing clock skews ... 
+INFO     : Non-legalized beneficial skew improved geomean CPD by 0.00% (from 3253ps to 3253ps)
+INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1984ps to 1984ps)
+INFO     : CSS improved CPD of clock core_clk by 0.00% (from 4219ps to 4219ps)
+INFO     : CSS improved CPD of clock tac_clk by 0.00% (from 1995ps to 1995ps)
+INFO     : CSS improved CPD of clock twd_clk by 2.75% (from 2000ps to 1945ps)
+INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 6237ps to 6237ps)
+INFO     : CSS improved CPD of clock clk_pixel by 0.00% (from 5311ps to 5311ps)
+INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 3485ps to 3485ps)
+INFO     : Discretized beneficial skew improved geomean CPD by 0.40% (from 3253ps to 3240ps in 1 iterations and 0.2 sec)
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Iter 11: overlap=0       heapops=35957      (87%) cpd=239   frr=1.00  msec=313
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Routing Result
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Routing Succeeded in 3.48 seconds taking 11 iterations! 
+INFO     : 
+INFO     : First iteration critical path delay = 0.239 ns 
+INFO     : Last iteration critical path delay  = 0.239 ns (ratio = 1.00)
+INFO     : Max Routing Heap Size = 3,694
+INFO     : Routing trace written to file 'C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/outflow/Ti60_Demo.troutingtraces' 
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Routing took 31.54398 seconds [FlowMsg::StageDuration]
+INFO     :     Routing took 44.640625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Routing virtual memory usage: begin = 132.36 MB, end = 267.748 MB, delta = 135.388 MB [FlowMsg::VMUsage]
+INFO     :     Routing peak virtual memory usage = 397.66 MB [FlowMsg::VMUsage::Peak]
+INFO     : Routing resident set memory usage: begin = 153.112 MB, end = 283.908 MB, delta = 130.796 MB [FlowMsg::RSSUsage]
+INFO     :     Routing peak resident set memory usage = 396.18 MB [FlowMsg::RSSUsage::Peak]
+           ***** Beginning stage final timing analysis ... *****
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:14] No valid object(s) found for 'dsi_refclk_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:14] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:14] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:24] No valid object(s) found for 'clk_pixel_2x'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:24] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:24] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:29] No valid object(s) found for 'clk_54m'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:29] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:29] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:33] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:33] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:35] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
+WARNING  : No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:48] set_false_path: Object(s) specified for -to option contains no vaild endpoints
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:48] Unable to run 'set_false_path' constraint due to warnings found
+WARNING  : No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:49] set_false_path: Object(s) specified for -from option contains no vaild startpoints
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:49] Unable to run 'set_false_path' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:341] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:341] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:342] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:342] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:347] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:347] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:348] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:348] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : No ports matched 'csi_rxd0_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:576] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:576] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:576] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : No ports matched 'csi_rxd0_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:577] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:577] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:577] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:578] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:578] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:578] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:579] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:579] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:579] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : No ports matched 'csi_rxd0_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:580] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:580] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:580] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : No ports matched 'csi_rxd0_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:581] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:581] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:581] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : No ports matched 'csi_rxd0_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:582] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:582] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:582] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~278'
+WARNING  : No ports matched 'csi_rxd0_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:583] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:583] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:583] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : No ports matched 'csi_rxd1_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:584] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:584] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:584] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : No ports matched 'csi_rxd1_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:585] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:585] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:585] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:586] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:586] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:586] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:587] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:587] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:587] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : No ports matched 'csi_rxd1_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:588] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:588] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:588] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : No ports matched 'csi_rxd1_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:589] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:589] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:589] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : No ports matched 'csi_rxd1_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:590] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:590] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:590] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~294'
+WARNING  : No ports matched 'csi_rxd1_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:591] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:591] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:591] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : No ports matched 'csi_rxd2_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:592] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:592] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:592] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : No ports matched 'csi_rxd2_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:593] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:593] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:593] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:594] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:594] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:594] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:595] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:595] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:595] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : No ports matched 'csi_rxd2_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:596] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:596] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:596] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : No ports matched 'csi_rxd2_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:597] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:597] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:597] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : No ports matched 'csi_rxd2_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:598] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:598] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:598] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~245'
+WARNING  : No ports matched 'csi_rxd2_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:599] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:599] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:599] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : No ports matched 'csi_rxd3_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:600] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:600] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:600] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : No ports matched 'csi_rxd3_fifo_rd_o'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:601] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:601] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:601] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:602] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:602] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:602] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:603] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:603] set_output_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:603] Unable to run 'set_output_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : No ports matched 'csi_rxd3_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:604] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:604] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:604] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : No ports matched 'csi_rxd3_fifo_empty_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:605] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:605] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:605] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : No ports matched 'csi_rxd3_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:606] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:606] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:606] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'csi_rxc_i~CLKOUT~218~255'
+WARNING  : No ports matched 'csi_rxd3_hs_i[*]'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:607] No clocks matched 'csi_rxc_i'
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:607] set_input_delay: No valid clock found for -clock
+WARNING  : [SDC C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc:607] Unable to run 'set_input_delay' constraint due to warnings found
+INFO     : SDC file 'C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/Ti60_Demo.pt.sdc' parsed successfully.
+Maximum possible analyzed clocks frequency
+ Clock Name  Period (ns)  Frequency (MHz)     Edge
+ tdqss_clk      2.104        475.285         (R-R)
+ core_clk       4.329        231.000         (R-R)
+ tac_clk        2.105        475.059         (R-R)
+ twd_clk        2.055        486.618         (R-R)
+ clk_sys        6.347        157.555         (R-R)
+ clk_pixel      5.421        184.468         (R-R)
+ cmos_pclk      7.190        139.082         (F-R)
+
+Geomean max period: 3.714
+
+Setup (Max) Clock Relationship
+  Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
+   tdqss_clk        tdqss_clk           2.604           0.500            (R-R)
+   tdqss_clk        core_clk            2.604           2.120            (R-R)
+   core_clk         tdqss_clk           2.604           1.247            (R-R)
+   core_clk         core_clk            5.208           0.879            (R-R)
+   core_clk         tac_clk             2.604           2.248            (R-R)
+   core_clk         twd_clk             0.541           0.302            (R-R)
+   tac_clk          core_clk            2.604           2.106            (R-R)
+   tac_clk          tac_clk             2.604           0.499            (R-R)
+   twd_clk          twd_clk             2.604           0.549            (R-R)
+   clk_sys          clk_sys            10.417           4.070            (R-R)
+   clk_pixel        clk_pixel          13.441           8.020            (R-R)
+   cmos_pclk        cmos_pclk          10.000           7.304            (R-R)
+   cmos_pclk        cmos_pclk           5.000           1.405            (F-R)
+
+Hold (Min) Clock Relationship
+  Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
+   tdqss_clk        tdqss_clk           0.000           0.097            (R-R)
+   tdqss_clk        core_clk            0.000           0.153            (R-R)
+   core_clk         tdqss_clk           0.000           0.079            (R-R)
+   core_clk         core_clk            0.000           0.049            (R-R)
+   core_clk         tac_clk             0.000           0.071            (R-R)
+   core_clk         twd_clk            -1.883           2.019            (R-R)
+   tac_clk          core_clk            0.000           0.159            (R-R)
+   tac_clk          tac_clk             0.000           0.033            (R-R)
+   twd_clk          twd_clk             0.000           0.052            (R-R)
+   clk_sys          clk_sys             0.000           0.034            (R-R)
+   clk_pixel        clk_pixel           0.000           0.105            (R-R)
+   cmos_pclk        cmos_pclk           0.000           0.060            (R-R)
+   cmos_pclk        cmos_pclk          -5.000           6.363            (F-R)
+
+INFO     : Write Timing Report to "C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/outflow\Ti60_Demo.timing.rpt" ...
+INFO     : final timing analysis took 26.7331165 seconds [FlowMsg::StageDuration]
+INFO     :     final timing analysis took 27.03125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : final timing analysis virtual memory usage: begin = 260.852 MB, end = 282.508 MB, delta = 21.656 MB [FlowMsg::VMUsage]
+INFO     :     final timing analysis peak virtual memory usage = 397.66 MB [FlowMsg::VMUsage::Peak]
+INFO     : final timing analysis resident set memory usage: begin = 276.94 MB, end = 298.844 MB, delta = 21.904 MB [FlowMsg::RSSUsage]
+INFO     :     final timing analysis peak resident set memory usage = 396.18 MB [FlowMsg::RSSUsage::Peak]
+           ***** Ending stage final timing analysis *****
+           
+           ***** Beginning stage bitstream generation ... *****
+INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+INFO     : Finished writing bitstream file C:/Users/francis/Desktop/FPGA Contest/demo/02-1_Ti60_OV5640_LCD-HDMI_1080P60/work_pnr\Ti60_Demo.lbf.
+INFO     : Bitstream generation took 1.7259427 seconds [FlowMsg::StageDuration]
+INFO     :     Bitstream generation took 1.515625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Bitstream generation virtual memory usage: begin = 254.26 MB, end = 355.228 MB, delta = 100.968 MB [FlowMsg::VMUsage]
+INFO     :     Bitstream generation peak virtual memory usage = 397.66 MB [FlowMsg::VMUsage::Peak]
+INFO     : Bitstream generation resident set memory usage: begin = 270.944 MB, end = 373.436 MB, delta = 102.492 MB [FlowMsg::RSSUsage]
+INFO     :     Bitstream generation peak resident set memory usage = 396.18 MB [FlowMsg::RSSUsage::Peak]
+INFO     : The entire flow of EFX_PNR took 126.8072744 seconds [FlowMsg::StageDuration]
+INFO     :     The entire flow of EFX_PNR took 173.59375 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : The entire flow of EFX_PNR virtual memory usage: begin = 20.068 MB, end = 355.228 MB, delta = 335.16 MB [FlowMsg::VMUsage]
+INFO     :     The entire flow of EFX_PNR peak virtual memory usage = 397.66 MB [FlowMsg::VMUsage::Peak]
+INFO     : The entire flow of EFX_PNR resident set memory usage: begin = 22.656 MB, end = 373.476 MB, delta = 350.82 MB [FlowMsg::RSSUsage]
+INFO     :     The entire flow of EFX_PNR peak resident set memory usage = 396.18 MB [FlowMsg::RSSUsage::Peak]

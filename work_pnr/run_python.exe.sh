@@ -1,0 +1,1 @@
+"C:/Users/francis/Desktop/FPGA Contest/env/Efinity IDE/2026.1/bin/python.exe"  "C:/Users/francis/Desktop/FPGA Contest/env/Efinity IDE/2026.1/scripts/efx_run_pt_unified.py"  "Ti60_Demo"  "Titanium"  "Ti60F225" --peri_file "Ti60_Demo.peri.xml"
