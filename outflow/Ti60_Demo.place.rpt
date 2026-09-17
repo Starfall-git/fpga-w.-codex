@@ -1,7 +1,7 @@
 
 Elitestek FPGA Placement and Routing.
 Version: 2026.1.132.3.9 
-Date: Thu Sep 17 17:02:37 2026
+Date: Thu Sep 17 20:38:44 2026
 
 Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
  
@@ -74,11 +74,11 @@ Top-level Entity Name: Ti60_Demo
 
 ---------- Module Resource Usage Distribution Estimates (begin) ----------
 
-'Module Resource Usage Distribution Estimates' table printed in: C:/Users/francis/Desktop/fpga-w-codex/outflow\Ti60_Demo.hier_util.rpt
+'Module Resource Usage Distribution Estimates' table printed in: outflow\Ti60_Demo.hier_util.rpt
 
 ----------- Module Resource Usage Distribution Estimates (end) ----------
 
-Elapsed time for packing: 0 hours 0 minutes 0 seconds
+Elapsed time for packing: 0 hours 0 minutes 1 seconds
 ---------- Resource Summary (begin) ----------
 Inputs: 58 / 1703 (3.41%)
 Outputs: 325 / 2267 (14.34%)
@@ -102,4 +102,4 @@ Memory Blocks: 46 / 256 (17.97%)
 DSP Blocks: 0 / 160 (0.00%)
 ---------- Resource Summary (end) ----------
 
-Elapsed time for placement: 0 hours 0 minutes 11 seconds
+Elapsed time for placement: 0 hours 0 minutes 13 seconds

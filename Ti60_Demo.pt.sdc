@@ -1,4 +1,5 @@
-# Camera PLL: 48 MHz local feedback, 16 MHz CMOS XCLK (legacy clk_27m).
+# 2026-09-17 V0.2: Restore camera PLL timing (48 MHz feedback, 16 MHz CMOS XCLK).
+# V0.1 removed CSI/DSI/LVDS output clocks; this SDC retains active DDR/DVP/HDMI constraints.
 create_clock -period 20.8333 clk_cam_feedback
 create_clock -period 62.5000 clk_cam_xclk
 
