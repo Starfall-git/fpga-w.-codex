@@ -10,48 +10,48 @@
            a free open source code under MIT license.
            
 WARNING  : Found 40 warnings in the post-synthesis netlist.
-INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
-INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+INFO     : Reading core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
 INFO     : Creating interface clock pin clk_cam_xclk [DBMsg::NetlistInterfaceClockPinCreated]
-INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
-INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+INFO     : Reading core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
 INFO     : XLR count after merging: 6236
 INFO     : Netlist has 3792 luts, 2844 ffs and 753 adders [PackerMsg::NetlistStatistics]
 INFO     : Packed into 6236 clusters with 2.6108081(1.0649455) inputs(outputs) per cluster for a total of 16281(6641) inputs(outputs) [PackerMsg::ClusterPackingStatistics]
 INFO     : Packed into 6236 xlrs with 2.6108081(1.0649455) inputs(outputs) per xlr for a total of 16281(6641) inputs(outputs) [PackerMsg::XLRPackingStatistics]
 INFO     : Packed 0 fracturable DSPs into 0 clusters [PackerMsg::DSPPackingStatistics]
-INFO     : Packing took 0.9949166 seconds [FlowMsg::StageDuration]
-INFO     :     Packing took 1.3125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Packing virtual memory usage: begin = 60.608 MB, end = 123.892 MB, delta = 63.284 MB [FlowMsg::VMUsage]
-INFO     :     Packing peak virtual memory usage = 123.896 MB [FlowMsg::VMUsage::Peak]
-INFO     : Packing resident set memory usage: begin = 64.556 MB, end = 135.764 MB, delta = 71.208 MB [FlowMsg::RSSUsage]
-INFO     :     Packing peak resident set memory usage = 135.764 MB [FlowMsg::RSSUsage::Peak]
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid object(s) found for 'clk_cam_feedback'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid pin(s) found for clock
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] Unable to run 'create_clock' constraint due to warnings found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid object(s) found for 'clk_pixel_2x'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid pin(s) found for clock
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] Unable to run 'create_clock' constraint due to warnings found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:30] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
+INFO     : Packing took 1.3275471 seconds [FlowMsg::StageDuration]
+INFO     :     Packing took 1.25 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Packing virtual memory usage: begin = 60.72 MB, end = 124.036 MB, delta = 63.316 MB [FlowMsg::VMUsage]
+INFO     :     Packing peak virtual memory usage = 124.04 MB [FlowMsg::VMUsage::Peak]
+INFO     : Packing resident set memory usage: begin = 65.348 MB, end = 135.948 MB, delta = 70.6 MB [FlowMsg::RSSUsage]
+INFO     :     Packing peak resident set memory usage = 135.948 MB [FlowMsg::RSSUsage::Peak]
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid object(s) found for 'clk_cam_feedback'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] No valid object(s) found for 'clk_pixel_2x'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:31] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:329] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:329] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_lo[0]'
 WARNING  : No ports matched 'i_dqs_n_hi[0]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] Unable to run 'set_input_delay' constraint due to warnings found
-WARNING  : No ports matched 'i_dqs_n_lo[0]'
-WARNING  : No ports matched 'i_dqs_n_hi[0]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_lo[1]'
 WARNING  : No ports matched 'i_dqs_n_hi[1]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:335] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:335] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_lo[1]'
 WARNING  : No ports matched 'i_dqs_n_hi[1]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] Unable to run 'set_input_delay' constraint due to warnings found
-INFO     : SDC file 'C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc' parsed successfully.
-INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
-INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:336] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:336] Unable to run 'set_input_delay' constraint due to warnings found
+INFO     : SDC file 'Ti60_Demo.pt.sdc' parsed successfully.
+INFO     : Reading core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
 WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_wr_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
 WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_RFIFO_16.u_R0_FIFO_16/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_wr_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
 WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_rd_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
@@ -155,36 +155,36 @@ INFO     : Peak congestion smeared over 1/4 of the chip is 0.271929 at 117,85
 INFO     : Congestion-weighted HPWL per net: 14.6416
 INFO     : Post-placement cluster-level checks is successful
 INFO     : Post-placement primitive-level checks is successful
-INFO     : Placement took 11.3447809 seconds [FlowMsg::StageDuration]
-INFO     :     Placement took 29.3125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Placement virtual memory usage: begin = 79.188 MB, end = 175.66 MB, delta = 96.472 MB [FlowMsg::VMUsage]
-INFO     :     Placement peak virtual memory usage = 210.076 MB [FlowMsg::VMUsage::Peak]
-INFO     : Placement resident set memory usage: begin = 91.724 MB, end = 191.424 MB, delta = 99.7 MB [FlowMsg::RSSUsage]
-INFO     :     Placement peak resident set memory usage = 228.056 MB [FlowMsg::RSSUsage::Peak]
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid object(s) found for 'clk_cam_feedback'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] No valid pin(s) found for clock
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:2] Unable to run 'create_clock' constraint due to warnings found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid object(s) found for 'clk_pixel_2x'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] No valid pin(s) found for clock
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:24] Unable to run 'create_clock' constraint due to warnings found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:30] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
-WARNING  : No ports matched 'i_dqs_n_hi[0]'
+INFO     : Placement took 13.2188106 seconds [FlowMsg::StageDuration]
+INFO     :     Placement took 34.390625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Placement virtual memory usage: begin = 78.636 MB, end = 174.792 MB, delta = 96.156 MB [FlowMsg::VMUsage]
+INFO     :     Placement peak virtual memory usage = 211.856 MB [FlowMsg::VMUsage::Peak]
+INFO     : Placement resident set memory usage: begin = 92.048 MB, end = 190.9 MB, delta = 98.852 MB [FlowMsg::RSSUsage]
+INFO     :     Placement peak resident set memory usage = 229.716 MB [FlowMsg::RSSUsage::Peak]
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid object(s) found for 'clk_cam_feedback'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] No valid object(s) found for 'clk_pixel_2x'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:31] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
 WARNING  : No ports matched 'i_dqs_n_lo[0]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:328] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:329] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:329] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_lo[0]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:329] Unable to run 'set_input_delay' constraint due to warnings found
-WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_hi[1]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:334] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:335] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:335] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_hi[1]'
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] set_input_delay: No valid input port(s) found
-WARNING  : [SDC C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc:335] Unable to run 'set_input_delay' constraint due to warnings found
-INFO     : SDC file 'C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.pt.sdc' parsed successfully.
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:336] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:336] Unable to run 'set_input_delay' constraint due to warnings found
+INFO     : SDC file 'Ti60_Demo.pt.sdc' parsed successfully.
 Maximum possible analyzed clocks frequency
  Clock Name  Period (ns)  Frequency (MHz)     Edge
  tdqss_clk      1.917        521.648         (R-R)
@@ -234,4 +234,4 @@ WARNING  : Clock domain between core_clk (rising) and core_clk (rising) may not 
 WARNING  : Clock domain between tac_clk (rising) and tac_clk (rising) may not meet (slack: -0.820 ns) the hold (min) timing requirement
 WARNING  : Clock domain between twd_clk (rising) and twd_clk (rising) may not meet (slack: -0.070 ns) the hold (min) timing requirement
 WARNING  : Clock domain between clk_sys (rising) and clk_sys (rising) may not meet (slack: -0.473 ns) the hold (min) timing requirement
-INFO     : Write Timing Report to "C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.place.timing.rpt" ...
+INFO     : Write Timing Report to "outflow/Ti60_Demo.place.timing.rpt" ...

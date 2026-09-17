@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<efx:tool_report xmlns:efx="http://www.efinixinc.com/tool_report" date="2026-09-17 17:02" project="Ti60_Demo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/tool_report tool_report.xsd">
+<efx:tool_report xmlns:efx="http://www.efinixinc.com/tool_report" date="2026-09-17 20:38" project="Ti60_Demo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/tool_report tool_report.xsd">
   <efx:group name="Periphery Resource">
     <efx:group_data name="GPIO" severity="info" value="23 / 23"/>
     <efx:group_data name="HSIO" severity="info" value="52.5 / 70"/>

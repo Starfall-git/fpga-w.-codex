@@ -82,6 +82,7 @@
         </efxpt:clkmux_info>
     </efxpt:device_info>
     <efxpt:gpio_info>
+        <!-- 2026-09-17 V0.2: Restore camera 16 MHz XCLK output on C12. -->
         <efxpt:comp_gpio name="cmos_xclk" gpio_def="GPIOR_16" mode="clkout" bus_name="" io_standard="3.3 V LVCMOS">
             <efxpt:output_config name="" name_ddio_lo="" register_option="none" clock_name="clk_cam_xclk" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" delay="0" is_serial="false" drive_strength="4" fastclk_name=""/>
         </efxpt:comp_gpio>
@@ -594,6 +595,7 @@
             <efxpt:comp_output_clock name="twd_clk" number="3" out_divider="8" is_dyn_phase="false" phase_setting="4" is_inverted="false" conn_type="gclk"/>
             <efxpt:comp_prop/>
         </efxpt:pll>
+        <!-- 2026-09-17 V0.2: Split camera clock from removed LVDS output; retain 48 MHz feedback and 16 MHz XCLK. -->
         <efxpt:pll name="cam_pll" pll_def="PLL_TR0" ref_clock_name="clk_sys" ref_clock_freq="96.0000" multiplier="1" pre_divider="2" post_divider="4" reset_name="cam_pll_rstn_o" locked_name="cam_pll_lock" is_ipfrz="false" is_bypass_lock="true">
             <efxpt:adv_prop ref_clock_mode="core" ref_clock1_name="" ext_ref_clock_id="2" clksel_name="" feedback_clock_name="clk_cam_feedback" feedback_mode="local"/>
             <efxpt:gen_pin>

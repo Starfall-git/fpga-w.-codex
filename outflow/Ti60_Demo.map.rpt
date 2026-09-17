@@ -1,6 +1,6 @@
 Efinity Synthesis report for project Ti60_Demo
 Version: 2026.1.132.3.9
-Generated at: Sep 17, 2026 17:02:12
+Generated at: Sep 17, 2026 20:38:06
 Copyright (C) 2013 - 2026  All rights reserved.
 
 Top-level Entity Name : example_top
@@ -9,21 +9,32 @@ family : Titanium
 device : Ti60F225
 project : Ti60_Demo
 root : example_top
-I,include : C:/Users/francis/Desktop/fpga-w-codex
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/W0_FIFO
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/R0_FIFO
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/dsi_tx
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/csi_rx
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/DdrCtrl
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/W0_FIFO_8
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/W0_FIFO_64
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/FIFO_W48R24
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/R0_FIFO_8
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/R0_FIFO_16
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/W0_FIFO_32
-I,include : C:/Users/francis/Desktop/fpga-w-codex/ip/W0_FIFO_16
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\dsi_tx
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\csi_rx
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_8
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_64
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\FIFO_W48R24
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO_8
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO_16
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_32
+I,include : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16
+I,include : ip/W0_FIFO
+I,include : ip/R0_FIFO
+I,include : ip/dsi_tx
+I,include : ip/csi_rx
+I,include : ip/DdrCtrl
+I,include : ip/W0_FIFO_8
+I,include : ip/W0_FIFO_64
+I,include : ip/FIFO_W48R24
+I,include : ip/R0_FIFO_8
+I,include : ip/R0_FIFO_16
+I,include : ip/W0_FIFO_32
 I,include : ip/W0_FIFO_16
-binary-db : C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.vdb
+I,include : ip/W0_FIFO_16
+binary-db : outflow\Ti60_Demo.vdb
 insert-ios : 0
 insert-gclk : 0
 max-carry-cascade : 320
@@ -32,67 +43,66 @@ max_mult : -1
 max_ram : -1
 mode : speed
 num_srl : -1
-output-dir : C:/Users/francis/Desktop/fpga-w-codex/outflow
-proj_curr_path : C:\Users\francis\Desktop\fpga-w-codex
+output-dir : outflow
+proj_curr_path : C:\Users\francis\Desktop\fpga-w.-codex
 project : Ti60_Demo
-project-xml : C:/Users/francis/Desktop/fpga-w-codex/Ti60_Demo.xml
+project-xml : C:\Users\francis\Desktop\fpga-w.-codex\Ti60_Demo.xml
 retiming : 0
 root : example_top
 seq_opt : 0
-work-dir : C:/Users/francis/Desktop/fpga-w-codex/work_syn
-write-efx-verilog : C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.map.v
-write-premap-module : C:/Users/francis/Desktop/fpga-w-codex/outflow/Ti60_Demo.elab.vdb
+work-dir : work_syn
+write-efx-verilog : outflow\Ti60_Demo.map.v
 
 File List:
 
-C:\Users\francis\Desktop\fpga-w-codex\ip\W0_FIFO\W0_FIFO.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\R0_FIFO\R0_FIFO.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\dsi_tx\dsi_tx.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\csi_rx\csi_rx.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\W0_FIFO_8\W0_FIFO_8.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\W0_FIFO_64\W0_FIFO_64.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\FIFO_W48R24\FIFO_W48R24.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\R0_FIFO_8\R0_FIFO_8.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\R0_FIFO_16\R0_FIFO_16.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\W0_FIFO_32\W0_FIFO_32.sv
-C:\Users\francis\Desktop\fpga-w-codex\ip\W0_FIFO_16\W0_FIFO_16.sv
-C:\Users\francis\Desktop\fpga-w-codex\example_top.v
-C:\Users\francis\Desktop\fpga-w-codex\src\ddr_rw_ctrl.v
-C:\Users\francis\Desktop\fpga-w-codex\src\cmos_i2c\i2c_timing_ctrl_16bit.v
-C:\Users\francis\Desktop\fpga-w-codex\src\cmos_i2c\CMOS_Capture_RAW_Gray.v
-C:\Users\francis\Desktop\fpga-w-codex\src\cmos_i2c\I2C_MT9M001_Gray_Config.v
-C:\Users\francis\Desktop\fpga-w-codex\src\lcd_para.v
-C:\Users\francis\Desktop\fpga-w-codex\src\lcd_driver.v
-C:\Users\francis\Desktop\fpga-w-codex\src\hdmi_ip\hdmi_tx_ip.v
-C:\Users\francis\Desktop\fpga-w-codex\src\hdmi_ip\encode.v
-C:\Users\francis\Desktop\fpga-w-codex\src\hdmi_ip\serdes_4b_10to1.v
-C:\Users\francis\Desktop\fpga-w-codex\src\cmos_i2c\I2C_SC130GS_12801024_4Lanes_Config.v
-C:\Users\francis\Desktop\fpga-w-codex\src\PWMLite.v
-C:\Users\francis\Desktop\fpga-w-codex\src\lcd_display.v
-C:\Users\francis\Desktop\fpga-w-codex\src\dsi\dsi_init.v
-C:\Users\francis\Desktop\fpga-w-codex\src\Sensor_Image_XYCrop.v
-C:\Users\francis\Desktop\fpga-w-codex\src\cmos_i2c\i2c_timing_ctrl_reg16_dat16.v
-C:\Users\francis\Desktop\fpga-w-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v
-C:\Users\francis\Desktop\fpga-w-codex\src\axi\AXI4_AWARMux.v
-C:\Users\francis\Desktop\fpga-w-codex\src\lvds\LCDDual2LVDS.v
-C:\Users\francis\Desktop\fpga-w-codex\src\axi\axi4_ctrl.v
-C:\Users\francis\Desktop\fpga-w-codex\src\hdmi_ip\tmds_channel.v
-C:\Users\francis\Desktop\fpga-w-codex\src\hdmi_ip\rgb2dvi.v
-C:\Users\francis\Desktop\fpga-w-codex\src\cmos_i2c\I2C_OV5640_1280720_Config.v
+C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO\W0_FIFO.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO\R0_FIFO.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\dsi_tx\dsi_tx.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\csi_rx\csi_rx.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_8\W0_FIFO_8.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_64\W0_FIFO_64.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\FIFO_W48R24\FIFO_W48R24.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO_8\R0_FIFO_8.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO_16\R0_FIFO_16.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_32\W0_FIFO_32.sv
+C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv
+C:\Users\francis\Desktop\fpga-w.-codex\example_top.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\ddr_rw_ctrl.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\i2c_timing_ctrl_16bit.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\CMOS_Capture_RAW_Gray.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_MT9M001_Gray_Config.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_para.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\hdmi_tx_ip.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\encode.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\serdes_4b_10to1.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_SC130GS_12801024_4Lanes_Config.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\PWMLite.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_display.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\dsi\dsi_init.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\Sensor_Image_XYCrop.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\i2c_timing_ctrl_reg16_dat16.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\axi\AXI4_AWARMux.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\lvds\LCDDual2LVDS.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\tmds_channel.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_OV5640_1280720_Config.v
 
 ### ### Report Section Start ### ###
 
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:3652)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:3652)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\W0_FIFO_8\W0_FIFO_8.sv:673)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w-codex\ip\R0_FIFO_16\R0_FIFO_16.sv:673)
-"MEM|SYN-0657" : Mapping into logic memory block 'ram' (64 bits) (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:1580) because size is too small (<=64)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3652)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3652)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_8\W0_FIFO_8.sv:673)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO_16\R0_FIFO_16.sv:673)
+"MEM|SYN-0657" : Mapping into logic memory block 'ram' (64 bits) (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) because size is too small (<=64)
 
 ### ### EFX_FF CE enables (begin) ### ### ###
 
@@ -104,13 +114,12 @@ Total number of FFs with enable signals: 1001
 |ceg_net2                                                                                                         |               61 |
 |ceg_net612                                                                                                       |               61 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/w_init_done                          |               60 |
-|ceg_net1048                                                                                                      |               32 |
 |ceg_net827                                                                                                       |               32 |
+|ceg_net1048                                                                                                      |               32 |
 |ceg_net13                                                                                                        |               29 |
 |ceg_net613                                                                                                       |               29 |
 |u_i2c_timing_ctrl_16bit/n7                                                                                       |               27 |
 |ceg_net222                                                                                                       |               17 |
-|w_ddr3_rvalid                                                                                                    |               16 |
 |ceg_net837                                                                                                       |               16 |
 |ceg_net839                                                                                                       |               16 |
 |ceg_net841                                                                                                       |               16 |
@@ -118,103 +127,104 @@ Total number of FFs with enable signals: 1001
 |ceg_net845                                                                                                       |               16 |
 |ceg_net847                                                                                                       |               16 |
 |ceg_net849                                                                                                       |               16 |
+|w_ddr3_rvalid                                                                                                    |               16 |
 |ceg_net833                                                                                                       |               16 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12041                               |               15 |
 |u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/wr_en_int                                                     |               14 |
 |ceg_net261                                                                                                       |               14 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/_zz_16            |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/io_pop_valid      |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/n212                  |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/_zz_16                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/w_ack_rd_valid                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ack/_zz_16               |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/n548                  |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/n212                  |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/_zz_16                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/n212                  |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ack/_zz_16               |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/_zz_16                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/_zz_16                |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/n548                  |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/w_ack_rd_valid                |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/n212                  |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/io_pop_valid      |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/_zz_16            |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/n272                  |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/_zz_16                |               13 |
 |u_lcd_driver/equal_17/n27                                                                                        |               12 |
 |ceg_net611                                                                                                       |               12 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12033                               |               11 |
 |u_axi4_ctrl/n793                                                                                                 |               11 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/equal_69/n7                                        |               10 |
-|u_axi4_ctrl/Gen_RFIFO_16.u_R0_FIFO_16/u_efx_fifo_top/wr_en_int                                                   |               10 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12033                               |               11 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/n3879                                              |               10 |
+|u_axi4_ctrl/Gen_RFIFO_16.u_R0_FIFO_16/u_efx_fifo_top/wr_en_int                                                   |               10 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/equal_69/n7                                        |               10 |
 |ceg_net8                                                                                                         |                9 |
+|ceg_net626                                                                                                       |                8 |
+|ceg_net936                                                                                                       |                8 |
 |u_i2c_timing_ctrl_16bit/n525                                                                                     |                8 |
 |ceg_net213                                                                                                       |                8 |
-|ceg_net626                                                                                                       |                8 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12013                               |                8 |
-|ceg_net936                                                                                                       |                8 |
 |rstn_sys                                                                                                         |                8 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u1/full_o|                7 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rd/wr_en_int             |                7 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u2/full_o|                7 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u0/full_o|                7 |
-|ceg_net666                                                                                                       |                6 |
-|ceg_net687                                                                                                       |                6 |
-|ceg_net669                                                                                                       |                6 |
-|ceg_net684                                                                                                       |                6 |
-|ceg_net681                                                                                                       |                6 |
-|ceg_net678                                                                                                       |                6 |
-|ceg_net675                                                                                                       |                6 |
-|ceg_net663                                                                                                       |                6 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u1/full_o|                7 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u2/full_o|                7 |
 |ceg_net672                                                                                                       |                6 |
-|ceg_net689                                                                                                       |                4 |
-|u_i2c_timing_ctrl_16bit/i2c_transfer_en                                                                          |                4 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12006                               |                4 |
-|ceg_net888                                                                                                       |                4 |
+|ceg_net687                                                                                                       |                6 |
+|ceg_net684                                                                                                       |                6 |
+|ceg_net669                                                                                                       |                6 |
+|ceg_net666                                                                                                       |                6 |
+|ceg_net681                                                                                                       |                6 |
+|ceg_net663                                                                                                       |                6 |
+|ceg_net675                                                                                                       |                6 |
+|ceg_net678                                                                                                       |                6 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/Fifo_Wr_En                          |                4 |
-|ceg_net620                                                                                                       |                4 |
 |ceg_net43                                                                                                        |                4 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n2454         |                3 |
-|ceg_net927                                                                                                       |                3 |
+|ceg_net888                                                                                                       |                4 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12006                               |                4 |
+|ceg_net620                                                                                                       |                4 |
+|u_i2c_timing_ctrl_16bit/i2c_transfer_en                                                                          |                4 |
+|ceg_net689                                                                                                       |                4 |
 |ceg_net890                                                                                                       |                3 |
 |ceg_net16                                                                                                        |                3 |
 |ceg_net618                                                                                                       |                3 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/Fifo_Wr_En                          |                2 |
-|ceg_net264                                                                                                       |                2 |
-|u_axi4_ctrl/n1584                                                                                                |                2 |
-|u_axi4_ctrl/r_rframe_inc                                                                                         |                2 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n777          |                2 |
-|ceg_net33                                                                                                        |                2 |
-|ceg_net1047                                                                                                      |                2 |
-|ceg_net825                                                                                                       |                2 |
-|ceg_net244                                                                                                       |                2 |
+|ceg_net927                                                                                                       |                3 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n2454         |                3 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6770         |                2 |
-|ceg_net278                                                                                                       |                1 |
-|ceg_net592                                                                                                       |                1 |
-|ceg_net594                                                                                                       |                1 |
-|u_axi4_ctrl/n1599                                                                                                |                1 |
-|ceg_net597                                                                                                       |                1 |
+|ceg_net244                                                                                                       |                2 |
+|u_axi4_ctrl/n1584                                                                                                |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n777          |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/Fifo_Wr_En                          |                2 |
+|ceg_net33                                                                                                        |                2 |
+|ceg_net264                                                                                                       |                2 |
+|ceg_net825                                                                                                       |                2 |
+|ceg_net1047                                                                                                      |                2 |
+|u_axi4_ctrl/r_rframe_inc                                                                                         |                2 |
 |ceg_net600                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6863         |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6860         |                1 |
+|ceg_net1083                                                                                                      |                1 |
+|ceg_net631                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6867         |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/Fifo_Wr_En                       |                1 |
 |u_axi4_ctrl/equal_68/n7                                                                                          |                1 |
+|ceg_net597                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/Fifo_Wr_En                        |                1 |
+|u_axi4_ctrl/n1599                                                                                                |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6771         |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_ref_rst     |                1 |
+|ceg_net592                                                                                                       |                1 |
+|axi4_awar_mux/n45                                                                                                |                1 |
+|u_lcd_driver/n434                                                                                                |                1 |
+|ceg_net278                                                                                                       |                1 |
 |ceg_net1080                                                                                                      |                1 |
 |ceg_net1081                                                                                                      |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6868         |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/dqs_state[1]  |                1 |
-|axi4_awar_mux/n45                                                                                                |                1 |
+|rstn_pixel                                                                                                       |                1 |
+|u_axi4_ctrl/r_wframe_inc                                                                                         |                1 |
 |ceg_net828                                                                                                       |                1 |
+|ceg_net630                                                                                                       |                1 |
 |ceg_net830                                                                                                       |                1 |
 |ceg_net39                                                                                                        |                1 |
 |ceg_net41                                                                                                        |                1 |
+|ceg_net594                                                                                                       |                1 |
 |ceg_net217                                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/Fifo_Wr_En                        |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/Fifo_Wr_En                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/dqs_state[1]  |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/Fifo_Wr_En                    |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_ref_rst     |                1 |
-|u_lcd_driver/n434                                                                                                |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6868         |                1 |
 |ceg_net628                                                                                                       |                1 |
-|ceg_net630                                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6863         |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6860         |                1 |
-|ceg_net631                                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6867         |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6771         |                1 |
-|u_axi4_ctrl/r_wframe_inc                                                                                         |                1 |
-|rstn_pixel                                                                                                       |                1 |
-|ceg_net1083                                                                                                      |                1 |
 +-----------------------------------------------------------------------------------------------------------------+------------------+
 
 ### ### EFX_FF CE enables (end) ### ### ###
@@ -241,20 +251,20 @@ Total number of FFs with set/reset signals: 2672
 |lcd_de                                                                                           |               34 |
 |u_axi4_ctrl/r_rfifo_rst                                                                          |               31 |
 |rstn_pixel                                                                                       |               26 |
-|u_axi4_ctrl/n1326                                                                                |                5 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/w_init_done          |                5 |
-|u_axi4_ctrl/w_rfifo_rst                                                                          |                4 |
+|u_axi4_ctrl/n1326                                                                                |                5 |
 |u_axi4_ctrl/r_w_rst                                                                              |                4 |
-|w_pll_lock                                                                                       |                2 |
+|u_axi4_ctrl/w_rfifo_rst                                                                          |                4 |
 |axi4_awar_mux/n133                                                                               |                2 |
+|w_pll_lock                                                                                       |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/n860                |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/n332          |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/n332             |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_brust_fifo/n332            |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/n332              |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_arid_fifo/n332                |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_awid_fifo/n332                |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/n1212               |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/n860                |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_awid_fifo/n332                |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_arburst_fifo/n332             |                1 |
 +-------------------------------------------------------------------------------------------------+------------------+
 
@@ -268,29 +278,29 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 ### ### Memory Trimming Report (end) ### ### ### 
 
 ### ### Sequential Elements/Signals Trimming Report (begin) ### ### ### 
-'r_flash_en' (example_top.v:460) (optimized to 0)
-'rs_axilite[0]' (example_top.v:788) (optimized to 0)
-'r_axi_req' (example_top.v:780) (optimized to 0)
-'rc_axi_init[0]' (example_top.v:798) (optimized to 0)
-'r_axi_awvalid' (example_top.v:794) (optimized to 0)
-'r_axi_wvalid' (example_top.v:794) (optimized to 0)
-'r_axi_arvalid' (example_top.v:794) (optimized to 0)
-'r_axi_idle' (example_top.v:786) (optimized to 0)
-'o_dqs_hi[0]' (example_top.v:111) (optimized to 0)
-'o_dqs_n_lo[0]' (example_top.v:115) (optimized to 0)
-'o_dqs_hi[1]' (example_top.v:111) (optimized to 0)
-'o_dqs_n_lo[1]' (example_top.v:115) (optimized to 0)
-'w_ddr3_araddr[0]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[1]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[2]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[3]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[4]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[5]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[6]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[7]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[8]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[9]' (example_top.v:522) (optimized to 0)
-'w_ddr3_araddr[10]' (example_top.v:522) (optimized to 0)
+'r_flash_en' (example_top.v:476) (optimized to 0)
+'rs_axilite[0]' (example_top.v:804) (optimized to 0)
+'r_axi_req' (example_top.v:796) (optimized to 0)
+'rc_axi_init[0]' (example_top.v:814) (optimized to 0)
+'r_axi_awvalid' (example_top.v:810) (optimized to 0)
+'r_axi_wvalid' (example_top.v:810) (optimized to 0)
+'r_axi_arvalid' (example_top.v:810) (optimized to 0)
+'r_axi_idle' (example_top.v:802) (optimized to 0)
+'o_dqs_hi[0]' (example_top.v:125) (optimized to 0)
+'o_dqs_n_lo[0]' (example_top.v:129) (optimized to 0)
+'o_dqs_hi[1]' (example_top.v:125) (optimized to 0)
+'o_dqs_n_lo[1]' (example_top.v:129) (optimized to 0)
+'w_ddr3_araddr[0]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[1]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[2]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[3]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[4]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[5]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[6]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[7]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[8]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[9]' (example_top.v:538) (optimized to 0)
+'w_ddr3_araddr[10]' (example_top.v:538) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[9]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[8]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[0]' (src\lcd_driver.v:124) (optimized to 0)
@@ -299,23 +309,23 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_lcd_driver/r_lcd_rgb[16]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[17]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[18]' (src\lcd_driver.v:124) (optimized to 0)
-'rs_axilite[1]' (example_top.v:788) (optimized to 0)
-'rs_axilite[2]' (example_top.v:788) (optimized to 0)
-'rs_axilite[3]' (example_top.v:788) (optimized to 0)
-'rc_axi_init[1]' (example_top.v:798) (optimized to 0)
-'rc_axi_init[2]' (example_top.v:798) (optimized to 0)
-'rc_axi_init[3]' (example_top.v:798) (optimized to 0)
-'w_ddr3_awaddr[1]' (example_top.v:504) (unreachable)
-'w_ddr3_awaddr[0]' (example_top.v:504) (unreachable)
-'w_ddr3_awaddr[2]' (example_top.v:504) (unreachable)
-'w_ddr3_awaddr[3]' (example_top.v:504) (unreachable)
+'rs_axilite[1]' (example_top.v:804) (optimized to 0)
+'rs_axilite[2]' (example_top.v:804) (optimized to 0)
+'rs_axilite[3]' (example_top.v:804) (optimized to 0)
+'rc_axi_init[1]' (example_top.v:814) (optimized to 0)
+'rc_axi_init[2]' (example_top.v:814) (optimized to 0)
+'rc_axi_init[3]' (example_top.v:814) (optimized to 0)
+'w_ddr3_awaddr[1]' (example_top.v:520) (unreachable)
+'w_ddr3_awaddr[0]' (example_top.v:520) (unreachable)
+'w_ddr3_awaddr[2]' (example_top.v:520) (unreachable)
+'w_ddr3_awaddr[3]' (example_top.v:520) (unreachable)
 'u_Sensor_Image_XYCrop/image_in_href_r' (src\Sensor_Image_XYCrop.v:60) (merged to equivalence)
-'o_dqs_n_hi[1]' (example_top.v:114) (merged to equivalence)
-'o_dqs_lo[1]' (example_top.v:112) (merged to equivalence)
-'o_dqs_lo[0]' (example_top.v:112) (merged to equivalence)
-'o_dqs_oe[0]' (example_top.v:117) (merged to equivalence)
-'o_dqs_n_oe[1]' (example_top.v:118) (merged to equivalence)
-'o_dqs_n_oe[0]' (example_top.v:118) (merged to equivalence)
+'o_dqs_n_hi[1]' (example_top.v:128) (merged to equivalence)
+'o_dqs_lo[1]' (example_top.v:126) (merged to equivalence)
+'o_dqs_lo[0]' (example_top.v:126) (merged to equivalence)
+'o_dqs_oe[0]' (example_top.v:131) (merged to equivalence)
+'o_dqs_n_oe[1]' (example_top.v:132) (merged to equivalence)
+'o_dqs_n_oe[0]' (example_top.v:132) (merged to equivalence)
 'hdmi_txd2_o[2]' (src\hdmi_ip\tmds_channel.v:167) (merged to equivalence)
 ### ### Sequential Elements Trimming Report (end) ### ### ### 
 
@@ -510,7 +520,7 @@ example_top:example_top                                        2844(20)    524(0
 
 ### ### Memory Mapping Report (begin) ### ### ###
 
-1. ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/map_ram/ram (C:\Users\francis\Desktop\fpga-w-codex\ip\DdrCtrl\DdrCtrl.sv:2141):
+1. ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/map_ram/ram (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:2141):
 	EFX_RAM10: ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/map_ram/ram__D$2
 	EFX_RAM10: ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/map_ram/ram__D$c1
 	EFX_RAM10: ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/map_ram/ram__D$12
@@ -533,5 +543,5 @@ EFX_SRL8                : 	524
 EFX_RAM10               : 	46
 ### ### Resource Summary (end) ### ### ###
 
-Plain synthesis (without verilog dump and post-map checks) time : 11s
-Elapsed synthesis time : 12s
+Plain synthesis (without verilog dump and post-map checks) time : 14s
+Elapsed synthesis time : 15s
