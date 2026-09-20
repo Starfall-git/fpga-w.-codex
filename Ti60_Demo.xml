@@ -7,6 +7,10 @@
     <efx:design_info def_veri_version="verilog_2k" def_vhdl_version="vhdl_2008" unified_flow="false" partition_interface_allowed_off_perimeter="true">
         <efx:top_module name="example_top" />
         <efx:design_file name="example_top.v" version="default" library="default" />
+        <!-- 2026-09-18 V0.3 / 12: Added post-DDR video processing modules. -->
+        <efx:design_file name="src/isp/video_processing.v" version="default" library="default" />
+        <efx:design_file name="src/isp/video_window3x3.v" version="default" library="default" />
+        <efx:design_file name="src/isp/video_sobel.v" version="default" library="default" />
         <efx:design_file name="src/ddr_rw_ctrl.v" version="default" library="default" />
         <efx:design_file name="src/cmos_i2c/i2c_timing_ctrl_16bit.v" version="default" library="default" />
         <efx:design_file name="src/cmos_i2c/CMOS_Capture_RAW_Gray.v" version="default" library="default" />

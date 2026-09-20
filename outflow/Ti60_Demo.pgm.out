@@ -23,9 +23,9 @@ INFO     : 	seu_wait_interval                        = 0xFFFFFF
 INFO     : 	jtag_usercode                            = 0xFFFFFFFF
 INFO     : 	io_weak_pullup                           = on
 INFO     : Finished generating "outflow\Ti60_Demo.hex"
-INFO     : Elitestek Bitstream Generator took 1.5257096 seconds [FlowMsg::StageDuration]
-INFO     :     Elitestek Bitstream Generator took 1.265625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Elitestek Bitstream Generator virtual memory usage: begin = 2.736 MB, end = 11.324 MB, delta = 8.588 MB [FlowMsg::VMUsage]
-INFO     :     Elitestek Bitstream Generator peak virtual memory usage = 152.184 MB [FlowMsg::VMUsage::Peak]
-INFO     : Elitestek Bitstream Generator resident set memory usage: begin = 10.256 MB, end = 22.576 MB, delta = 12.32 MB [FlowMsg::RSSUsage]
-INFO     :     Elitestek Bitstream Generator peak resident set memory usage = 159.472 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Elitestek Bitstream Generator took 1.0253124 seconds [FlowMsg::StageDuration]
+INFO     :     Elitestek Bitstream Generator took 0.9375 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Elitestek Bitstream Generator virtual memory usage: begin = 2.624 MB, end = 11.128 MB, delta = 8.504 MB [FlowMsg::VMUsage]
+INFO     :     Elitestek Bitstream Generator peak virtual memory usage = 152.292 MB [FlowMsg::VMUsage::Peak]
+INFO     : Elitestek Bitstream Generator resident set memory usage: begin = 9.464 MB, end = 21.756 MB, delta = 12.292 MB [FlowMsg::RSSUsage]
+INFO     :     Elitestek Bitstream Generator peak resident set memory usage = 158.772 MB [FlowMsg::RSSUsage::Peak]

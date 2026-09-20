@@ -12,6 +12,14 @@
 6. 增加默认关闭的 HDMI_TEST_PATTERN 纯色测试开关，便于隔离显示链路。
 7. 同步更新 Ti60_Demo.peri.xml 的摄像头 PLL/引脚配置和 Ti60_Demo.pt.sdc 的时钟约束。
 ////--------------------2026-09-17-V0.2:摄像头时钟与720p基线修复------------------------------
+
+////--------------------2026-09-18-V0.3:DDR读出后接入Sobel边缘检测------------------------------
+8. 新增 src/isp/video_processing.v，统一 RGB888/HS/VS/DE 流接口并提供原图旁路。
+9. 新增 src/isp/video_window3x3.v 和 video_sobel.v，实现双行缓存、3x3 梯度、阈值/灰度边缘输出。
+10. 在 lcd_driver 输出之后、rgb2dvi 输入之前串联处理模块；HDMI 同步信号改接处理后的信号。
+11. 新增 ENABLE_SOBEL、SOBEL_THRESHOLD、SOBEL_BINARY 参数，默认输出二值边缘。
+12. 在 Ti60_Demo.xml 中登记三个新模块；补充仿真和 docs/IMAGE_PROCESSING_GUIDE.md 接口说明。
+////--------------------2026-09-18-V0.3:DDR读出后接入Sobel边缘检测------------------------------
 */
 
 //`include "ddr3_controller.vh"
@@ -20,7 +28,12 @@
 /* V0.2：新增两个调试参数；默认值保持摄像头图像输出。 */
 module example_top #(
     parameter DEBUG_LEDS = 1,
-    parameter HDMI_TEST_PATTERN = 0
+    parameter HDMI_TEST_PATTERN = 0,
+    /* V0.3 / 11：新增 Sobel 开关及阈值；ENABLE_SOBEL=0 恢复原图。
+       SOBEL_BINARY=0 输出饱和灰度梯度，=1 输出黑底白边。 */
+    parameter ENABLE_SOBEL = 1,
+    parameter [11:0] SOBEL_THRESHOLD = 12'd128,
+    parameter SOBEL_BINARY = 1
 )
 (
 	////////////////////////////////////////////////////////////////
@@ -1049,7 +1062,27 @@ module example_top #(
 	
 	
 	////////////////////////////////////////////////////////////////
-	//	HDMI Interface. 
+/* V0.3 / 8~10：新增 DDR 显示数据处理链。
+       lcd_driver 已把 DDR RGB565 数据转换为带时序的 RGB888 流。
+       DDR 的 lcd_request 和 rframe_vsync 仍使用原始时序；
+       仅送 HDMI 的 RGB/HS/VS/DE 一起经过处理模块。 */
+    wire [23:0] processed_rgb;
+    wire processed_hs, processed_vs, processed_de;
+    video_processing #(
+        .IMAGE_WIDTH(1280),
+        .ENABLE_SOBEL(ENABLE_SOBEL),
+        .SOBEL_THRESHOLD(SOBEL_THRESHOLD),
+        .SOBEL_BINARY(SOBEL_BINARY),
+        .VS_ACTIVE(1'b0)
+    ) u_video_processing (
+        .clk(clk_pixel), .rst_n(rstn_pixel),
+        .rgb_i({lcd_red, lcd_green, lcd_blue}),
+        .hs_i(lcd_hs), .vs_i(lcd_vs), .de_i(lcd_de),
+        .rgb_o(processed_rgb),
+        .hs_o(processed_hs), .vs_o(processed_vs), .de_o(processed_de)
+    );
+
+    // HDMI Interface.
 	
 	//	HDMI requires specific timing, thus is not compatible with LCD & LVDS & DSI. Must implement standalone. 
 	
@@ -1081,11 +1114,14 @@ module example_top #(
 		.PixelClk		(clk_pixel        ),//pixel clk = 74.25M
 		.SerialClk		(     ),//pixel clk *5 = 371.25M
 		
-		.vid_pVSync		(lcd_vs), 
-		.vid_pHSync		(lcd_hs), 
-		.vid_pVDE		(lcd_de), 
-        /* V0.2：可选洋红纯色输入，用于区分 HDMI 时序与摄像头/DDR 图像路径故障。 */
-		.vid_pData		(HDMI_TEST_PATTERN ? 24'hFF00FF : {lcd_red, lcd_green, lcd_blue}), 
+        /* V0.3 / 10：原连接如下，现将四个信号统一改为处理链输出：
+           .vid_pVSync(lcd_vs), .vid_pHSync(lcd_hs), .vid_pVDE(lcd_de),
+           .vid_pData(HDMI_TEST_PATTERN ? 24'hFF00FF : {lcd_red,lcd_green,lcd_blue})
+           纯色测试保留最高优先级，使用与 processed_rgb 对齐的同步信号。 */
+        .vid_pVSync(processed_vs),
+        .vid_pHSync(processed_hs),
+        .vid_pVDE(processed_de),
+        .vid_pData(HDMI_TEST_PATTERN ? 24'hFF00FF : processed_rgb),
 		
 		.txc_o			(hdmi_txc_o), 
 		.txd0_o			(hdmi_txd0_o), 
