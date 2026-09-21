@@ -1,6 +1,7 @@
 `timescale 1ns/1ps
 /* 2026-09-18 V0.3 新增：逐拍比较独立 Python 图像参考模型及全部同步信号。
    同时覆盖二值、灰度、阈值边界、旁路和高有效 VS。 */
+/* V0.4 / 18：阈值由参数改为输入端口，测试向端口提供对应数值。 */
 module video_processing_tb;
     parameter WIDTH = 8;
     reg clk = 0;
@@ -10,17 +11,17 @@ module video_processing_tb;
     wire [23:0] binary_rgb, strength_rgb, zero_rgb, max_rgb, bypass_rgb, high_rgb;
     wire bh, bv, bd, sh, sv, sd, zh, zv, zd, mh, mv, md, ph, pv, pd, hh, hv, hd;
     video_processing #(.IMAGE_WIDTH(WIDTH)) binary_dut
-        (clk,rst_n,rgb,hs,vs,de,binary_rgb,bh,bv,bd);
+        (clk,rst_n,12'd128,rgb,hs,vs,de,binary_rgb,bh,bv,bd);
     video_processing #(.IMAGE_WIDTH(WIDTH),.SOBEL_BINARY(0)) strength_dut
-        (clk,rst_n,rgb,hs,vs,de,strength_rgb,sh,sv,sd);
-    video_processing #(.IMAGE_WIDTH(WIDTH),.SOBEL_THRESHOLD(0)) zero_dut
-        (clk,rst_n,rgb,hs,vs,de,zero_rgb,zh,zv,zd);
-    video_processing #(.IMAGE_WIDTH(WIDTH),.SOBEL_THRESHOLD(2047)) max_dut
-        (clk,rst_n,rgb,hs,vs,de,max_rgb,mh,mv,md);
+        (clk,rst_n,12'd128,rgb,hs,vs,de,strength_rgb,sh,sv,sd);
+    video_processing #(.IMAGE_WIDTH(WIDTH)) zero_dut
+        (clk,rst_n,12'd0,rgb,hs,vs,de,zero_rgb,zh,zv,zd);
+    video_processing #(.IMAGE_WIDTH(WIDTH)) max_dut
+        (clk,rst_n,12'd2047,rgb,hs,vs,de,max_rgb,mh,mv,md);
     video_processing #(.IMAGE_WIDTH(WIDTH),.ENABLE_SOBEL(0)) bypass_dut
-        (clk,rst_n,rgb,hs,vs,de,bypass_rgb,ph,pv,pd);
+        (clk,rst_n,12'd128,rgb,hs,vs,de,bypass_rgb,ph,pv,pd);
     video_processing #(.IMAGE_WIDTH(WIDTH),.VS_ACTIVE(1'b1)) high_dut
-        (clk,rst_n,rgb,hs,~vs,de,high_rgb,hh,hv,hd);
+        (clk,rst_n,12'd128,rgb,hs,~vs,de,high_rgb,hh,hv,hd);
 
     integer fd, count, n = 0;
     reg ri, hi, vi, di, eh, ev, ed;

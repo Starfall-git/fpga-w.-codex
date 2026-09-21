@@ -8,6 +8,12 @@
     <efx:design_info def_veri_version="verilog_2k" def_vhdl_version="vhdl_2008" unified_flow="false" partition_interface_allowed_off_perimeter="true">
         <efx:top_module name="example_top"/>
         <efx:design_file name="example_top.v" version="default" library="default"/>
+        <!-- V0.4 / 14-16: UART RX/TX, key debounce, threshold CDC and command controller. -->
+        <efx:design_file name="src/control/uart_rx.v" version="default" library="default"/>
+        <efx:design_file name="src/control/uart_tx.v" version="default" library="default"/>
+        <efx:design_file name="src/control/key_debounce.v" version="default" library="default"/>
+        <efx:design_file name="src/control/threshold_cdc.v" version="default" library="default"/>
+        <efx:design_file name="src/control/uart_image_control.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_processing.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_window3x3.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_sobel.v" version="default" library="default"/>
