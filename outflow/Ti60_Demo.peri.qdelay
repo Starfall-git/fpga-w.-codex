@@ -4654,6 +4654,58 @@ route {
 }
 route {
   driver {
+    cell: "key_data[0]"
+    port: "inpad"
+  }
+  sink {
+    cell: "key_data[0]~GPIO"
+    port: "IO_inpad"
+  }
+  delay_min: 0
+  delay_max: 0
+  type: FIXED_NET_DELAY
+}
+route {
+  driver {
+    cell: "key_data[0]~GPIO"
+    port: "I[0]"
+  }
+  sink {
+    cell: "key_data[0]~GPIO~I[0]"
+    port: "outpad"
+  }
+  delay_min: 0
+  delay_max: 0
+  type: FIXED_NET_DELAY
+}
+route {
+  driver {
+    cell: "key_data[1]"
+    port: "inpad"
+  }
+  sink {
+    cell: "key_data[1]~GPIO"
+    port: "IO_inpad"
+  }
+  delay_min: 0
+  delay_max: 0
+  type: FIXED_NET_DELAY
+}
+route {
+  driver {
+    cell: "key_data[1]~GPIO"
+    port: "I[0]"
+  }
+  sink {
+    cell: "key_data[1]~GPIO~I[0]"
+    port: "outpad"
+  }
+  delay_min: 0
+  delay_max: 0
+  type: FIXED_NET_DELAY
+}
+route {
+  driver {
     cell: "lcd_b7_0_io[0]~GPIO"
     port: "I[0]"
   }
@@ -5192,32 +5244,6 @@ route {
   }
   sink {
     cell: "lcd_blen_o~GPIO"
-    port: "O[0]"
-  }
-  delay_min: 0
-  delay_max: 0
-  type: FIXED_NET_DELAY
-}
-route {
-  driver {
-    cell: "lcd_de_o~GPIO"
-    port: "IO_outpad"
-  }
-  sink {
-    cell: "lcd_de_o"
-    port: "outpad"
-  }
-  delay_min: 0
-  delay_max: 0
-  type: FIXED_NET_DELAY
-}
-route {
-  driver {
-    cell: "lcd_de_o~GPIO~O[0]"
-    port: "inpad"
-  }
-  sink {
-    cell: "lcd_de_o~GPIO"
     port: "O[0]"
   }
   delay_min: 0
@@ -8224,6 +8250,14 @@ placed {
   custom_site: "PKG_PIN/PKG_PIN_INOUT"
 }
 placed {
+  cell: "key_data[0]"
+  custom_site: "PKG_PIN/PKG_PIN_INOUT"
+}
+placed {
+  cell: "key_data[1]"
+  custom_site: "PKG_PIN/PKG_PIN_INOUT"
+}
+placed {
   cell: "lcd_b7_0_io[0]"
   custom_site: "PKG_PIN/PKG_PIN_INOUT"
 }
@@ -8257,10 +8291,6 @@ placed {
 }
 placed {
   cell: "lcd_blen_o"
-  custom_site: "PKG_PIN/PKG_PIN_INOUT"
-}
-placed {
-  cell: "lcd_de_o"
   custom_site: "PKG_PIN/PKG_PIN_INOUT"
 }
 placed {
@@ -8728,6 +8758,14 @@ placed {
   custom_site: "HSIO/HSIO_SLOT0"
 }
 placed {
+  cell: "key_data[0]~GPIO"
+  custom_site: "HSIO/HSIO_SLOT0"
+}
+placed {
+  cell: "key_data[1]~GPIO"
+  custom_site: "HSIO/HSIO_SLOT1"
+}
+placed {
   cell: "lcd_b7_0_io[0]~GPIO"
   custom_site: "HSIO/HSIO_SLOT0"
 }
@@ -8761,10 +8799,6 @@ placed {
 }
 placed {
   cell: "lcd_blen_o~GPIO"
-  custom_site: "HSIO/HSIO_SLOT0"
-}
-placed {
-  cell: "lcd_de_o~GPIO"
   custom_site: "HSIO/HSIO_SLOT0"
 }
 placed {

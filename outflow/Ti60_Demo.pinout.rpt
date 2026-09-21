@@ -1,7 +1,7 @@
 
 # Efinity Pinout Report
 # Version: 2026.1.132
-# Date: 2026-09-18 19:07
+# Date: 2026-09-21 00:10
 
 # Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -181,7 +181,7 @@
 |    L14     |                --VCC--                |      VCCIO3B       |     Power     |              |      1.5 V       |  3B  |             |                       VCCIO Power                        |
 |    L15     |            --CDI30-- / we.P           |  GPIOR_P_05_CDI30  |     Output    |  1.5 V SSTL  |      1.5 V       |  3B  |             |                       User IO/VREF                       |
 |     M1     |      --CDI0-- / lcd_g7_0_io[0].P      |  GPIOL_P_03_CDI0   | Bidirectional | 1.8 V LVCMOS |      1.8 V       |  1A  |             |                  User IO/Configuration                   |
-|     M2     |                --CSO--                |   GPIOL_N_02_CSO   |               |              |      1.8 V       |  1A  |             |        User IO/MIPI_GCLK/MIPI_RCLK/Configuration         |
+|     M2     |        --CSO-- / key_data[1].N        |   GPIOL_N_02_CSO   |     Input     | 1.8 V LVCMOS |      1.8 V       |  1A  |             |        User IO/MIPI_GCLK/MIPI_RCLK/Configuration         |
 |     M3     |                --VCC--                |        VCC         |     Power     |              |                  |      |             |                     0.95 V VCC Power                     |
 |     M4     |                --TDO--                |        TDO         |     Output    |              |      3.3 V       |  BL  |             |                      Configuration                       |
 |     M5     |               --UNUSED--              |     REF_RES_4B     |     Input     |              |      1.5 V       |  4B  |             |                                                          |
@@ -196,7 +196,7 @@
 |    M14     |           --CDI24-- / ras.P           |  GPIOR_P_02_CDI24  |     Output    |  1.5 V SSTL  |      1.5 V       |  3B  |             |               User IO/MIPI_GCLK/MIPI_RCLK                |
 |    M15     |           --CDI25-- / cas.N           |  GPIOR_N_02_CDI25  |     Output    |  1.5 V SSTL  |      1.5 V       |  3B  |             |               User IO/MIPI_GCLK/MIPI_RCLK                |
 |     N1     |         --CCK-- / spi_sck_o.N         |   GPIOL_N_01_CCK   |     Output    | 1.8 V LVCMOS |      1.8 V       |  1A  |             |                  User IO/Configuration                   |
-|     N2     |          --CSI-- / lcd_de_o.P         |   GPIOL_P_02_CSI   |     Output    | 1.8 V LVCMOS |      1.8 V       |  1A  |             |        User IO/MIPI_GCLK/MIPI_RCLK/Configuration         |
+|     N2     |        --CSI-- / key_data[0].P        |   GPIOL_P_02_CSI   |     Input     | 1.8 V LVCMOS |      1.8 V       |  1A  |             |        User IO/MIPI_GCLK/MIPI_RCLK/Configuration         |
 |     N3     |                --TMS--                |        TMS         |     Input     |              |      3.3 V       |  BL  |             |                      Configuration                       |
 |     N4     |                --TCK--                |        TCK         |     Input     |              |      3.3 V       |  BL  |             |                      Configuration                       |
 |     N5     |                --VCC--                |      VCCIO4B       |     Power     |              |      1.5 V       |  4B  |             |                       VCCIO Power                        |

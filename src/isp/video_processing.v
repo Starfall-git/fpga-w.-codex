@@ -9,11 +9,11 @@ ENABLE_SOBEL=0：组合直通（零延迟），用于比较原始图像。
 module video_processing #(
     parameter IMAGE_WIDTH = 1280,
     parameter ENABLE_SOBEL = 1,
-    parameter [11:0] SOBEL_THRESHOLD = 12'd128,
     parameter SOBEL_BINARY = 1,
     parameter VS_ACTIVE = 1'b0
 )(
     input wire clk, rst_n,
+    input wire [11:0] SOBEL_THRESHOLD,
     input wire [23:0] rgb_i,
     input wire hs_i, vs_i, de_i,
     output wire [23:0] rgb_o,
@@ -41,9 +41,9 @@ module video_processing #(
             .pixels_o(window_pixels), .hs_o(window_hs), .vs_o(window_vs),
             .de_o(window_de), .window_valid_o(window_valid)
         );
-        video_sobel #(.THRESHOLD(SOBEL_THRESHOLD), .BINARY_OUTPUT(SOBEL_BINARY),
+        video_sobel #(.BINARY_OUTPUT(SOBEL_BINARY),
                       .VS_ACTIVE(VS_ACTIVE)) u_sobel (
-            .clk(clk), .rst_n(rst_n), .pixels_i(window_pixels),
+            .clk(clk), .rst_n(rst_n), .THRESHOLD(SOBEL_THRESHOLD), .pixels_i(window_pixels),
             .hs_i(window_hs), .vs_i(window_vs), .de_i(window_de), .window_valid_i(window_valid),
             .rgb_o(rgb_o), .hs_o(hs_o), .vs_o(vs_o), .de_o(de_o)
         );
