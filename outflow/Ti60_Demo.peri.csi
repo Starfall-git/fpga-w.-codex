@@ -384,6 +384,16 @@ CellSiteInst {
   block_inst: "GPIOT_P_03"
 }
 CellSiteInst {
+  cell: "key_data[0]"
+  block_and_site_inst: "PKG_PIN/PKG_PIN_INOUT"
+  block_inst: "GPIOL_P_02_CSI"
+}
+CellSiteInst {
+  cell: "key_data[1]"
+  block_and_site_inst: "PKG_PIN/PKG_PIN_INOUT"
+  block_inst: "GPIOL_N_02_CSO"
+}
+CellSiteInst {
   cell: "lcd_b7_0_io[0]"
   block_and_site_inst: "PKG_PIN/PKG_PIN_INOUT"
   block_inst: "GPIOL_P_12"
@@ -427,11 +437,6 @@ CellSiteInst {
   cell: "lcd_blen_o"
   block_and_site_inst: "PKG_PIN/PKG_PIN_INOUT"
   block_inst: "GPIOL_P_16"
-}
-CellSiteInst {
-  cell: "lcd_de_o"
-  block_and_site_inst: "PKG_PIN/PKG_PIN_INOUT"
-  block_inst: "GPIOL_P_02_CSI"
 }
 CellSiteInst {
   cell: "lcd_g7_0_io[0]"
@@ -1014,6 +1019,16 @@ CellSiteInst {
   block_inst: "GPIOT_PN_03"
 }
 CellSiteInst {
+  cell: "key_data[0]~GPIO"
+  block_and_site_inst: "HSIO/HSIO_SLOT0"
+  block_inst: "GPIOL_PN_02"
+}
+CellSiteInst {
+  cell: "key_data[1]~GPIO"
+  block_and_site_inst: "HSIO/HSIO_SLOT1"
+  block_inst: "GPIOL_PN_02"
+}
+CellSiteInst {
   cell: "lcd_b7_0_io[0]~GPIO"
   block_and_site_inst: "HSIO/HSIO_SLOT0"
   block_inst: "GPIOL_PN_12"
@@ -1057,11 +1072,6 @@ CellSiteInst {
   cell: "lcd_blen_o~GPIO"
   block_and_site_inst: "HSIO/HSIO_SLOT0"
   block_inst: "GPIOL_PN_16"
-}
-CellSiteInst {
-  cell: "lcd_de_o~GPIO"
-  block_and_site_inst: "HSIO/HSIO_SLOT0"
-  block_inst: "GPIOL_PN_02"
 }
 CellSiteInst {
   cell: "lcd_g7_0_io[0]~GPIO"

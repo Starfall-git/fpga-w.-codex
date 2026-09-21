@@ -8,11 +8,11 @@ BINARY_OUTPUT=1：幅度 >= THRESHOLD 输出白色，否则黑色。
 BINARY_OUTPUT=0：幅度饱和至 255，输出灰度边缘强度。
 */
 module video_sobel #(
-    parameter [11:0] THRESHOLD = 12'd128,
     parameter BINARY_OUTPUT = 1,
     parameter VS_ACTIVE = 1'b0
 )(
     input wire clk, rst_n,
+    input wire [11:0] THRESHOLD,
     input wire [71:0] pixels_i,
     input wire hs_i, vs_i, de_i, window_valid_i,
     output reg [23:0] rgb_o,

@@ -32,7 +32,7 @@ module example_top #(
     /* V0.3 / 11：新增 Sobel 开关及阈值；ENABLE_SOBEL=0 恢复原图。
        SOBEL_BINARY=0 输出饱和灰度梯度，=1 输出黑底白边。 */
     parameter ENABLE_SOBEL = 1,
-    parameter [11:0] SOBEL_THRESHOLD = 12'd128,
+//    parameter [11:0] SOBEL_THRESHOLD = 12'd128,
     parameter SOBEL_BINARY = 1
 )
 (
@@ -41,7 +41,7 @@ module example_top #(
 	//input 			nrst, 			//	Button K2
 	input 			clk_24m,			//	24MHz Crystal
 	input 			clk_25m,			//	25MHz Crystal 
-	
+	input wire key_data[1:0],
 	
 	////////////////////////////////////////////////////////////////
 	//	System Clock
@@ -1067,15 +1067,73 @@ module example_top #(
        DDR 的 lcd_request 和 rframe_vsync 仍使用原始时序；
        仅送 HDMI 的 RGB/HS/VS/DE 一起经过处理模块。 */
     wire [23:0] processed_rgb;
+    reg [11:0] SOBEL_THRESHOLD;
+    reg [23:0] cnt1_20ms,cnt2_20ms; //计数器
+    reg key_flag1,key_flag2;
+    parameter CNT_MAX = 24'd1_920_000;
+    always@(posedge clk_sys or negedge rstn_sys)
+    if(rstn_sys == 1'b0)
+        cnt1_20ms <= 24'b0;
+    else if(key_data[0] == 1'b1)
+        cnt1_20ms <= 24'b0;
+    else if(cnt1_20ms == CNT_MAX && key_data[0] == 1'b0)
+        cnt1_20ms <= cnt1_20ms;
+    else
+        cnt1_20ms <= cnt1_20ms + 1'b1;
+      
+    always@(posedge clk_sys or negedge rstn_sys)
+    if(rstn_sys == 1'b0)
+        cnt2_20ms <= 24'b0;
+    else if(key_data[1] == 1'b1)
+        cnt2_20ms <= 24'b0;
+    else if(cnt2_20ms == CNT_MAX && key_data[1] == 1'b0)
+        cnt2_20ms <= cnt2_20ms;
+    else
+        cnt2_20ms <= cnt2_20ms + 1'b1;
+        
+    always@(posedge clk_sys or negedge rstn_sys)
+    if(rstn_sys == 1'b0)
+        key_flag1 <= 1'b0;
+    else if(cnt1_20ms == CNT_MAX - 1'b1)
+        key_flag1 <= 1'b1;
+    else
+        key_flag1 <= 1'b0;
+        
+    always@(posedge clk_sys or negedge rstn_sys)
+    if(rstn_sys == 1'b0)
+        key_flag2 <= 1'b0;
+    else if(cnt2_20ms == CNT_MAX - 1'b1)
+        key_flag2 <= 1'b1;
+    else
+        key_flag2 <= 1'b0;
+        
+    always@(posedge clk_sys or negedge rstn_sys) begin
+    if(!rstn_sys) SOBEL_THRESHOLD <= 12'd128;    
+    else begin
+    if(key_flag1 == 1) begin
+         if(SOBEL_THRESHOLD == 12'd4095) SOBEL_THRESHOLD <=SOBEL_THRESHOLD;
+         else 
+        SOBEL_THRESHOLD <= SOBEL_THRESHOLD + 1'b1;
+    end
+    else if(key_flag2) begin
+         if(SOBEL_THRESHOLD == 0) SOBEL_THRESHOLD <=SOBEL_THRESHOLD;
+         else 
+            SOBEL_THRESHOLD <= SOBEL_THRESHOLD - 1'b1;
+    end
+    end
+    end
+    
+    
     wire processed_hs, processed_vs, processed_de;
     video_processing #(
         .IMAGE_WIDTH(1280),
         .ENABLE_SOBEL(ENABLE_SOBEL),
-        .SOBEL_THRESHOLD(SOBEL_THRESHOLD),
+       
         .SOBEL_BINARY(SOBEL_BINARY),
         .VS_ACTIVE(1'b0)
     ) u_video_processing (
         .clk(clk_pixel), .rst_n(rstn_pixel),
+        .SOBEL_THRESHOLD(SOBEL_THRESHOLD),
         .rgb_i({lcd_red, lcd_green, lcd_blue}),
         .hs_i(lcd_hs), .vs_i(lcd_vs), .de_i(lcd_de),
         .rgb_o(processed_rgb),

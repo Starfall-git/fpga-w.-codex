@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
-<efxpt:periphery design="Ti60_Demo" device="Ti60F225" xmlns:efxpt="http://www.efinixinc.com/peri_device_db" xmlns:efxutil="http://www.efinixinc.com/peri_tool" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/peri_device_db lpf.xsd" checksum="47288e43">
+<efxpt:periphery design="Ti60_Demo" device="Ti60F225" xmlns:efxpt="http://www.efinixinc.com/peri_device_db" xmlns:efxutil="http://www.efinixinc.com/peri_tool" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/peri_device_db lpf.xsd" checksum="f14928f4">
   <!-- Efinity Logical Peripheral File -->
   <!-- Version: 2026.1.132 -->
-  <!-- Date: 2026-09-18 19:07 -->
+  <!-- Date: 2026-09-21 00:10 -->
   <!-- Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved. -->
   <efxpt:sequence size="119">
     <efxpt:instance id="BG_1A" index="0" type="hsio_bg"/>
@@ -1542,22 +1542,22 @@
   <efxpt:instance id="GPIOL_PN_02" type="hsio">
     <efxpt:parameter name="PCR_CLK_OUT_P" value="DISABLE"/>
     <efxpt:parameter name="PCR_GPIO_SER_P" value="DISABLE"/>
-    <efxpt:parameter name="PCR_IE_P" value="DISABLE"/>
-    <efxpt:parameter name="PCR_IN_BYP_P" value="REGISTER"/>
+    <efxpt:parameter name="PCR_IE_P" value="TTL"/>
+    <efxpt:parameter name="PCR_IN_BYP_P" value="BYPASS"/>
     <efxpt:parameter name="PCR_IN_MODE_P" value="OPP_EDGE"/>
     <efxpt:parameter name="PCR_OE_BYP_P" value="REGISTER"/>
-    <efxpt:parameter name="PCR_OE_CTRL_P" value="ONE"/>
+    <efxpt:parameter name="PCR_OE_CTRL_P" value="ZERO"/>
     <efxpt:parameter name="PCR_OE_INV_P" value="DISABLE"/>
     <efxpt:parameter name="PCR_OE_PH_P" value="DEFAULT"/>
     <efxpt:parameter name="PCR_OE_SEL_P" value="PCR"/>
     <efxpt:parameter name="PCR_OE_SHIFT_P" value="DEFAULT"/>
-    <efxpt:parameter name="PCR_OUT_BYP_P" value="BYPASS"/>
+    <efxpt:parameter name="PCR_OUT_BYP_P" value="REGISTER"/>
     <efxpt:parameter name="PCR_OUT_DDREN_P" value="DISABLE"/>
     <efxpt:parameter name="PCR_OUT_INV_P" value="DISABLE"/>
     <efxpt:parameter name="PCR_OUT_MODE_P" value="POSEDGE"/>
     <efxpt:parameter name="PCR_OUT_RESYNC_P" value="DISABLE"/>
-    <efxpt:parameter name="PCR_PCDN_P" value="2"/>
-    <efxpt:parameter name="PCR_PCDP_P" value="2"/>
+    <efxpt:parameter name="PCR_PCDN_P" value="0"/>
+    <efxpt:parameter name="PCR_PCDP_P" value="0"/>
     <efxpt:parameter name="PCR_RX_DLY_P" value="0"/>
     <efxpt:parameter name="PCR_SLEW_P" value="SLOW"/>
     <efxpt:parameter name="PCR_ST_P" value="DISABLE"/>
@@ -1568,14 +1568,14 @@
     <efxpt:parameter name="PCR_WKPU_P" value="DISABLE"/>
     <efxpt:parameter name="PCR_CLK_OUT_N" value="DISABLE"/>
     <efxpt:parameter name="PCR_GPIO_SER_N" value="DISABLE"/>
-    <efxpt:parameter name="PCR_IE_N" value="DISABLE"/>
-    <efxpt:parameter name="PCR_IN_BYP_N" value="REGISTER"/>
+    <efxpt:parameter name="PCR_IE_N" value="TTL"/>
+    <efxpt:parameter name="PCR_IN_BYP_N" value="BYPASS"/>
     <efxpt:parameter name="PCR_IN_MODE_N" value="OPP_EDGE"/>
     <efxpt:parameter name="PCR_OE_BYP_N" value="REGISTER"/>
     <efxpt:parameter name="PCR_OE_CTRL_N" value="ZERO"/>
     <efxpt:parameter name="PCR_OE_INV_N" value="DISABLE"/>
     <efxpt:parameter name="PCR_OE_PH_N" value="DEFAULT"/>
-    <efxpt:parameter name="PCR_OE_SEL_N" value="CORE"/>
+    <efxpt:parameter name="PCR_OE_SEL_N" value="PCR"/>
     <efxpt:parameter name="PCR_OE_SHIFT_N" value="DEFAULT"/>
     <efxpt:parameter name="PCR_OUT_BYP_N" value="REGISTER"/>
     <efxpt:parameter name="PCR_OUT_DDREN_N" value="DISABLE"/>
@@ -1591,7 +1591,7 @@
     <efxpt:parameter name="PCR_WKBH_N" value="DISABLE"/>
     <efxpt:parameter name="PCR_WKPD_N" value="DISABLE"/>
     <efxpt:parameter name="PCR_WKPULLUP_SEL_N" value="PCR"/>
-    <efxpt:parameter name="PCR_WKPU_N" value="ENABLE"/>
+    <efxpt:parameter name="PCR_WKPU_N" value="DISABLE"/>
     <efxpt:parameter name="PCR_DES_GPIO" value="LVDS"/>
     <efxpt:parameter name="PCR_DES_MODE" value="HALF"/>
     <efxpt:parameter name="PCR_DLY_CAS" value="0"/>

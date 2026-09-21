@@ -110,7 +110,7 @@ port (
 	GPIOB_P_17_PLLIN1             : inout bit;
 	GPIOL_N_00                    : inout bit;
 	GPIOL_N_01_CCK                : out bit;
-	GPIOL_N_02_CSO                : linkage bit;
+	GPIOL_N_02_CSO                : in bit;
 	GPIOL_N_03_CDI1               : inout bit;
 	GPIOL_N_04_CDI3               : inout bit;
 	GPIOL_N_05                    : inout bit;
@@ -129,7 +129,7 @@ port (
 	GPIOL_N_18                    : out bit;
 	GPIOL_P_00_PLLIN0             : linkage bit;
 	GPIOL_P_01_SSL_N              : out bit;
-	GPIOL_P_02_CSI                : out bit;
+	GPIOL_P_02_CSI                : in bit;
 	GPIOL_P_03_CDI0               : inout bit;
 	GPIOL_P_04_CDI2               : inout bit;
 	GPIOL_P_05                    : inout bit;
@@ -1491,7 +1491,7 @@ attribute BOUNDARY_REGISTER of Ti60F225 : entity is
 	"703 (BC_1, *, control, 0)," &
 	"704 (BC_1, GPIOL_P_03_CDI0, output3, X, 703, 0, Z)," &
 
-	"705 (BC_1, *, internal, X)," &
+	"705 (BC_1, GPIOL_N_02_CSO, input, X)," &
 	"706 (BC_1, *, internal, 0)," &
 	"707 (BC_1, *, internal, X)," &
 
@@ -1499,9 +1499,9 @@ attribute BOUNDARY_REGISTER of Ti60F225 : entity is
 	"709 (BC_1, *, internal, 0)," &
 	"710 (BC_1, *, internal, X)," &
 
-	"711 (BC_1, *, internal, X)," &
-	"712 (BC_1, *, control, 0)," &
-	"713 (BC_1, GPIOL_P_02_CSI, output3, X, 712, 0, Z)," &
+	"711 (BC_1, GPIOL_P_02_CSI, input, X)," &
+	"712 (BC_1, *, internal, 0)," &
+	"713 (BC_1, *, internal, X)," &
 
 	"714 (BC_1, *, internal, X)," &
 	"715 (BC_1, *, control, 0)," &

@@ -1055,6 +1055,22 @@ cell {
   type: "pt_output"
 }
 cell {
+  name: "key_data[0]"
+  type: "pkg_input"
+}
+cell {
+  name: "key_data[0]~GPIO~I[0]"
+  type: "pt_output"
+}
+cell {
+  name: "key_data[1]"
+  type: "pkg_input"
+}
+cell {
+  name: "key_data[1]~GPIO~I[0]"
+  type: "pt_output"
+}
+cell {
   name: "lcd_b7_0_i[0]~GPIO~I[0]"
   type: "pt_output"
 }
@@ -1188,14 +1204,6 @@ cell {
 }
 cell {
   name: "lcd_blen_o~GPIO~O[0]"
-  type: "pt_input"
-}
-cell {
-  name: "lcd_de_o"
-  type: "pkg_output"
-}
-cell {
-  name: "lcd_de_o~GPIO~O[0]"
   type: "pt_input"
 }
 cell {
@@ -8567,6 +8575,174 @@ cell {
   }
 }
 cell {
+  name: "key_data[0]~GPIO"
+  type: "EFX_GPIO_V3"
+  parameters {
+    name: "MODE"
+    enum_value: "INPUT"
+  }
+  parameters {
+    name: "OUT_REG"
+    enum_value: "BYPASS"
+  }
+  parameters {
+    name: "IN_REG"
+    enum_value: "BYPASS"
+  }
+  parameters {
+    name: "OE_REG"
+    enum_value: "BYPASS"
+  }
+  parameters {
+    name: "PULL_OPTION"
+    enum_value: "NONE"
+  }
+  parameters {
+    name: "IS_OUTCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "IS_INCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "CONNECTION_TYPE"
+    enum_value: "NORMAL"
+  }
+  parameters {
+    name: "SCHMITT_TRIGGER"
+    bool_value: false
+  }
+  parameters {
+    name: "DRIVE_STRENGTH"
+    enum_value: "4"
+  }
+  parameters {
+    name: "SLEW_RATE"
+    bool_value: false
+  }
+  parameters {
+    name: "BUS_HOLD"
+    bool_value: false
+  }
+  parameters {
+    name: "INDELAY"
+    enum_value: "0"
+  }
+  parameters {
+    name: "OUTDELAY"
+    enum_value: "0"
+  }
+  parameters {
+    name: "INDELAY_DYN_MODE"
+    bool_value: false
+  }
+  parameters {
+    name: "IO_STANDARD"
+    enum_value: "1.8_V_LVCMOS"
+  }
+  parameters {
+    name: "SITE_USAGE"
+    enum_value: "P_SS"
+  }
+  parameters {
+    name: "IS_OUTFASTCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "IS_INFASTCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "IS_DLYCLK_INVERTED"
+    bool_value: false
+  }
+}
+cell {
+  name: "key_data[1]~GPIO"
+  type: "EFX_GPIO_V3"
+  parameters {
+    name: "MODE"
+    enum_value: "INPUT"
+  }
+  parameters {
+    name: "OUT_REG"
+    enum_value: "BYPASS"
+  }
+  parameters {
+    name: "IN_REG"
+    enum_value: "BYPASS"
+  }
+  parameters {
+    name: "OE_REG"
+    enum_value: "BYPASS"
+  }
+  parameters {
+    name: "PULL_OPTION"
+    enum_value: "NONE"
+  }
+  parameters {
+    name: "IS_OUTCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "IS_INCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "CONNECTION_TYPE"
+    enum_value: "NORMAL"
+  }
+  parameters {
+    name: "SCHMITT_TRIGGER"
+    bool_value: false
+  }
+  parameters {
+    name: "DRIVE_STRENGTH"
+    enum_value: "4"
+  }
+  parameters {
+    name: "SLEW_RATE"
+    bool_value: false
+  }
+  parameters {
+    name: "BUS_HOLD"
+    bool_value: false
+  }
+  parameters {
+    name: "INDELAY"
+    enum_value: "0"
+  }
+  parameters {
+    name: "OUTDELAY"
+    enum_value: "0"
+  }
+  parameters {
+    name: "INDELAY_DYN_MODE"
+    bool_value: false
+  }
+  parameters {
+    name: "IO_STANDARD"
+    enum_value: "1.8_V_LVCMOS"
+  }
+  parameters {
+    name: "SITE_USAGE"
+    enum_value: "N_SS"
+  }
+  parameters {
+    name: "IS_OUTFASTCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "IS_INFASTCLK_INVERTED"
+    bool_value: false
+  }
+  parameters {
+    name: "IS_DLYCLK_INVERTED"
+    bool_value: false
+  }
+}
+cell {
   name: "lcd_b7_0_io[0]~GPIO"
   type: "EFX_GPIO_V3"
   parameters {
@@ -9240,90 +9416,6 @@ cell {
 }
 cell {
   name: "lcd_blen_o~GPIO"
-  type: "EFX_GPIO_V3"
-  parameters {
-    name: "MODE"
-    enum_value: "OUTPUT"
-  }
-  parameters {
-    name: "OUT_REG"
-    enum_value: "BYPASS"
-  }
-  parameters {
-    name: "IN_REG"
-    enum_value: "BYPASS"
-  }
-  parameters {
-    name: "OE_REG"
-    enum_value: "BYPASS"
-  }
-  parameters {
-    name: "PULL_OPTION"
-    enum_value: "NONE"
-  }
-  parameters {
-    name: "IS_OUTCLK_INVERTED"
-    bool_value: false
-  }
-  parameters {
-    name: "IS_INCLK_INVERTED"
-    bool_value: false
-  }
-  parameters {
-    name: "CONNECTION_TYPE"
-    enum_value: "NORMAL"
-  }
-  parameters {
-    name: "SCHMITT_TRIGGER"
-    bool_value: false
-  }
-  parameters {
-    name: "DRIVE_STRENGTH"
-    enum_value: "4"
-  }
-  parameters {
-    name: "SLEW_RATE"
-    bool_value: false
-  }
-  parameters {
-    name: "BUS_HOLD"
-    bool_value: false
-  }
-  parameters {
-    name: "INDELAY"
-    enum_value: "0"
-  }
-  parameters {
-    name: "OUTDELAY"
-    enum_value: "0"
-  }
-  parameters {
-    name: "INDELAY_DYN_MODE"
-    bool_value: false
-  }
-  parameters {
-    name: "IO_STANDARD"
-    enum_value: "1.8_V_LVCMOS"
-  }
-  parameters {
-    name: "SITE_USAGE"
-    enum_value: "P_SS"
-  }
-  parameters {
-    name: "IS_OUTFASTCLK_INVERTED"
-    bool_value: false
-  }
-  parameters {
-    name: "IS_INFASTCLK_INVERTED"
-    bool_value: false
-  }
-  parameters {
-    name: "IS_DLYCLK_INVERTED"
-    bool_value: false
-  }
-}
-cell {
-  name: "lcd_de_o~GPIO"
   type: "EFX_GPIO_V3"
   parameters {
     name: "MODE"
@@ -16927,6 +17019,54 @@ net {
   }
 }
 net {
+  name: "key_data[0]"
+  type: PERIPHERY
+  terminal {
+    cell: "key_data[0]"
+    port: "inpad"
+  }
+  terminal {
+    cell: "key_data[0]~GPIO"
+    port: "IO_inpad"
+  }
+}
+net {
+  name: "key_data[0]~GPIO~I[0]"
+  type: PERIPHERY
+  terminal {
+    cell: "key_data[0]~GPIO"
+    port: "I[0]"
+  }
+  terminal {
+    cell: "key_data[0]~GPIO~I[0]"
+    port: "outpad"
+  }
+}
+net {
+  name: "key_data[1]"
+  type: PERIPHERY
+  terminal {
+    cell: "key_data[1]"
+    port: "inpad"
+  }
+  terminal {
+    cell: "key_data[1]~GPIO"
+    port: "IO_inpad"
+  }
+}
+net {
+  name: "key_data[1]~GPIO~I[0]"
+  type: PERIPHERY
+  terminal {
+    cell: "key_data[1]~GPIO"
+    port: "I[0]"
+  }
+  terminal {
+    cell: "key_data[1]~GPIO~I[0]"
+    port: "outpad"
+  }
+}
+net {
   name: "lcd_b7_0_i[0]~GPIO~I[0]"
   type: PERIPHERY
   terminal {
@@ -17427,30 +17567,6 @@ net {
   }
   terminal {
     cell: "lcd_blen_o~GPIO"
-    port: "O[0]"
-  }
-}
-net {
-  name: "lcd_de_o"
-  type: PERIPHERY
-  terminal {
-    cell: "lcd_de_o~GPIO"
-    port: "IO_outpad"
-  }
-  terminal {
-    cell: "lcd_de_o"
-    port: "outpad"
-  }
-}
-net {
-  name: "lcd_de_o~GPIO~O[0]"
-  type: PERIPHERY
-  terminal {
-    cell: "lcd_de_o~GPIO~O[0]"
-    port: "inpad"
-  }
-  terminal {
-    cell: "lcd_de_o~GPIO"
     port: "O[0]"
   }
 }
@@ -20107,18 +20223,16 @@ cell_annotations {
     ids: 261
     ids: 262
     ids: 263
-    ids: 264
     ids: 265
-    ids: 266
     ids: 267
     ids: 268
     ids: 269
     ids: 270
     ids: 271
-    ids: 280
-    ids: 281
-    ids: 282
-    ids: 283
+    ids: 272
+    ids: 273
+    ids: 274
+    ids: 275
     ids: 284
     ids: 285
     ids: 286
@@ -20131,9 +20245,10 @@ cell_annotations {
     ids: 293
     ids: 294
     ids: 295
+    ids: 296
     ids: 297
+    ids: 298
     ids: 299
-    ids: 300
     ids: 301
     ids: 302
     ids: 303
@@ -20141,8 +20256,8 @@ cell_annotations {
     ids: 305
     ids: 306
     ids: 307
-    ids: 316
-    ids: 317
+    ids: 308
+    ids: 309
     ids: 318
     ids: 319
     ids: 320
@@ -20157,9 +20272,9 @@ cell_annotations {
     ids: 329
     ids: 330
     ids: 331
+    ids: 332
     ids: 333
     ids: 335
-    ids: 336
     ids: 337
     ids: 338
     ids: 339
@@ -20167,8 +20282,8 @@ cell_annotations {
     ids: 341
     ids: 342
     ids: 343
-    ids: 352
-    ids: 353
+    ids: 344
+    ids: 345
     ids: 354
     ids: 355
     ids: 356
@@ -20183,16 +20298,17 @@ cell_annotations {
     ids: 365
     ids: 366
     ids: 367
+    ids: 368
     ids: 369
-    ids: 370
     ids: 371
+    ids: 372
     ids: 373
     ids: 375
-    ids: 376
     ids: 377
+    ids: 378
     ids: 379
-    ids: 380
     ids: 381
+    ids: 382
     ids: 383
     ids: 385
     ids: 387
@@ -20202,7 +20318,6 @@ cell_annotations {
     ids: 395
     ids: 397
     ids: 399
-    ids: 400
     ids: 401
     ids: 402
     ids: 403
@@ -20264,19 +20379,21 @@ cell_annotations {
     ids: 459
     ids: 460
     ids: 461
+    ids: 462
     ids: 463
     ids: 465
     ids: 467
     ids: 469
     ids: 471
-    ids: 472
     ids: 473
-    ids: 494
-    ids: 527
-    ids: 546
+    ids: 474
+    ids: 475
+    ids: 496
+    ids: 529
     ids: 548
     ids: 550
     ids: 552
+    ids: 554
     values: "addr[0]"
     values: "addr[10]"
     values: "addr[11]"
@@ -20441,6 +20558,8 @@ cell_annotations {
     values: "i_dqs_n_hi[1]"
     values: "i_dqs_n_lo[0]"
     values: "i_dqs_n_lo[1]"
+    values: "key_data[0]"
+    values: "key_data[1]"
     values: "lcd_b7_0_i[0]"
     values: "lcd_b7_0_i[1]"
     values: "lcd_b7_0_i[2]"
@@ -20466,7 +20585,6 @@ cell_annotations {
     values: "lcd_b7_0_oe[6]"
     values: "lcd_b7_0_oe[7]"
     values: "lcd_blen_o"
-    values: "lcd_de_o"
     values: "lcd_g7_0_i[0]"
     values: "lcd_g7_0_i[1]"
     values: "lcd_g7_0_i[2]"

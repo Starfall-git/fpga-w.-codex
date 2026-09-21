@@ -1,7 +1,7 @@
 
 # Efinity Interface Configuration
 # Version: 2026.1.132
-# Date: 2026-09-18 19:07
+# Date: 2026-09-21 00:10
 
 # Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -257,6 +257,8 @@ input, 191, 0, 1, __bypass__, i_dqs_n_hi[0]
 input, 31, 0, 1, __bypass__, i_dqs_n_hi[1]
 input, 190, 0, 1, __bypass__, i_dqs_n_lo[0]
 input, 30, 0, 1, __bypass__, i_dqs_n_lo[1]
+input, 0, 50, 3, __bypass__, key_data[0]
+input, 0, 51, 1, __bypass__, key_data[1]
 input, 0, 209, 3, __bypass__, lcd_b7_0_i[0]
 input, 0, 210, 1, __bypass__, lcd_b7_0_i[1]
 input, 0, 75, 1, __bypass__, lcd_b7_0_i[2]
@@ -282,7 +284,6 @@ output, 0, 100, 0, __bypass__, lcd_b7_0_oe[5]
 output, 0, 149, 0, __bypass__, lcd_b7_0_oe[6]
 output, 0, 149, 2, __bypass__, lcd_b7_0_oe[7]
 output, 0, 267, 0, __bypass__, lcd_blen_o
-output, 0, 46, 2, __bypass__, lcd_de_o
 input, 0, 64, 3, __bypass__, lcd_g7_0_i[0]
 input, 0, 65, 1, __bypass__, lcd_g7_0_i[1]
 input, 0, 196, 3, __bypass__, lcd_g7_0_i[2]

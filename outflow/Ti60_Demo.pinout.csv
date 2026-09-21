@@ -1,7 +1,7 @@
 
 # Efinity Pinout Report
 # Version: 2026.1.132
-# Date: 2026-09-18 19:07
+# Date: 2026-09-21 00:10
 
 # Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -177,7 +177,7 @@ L13,GPIOR_N_01_CDI23,addr[1].N,Output,3B,1.5 V,1.5 V SSTL,,User IO/PLL_EXTFB
 L14,VCCIO3B,,Power,3B,1.5 V,,,VCCIO Power
 L15,GPIOR_P_05_CDI30,we.P,Output,3B,1.5 V,1.5 V SSTL,,User IO/VREF
 M1,GPIOL_P_03_CDI0,lcd_g7_0_io[0].P,Bidirectional,1A,1.8 V,1.8 V LVCMOS,,User IO/Configuration
-M2,GPIOL_N_02_CSO,,,1A,1.8 V,,,User IO/MIPI_GCLK/MIPI_RCLK/Configuration
+M2,GPIOL_N_02_CSO,key_data[1].N,Input,1A,1.8 V,1.8 V LVCMOS,,User IO/MIPI_GCLK/MIPI_RCLK/Configuration
 M3,VCC,,Power,,,,,0.95 V VCC Power
 M4,TDO,,Output,BL,3.3 V,,,Configuration
 M5,REF_RES_4B,,Input,4B,1.5 V,,,
@@ -192,7 +192,7 @@ M13,GND,,Power,,,,,Ground
 M14,GPIOR_P_02_CDI24,ras.P,Output,3B,1.5 V,1.5 V SSTL,,User IO/MIPI_GCLK/MIPI_RCLK
 M15,GPIOR_N_02_CDI25,cas.N,Output,3B,1.5 V,1.5 V SSTL,,User IO/MIPI_GCLK/MIPI_RCLK
 N1,GPIOL_N_01_CCK,spi_sck_o.N,Output,1A,1.8 V,1.8 V LVCMOS,,User IO/Configuration
-N2,GPIOL_P_02_CSI,lcd_de_o.P,Output,1A,1.8 V,1.8 V LVCMOS,,User IO/MIPI_GCLK/MIPI_RCLK/Configuration
+N2,GPIOL_P_02_CSI,key_data[0].P,Input,1A,1.8 V,1.8 V LVCMOS,,User IO/MIPI_GCLK/MIPI_RCLK/Configuration
 N3,TMS,,Input,BL,3.3 V,,,Configuration
 N4,TCK,,Input,BL,3.3 V,,,Configuration
 N5,VCCIO4B,,Power,4B,1.5 V,,,VCCIO Power

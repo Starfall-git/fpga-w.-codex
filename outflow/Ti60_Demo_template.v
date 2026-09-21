@@ -1,7 +1,7 @@
 
 // Efinity Top-level template
 // Version: 2026.1.132
-// Date: 2026-09-18 19:07
+// Date: 2026-09-21 00:10
 
 // Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -52,6 +52,7 @@ module Ti60_Demo
   (* syn_peri_port = 0 *) input [1:0] i_dqs_lo,
   (* syn_peri_port = 0 *) input [1:0] i_dqs_n_hi,
   (* syn_peri_port = 0 *) input [1:0] i_dqs_n_lo,
+  (* syn_peri_port = 0 *) input [1:0] key_data,
   (* syn_peri_port = 0 *) input [7:0] lcd_b7_0_i,
   (* syn_peri_port = 0 *) input [7:0] lcd_g7_0_i,
   (* syn_peri_port = 0 *) input [7:0] lcd_r7_0_i,
@@ -120,7 +121,6 @@ module Ti60_Demo
   (* syn_peri_port = 0 *) output [7:0] lcd_b7_0_o,
   (* syn_peri_port = 0 *) output [7:0] lcd_b7_0_oe,
   (* syn_peri_port = 0 *) output lcd_blen_o,
-  (* syn_peri_port = 0 *) output lcd_de_o,
   (* syn_peri_port = 0 *) output [7:0] lcd_g7_0_o,
   (* syn_peri_port = 0 *) output [7:0] lcd_g7_0_oe,
   (* syn_peri_port = 0 *) output lcd_hs_o,

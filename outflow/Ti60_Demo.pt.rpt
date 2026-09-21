@@ -1,7 +1,7 @@
 
 Efinity Interface Designer Report
 Version: 2026.1.132
-Date: 2026-09-18 19:07
+Date: 2026-09-21 00:10
 
 Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -38,8 +38,8 @@ Configuration Mode: active (x4)
 clkmux: 4 / 4 (100.0%)
 control: 0 / 1 (0.0%)
 gpio: 23 / 23 (100.0%)
-hsio: 52.5 / 70 (75.0%)
-	gpio: 97
+hsio: 53.0 / 70 (75.71%)
+	gpio: 98
 	lvds or mipi lane: 4
 hsio_bg: 0 / 8 (0.0%)
 hvio_poc: 0 / 4 (0.0%)
@@ -161,10 +161,11 @@ Option Register File: Ti60_Demo_or.ini
 |     dqs[1]     |      CDI4      |
 |    dqs_n[0]    |     CDI19      |
 |    dqs_n[1]    |      CDI5      |
+|  key_data[0]   |      CSI       |
+|  key_data[1]   |      CSO       |
 | lcd_b7_0_io[2] |      CDI2      |
 | lcd_b7_0_io[3] |      CDI3      |
 | lcd_b7_0_io[7] | EXT_CONFIG_CLK |
-|    lcd_de_o    |      CSI       |
 | lcd_g7_0_io[0] |      CDI0      |
 | lcd_g7_0_io[1] |      CDI1      |
 | lcd_g7_0_io[4] |  PCR_READBACK  |
@@ -261,6 +262,8 @@ Global Unused Setting: input with weak pullup
 |    dqs_n[1]    | GPIOB_N_02 | inout  | I(R),O(R),OE(R) |      B0      |    4B    |  1.5 V SSTL  |  GPIOB_N_02_CDI5   |      P7     |
 |   dsi_pwm_o    | GPIOT_N_06 | output |                 |              |    2A    | 1.8 V LVCMOS |     GPIOT_N_06     |      A7     |
 |  dsi_resetn_o  | GPIOT_N_09 | output |                 |              |    2B    | 1.8 V LVCMOS | GPIOT_N_09_CLK6_N  |      D8     |
+|  key_data[0]   | GPIOL_P_02 | input  |                 |              |    1A    | 1.8 V LVCMOS |   GPIOL_P_02_CSI   |      N2     |
+|  key_data[1]   | GPIOL_N_02 | input  |                 |              |    1A    | 1.8 V LVCMOS |   GPIOL_N_02_CSO   |      M2     |
 | lcd_b7_0_io[0] | GPIOL_P_12 | inout  |                 |              |    1B    | 1.8 V LVCMOS |     GPIOL_P_12     |      G3     |
 | lcd_b7_0_io[1] | GPIOL_N_12 | inout  |                 |              |    1B    | 1.8 V LVCMOS |     GPIOL_N_12     |      G4     |
 | lcd_b7_0_io[2] | GPIOL_P_04 | inout  |                 |              |    1A    | 1.8 V LVCMOS |  GPIOL_P_04_CDI2   |      H5     |
@@ -270,7 +273,6 @@ Global Unused Setting: input with weak pullup
 | lcd_b7_0_io[6] | GPIOL_P_08 | inout  |                 |              |    1A    | 1.8 V LVCMOS | GPIOL_P_08_CLK1_P  |      J2     |
 | lcd_b7_0_io[7] | GPIOL_N_08 | inout  |                 |              |    1A    | 1.8 V LVCMOS | GPIOL_N_08_CLK1_N  |      H3     |
 |   lcd_blen_o   | GPIOL_P_16 | output |                 |              |    1B    | 1.8 V LVCMOS |     GPIOL_P_16     |      D1     |
-|    lcd_de_o    | GPIOL_P_02 | output |                 |              |    1A    | 1.8 V LVCMOS |   GPIOL_P_02_CSI   |      N2     |
 | lcd_g7_0_io[0] | GPIOL_P_03 | inout  |                 |              |    1A    | 1.8 V LVCMOS |  GPIOL_P_03_CDI0   |      M1     |
 | lcd_g7_0_io[1] | GPIOL_N_03 | inout  |                 |              |    1A    | 1.8 V LVCMOS |  GPIOL_N_03_CDI1   |      L1     |
 | lcd_g7_0_io[2] | GPIOL_P_11 | inout  |                 |              |    1B    | 1.8 V LVCMOS |     GPIOL_P_11     |      G5     |
@@ -344,6 +346,8 @@ Input GPIO Configuration:
 |   cmos_href   |  cmos_href   |                     |    cmos_pclk    |      |     Disable     |     none     |                     |     Disable     | Disable  |  Disable   |   0   |
 |   cmos_pclk   |              |      cmos_pclk      |                 |      |     Disable     |     none     |                     |     Disable     | Disable  |  Disable   |   15  |
 |   cmos_vsync  |  cmos_vsync  |                     |    cmos_pclk    |      |     Disable     |     none     |                     |     Disable     | Disable  |  Disable   |   0   |
+|  key_data[0]  | key_data[0]  |                     |                 |      |     Disable     |     none     |                     |     Disable     | Disable  |  Disable   |   0   |
+|  key_data[1]  | key_data[1]  |                     |                 |      |     Disable     |     none     |                     |     Disable     | Disable  |  Disable   |   0   |
 |   uart_rx_i   |  uart_rx_i   |                     |                 |      |     Disable     | weak pullup  |                     |     Disable     | Disable  |  Disable   |   0   |
 |     verf0     |              |        verf0        |                 |      |     Disable     |     none     |                     |     Disable     | Disable  |  Disable   |   0   |
 |     vref1     |              |        vref1        |                 |      |     Disable     |     none     |                     |     Disable     | Disable  |  Disable   |   0   |
@@ -385,7 +389,6 @@ Output GPIO Configuration:
 |   dsi_pwm_o   |       dsi_pwm_o       |                  |        |    Disable    |       4        |  Disable  |   0   |
 |  dsi_resetn_o |      dsi_resetn_o     |                  |        |    Disable    |       4        |  Disable  |   0   |
 |   lcd_blen_o  |       lcd_blen_o      |                  |        |    Disable    |       4        |  Disable  |   0   |
-|    lcd_de_o   |        lcd_de_o       |                  |        |    Disable    |       4        |  Disable  |   0   |
 |    lcd_hs_o   |        lcd_hs_o       |                  |        |    Disable    |       4        |  Disable  |   0   |
 |   lcd_pwm_o   |       lcd_pwm_o       |                  |        |    Disable    |       4        |  Disable  |   0   |
 |  lcd_tp_rst_o |      lcd_tp_rst_o     |                  |        |    Disable    |       4        |  Disable  |   0   |

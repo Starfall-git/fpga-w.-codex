@@ -5,7 +5,7 @@
 
 # Efinity Interface Designer SDC
 # Version: 2026.1.132
-# Date: 2026-09-18 19:07
+# Date: 2026-09-21 00:10
 
 # Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -86,6 +86,10 @@ set_input_delay -clock cmos_pclk -reference_pin [get_ports {cmos_pclk~CLKOUT~18~
 # HSIO GPIO Constraints
 #########################
 create_clock -period <USER_PERIOD> -name cmos_pclk [get_ports {cmos_pclk}]
+# set_input_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -max <MAX CALCULATION> [get_ports {key_data[0]}]
+# set_input_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -min <MIN CALCULATION> [get_ports {key_data[0]}]
+# set_input_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -max <MAX CALCULATION> [get_ports {key_data[1]}]
+# set_input_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -min <MIN CALCULATION> [get_ports {key_data[1]}]
 # set_input_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -max <MAX CALCULATION> [get_ports {uart_rx_i}]
 # set_input_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -min <MIN CALCULATION> [get_ports {uart_rx_i}]
 set_output_delay -clock tdqss_clk -reference_pin [get_ports {tdqss_clk~CLKOUT~218~95}] -max 0.263 [get_ports {addr[0]}]
@@ -146,8 +150,6 @@ set_output_delay -clock twd_clk -reference_pin [get_ports {twd_clk~CLKOUT~83~1}]
 # set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -min <MIN CALCULATION> [get_ports {dsi_resetn_o}]
 # set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -max <MAX CALCULATION> [get_ports {lcd_blen_o}]
 # set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -min <MIN CALCULATION> [get_ports {lcd_blen_o}]
-# set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -max <MAX CALCULATION> [get_ports {lcd_de_o}]
-# set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -min <MIN CALCULATION> [get_ports {lcd_de_o}]
 # set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -max <MAX CALCULATION> [get_ports {lcd_hs_o}]
 # set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -min <MIN CALCULATION> [get_ports {lcd_hs_o}]
 # set_output_delay -clock <CLOCK> [-reference_pin <clkout_pad>] -max <MAX CALCULATION> [get_ports {lcd_pwm_o}]
