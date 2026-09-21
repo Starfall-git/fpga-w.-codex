@@ -13,6 +13,7 @@ module video_processing #(
     parameter VS_ACTIVE = 1'b0
 )(
     input wire clk, rst_n,
+    /* V0.4 / 13、15：保留用户改为变量的阈值接口；输入须已同步到本clk域。 */
     input wire [11:0] SOBEL_THRESHOLD,
     input wire [23:0] rgb_i,
     input wire hs_i, vs_i, de_i,

@@ -1,7 +1,7 @@
 
 Elitestek FPGA Placement and Routing.
 Version: 2026.1.132.3.9 
-Date: Mon Sep 21 00:10:53 2026
+Date: Mon Sep 21 22:50:56 2026
 
 Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
  
@@ -62,7 +62,6 @@ Top-level Entity Name: Ti60_Demo
 |       csi_ctl1_i       |    Input     |
 |     i_dqs_n_lo[0]      |    Input     |
 |     i_dqs_n_hi[0]      |    Input     |
-|       uart_rx_i        |    Input     |
 |        clk_25m         |    Input     |
 |    clk_cam_feedback    |    Input     |
 |      cmos_sdat_IN      |    Input     |
@@ -85,32 +84,32 @@ Top-level Entity Name: Ti60_Demo
 
 ---------- Module Resource Usage Distribution Estimates (begin) ----------
 
-'Module Resource Usage Distribution Estimates' table printed in: C:/Users/francis/Desktop/fpga-w.-codex/outflow\Ti60_Demo.hier_util.rpt
+'Module Resource Usage Distribution Estimates' table printed in: outflow\Ti60_Demo.hier_util.rpt
 
 ----------- Module Resource Usage Distribution Estimates (end) ----------
 
-Elapsed time for packing: 0 hours 0 minutes 0 seconds
+Elapsed time for packing: 0 hours 0 minutes 2 seconds
 ---------- Resource Summary (begin) ----------
-Inputs: 60 / 1703 (3.52%)
+Inputs: 61 / 1703 (3.58%)
 Outputs: 325 / 2267 (14.34%)
 Global Clocks (GBUF): 9 / 32 (28.12%)
 Regional Clocks (RBUF): 0 / 32 (0.00%)
 	RBUF: Core: 0 / 16 (0.00%)
 	RBUF: Periphery: 0 / 8 (0.00%)
 	RBUF: Multi-Region: 0 / 8 (0.00%)
-XLRs: 6622 / 60800 (10.89%)
-	XLRs needed for LUT4: 2294 / 60800 (3.77%)
-	XLRs needed for LUT4 + FF: 1595 / 60800 (2.62%)
+XLRs: 7435 / 60800 (12.23%)
+	XLRs needed for LUT4: 2606 / 60800 (4.29%)
+	XLRs needed for LUT4 + FF: 1849 / 60800 (3.04%)
 	XLRs needed for COMB4: 0 / 60800 (0.00%)
 	XLRs needed for COMB4 + FF: 0 / 60800 (0.00%)
-	XLRs needed for Adder: 733 / 60800 (1.21%)
+	XLRs needed for Adder: 789 / 60800 (1.30%)
 	XLRs needed for Adder + FF: 186 / 60800 (0.31%)
 	XLRs needed for SRL8: 524 / 14720 (3.56%)
 	XLRs needed for SRL8 + FF: 0 / 14720 (0.00%)
-	XLRs needed for FF: 1290 / 60800 (2.12%)
+	XLRs needed for FF: 1481 / 60800 (2.44%)
 	XLRs needed for Routing: 0 / 60800 (0.00%)
 Memory Blocks: 50 / 256 (19.53%)
 DSP Blocks: 0 / 160 (0.00%)
 ---------- Resource Summary (end) ----------
 
-Elapsed time for placement: 0 hours 0 minutes 10 seconds
+Elapsed time for placement: 0 hours 0 minutes 21 seconds

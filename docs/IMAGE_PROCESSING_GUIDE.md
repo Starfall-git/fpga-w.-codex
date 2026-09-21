@@ -1,6 +1,8 @@
 # DDR 读出后的图像处理接口与 Sobel 接入说明
 
-日期：2026-09-18；版本：V0.3。当前实际工程目录为 `C:/Users/francis/Desktop/fpga-w.-codex`。
+日期：2026-09-18；图像链路版本：V0.3，2026-09-21 更新动态阈值说明。当前实际工程目录为 `C:/Users/francis/Desktop/fpga-w.-codex`。
+
+V0.4 已加入按键/UART 实时阈值控制，详见 [上位机与串口接口说明](../host/README.md)。下面的图像流结构仍然适用，阈值已从参数改为像素域输入端口。
 
 ## 1. 本次数据路径
 
@@ -48,8 +50,8 @@ OV5640 DVP -> 摄像头裁剪 -> AXI 写入 -> DDR3
 ```verilog
 parameter HDMI_TEST_PATTERN = 0,
 parameter ENABLE_SOBEL = 1,
-parameter [11:0] SOBEL_THRESHOLD = 12'd128,
-parameter SOBEL_BINARY = 1
+parameter SOBEL_BINARY = 1,
+parameter UART_BAUD = 115200
 ```
 
 | 设置 | 显示效果 |
@@ -59,7 +61,7 @@ parameter SOBEL_BINARY = 1
 | `ENABLE_SOBEL=0` | 原始摄像头图像，便于比较 |
 | `HDMI_TEST_PATTERN=1` | HDMI 洋红纯色，优先于算法输出 |
 
-二值模式中，阈值越小，细节和噪声越多；阈值越大，保留的强边缘越少。可以依次尝试 64、128、256。参数是编译时常量，修改后需要重新生成 bit；当前没有连接按键或 UART 实时调参。
+二值模式中，阈值越小，细节和噪声越多；阈值越大，保留的强边缘越少。可以依次尝试 64、128、256。V0.4 的 `SOBEL_THRESHOLD` 是 12 位运行时输入，复位值 128，由双键或 UART 调节，在场消隐更新，不需要重新生成 bit。其他顶层参数仍是编译时常量。
 
 Sobel 输入先转换为 `Y=(R+2G+B)/4`，这是节省硬件的近似灰度转换。RGB565 到 RGB888 的扩展仍沿用原工程：R/B 低 3 bit、G 低 2 bit 补零。
 
@@ -182,4 +184,4 @@ python tools/run_sobel_sim.py --width 3 --height 4
 
 Efinity 2026.1：综合、接口检查、布局布线、bit 导出全部 PASS。整个工程使用 50 个 EFX_RAM10，其中新增处理模块使用 4 个；在现有约束下，时钟关系汇总最小 setup slack 为 +0.153 ns、最小 hold slack 为 +0.014 ns。沿用的历史约束和 IP 警告仍需按板级情况评估。
 
-生成的 `outflow/Ti60_Demo.bit` 默认是 Sobel 二值边缘模式，同内容另存为 `outflow/Ti60_Demo_sobel_720p.bit` 便于识别。可通过 JTAG 加载观察黑底白边；若画面噪声太多，提高 SOBEL_THRESHOLD；若需要先核对摄像头链路，将 ENABLE_SOBEL 改为 0 后重新编译。编译日志为 `tools/debug/compile-sobel.log`。
+V0.3 的 Sobel 基线保存在 `outflow/Ti60_Demo_sobel_720p.bit`，日志为 `tools/debug/compile-sobel.log`。V0.4 当前 `outflow/Ti60_Demo.bit` 已含 UART 控制，同内容另存为 `outflow/Ti60_Demo_uart_threshold_720p.bit`，日志为 `tools/debug/compile-uart.log`。可通过 JTAG 加载观察黑底白边；若画面噪声太多，通过按键或 GUI 提高阈值；若需要先核对摄像头链路，将 ENABLE_SOBEL 改为 0 后重新编译。

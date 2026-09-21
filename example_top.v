@@ -20,6 +20,15 @@
 11. 新增 ENABLE_SOBEL、SOBEL_THRESHOLD、SOBEL_BINARY 参数，默认输出二值边缘。
 12. 在 Ti60_Demo.xml 中登记三个新模块；补充仿真和 docs/IMAGE_PROCESSING_GUIDE.md 接口说明。
 ////--------------------2026-09-18-V0.3:DDR读出后接入Sobel边缘检测------------------------------
+
+////--------------------2026-09-21-V0.4:串口上位机与运行时阈值控制------------------------------
+13. 保留阈值输入端口和双键加减，按键改为双级同步、双向消抖；key_data改为打包向量。
+14. 新增115200/8N1 UART收发及带序号/CRC8的命令应答协议，支持阈值设置和回读。
+15. 阈值通过跨时钟邮箱从clk_sys送到clk_pixel，并在场消隐应用；确认后返回成功。
+16. 顶层原阈值/按键always块保留在注释中，以uart_image_control统一仲裁替代。
+17. 新增Python GUI和独立串口接口，翻转/裁剪/缩放预留协议与面板，当前RTL返回未实现。
+18. 更新动态阈值仿真接口，新增UART/CDC/按键和Python协议测试及操作文档。
+////--------------------2026-09-21-V0.4:串口上位机与运行时阈值控制------------------------------
 */
 
 //`include "ddr3_controller.vh"
@@ -32,8 +41,11 @@ module example_top #(
     /* V0.3 / 11：新增 Sobel 开关及阈值；ENABLE_SOBEL=0 恢复原图。
        SOBEL_BINARY=0 输出饱和灰度梯度，=1 输出黑底白边。 */
     parameter ENABLE_SOBEL = 1,
-//    parameter [11:0] SOBEL_THRESHOLD = 12'd128,
-    parameter SOBEL_BINARY = 1
+    /* V0.4 / 13：用户已将阈值参数改为输入变量，现由UART/按键控制，复位值128。
+       原 parameter [11:0] SOBEL_THRESHOLD = 12'd128, */
+    parameter SOBEL_BINARY = 1,
+    /* V0.4 / 14：与Python上位机默认波特率一致。 */
+    parameter UART_BAUD = 115200
 )
 (
 	////////////////////////////////////////////////////////////////
@@ -41,7 +53,8 @@ module example_top #(
 	//input 			nrst, 			//	Button K2
 	input 			clk_24m,			//	24MHz Crystal
 	input 			clk_25m,			//	25MHz Crystal 
-	input wire key_data[1:0],
+    /* V0.4 / 13：原 input wire key_data[1:0] 为非打包数组；改为2-bit向量。 */
+    input wire [1:0] key_data,
 	
 	////////////////////////////////////////////////////////////////
 	//	System Clock
@@ -283,7 +296,8 @@ module example_top #(
 
 	////////////////////////////////////////////////////////////////
 	//	UART Interface
-	input 		 	uart_rx_i,			//	Support 460800-8-N-1. 
+    /* V0.4 / 14：UART由UART_BAUD指定，默认115200-8-N-1。 */
+	input 		 	uart_rx_i,
 	output 		 	uart_tx_o, 
 	
 	
@@ -1067,6 +1081,8 @@ module example_top #(
        DDR 的 lcd_request 和 rframe_vsync 仍使用原始时序；
        仅送 HDMI 的 RGB/HS/VS/DE 一起经过处理模块。 */
     wire [23:0] processed_rgb;
+    /* V0.4 / 13、16：原按键直接写系统域阈值，现由统一控制模块替代。
+       原实现保留如下（含原寄存器及按键计数），避免同一阈值存在多个驱动：
     reg [11:0] SOBEL_THRESHOLD;
     reg [23:0] cnt1_20ms,cnt2_20ms; //计数器
     reg key_flag1,key_flag2;
@@ -1125,6 +1141,19 @@ module example_top #(
     
     
     wire processed_hs, processed_vs, processed_de;
+    */
+    wire [11:0] SOBEL_THRESHOLD;
+    wire processed_hs, processed_vs, processed_de;
+    /* V0.4 / 14~16：UART/按键共同控制；输出阈值已经安全进入像素时钟域。
+       processed_vs低有效时处于场消隐，处理流水中已没有上一帧有效像素。 */
+    uart_image_control #(
+        .CLOCK_HZ(CLOCK_MAIN), .BAUD(UART_BAUD),
+        .DEBOUNCE_CYCLES(CLOCK_MAIN/50)
+    ) u_image_control (
+        .clk(clk_sys), .rst_n(rstn_sys), .uart_rx_i(uart_rx_i), .uart_tx_o(uart_tx_o),
+        .key_data(key_data), .pixel_clk(clk_pixel), .pixel_rst_n(rstn_pixel),
+        .frame_blank_i(!processed_vs), .threshold_pixel_o(SOBEL_THRESHOLD)
+    );
     video_processing #(
         .IMAGE_WIDTH(1280),
         .ENABLE_SOBEL(ENABLE_SOBEL),
