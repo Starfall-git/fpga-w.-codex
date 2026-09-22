@@ -15,6 +15,9 @@
         <efx:design_file name="src/control/threshold_cdc.v" version="default" library="default"/>
         <efx:design_file name="src/control/uart_image_control.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_processing.v" version="default" library="default"/>
+        <!-- V0.5 / 19: DDR row transform and sequential setup divider. -->
+        <efx:design_file name="src/isp/unsigned_divider.v" version="default" library="default"/>
+        <efx:design_file name="src/isp/axi_transform_reader.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_window3x3.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_sobel.v" version="default" library="default"/>
         <efx:design_file name="src/ddr_rw_ctrl.v" version="default" library="default"/>

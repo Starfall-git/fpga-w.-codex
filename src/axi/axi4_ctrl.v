@@ -1,5 +1,7 @@
 //  by CrazyBird
 module axi4_ctrl #(
+	/* V0.5 / 19: select transform reader; legacy sequential reader retained below. */
+    parameter C_TRANSFORM = 0, IMAGE_WIDTH = 1280, IMAGE_HEIGHT = 720,
 	parameter 	C_ID_LEN      = 8, 
 			C_DATA_LEN    = 128, 
 			C_DATA_SIZE   = 4, 	//	C_DATA_LEN=8:0, 16:1, 32:2, 64:3, 128:4, 256:5, 512:6, 1024:7
@@ -51,7 +53,7 @@ module axi4_ctrl #(
     output       [ 3:0]      axi_arcache     ,
     output       [ 2:0]      axi_arprot      ,
     output       [ 3:0]      axi_arqos       ,
-    output reg                  axi_arvalid     ,
+    output wire                 axi_arvalid     ,
     input  wire                 axi_arready     ,
     
     input  wire     [C_ID_LEN-1:0]      axi_rid         ,
@@ -71,13 +73,18 @@ module axi4_ctrl #(
     input  wire                 rframe_data_en  ,
     output wire     [C_R_WIDTH-1:0]      rframe_data     ,
     
+    /* V0.5 / 20: stable system-domain geometry mailbox and return acknowledgement. */
+    input wire [97:0] geometry_i,
+    input wire geometry_toggle_i,
+    output wire geometry_ack_o,
+    output wire [1:0] transform_faults_o,
     output 		[31:0] 	tp_o
 );
 	
 	initial begin
 		axi_awvalid <= 0; 
 		axi_wvalid <= 0; 
-		axi_arvalid <= 0; 
+		/* V0.5: reader reset/initialization is now owned by selected reader. */
 	end
 
 	assign axi_awid    = {C_ID_LEN{1'b0}};
@@ -92,14 +99,14 @@ module axi4_ctrl #(
 	assign axi_bready  = 1; 
 	    
 	assign axi_arid    = {C_ID_LEN{1'b0}};
-	assign axi_arlen   = C_BURST_LEN - 1'b1;
+	/* V0.5: arlen is driven by selected reader; transform bursts split at 4KB. */
 	assign axi_arsize  = C_DATA_SIZE;
 	assign axi_arburst = 2'b01;	//	INCR
 	assign axi_arlock  = 1'b0;
 	assign axi_arcache = 0;
 	assign axi_arprot  = 3'b0;
 	assign axi_arqos   = 4'b0;
-	assign axi_rready  = 1; 
+	/* V0.5: RREADY belongs to the selected reader. */
 	
 	
 	
@@ -115,7 +122,9 @@ module axi4_ctrl #(
 
 	reg 	[1:0] 	r_wframe_index_last = 0; 
 	
-	reg 			r_wframe_inc = 0, r_rframe_inc = 0; 
+	reg 			r_wframe_inc = 0;
+    /* V0.5: frame ownership advances only after the reader drains old AXI work. */
+    wire r_rframe_inc;
 
 	always @(posedge axi_clk) begin
 		if(axi_reset) begin
@@ -355,6 +364,25 @@ module axi4_ctrl #(
 
 
 
+/* V0.5 / 19: old reader retained in the disabled generate branch for comparison.
+   The transform branch owns AR/R and keeps the existing writer/frame scheduler. */
+generate if(C_TRANSFORM) begin: Gen_Transform
+    axi_transform_reader #(.WIDTH(IMAGE_WIDTH),.HEIGHT(IMAGE_HEIGHT),
+        .BUF_BITS(C_BUF_SIZE),.BASE_ADDR(C_BASE_ADDR)) u_transform (
+        .axi_clk(axi_clk),.axi_reset(axi_reset),.frame_index_i(rc_rframe_index),
+        .frame_switch_o(r_rframe_inc),.araddr_o(axi_araddr),.arlen_o(axi_arlen),
+        .arvalid_o(axi_arvalid),.arready_i(axi_arready),.rdata_i(axi_rdata),
+        .rresp_i(axi_rresp),.rlast_i(axi_rlast),.rvalid_i(axi_rvalid),.rready_o(axi_rready),
+        .pixel_clk(rframe_pclk),.vs_i(~rframe_vsync),.request_i(rframe_data_en),.pixel_o(rframe_data),
+        .geometry_i(geometry_i),.geometry_toggle_i(geometry_toggle_i),
+        .geometry_ack_o(geometry_ack_o),.faults_o(transform_faults_o));
+end else begin: Gen_Legacy_Reader
+    reg legacy_arvalid=0, legacy_frame_inc=0;
+    assign axi_arvalid=legacy_arvalid;
+    assign r_rframe_inc=legacy_frame_inc;
+    assign axi_arlen=C_BURST_LEN-1;
+    assign geometry_ack_o=0;
+    assign transform_faults_o=0;
 reg                             rframe_vsync_dly;
 
 always @(posedge rframe_pclk)
@@ -412,7 +440,7 @@ wire 					w_rfifo_aempty;
 wire 					w_rfifo_empty; 
 
 
-generate
+/* V0.5: nested conditional generate belongs to outer legacy branch. */
 	if(C_R_WIDTH == 8) begin: Gen_RFIFO_8
 		R0_FIFO_8 u_R0_FIFO_8
 		(
@@ -444,7 +472,6 @@ generate
 			.almost_empty_o	(w_rfifo_aempty)
 		);
 	end
-endgenerate
 		
 reg r_rfifo_rst = 0; 
 always @(posedge axi_clk)
@@ -486,9 +513,9 @@ end
 
 always @(posedge axi_clk or posedge axi_reset) begin
 	if(axi_reset)
-		r_rframe_inc <= 0; 
+		legacy_frame_inc <= 0;
 	else
-		r_rframe_inc <= rfifo_wr_rst_busy_neg; 
+		legacy_frame_inc <= rfifo_wr_rst_busy_neg;
 end
 
 
@@ -515,7 +542,7 @@ always @(posedge axi_clk or posedge r_rfifo_rst)
 begin
     if(r_rfifo_rst) begin
         rd_state <= S_READ_IDLE;
-	  axi_arvalid <= 0; 
+	  legacy_arvalid <= 0;
 	  r_rd_pend <= 0; 
     end else
     begin
@@ -523,7 +550,7 @@ begin
 	
 	
 	if(axi_arready) begin
-		axi_arvalid <= 0; 
+		legacy_arvalid <= 0;
 	end else begin
 	end
 	if(axi_rvalid && axi_rlast) begin
@@ -543,14 +570,14 @@ begin
 		
             S_READ_ADDR : 
             begin
-				axi_arvalid <= 1; 
+				legacy_arvalid <= 1;
 				r_rd_pend <= 1; 
                 rd_state <= S_READ_DATA;
             end
             S_READ_DATA : 
             begin
 			//	Return when ~arvalid && ~rd_pend. 
-			if((~axi_arvalid) && (~r_rd_pend))
+			if((~legacy_arvalid) && (~r_rd_pend))
                 //if((axi_rvalid == 1'b1)&&(axi_rready == 1'b1)&&(rdata_cnt == C_BURST_LEN))
                     rd_state <= S_READ_IDLE;
                 else
@@ -570,7 +597,7 @@ begin
         araddr <= 0;
     else
     begin
-        if((axi_arvalid == 1'b1)&&(axi_arready == 1'b1))
+        if((legacy_arvalid == 1'b1)&&(axi_arready == 1'b1))
             araddr <= araddr + C_ADDR_INC;
         else
             araddr <= araddr;
@@ -620,4 +647,5 @@ begin
     rfifo_wdata <= axi_rdata;
 end
 
+end endgenerate
 endmodule

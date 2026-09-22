@@ -86,11 +86,31 @@ class ProtocolTests(unittest.TestCase):
         client = DemoClient()
         self.assertTrue(client.simulated)
         self.assertEqual(client.set_threshold(512).threshold, 512)
-        self.assertEqual(client.get_status().capabilities, CAP_THRESHOLD)
+        self.assertEqual(client.get_status().capabilities, 15)
+
+    def test_geometry_roundtrip_and_cross_validation(self):
+        client = DemoClient()
+        result = client.set_flip(True, True)
+        self.assertTrue(result.vertical and result.horizontal)
+        result = client.set_crop(12, 24, 640, 360)
+        self.assertEqual((result.x,result.y,result.width,result.height),(12,24,640,360))
+        result = client.set_zoom(3,2)
+        self.assertEqual((result.numerator,result.denominator),(3,2))
+        self.assertEqual(client.get_geometry(),result)
+        client.set_zoom(1,1)
+        client.set_crop(1279,719,1,1)
+        with self.assertRaises(DeviceError): client.set_zoom(1,4)
+        self.assertEqual(client.get_geometry().numerator,1)
+        self.assertEqual(client.reset_geometry(),Geometry())
+
+    def test_geometry_pages_invalid(self):
+        with self.assertRaises(ValueError): Geometry.from_pages([bytes(8)]*4)
+        self.assertEqual(flip_payload(True,True),b'\x03'+bytes(7))
+        with self.assertRaises(ValueError): flip_payload(True,1)
 
 
 class GuiTests(unittest.TestCase):
-    def test_connect_apply_validate_reserved_disconnect(self):
+    def test_connect_apply_geometry_validate_disconnect(self):
         import tkinter as tk
         from .gui import ImageControlApp
         root = tk.Tk()
@@ -115,7 +135,19 @@ class GuiTests(unittest.TestCase):
             app.threshold.set("4096"); app.apply_threshold()
             self.assertEqual(app.client.status.threshold, 256)
             for button, _ in app.feature_buttons:
-                self.assertEqual(str(button.cget("state")), "disabled")
+                self.assertEqual(str(button.cget("state")), "normal")
+            app.flip.set(True); app.flip_horizontal.set(True)
+            app.apply_feature('flip'); finish()
+            self.assertTrue(app.client.geometry.horizontal)
+            app.crop['x'].set('100'); app.crop['width'].set('640'); app.crop['height'].set('360')
+            app.apply_feature('crop'); finish()
+            self.assertEqual(app.client.geometry.width,640)
+            app.zoom.set('1.5'); app.apply_feature('zoom'); finish()
+            self.assertIn('3/2',app.geometry_readback.get())
+            app.crop['width'].set('1280'); app.apply_feature('crop')
+            self.assertEqual(app.client.geometry.width,640)
+            app.reset_geometry(); finish()
+            self.assertEqual(app.client.geometry,Geometry())
             app.preview("crop")
             self.assertIn("A5 5A", app.log.get("1.0", "end"))
             app.toggle_connection(); finish()
