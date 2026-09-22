@@ -1,0 +1,12 @@
+# vsim -c work.transform_reader_tb "+VECTORS=vectors.txt" -do "run -all; quit -f" -gWIDTH=32 -gHEIGHT=16 
+# Start time: 14:37:39 on Sep 22,2026
+# Loading sv_std.std
+# Loading work.transform_reader_tb
+# Loading work.axi_transform_reader
+# Loading work.unsigned_divider
+# run -all
+# PASS TRANSFORM: 62 cases, 31744 pixels, 752 bursts, 65 frames, faults/drain/backpressure
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/transform_reader_tb.sv(120)
+#    Time: 2585800 ns  Iteration: 1  Instance: /transform_reader_tb
+# End time: 14:37:40 on Sep 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

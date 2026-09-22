@@ -31,6 +31,17 @@
 ////--------------------2026-09-21-V0.4:串口上位机与运行时阈值控制------------------------------
 */
 
+/*
+////--------------------2026-09-22-V0.5:DDR读出几何变换与上位机实时控制------------------------------
+19. 新增axi_transform_reader和迭代除法器：按源行读DDR，行缓存实现裁剪、双向翻转和最近邻缩放。
+20. 新增98位几何配置邮箱及帧边界确认，保留原四帧写入/读帧所有权管理。
+21. 固定1280x720输出，变换结果居中、补黑或中心截取；AXI突发不跨4KB，欠载整行补黑并报告。
+22. UART实现20翻转/21裁剪/22缩放，新增02分页回读实际配置与错误标志。
+23. Python GUI开放水平/垂直翻转、裁剪、倍率调节，增加已确认配置回读和恢复原图几何设置。
+24. 新增DDR几何像素参考、AXI背压/跨页/帧切换测试及串口、GUI回归；帧冻结/回放/对比未纳入。
+////--------------------2026-09-22-V0.5:DDR读出几何变换与上位机实时控制------------------------------
+*/
+
 //`include "ddr3_controller.vh"
 
 
@@ -977,6 +988,10 @@ module example_top #(
 	wire            [7:0]           lcd_green, lcd_green2;
 	wire            [7:0]           lcd_blue, lcd_blue2;
 	wire            [15:0]          lcd_data;
+    /* V0.5 / 20,21: control mailbox crosses to DDR reader with toggle/ack handshake. */
+    wire [97:0] transform_geometry;
+    wire transform_toggle, transform_ack;
+    wire [1:0] transform_faults;
 
 
 	assign w_ddr3_awid = 0; 
@@ -988,6 +1003,8 @@ module example_top #(
 	//	Write in 8 bits. Read in 16 bits. 
     /* V0.2：DDR 读取帧长度由 1920x1080x2 恢复为 1280x720x2 字节。 */
 	axi4_ctrl #(
+    /* V0.5 / 19: select line-buffer transform reader; legacy branch remains in axi4_ctrl. */
+    .C_TRANSFORM(1), .IMAGE_WIDTH(1280), .IMAGE_HEIGHT(720),
     .C_RD_END_ADDR(1280 * 2 * 720), 
     .C_W_WIDTH(CSI_DATA_WIDTH), 
     .C_R_WIDTH(16), 
@@ -1020,7 +1037,8 @@ module example_top #(
 
 		.axi_rid        (w_ddr3_rid          ),
 		.axi_rdata      (w_ddr3_rdata        ),
-		.axi_rresp      (0        ),
+		/* V0.5 / 21: propagate actual DDR response errors to transform diagnostics. */
+		.axi_rresp      (w_ddr3_rresp),
 		.axi_rlast      (w_ddr3_rlast        ),
 		.axi_rvalid     (w_ddr3_rvalid       ),
 		.axi_rready     (w_ddr3_rready       ),
@@ -1034,6 +1052,10 @@ module example_top #(
 		.rframe_vsync   (~lcd_vs             ),		//	Reader VSync. Flush on rising edge. Connect to ~EOF. 
 		.rframe_data_en (lcd_request             ),
 		.rframe_data    (lcd_data           ),
+
+        /* V0.5 / 20: complete configuration, stable until acknowledged after frame setup. */
+        .geometry_i(transform_geometry), .geometry_toggle_i(transform_toggle),
+        .geometry_ack_o(transform_ack), .transform_faults_o(transform_faults),
 		
 		.tp_o 		(w_axi_tp)
 	);
@@ -1152,7 +1174,10 @@ module example_top #(
     ) u_image_control (
         .clk(clk_sys), .rst_n(rstn_sys), .uart_rx_i(uart_rx_i), .uart_tx_o(uart_tx_o),
         .key_data(key_data), .pixel_clk(clk_pixel), .pixel_rst_n(rstn_pixel),
-        .frame_blank_i(!processed_vs), .threshold_pixel_o(SOBEL_THRESHOLD)
+        .frame_blank_i(!processed_vs), .threshold_pixel_o(SOBEL_THRESHOLD),
+        /* V0.5 / 22: UART now controls DDR source geometry as well as Sobel threshold. */
+        .geometry_o(transform_geometry), .geometry_toggle_o(transform_toggle),
+        .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults)
     );
     video_processing #(
         .IMAGE_WIDTH(1280),

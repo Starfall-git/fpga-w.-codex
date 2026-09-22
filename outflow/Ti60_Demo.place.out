@@ -17,17 +17,17 @@ INFO     : Reading core interface constraints file "outflow\Ti60_Demo.interface.
 INFO     : Successfully read core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
 WARNING  : IO cell "lcd_de_o" has no assigned placement; it will be placed randomly
 INFO     : 1 IO cells will have random placement
-INFO     : XLR count after merging: 7435
-INFO     : Netlist has 4455 luts, 3516 ffs and 975 adders [PackerMsg::NetlistStatistics]
-INFO     : Packed into 7435 clusters with 2.5554807(1.0546066) inputs(outputs) per cluster for a total of 19000(7841) inputs(outputs) [PackerMsg::ClusterPackingStatistics]
-INFO     : Packed into 7435 xlrs with 2.5554807(1.0546066) inputs(outputs) per xlr for a total of 19000(7841) inputs(outputs) [PackerMsg::XLRPackingStatistics]
+INFO     : XLR count after merging: 9925
+INFO     : Netlist has 6061 luts, 4298 ffs and 1360 adders [PackerMsg::NetlistStatistics]
+INFO     : Packed into 9925 clusters with 2.5930479(1.0397985) inputs(outputs) per cluster for a total of 25736(10320) inputs(outputs) [PackerMsg::ClusterPackingStatistics]
+INFO     : Packed into 9925 xlrs with 2.5930479(1.0397985) inputs(outputs) per xlr for a total of 25736(10320) inputs(outputs) [PackerMsg::XLRPackingStatistics]
 INFO     : Packed 0 fracturable DSPs into 0 clusters [PackerMsg::DSPPackingStatistics]
-INFO     : Packing took 2.3904334 seconds [FlowMsg::StageDuration]
-INFO     :     Packing took 1.984375 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Packing virtual memory usage: begin = 60.58 MB, end = 126.428 MB, delta = 65.848 MB [FlowMsg::VMUsage]
-INFO     :     Packing peak virtual memory usage = 126.436 MB [FlowMsg::VMUsage::Peak]
-INFO     : Packing resident set memory usage: begin = 65.308 MB, end = 139.148 MB, delta = 73.84 MB [FlowMsg::RSSUsage]
-INFO     :     Packing peak resident set memory usage = 139.148 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Packing took 1.3045302 seconds [FlowMsg::StageDuration]
+INFO     :     Packing took 1.375 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Packing virtual memory usage: begin = 60.608 MB, end = 129.024 MB, delta = 68.416 MB [FlowMsg::VMUsage]
+INFO     :     Packing peak virtual memory usage = 129.032 MB [FlowMsg::VMUsage::Peak]
+INFO     : Packing resident set memory usage: begin = 64.476 MB, end = 140.956 MB, delta = 76.48 MB [FlowMsg::RSSUsage]
+INFO     :     Packing peak resident set memory usage = 140.956 MB [FlowMsg::RSSUsage::Peak]
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid object(s) found for 'clk_cam_feedback'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid pin(s) found for clock
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] Unable to run 'create_clock' constraint due to warnings found
@@ -43,8 +43,8 @@ WARNING  : No ports matched 'i_dqs_n_lo[0]'
 WARNING  : No ports matched 'i_dqs_n_hi[0]'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] set_input_delay: No valid input port(s) found
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] Unable to run 'set_input_delay' constraint due to warnings found
-WARNING  : No ports matched 'i_dqs_n_lo[1]'
 WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:335] set_input_delay: No valid input port(s) found
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:335] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_lo[1]'
@@ -55,119 +55,119 @@ INFO     : SDC file 'Ti60_Demo.pt.sdc' parsed successfully.
 INFO     : Reading core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
 INFO     : Successfully read core interface constraints file "outflow\Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
 WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_wr_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
-WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_RFIFO_16.u_R0_FIFO_16/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_wr_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
 WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_rd_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
-WARNING  : Synchronizer chain starting at cell u_axi4_ctrl/Gen_RFIFO_16.u_R0_FIFO_16/u_efx_fifo_top/genblk2.genblk1.efx_resetsync_rd_rst/active_high.efx_resetsync_active_high/async_reg[0][0]~FF is driven by a non-sequential source GND:O [FlowMsg::SyncHeadDrivenByNonSeq]
 INFO     : Starting Global Placer with 32 threads ...
             ----------     -------  --------------     -------
              Iteration       WHPWL Worst Slack (ps) Convergence
             ----------     -------  --------------     -------
-INFO     :           1     1151536             246         3.0%
-INFO     :           2      666927             175         6.0%
-INFO     :           3      479649             246         9.6%
-INFO     :           4      372765             246        14.8%
-INFO     :           5      313596             246        20.9%
-INFO     :           6      270113             246        28.0%
-INFO     :           7      238047             246        34.7%
-INFO     :           8      223317             246        40.5%
-INFO     :           9      213116             246        45.9%
-INFO     :          10      204934             246        51.4%
-INFO     :          11      199795             175        56.9%
-INFO     :          12      194805             246        61.1%
-INFO     :          13      192926             246        64.6%
-INFO     :          14      191490             246        66.9%
-INFO     :          15      189428             246        68.8%
-INFO     :          16      188548             246        69.7%
-INFO     :          17      188660             246        70.1%
-INFO     :          18      186955             199        71.1%
-INFO     :          19      185952             246        72.6%
-INFO     :          20      185457             246        73.6%
-INFO     :          21      184778             246        74.7%
-INFO     :          22      184646             175        76.0%
-INFO     :          23      184751             199        78.6%
-INFO     :          24      185048             199        80.0%
-INFO     :          25      184034             199        81.6%
-INFO     :          26      183064             175        82.7%
-INFO     :          27      183234             101        84.0%
-INFO     :          28      182431             101        85.4%
-INFO     :          29      182441             101        86.8%
-INFO     :          30      182092             101        88.2%
-INFO     :          31      182231             175        89.4%
-INFO     :          32      182063             149        90.1%
-INFO     :          33      181710             175        90.9%
-INFO     :          34      181800             175        91.7%
-INFO     :          35      181988             175        92.7%
-INFO     :          36      181851             140        93.6%
-INFO     :          37      182558             123        94.3%
-INFO     :          38      182825             143        95.2%
-INFO     :          39      177192             105        96.2%
-INFO     :          40      178068              80        97.1%
-INFO     :          41      177966             102        98.4%
-INFO     :          42      177885              78        98.8%
-INFO     :          43      178357             102        99.1%
-INFO     :          44      178501             105        99.2%
-INFO     :          45      178700             102        99.6%
-INFO     : GP: best_placement: wpd: 44.557
+INFO     :           1     2071807             246         2.3%
+INFO     :           2     1320980             246         4.4%
+INFO     :           3      925772             246         6.9%
+INFO     :           4      716615             246        11.1%
+INFO     :           5      527276             246        17.3%
+INFO     :           6      444115             175        23.9%
+INFO     :           7      378117             246        34.0%
+INFO     :           8      348670             246        40.9%
+INFO     :           9      325685             246        47.6%
+INFO     :          10      313958             175        53.0%
+INFO     :          11      307682             246        58.8%
+INFO     :          12      302831             246        61.8%
+INFO     :          13      298688             246        65.2%
+INFO     :          14      297004             246        66.1%
+INFO     :          15      295663             246        67.4%
+INFO     :          16      293845             199        67.9%
+INFO     :          17      293857             246        69.6%
+INFO     :          18      292405             246        70.2%
+INFO     :          19      289865             246        72.7%
+INFO     :          20      289121             199        73.0%
+INFO     :          21      287958             202        74.4%
+INFO     :          22      288603             246        74.9%
+INFO     :          23      288168             199        76.1%
+INFO     :          24      287299             246        78.8%
+INFO     :          25      286563             199        79.5%
+INFO     :          26      287715             199        81.5%
+INFO     :          27      287124             199        82.1%
+INFO     :          28      285530             198        83.8%
+INFO     :          29      285760             198        85.1%
+INFO     :          30      285839             123        86.6%
+INFO     :          31      286166             199        87.9%
+INFO     :          32      285165             199        88.9%
+INFO     :          33      284906             199        89.6%
+INFO     :          34      285574             149        90.3%
+INFO     :          35      285427             164        91.0%
+INFO     :          36      285298             198        91.8%
+INFO     :          37      286602             198        92.7%
+INFO     :          38      286173             149        93.5%
+INFO     :          39      286970             104        94.4%
+INFO     :          40      287354             104        95.2%
+INFO     :          41      279007             104        95.8%
+INFO     :          42      279583             102        97.3%
+INFO     :          43      280054             102        98.3%
+INFO     :          44      280289             102        98.5%
+INFO     :          45      281261             102        98.7%
+INFO     :          46      281441             102        98.9%
+INFO     :          47      282344             109        99.3%
+INFO     : GP: best_placement: wpd: 21.4344
 INFO     : Starting Annealer
             ----------     -------  --------------     -------
              Iteration       WHPWL  Delay Max (ps)     R Limit
             ----------     -------  --------------     -------
-INFO     :           0       76331            2419        30.0
-INFO     :           1       82349             479        29.4
-INFO     :           2       81834             485        28.2
-INFO     :           3       79207             315        26.7
-INFO     :           4       75122             315        25.0
-INFO     :           5       73385             315        23.3
-INFO     :           6       72893             314        21.7
-INFO     :           7       72012             314        20.1
-INFO     :           8       71204             314        18.6
-INFO     :           9       69464             314        17.2
-INFO     :          10       69343             314        15.9
-INFO     :          11       67714            1909        14.6
-INFO     :          12       67953            1943        13.5
-INFO     :          13       66792            1870        12.4
-INFO     :          14       66956            1918        11.4
-INFO     :          15       65859            1885        10.5
-INFO     :          16       65942            1885         9.6
-INFO     :          17       64743            1885         8.8
-INFO     :          18       64753            1792         8.1
-INFO     :          19       64045            1833         7.4
-INFO     :          20       63259            1833         6.8
-INFO     :          21       62969            1884         6.2
-INFO     :          22       62918            1799         5.7
-INFO     :          23       62284            1799         5.2
-INFO     :          24       62368            1799         4.8
-INFO     :          25       61620            1799         4.4
-INFO     :          26       61541            1807         4.0
-INFO     :          27       61341            1807         3.7
-INFO     :          28       60551            1819         3.4
-INFO     :          29       60507            1825         3.1
-INFO     :          30       60758            1853         2.8
-INFO     :          31       60391            1807         2.6
-INFO     :          32       60195            1844         2.4
-INFO     :          33       59731            1851         2.2
-INFO     :          34       60177            1806         2.0
-INFO     :          35       59477            1807         1.9
-INFO     :          36       59843            1924         1.7
-INFO     :          37       59139            1999         1.6
-INFO     :          38       59758            1847         1.4
-INFO     :          39       59098            1847         1.3
-INFO     :          40       60018            1849         1.2
-INFO     :          41       59168            1849         1.1
-INFO     : DP: best_placement: wpd: 39.5115
-INFO     : Placement successful: 7485 cells are placed
-INFO     : Peak congestion smeared over 4x4 of the chip is 0.828642 at 103,168
-INFO     : Peak congestion smeared over 1/16 of the chip is 0.506587 at 142,45
-INFO     : Peak congestion smeared over 1/4 of the chip is 0.269742 at 124,76
-INFO     : Congestion-weighted HPWL per net: 13.8084
+INFO     :           0      132682             432        30.0
+INFO     :           1      140250             434        29.2
+INFO     :           2      138156             362        27.8
+INFO     :           3      131539             343        26.1
+INFO     :           4      127533             343        24.4
+INFO     :           5      124336             330        22.7
+INFO     :           6      122570             315        21.0
+INFO     :           7      120528             310        19.4
+INFO     :           8      118392             310        17.9
+INFO     :           9      116858             310        16.5
+INFO     :          10      114838             310        15.2
+INFO     :          11      113774            1788        14.0
+INFO     :          12      114060            1788        12.8
+INFO     :          13      111723            1788        11.8
+INFO     :          14      111391            1788        10.8
+INFO     :          15      110568            1788         9.9
+INFO     :          16      109574            1886         9.0
+INFO     :          17      108630            1778         8.3
+INFO     :          18      108050            1787         7.6
+INFO     :          19      107346            1789         6.9
+INFO     :          20      106932            1787         6.3
+INFO     :          21      106445            1777         5.8
+INFO     :          22      106002            1777         5.3
+INFO     :          23      105648            1766         4.8
+INFO     :          24      105944            1749         4.4
+INFO     :          25      104016            1812         4.0
+INFO     :          26      103974            1809         3.7
+INFO     :          27      104543            1811         3.4
+INFO     :          28      102668            1809         3.1
+INFO     :          29      104443            1830         2.8
+INFO     :          30      102383            1839         2.6
+INFO     :          31      103644            1867         2.3
+INFO     :          32      102630            1847         2.2
+INFO     :          33      102804            1867         2.0
+INFO     :          34      102556            1794         1.8
+INFO     :          35      101820            1918         1.7
+INFO     :          36      102458            1830         1.5
+INFO     :          37      101669            1789         1.4
+INFO     :          38      102007            1791         1.3
+INFO     :          39      101822            1800         1.2
+INFO     :          40      102021            1845         1.0
+INFO     :          41      101724            1941         1.0
+INFO     : DP: best_placement: wpd: 60.5402
+INFO     : Placement successful: 9992 cells are placed
+INFO     : Peak congestion smeared over 4x4 of the chip is 0.901901 at 93,171
+INFO     : Peak congestion smeared over 1/16 of the chip is 0.644139 at 92,167
+INFO     : Peak congestion smeared over 1/4 of the chip is 0.355412 at 130,100
+INFO     : Congestion-weighted HPWL per net: 15.5248
 INFO     : Post-placement cluster-level checks is successful
 INFO     : Post-placement primitive-level checks is successful
-INFO     : Placement took 21.364713 seconds [FlowMsg::StageDuration]
-INFO     :     Placement took 60.953125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Placement virtual memory usage: begin = 79.976 MB, end = 176.716 MB, delta = 96.74 MB [FlowMsg::VMUsage]
-INFO     :     Placement peak virtual memory usage = 217.068 MB [FlowMsg::VMUsage::Peak]
-INFO     : Placement resident set memory usage: begin = 93.548 MB, end = 191.844 MB, delta = 98.296 MB [FlowMsg::RSSUsage]
-INFO     :     Placement peak resident set memory usage = 233.452 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Placement took 14.1571022 seconds [FlowMsg::StageDuration]
+INFO     :     Placement took 52.578125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Placement virtual memory usage: begin = 83.44 MB, end = 190.076 MB, delta = 106.636 MB [FlowMsg::VMUsage]
+INFO     :     Placement peak virtual memory usage = 238.5 MB [FlowMsg::VMUsage::Peak]
+INFO     : Placement resident set memory usage: begin = 96.052 MB, end = 205.68 MB, delta = 109.628 MB [FlowMsg::RSSUsage]
+INFO     :     Placement peak resident set memory usage = 255.32 MB [FlowMsg::RSSUsage::Peak]
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid object(s) found for 'clk_cam_feedback'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] No valid pin(s) found for clock
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:3] Unable to run 'create_clock' constraint due to warnings found
@@ -175,12 +175,12 @@ WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] No v
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] No valid pin(s) found for clock
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:25] Unable to run 'create_clock' constraint due to warnings found
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:31] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
-WARNING  : No ports matched 'i_dqs_n_lo[0]'
 WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:329] set_input_delay: No valid input port(s) found
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:329] Unable to run 'set_input_delay' constraint due to warnings found
-WARNING  : No ports matched 'i_dqs_n_hi[0]'
 WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] set_input_delay: No valid input port(s) found
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:330] Unable to run 'set_input_delay' constraint due to warnings found
 WARNING  : No ports matched 'i_dqs_n_lo[1]'
@@ -194,50 +194,50 @@ WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_Demo.pt.sdc:336] Una
 INFO     : SDC file 'Ti60_Demo.pt.sdc' parsed successfully.
 Maximum possible analyzed clocks frequency
  Clock Name  Period (ns)  Frequency (MHz)     Edge
- tdqss_clk      1.910        523.560         (R-R)
- core_clk       3.810        262.467         (R-R)
- tac_clk        1.959        510.465         (R-R)
- twd_clk        1.878        532.481         (R-R)
- clk_sys        5.344        187.126         (R-R)
- clk_pixel      2.979        335.683         (R-R)
- cmos_pclk      5.634        177.494         (F-R)
+ tdqss_clk      1.908        524.109         (R-R)
+ core_clk       3.891        257.003         (R-R)
+ tac_clk        2.051        487.567         (R-R)
+ twd_clk        1.899        526.593         (R-R)
+ clk_sys        5.711        175.101         (R-R)
+ clk_pixel      3.173        315.159         (R-R)
+ cmos_pclk      5.964        167.673         (F-R)
 
-Geomean max period: 3.040
+Geomean max period: 3.157
 
 Setup (Max) Clock Relationship
   Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
-   tdqss_clk        tdqss_clk           2.604            0.694           (R-R)
+   tdqss_clk        tdqss_clk           2.604            0.696           (R-R)
    tdqss_clk        core_clk            2.604            2.180           (R-R)
-   core_clk         tdqss_clk           2.604            1.256           (R-R)
-   core_clk         core_clk            5.208            1.398           (R-R)
+   core_clk         tdqss_clk           2.604            1.544           (R-R)
+   core_clk         core_clk            5.208            1.317           (R-R)
    core_clk         tac_clk             2.604            2.180           (R-R)
    core_clk         twd_clk             0.541            0.991           (R-R)
-   tac_clk          core_clk            2.604            2.115           (R-R)
-   tac_clk          tac_clk             2.604            0.645           (R-R)
-   twd_clk          twd_clk             2.604            0.726           (R-R)
-   clk_sys          clk_sys            10.417            5.073           (R-R)
-   clk_pixel        clk_pixel          13.441           10.462           (R-R)
-   cmos_pclk        cmos_pclk          10.000            8.114           (R-R)
-   cmos_pclk        cmos_pclk           5.000            2.183           (F-R)
+   tac_clk          core_clk            2.604            2.013           (R-R)
+   tac_clk          tac_clk             2.604            0.553           (R-R)
+   twd_clk          twd_clk             2.604            0.705           (R-R)
+   clk_sys          clk_sys            10.417            4.706           (R-R)
+   clk_pixel        clk_pixel          13.441           10.268           (R-R)
+   cmos_pclk        cmos_pclk          10.000            7.698           (R-R)
+   cmos_pclk        cmos_pclk           5.000            2.018           (F-R)
 
 Hold (Min) Clock Relationship
   Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
-   tdqss_clk        tdqss_clk           0.000            0.080           (R-R)
+   tdqss_clk        tdqss_clk           0.000           -0.789           (R-R)
    tdqss_clk        core_clk            0.000            0.175           (R-R)
    core_clk         tdqss_clk           0.000            0.175           (R-R)
-   core_clk         core_clk            0.000           -0.316           (R-R)
+   core_clk         core_clk            0.000           -0.210           (R-R)
    core_clk         tac_clk             0.000            0.175           (R-R)
-   core_clk         twd_clk            -1.883            1.366           (R-R)
+   core_clk         twd_clk            -1.883            1.368           (R-R)
    tac_clk          core_clk            0.000            0.175           (R-R)
-   tac_clk          tac_clk             0.000           -0.815           (R-R)
-   twd_clk          twd_clk             0.000           -0.159           (R-R)
-   clk_sys          clk_sys             0.000           -0.597           (R-R)
+   tac_clk          tac_clk             0.000           -0.377           (R-R)
+   twd_clk          twd_clk             0.000           -0.762           (R-R)
+   clk_sys          clk_sys             0.000            0.090           (R-R)
    clk_pixel        clk_pixel           0.000            0.161           (R-R)
    cmos_pclk        cmos_pclk           0.000            0.161           (R-R)
-   cmos_pclk        cmos_pclk          -5.000            6.441           (F-R)
+   cmos_pclk        cmos_pclk          -5.000            6.453           (F-R)
 
-WARNING  : Clock domain between core_clk (rising) and core_clk (rising) may not meet (slack: -0.316 ns) the hold (min) timing requirement
-WARNING  : Clock domain between tac_clk (rising) and tac_clk (rising) may not meet (slack: -0.815 ns) the hold (min) timing requirement
-WARNING  : Clock domain between twd_clk (rising) and twd_clk (rising) may not meet (slack: -0.159 ns) the hold (min) timing requirement
-WARNING  : Clock domain between clk_sys (rising) and clk_sys (rising) may not meet (slack: -0.597 ns) the hold (min) timing requirement
+WARNING  : Clock domain between tdqss_clk (rising) and tdqss_clk (rising) may not meet (slack: -0.789 ns) the hold (min) timing requirement
+WARNING  : Clock domain between core_clk (rising) and core_clk (rising) may not meet (slack: -0.210 ns) the hold (min) timing requirement
+WARNING  : Clock domain between tac_clk (rising) and tac_clk (rising) may not meet (slack: -0.377 ns) the hold (min) timing requirement
+WARNING  : Clock domain between twd_clk (rising) and twd_clk (rising) may not meet (slack: -0.762 ns) the hold (min) timing requirement
 INFO     : Write Timing Report to "outflow/Ti60_Demo.place.timing.rpt" ...

@@ -1,7 +1,7 @@
 
 Elitestek FPGA Placement and Routing.
 Version: 2026.1.132.3.9 
-Date: Mon Sep 21 22:50:56 2026
+Date: Tue Sep 22 14:35:47 2026
 
 Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
  
@@ -88,7 +88,7 @@ Top-level Entity Name: Ti60_Demo
 
 ----------- Module Resource Usage Distribution Estimates (end) ----------
 
-Elapsed time for packing: 0 hours 0 minutes 2 seconds
+Elapsed time for packing: 0 hours 0 minutes 1 seconds
 ---------- Resource Summary (begin) ----------
 Inputs: 61 / 1703 (3.58%)
 Outputs: 325 / 2267 (14.34%)
@@ -97,19 +97,19 @@ Regional Clocks (RBUF): 0 / 32 (0.00%)
 	RBUF: Core: 0 / 16 (0.00%)
 	RBUF: Periphery: 0 / 8 (0.00%)
 	RBUF: Multi-Region: 0 / 8 (0.00%)
-XLRs: 7435 / 60800 (12.23%)
-	XLRs needed for LUT4: 2606 / 60800 (4.29%)
-	XLRs needed for LUT4 + FF: 1849 / 60800 (3.04%)
+XLRs: 9925 / 60800 (16.32%)
+	XLRs needed for LUT4: 3918 / 60800 (6.44%)
+	XLRs needed for LUT4 + FF: 2143 / 60800 (3.52%)
 	XLRs needed for COMB4: 0 / 60800 (0.00%)
 	XLRs needed for COMB4 + FF: 0 / 60800 (0.00%)
-	XLRs needed for Adder: 789 / 60800 (1.30%)
-	XLRs needed for Adder + FF: 186 / 60800 (0.31%)
-	XLRs needed for SRL8: 524 / 14720 (3.56%)
+	XLRs needed for Adder: 1187 / 60800 (1.95%)
+	XLRs needed for Adder + FF: 173 / 60800 (0.28%)
+	XLRs needed for SRL8: 522 / 14720 (3.55%)
 	XLRs needed for SRL8 + FF: 0 / 14720 (0.00%)
-	XLRs needed for FF: 1481 / 60800 (2.44%)
+	XLRs needed for FF: 1982 / 60800 (3.26%)
 	XLRs needed for Routing: 0 / 60800 (0.00%)
-Memory Blocks: 50 / 256 (19.53%)
-DSP Blocks: 0 / 160 (0.00%)
+Memory Blocks: 57 / 256 (22.27%)
+DSP Blocks: 10 / 160 (6.25%)
 ---------- Resource Summary (end) ----------
 
-Elapsed time for placement: 0 hours 0 minutes 21 seconds
+Elapsed time for placement: 0 hours 0 minutes 14 seconds

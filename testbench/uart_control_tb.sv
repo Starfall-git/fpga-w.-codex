@@ -13,8 +13,11 @@ module uart_control_tb;
         .rgb_o(edge_rgb),.hs_o(),.vs_o(),.de_o());
     always #5 clk=~clk;
     always #7 pixel_clk=~pixel_clk;
-    uart_image_control #(.CLOCK_HZ(1000000),.BAUD(100000),.DEBOUNCE_CYCLES(4)) dut
-        (clk,rst,rx,tx,keys,pixel_clk,rst,blank,threshold);
+    /* V0.5: retain V0.4 regression with transform capability explicitly disabled. */
+    uart_image_control #(.CLOCK_HZ(1000000),.BAUD(100000),.DEBOUNCE_CYCLES(4),.TRANSFORM_ENABLE(0)) dut
+        (.clk(clk),.rst_n(rst),.uart_rx_i(rx),.uart_tx_o(tx),.key_data(keys),
+         .pixel_clk(pixel_clk),.pixel_rst_n(rst),.frame_blank_i(blank),.threshold_pixel_o(threshold),
+         .geometry_o(),.geometry_toggle_o(),.geometry_ack_i(1'b0),.transform_faults_i(2'b00));
     localparam BIT=100;
     reg [7:0] received[0:1023];
     reg [7:0] byte_value;

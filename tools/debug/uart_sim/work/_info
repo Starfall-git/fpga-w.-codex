@@ -8,33 +8,81 @@ z2
 !i10f 100
 cModel Technology
 Z0 dC:/Users/francis/Desktop/fpga-w.-codex/tools/debug/uart_sim
-vkey_debounce
+vaxi4_ctrl
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1790002818
+Z2 !s110 1790058901
 !i10b 1
-!s100 YNgI`ni;I;dn=OJfY5D=Z3
-IUeUTRhhMAGZfHziUcBX<l2
+!s100 T^mK1_<:NQdMn;kP@ZH;;2
+IYN]AT`fYD=9A2:9EX7>FH3
 Z3 VDg1SIo80bB@j0V0VzS_@n1
-!s105 key_debounce_v_unit
+!s105 axi4_ctrl_v_unit
 S1
-R0
-Z4 w1790002122
-8C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v
-FC:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v
-L0 4
+Z4 dC:/Users/francis/Desktop/fpga-w.-codex
+w1790058901
+8src/axi/axi4_ctrl.v
+Fsrc/axi/axi4_ctrl.v
+L0 2
 Z5 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z6 !s108 1790002818.000000
-Z7 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|
-Z8 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv|
+Z6 !s108 1790058901.000000
+Z7 !s107 src/control/uart_image_control.v|src/axi/axi4_ctrl.v|src/isp/axi_transform_reader.v|src/isp/unsigned_divider.v|
+Z8 !s90 -sv|-work|tools/debug/uart_sim/work|src/isp/unsigned_divider.v|src/isp/axi_transform_reader.v|src/axi/axi4_ctrl.v|src/control/uart_image_control.v|
 !i113 1
-o-sv
-Z9 tCvgOpt 0
-vthreshold_cdc
+Z9 o-sv -work tools/debug/uart_sim/work
+Z10 tCvgOpt 0
+vaxi_transform_reader
 R1
 R2
+!i10b 1
+!s100 Db=jH8UO40`8oJFK]kYRm3
+ISk]HFm;[0h^bi<TA`?X0a2
+R3
+!s105 axi_transform_reader_v_unit
+S1
+R4
+Z11 w1790058752
+8src/isp/axi_transform_reader.v
+Fsrc/isp/axi_transform_reader.v
+Z12 L0 13
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+R9
+R10
+vkey_debounce
+R1
+Z13 !s110 1790059880
+!i10b 1
+!s100 YNgI`ni;I;dn=OJfY5D=Z3
+IUeUTRhhMAGZfHziUcBX<l2
+R3
+!s105 key_debounce_v_unit
+S1
+R0
+Z14 w1790002122
+8C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v
+L0 4
+R5
+r1
+!s85 0
+31
+Z15 !s108 1790059880.000000
+Z16 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|
+Z17 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv|
+!i113 1
+o-sv
+R10
+vthreshold_cdc
+R1
+R13
 !i10b 1
 !s100 `Z07S@0:J_dZmS@Dfo<3Q2
 IXJUmF0R0_NXn<VM2<Akg`0
@@ -42,7 +90,7 @@ R3
 !s105 threshold_cdc_v_unit
 S1
 R0
-R4
+R14
 8C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v
 L0 7
@@ -50,23 +98,23 @@ R5
 r1
 !s85 0
 31
-R6
-R7
-R8
+R15
+R16
+R17
 !i113 1
 o-sv
-R9
+R10
 vuart_control_tb
 R1
-R2
+R13
 !i10b 1
-!s100 TlN73V4R9JlONQOg?FN7L3
-IT;ZU5;P?;6CF2JKWX^T?72
+!s100 23YjUW;X=[??PaWhOSnfT3
+I9k`zQ9450YnHLnZ7BkKd;2
 R3
 !s105 uart_control_tb_sv_unit
 S1
 R0
-w1790002817
+w1790058887
 8C:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv
 FC:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv
 L0 3
@@ -74,39 +122,39 @@ R5
 r1
 !s85 0
 31
-R6
-R7
-R8
+R15
+R16
+R17
 !i113 1
 o-sv
-R9
+R10
 vuart_image_control
 R1
-R2
+R13
 !i10b 1
-!s100 z[5jQMe`fHSbS30I7lOg[2
-IoP2Z7AjH><SI4nWkZNben1
+!s100 z<>Ie?nPOX2jJd5^hbc851
+IIKn0YU?EUhG4bN>z8f3oS2
 R3
 !s105 uart_image_control_v_unit
 S1
 R0
-R4
+w1790059866
 8C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v
-L0 11
+R12
 R5
 r1
 !s85 0
 31
-R6
-R7
-R8
+R15
+R16
+R17
 !i113 1
 o-sv
-R9
+R10
 vuart_rx
 R1
-R2
+R13
 !i10b 1
 !s100 heDGc>Nei5RRQWmDazYo_3
 IbCSegL<kBXFnQD;ITzQ950
@@ -114,7 +162,7 @@ R3
 !s105 uart_rx_v_unit
 S1
 R0
-R4
+R14
 8C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v
 L0 3
@@ -122,15 +170,15 @@ R5
 r1
 !s85 0
 31
-R6
-R7
-R8
+R15
+R16
+R17
 !i113 1
 o-sv
-R9
+R10
 vuart_tx
 R1
-R2
+R13
 !i10b 1
 !s100 Xm7>GKQUcH[iW4L8T8P2f0
 I6HMMBdkO:TGkISD>S;j8S1
@@ -138,10 +186,34 @@ R3
 !s105 uart_tx_v_unit
 S1
 R0
-R4
+R14
 8C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v
 L0 3
+R5
+r1
+!s85 0
+31
+R15
+R16
+R17
+!i113 1
+o-sv
+R10
+vunsigned_divider
+R1
+R2
+!i10b 1
+!s100 BEMAN@j1@D^[bf>CjX52b2
+Ijh=gHZdI8<8N9o5:LkeUV2
+R3
+!s105 unsigned_divider_v_unit
+S1
+R4
+R11
+8src/isp/unsigned_divider.v
+Fsrc/isp/unsigned_divider.v
+L0 5
 R5
 r1
 !s85 0
@@ -150,11 +222,11 @@ R6
 R7
 R8
 !i113 1
-o-sv
 R9
+R10
 vvideo_sobel
 R1
-R2
+R13
 !i10b 1
 !s100 _HG<7Z=P64WCi8EPM=:9H1
 Io]YOZIo5ZAK6UO8NYTN^W0
@@ -170,9 +242,9 @@ R5
 r1
 !s85 0
 31
-R6
-R7
-R8
+R15
+R16
+R17
 !i113 1
 o-sv
-R9
+R10

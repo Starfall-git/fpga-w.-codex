@@ -11,6 +11,8 @@ CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM = 1, 2, 4, 8
 
 class Command(IntEnum):
     GET_STATUS = 0x01
+    # V0.5: four-page readback of committed geometry; V1 framing is unchanged.
+    GET_CONFIG = 0x02
     SET_THRESHOLD = 0x10
     SET_FLIP = 0x20
     SET_CROP = 0x21
@@ -82,10 +84,11 @@ def threshold_payload(value: int) -> bytes:
     return struct.pack("<H", _integer(value, 0, 4095, "阈值")) + bytes(6)
 
 
-def flip_payload(enabled: bool) -> bytes:
-    if type(enabled) is not bool:
+def flip_payload(enabled: bool, horizontal: bool = False) -> bytes:
+    """V0.5: bit0 vertical (V0.4 compatible), bit1 horizontal."""
+    if type(enabled) is not bool or type(horizontal) is not bool:
         raise ValueError("翻转标志必须是布尔值")
-    return bytes((int(enabled),)) + bytes(7)
+    return bytes((int(enabled) | (int(horizontal) << 1),)) + bytes(7)
 
 
 def crop_payload(x: int, y: int, width: int, height: int,
@@ -130,3 +133,38 @@ class DeviceError(RuntimeError):
         self.status = status
         meanings = {1: "FPGA 检测到 CRC 错误", 2: "FPGA 拒绝参数", 3: "当前 RTL 尚未实现此功能"}
         super().__init__(meanings.get(status.code, f"设备错误 {status.code}"))
+
+
+@dataclass(frozen=True)
+class Geometry:
+    """V0.5: confirmed settings, distinct from GUI draft values."""
+    vertical: bool = False
+    horizontal: bool = False
+    x: int = 0
+    y: int = 0
+    width: int = 1280
+    height: int = 720
+    numerator: int = 1
+    denominator: int = 1
+    faults: int = 0
+
+    @classmethod
+    def from_pages(cls, pages):
+        if len(pages) != 4:
+            raise ValueError("配置回读页数错误")
+        for index, raw in enumerate(pages):
+            if len(raw) != 8 or raw[0] or raw[1] != index:
+                raise ValueError("配置回读状态或页号错误")
+            if any(raw[4:] if index == 0 else raw[6:]):
+                raise ValueError("配置回读保留字段错误")
+        flags, faults = pages[0][2:4]
+        if flags > 3 or faults > 3:
+            raise ValueError("配置回读标志错误")
+        x,y = struct.unpack('<HH',pages[1][2:6])
+        w,h = struct.unpack('<HH',pages[2][2:6])
+        n,d = struct.unpack('<HH',pages[3][2:6])
+        crop_payload(x,y,w,h)
+        zoom_payload(n,d)
+        if w*n < d or h*n < d:
+            raise ValueError("缩放后图像尺寸不足一个像素")
+        return cls(bool(flags & 1),bool(flags & 2),x,y,w,h,n,d,faults)

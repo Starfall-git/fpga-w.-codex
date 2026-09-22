@@ -1,4 +1,4 @@
-"""2026-09-21 V0.4: Tkinter GUI; all COM operations run off the UI thread."""
+"""V0.5 / 23: live geometry controls and confirmed readback; COM stays off the UI thread."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -17,8 +17,8 @@ class ImageControlApp:
     def __init__(self, root, demo=False):
         self.root = root
         root.title("VF-Ti60 · 实时图像控制台")
-        root.geometry("1020x800")
-        root.minsize(900, 750)
+        root.geometry("1060x880")
+        root.minsize(1020, 820)
         self.executor = ThreadPoolExecutor(max_workers=1)
         self.events = queue.Queue()
         self.client = None
@@ -34,6 +34,8 @@ class ImageControlApp:
         self.message = tk.StringVar(value="选择串口并连接；也可切换到模拟演示。")
         self.cap_text = tk.StringVar(value="等待查询设备能力")
         self.flip = tk.BooleanVar(value=False)
+        self.flip_horizontal = tk.BooleanVar(value=False)
+        self.geometry_readback = tk.StringVar(value="尚未回读图像变换配置")
         self.crop = {name: tk.StringVar(value=value) for name, value in
                      (("x", "0"), ("y", "0"), ("width", "1280"), ("height", "720"))}
         self.zoom = tk.StringVar(value="1")
@@ -59,7 +61,7 @@ class ImageControlApp:
         main = ttk.Frame(self.root, padding=22)
         main.pack(fill="both", expand=True)
         ttk.Label(main, text="实时图像控制台", style="Title.TLabel").pack(anchor="w")
-        ttk.Label(main, text="VF-Ti60F225  /  OV5640 → DDR3 → Sobel → HDMI").pack(anchor="w", pady=(3, 16))
+        ttk.Label(main, text="VF-Ti60F225  /  OV5640 → DDR3 → 几何变换 → Sobel → HDMI").pack(anchor="w", pady=(3, 16))
         connection = ttk.LabelFrame(main, text="01  连接设备", padding=12)
         connection.pack(fill="x")
         self.mode_box = ttk.Combobox(connection, textvariable=self.mode,
@@ -95,19 +97,20 @@ class ImageControlApp:
         ttk.Label(threshold, text="输入不会自动发送；确认后在 FPGA 场消隐生效，收到应答才更新右侧数值。",
                   foreground="#64748b").grid(row=3, column=0, columnspan=4, sticky="w", pady=(8, 0))
 
-        future = ttk.LabelFrame(main, text="03  图像变换  ·  协议与界面预留", padding=12)
+        future = ttk.LabelFrame(main, text="03  图像变换  ·  帧边界应用", padding=12)
         future.pack(fill="x")
-        ttk.Label(future, text="当前 RTL 未实现以下功能，可编辑草稿及预览命令；设备声明支持后才开放发送。",
-                  foreground="#8c5d17").pack(anchor="w", pady=(0, 10))
+        ttk.Label(future, text="先裁剪，再翻转、最近邻缩放；720p 居中显示，缩小补黑、放大截取。输入后点击应用。",
+                  foreground="#64748b").pack(anchor="w", pady=(0, 10))
         tabs = ttk.Notebook(future)
         tabs.pack(fill="x")
         self.feature_buttons = []
-        for title, capability, kind in (("上下翻转", CAP_FLIP, "flip"), ("自定义裁剪", CAP_CROP, "crop"),
+        for title, capability, kind in (("上下 / 左右翻转", CAP_FLIP, "flip"), ("自定义裁剪", CAP_CROP, "crop"),
                                          ("放大 / 缩小", CAP_ZOOM, "zoom")):
             panel = ttk.Frame(tabs, padding=12)
             tabs.add(panel, text=title)
             if kind == "flip":
-                ttk.Checkbutton(panel, text="启用垂直翻转（上下翻转）", variable=self.flip).pack(side="left")
+                ttk.Checkbutton(panel, text="上下翻转", variable=self.flip).pack(side="left", padx=5)
+                ttk.Checkbutton(panel, text="左右翻转", variable=self.flip_horizontal).pack(side="left", padx=5)
             elif kind == "crop":
                 for name, label in (("x", "X"), ("y", "Y"), ("width", "宽"), ("height", "高")):
                     ttk.Label(panel, text=label).pack(side="left", padx=(0, 5))
@@ -124,6 +127,10 @@ class ImageControlApp:
         bottom.pack(fill="x", pady=(10, 0))
         ttk.Label(bottom, textvariable=self.cap_text).pack(side="left")
         ttk.Button(bottom, text="保存配置草稿", command=self.save_draft).pack(side="right")
+        self.reset_geometry_button = ttk.Button(bottom, text="恢复全图 / 1倍 / 不翻转", command=self.reset_geometry)
+        self.reset_geometry_button.pack(side="right", padx=8)
+        ttk.Label(future, textvariable=self.geometry_readback, wraplength=940,
+                  foreground="#137c70").pack(fill="x", pady=(10,0))
 
         log_frame = ttk.LabelFrame(main, text="04  通信记录", padding=8)
         log_frame.pack(fill="both", expand=True, pady=(14, 8))
@@ -147,6 +154,7 @@ class ImageControlApp:
         self.query_button.configure(state="normal" if enabled else "disabled")
         for button, cap in self.feature_buttons:
             button.configure(state="normal" if enabled and self.caps & cap else "disabled")
+        self.reset_geometry_button.configure(state="normal" if enabled and self.caps & 14 == 14 else "disabled")
 
     def _trace(self, direction, raw):
         self.events.put(("log", f"{direction}  {raw.hex(' ').upper()}"))
@@ -205,6 +213,7 @@ class ImageControlApp:
                 self.readback.set("—")
                 self.connection.set("未连接")
                 self.cap_text.set("等待查询设备能力")
+                self.geometry_readback.set("尚未回读图像变换配置")
                 self.message.set("连接已断开。")
             self._submit(backend.close, disconnected)
             return
@@ -221,14 +230,20 @@ class ImageControlApp:
             backend = DemoClient(self._trace) if mode == "模拟演示" else SerialClient(port, baud, trace=self._trace)
             try:
                 status = backend.get_status()
+                geometry = backend.get_geometry() if status.capabilities & 14 else None
             except Exception:
                 backend.close()
                 raise
-            return backend, status
+            return backend, status, geometry
         def connected(result):
-            self.client, status = result
+            self.client, status, geometry = result
             self.connection.set("模拟 · 未连接硬件" if self.client.simulated else f"已连接 {port}")
             self._status(status)
+            if geometry:
+                self._geometry(geometry)
+                self._load_geometry_draft(geometry)
+            else:
+                self.geometry_readback.set("当前 bitstream 仅支持阈值；请下载 V0.5 几何变换版本。")
         self.message.set("正在连接并查询协议版本及设备能力…")
         self._submit(connect, connected)
 
@@ -254,7 +269,14 @@ class ImageControlApp:
 
     def query(self):
         if self.client and not self.busy:
-            self._submit(self.client.get_status, self._status)
+            backend = self.client
+            def read():
+                status = backend.get_status()
+                return status, backend.get_geometry() if status.capabilities & 14 else None
+            def updated(result):
+                self._status(result[0])
+                if result[1]: self._geometry(result[1])
+            self._submit(read, updated)
 
     def _poll(self):
         if self.auto_poll.get():
@@ -264,7 +286,7 @@ class ImageControlApp:
 
     def _feature(self, kind):
         if kind == "flip":
-            args = (self.flip.get(),)
+            args = (self.flip.get(),self.flip_horizontal.get())
             return Command.SET_FLIP, flip_payload(*args), args
         if kind == "crop":
             args = tuple(int(self.crop[name].get()) for name in ("x", "y", "width", "height"))
@@ -295,7 +317,35 @@ class ImageControlApp:
             self.message.set(str(error))
             return
         operation = getattr(self.client, "set_"+kind)
-        self._submit(lambda: operation(*args), self._status)
+        self.message.set("正在应用图像变换，等待帧边界确认和配置回读…")
+        self._submit(lambda: operation(*args), self._geometry)
+
+    def _geometry(self, geometry):
+        prefix = "模拟回读" if self.client.simulated else "上次 FPGA 已确认"
+        self.geometry_readback.set(
+            f"{prefix}：上下 {'开' if geometry.vertical else '关'} / 左右 {'开' if geometry.horizontal else '关'}；"
+            f"裁剪 ({geometry.x}, {geometry.y}, {geometry.width}, {geometry.height})；"
+            f"倍率 {geometry.numerator}/{geometry.denominator}。")
+        self.message.set(f"{prefix}：图像变换配置已回读，图像通过 HDMI 输出。")
+        if geometry.faults:
+            errors = []
+            if geometry.faults & 1: errors.append("出现过显示缺行（已补黑）")
+            if geometry.faults & 2: errors.append("出现过 DDR 读响应错误")
+            self.message.set("硬件诊断："+"；".join(errors)+"。标志保持至 FPGA 复位。")
+
+    def _load_geometry_draft(self, geometry):
+        self.flip.set(geometry.vertical)
+        self.flip_horizontal.set(geometry.horizontal)
+        for name in self.crop: self.crop[name].set(str(getattr(geometry,name)))
+        self.zoom.set(str(Fraction(geometry.numerator,geometry.denominator)))
+
+    def reset_geometry(self):
+        if not self.client or self.busy or self.caps & 14 != 14: return
+        def updated(geometry):
+            self._geometry(geometry)
+            self._load_geometry_draft(geometry)
+        self.message.set("依次恢复1倍缩放、全图裁剪和不翻转；每一步均等待硬件确认…")
+        self._submit(self.client.reset_geometry, updated)
 
     def save_draft(self):
         try:
@@ -311,7 +361,8 @@ class ImageControlApp:
         if path:
             try:
                 Path(path).write_text(json.dumps({"protocol_version": 1, "threshold": value,
-                    "flip_vertical": self.flip.get(), "crop": {k: int(v.get()) for k,v in self.crop.items()},
+                    "flip_vertical": self.flip.get(), "flip_horizontal": self.flip_horizontal.get(),
+                    "crop": {k: int(v.get()) for k,v in self.crop.items()},
                     "zoom": str(Fraction(self.zoom.get())), "note": "配置草稿，不代表硬件已应用"},
                     ensure_ascii=False, indent=2), encoding="utf-8")
                 self.message.set("配置草稿已保存。")
