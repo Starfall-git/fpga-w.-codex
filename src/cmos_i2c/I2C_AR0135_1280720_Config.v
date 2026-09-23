@@ -20,10 +20,13 @@ module	I2C_AR0135_1280720_Config   //1280*720@60 with AutO/Manual Exposure
 	output	reg	[31:0]	LUT_DATA,
 	output		[7:0]	LUT_SIZE
 );
-`define PLL_EN
-`define AE_EN
+/* V0.7 / 30-32: remove unused global macros; 27 MHz EXTCLK, 74.25 MHz PCLK.
+ * Real millisecond delays are interpreted by ar0135_init. Old 0000/0000
+ * placeholders were incorrectly sent to the bus by the legacy controller.
+ * Retain AE metadata for on-chip auto exposure; capture discards these rows.
+ */
 
-assign	LUT_SIZE = 1'b1 + 8'd23 ;
+assign LUT_SIZE = 8'd27;
 
 //-----------------------------------------------------------------
 /////////////////////	Config Data LUT	  //////////////////////////	
@@ -33,16 +36,16 @@ begin
 //	AR0135 : 1280*720 Gray Config
 	0 :		LUT_DATA	=	{16'h3000, 16'h0554};  //Chip Vesion Register
 	//Write Data Index   
-    1 :     LUT_DATA    =   {16'h301A, 16'h00D9};  //RESET_REGISTER
-    2 :     LUT_DATA    =   {16'h0000, 16'h0000};  //DELAY= 200
+    1 :     LUT_DATA    =   {16'h301A, 16'h10D9};  /* V0.7 / 30: was00D9; keep HiSPi disabled during software reset. */
+    2 :     LUT_DATA    =   {16'h0000, 16'd10};  // V0.7: 10 ms reset wait
     3 :     LUT_DATA    =   {16'h301A, 16'h10D8};  //RESET_REGISTER
     
     4 :     LUT_DATA    =   {16'h302C, 16'h0001};  //VT_SYS_CLK_DIV, 27MHz to 74.25MHz
     5 :     LUT_DATA    =   {16'h302A, 16'h0008};  //VT_PIX_CLK_DIV
     6 :     LUT_DATA    =   {16'h302E, 16'h0002};  //PRE_PLL_CLK_DIV
     7 :     LUT_DATA    =   {16'h3030, 16'h002C};  //PLL_MULTIPLIER
-    8 :     LUT_DATA    =   {16'h30B0, 16'h04A0};  //DIGITAL_TEST, enable PLL
-    9 :     LUT_DATA    =   {16'h0000, 16'h0000};  //DELAY= 200
+    8 :     LUT_DATA    =   {16'h30B0, 16'h04A0};  /* V0.7 / 30: short-line enable, monochrome, column gain; PLL bypass bit14=0. */
+    9 :     LUT_DATA    =   {16'h0000, 16'd2};  // V0.7: 2 ms PLL settling
     
     10 :    LUT_DATA    =   {16'h3002, 16'h0078};  //Y_ADDR_START
     11 :    LUT_DATA    =   {16'h3004, 16'h0000};  //X_ADDR_START
@@ -53,17 +56,22 @@ begin
     
     16 :    LUT_DATA    =   {16'h30A2, 16'h0001};  //X_ODD_INC
     17 :    LUT_DATA    =   {16'h30A6, 16'h0001};  //Y_ODD_INC
-    18 :    LUT_DATA    =   {16'h3040, 16'h8000};  //READ_MODE
+    18 :    LUT_DATA    =   {16'h3040, 16'h0000};  /* V0.7: remove sensor vertical flip 8000; host owns flipping. */
     19 :    LUT_DATA    =   {16'h3028, 16'h0010};  //ROW_SPEED
     
     //Manual Gain & Expsoure Parameter
     20 :    LUT_DATA    =   {16'h305E, 16'h0020};   //Global Gain Defalut 0x20
-    21 :    LUT_DATA    =   {16'h3012, 16'd960};   //COARSE_INTEGRATION_TIME
+    21 :    LUT_DATA    =   {16'h3012, 16'd672};   //COARSE_INTEGRATION_TIME
    
+    /* V0.7 / 30: replace old exposure 960 (longer than frame) with 672;
+       explicitly retain 2 metadata + 2 statistics rows required by AE (RR p21).
+       Old index22 AE, index23 stream are replaced by the following entries. */
     //Register for Auto Exposure
-    22 :    LUT_DATA    =   {16'h3100, 16'h0013};  //bit[4]:Auto DG, bit[1]:Auto AG; bit[0]:Auto Exposure
-
-    23 :    LUT_DATA    =   {16'h301A, 16'h10DC};  //RESET_REGISTER - [0:00:02.440]
+    22 :    LUT_DATA = {16'h3064, 16'h1982}; // embedded data/stats enabled
+    23 :    LUT_DATA = {16'h311C, 16'd672};  // maximum AE exposure (rows)
+    24 :    LUT_DATA = {16'h3100, 16'h0013}; // AE + auto analog/digital gain
+    25 :    LUT_DATA = {16'h0000, 16'd2};   // settle before stream-on
+    26 :    LUT_DATA = {16'h301A, 16'h10DC}; // parallel, HiSPi off, stream
 
 	default:LUT_DATA	=	{16'h0000, 16'h0000};
 	endcase

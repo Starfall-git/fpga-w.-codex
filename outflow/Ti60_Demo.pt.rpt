@@ -1,7 +1,7 @@
 
 Efinity Interface Designer Report
 Version: 2026.1.132
-Date: 2026-09-23 00:27
+Date: 2026-09-23 19:39
 
 Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -498,13 +498,13 @@ Reference Clock Frequency     : 96.0000 MHz
 Reference Clock Period        : 10.4167 ns
 Multiplier (M)                : 1
 Pre-Divider (N)               : 2
-VCO Frequency                 : 5376.0000 MHz
+VCO Frequency                 : 5184.0000 MHz
 Post-Divider (O)              : 4
-PLL Frequency                 : 1344.0000 MHz
+PLL Frequency                 : 1296.0000 MHz
 
 Output Clock 0
 Clock Pin Name                : clk_cam_feedback
-Output Divider                : 28
+Output Divider                : 27
 Dynamic Phase Shift           : Disable
 Phase Setting                 : 0
 Phase Degree                  : 0.0000
@@ -514,32 +514,32 @@ Output Period                 : 20.833 ns
 
 Output Clock 2
 Clock Pin Name                : clk_cam_xclk
-Output Divider                : 84
+Output Divider                : 48
 Dynamic Phase Shift           : Disable
 Phase Setting                 : 0
 Phase Degree                  : 0.0000
 Invert Output                 : false
-Output Frequency              : 16.0000 MHz
-Output Period                 : 62.500 ns
+Output Frequency              : 27.0000 MHz
+Output Period                 : 37.037 ns
 
 Frequency calculations:
 	VCO = REFCLK * ((M * FBK) /N)
-	    = 96.0000 MHz * ((1*112) /2)
-	    = 5376.0000 MHz
+	    = 96.0000 MHz * ((1*108) /2)
+	    = 5184.0000 MHz
 	PLL = VCO / O
-	    = 5376.0000 MHz / 4
-	    = 1344.0000 MHz
+	    = 5184.0000 MHz / 4
+	    = 1296.0000 MHz
 
 	CLKOUT0 = PLL / CLKOUT0_DIV
-	        = 1344.0000 MHz / 28
+	        = 1296.0000 MHz / 27
 	        = 48.0000 MHz
 	CLKOUT2 = PLL / CLKOUT2_DIV
-	        = 1344.0000 MHz / 84
-	        = 16.0000 MHz
+	        = 1296.0000 MHz / 48
+	        = 27.0000 MHz
 
 SDC Constraints:
 	create_clock -period 20.833 -name clk_cam_feedback [get_ports {clk_cam_feedback}]
-	create_clock -period 62.500 -name clk_cam_xclk [get_ports {clk_cam_xclk}]
+	create_clock -period 37.037 -name clk_cam_xclk [get_ports {clk_cam_xclk}]
 
 ***** PLL 1 *****
 

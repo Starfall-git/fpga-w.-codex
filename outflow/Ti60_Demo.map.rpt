@@ -1,6 +1,6 @@
 Efinity Synthesis report for project Ti60_Demo
 Version: 2026.1.132.3.9
-Generated at: Sep 23, 2026 00:27:09
+Generated at: Sep 23, 2026 19:39:31
 Copyright (C) 2013 - 2026  All rights reserved.
 
 Top-level Entity Name : example_top
@@ -93,6 +93,8 @@ C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_display.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\dsi\dsi_init.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\Sensor_Image_XYCrop.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\i2c_timing_ctrl_reg16_dat16.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\axi\AXI4_AWARMux.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\lvds\LCDDual2LVDS.v
@@ -110,7 +112,7 @@ C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_OV5640_1280720_Config.v
 "MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
 "MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580)
 "MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3652)
-"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_8\W0_FIFO_8.sv:673)
+"MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv:667)
 "MEM|SYN-0677" : ... Memory 'source_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:38)
 "MEM|SYN-0677" : ... Memory 'display_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:39)
 "MEM|SYN-0677" : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:22)
@@ -119,216 +121,223 @@ C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_OV5640_1280720_Config.v
 
 ### ### EFX_FF CE enables (begin) ### ### ###
 
-Total number of enable signals: 205
-Total number of FFs with enable signals: 2433
+Total number of enable signals: 212
+Total number of FFs with enable signals: 2467
 +-----------------------------------------------------------------------------------------------------------------+------------------+
 |CE Signal                                                                                                        |Number of FF loads|
 +-----------------------------------------------------------------------------------------------------------------+------------------+
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/n425                                               |              128 |
-|ceg_net1621                                                                                                      |               99 |
+|ceg_net1735                                                                                                      |               99 |
 |u_image_control/n2172                                                                                            |               98 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n11574                                                                     |               93 |
 |ceg_net714                                                                                                       |               70 |
 |u_video_processing/u_window/de_q                                                                                 |               69 |
 |ceg_net2                                                                                                         |               61 |
-|ceg_net804                                                                                                       |               61 |
+|ceg_net894                                                                                                       |               61 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/w_init_done                          |               60 |
-|ceg_net2090                                                                                                      |               52 |
+|ceg_net2243                                                                                                      |               52 |
 |u_axi4_ctrl/Gen_Transform.u_transform/u_div/n892                                                                 |               48 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n12819                                                                     |               44 |
-|ceg_net1711                                                                                                      |               44 |
+|ceg_net1825                                                                                                      |               44 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n13239                                                                     |               36 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n11867                                                                     |               35 |
 |ceg_net622                                                                                                       |               32 |
-|ceg_net2260                                                                                                      |               32 |
-|ceg_net2056                                                                                                      |               32 |
-|ceg_net1507                                                                                                      |               32 |
-|ceg_net1672                                                                                                      |               32 |
-|ceg_net805                                                                                                       |               29 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11507                                                                     |               29 |
+|ceg_net1786                                                                                                      |               32 |
+|ceg_net2434                                                                                                      |               32 |
+|ceg_net1621                                                                                                      |               32 |
+|ceg_net2209                                                                                                      |               32 |
+|ceg_net2314                                                                                                      |               32 |
 |ceg_net15                                                                                                        |               29 |
-|ceg_net992                                                                                                       |               27 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11507                                                                     |               29 |
+|ceg_net895                                                                                                       |               29 |
+|ceg_net1082                                                                                                      |               27 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n12882                                                                     |               27 |
-|u_i2c_timing_ctrl_16bit/n7                                                                                       |               27 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n5050                                                                      |               21 |
 |ceg_net224                                                                                                       |               17 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/n422                                               |               16 |
-|ceg_net1855                                                                                                      |               16 |
-|ceg_net1529                                                                                                      |               16 |
-|ceg_net1527                                                                                                      |               16 |
-|ceg_net1525                                                                                                      |               16 |
-|ceg_net1523                                                                                                      |               16 |
-|ceg_net1521                                                                                                      |               16 |
-|ceg_net1519                                                                                                      |               16 |
-|ceg_net1517                                                                                                      |               16 |
-|ceg_net1513                                                                                                      |               16 |
+|ceg_net1817                                                                                                      |               16 |
+|ceg_net885                                                                                                       |               16 |
+|ceg_net1631                                                                                                      |               16 |
+|ceg_net1633                                                                                                      |               16 |
+|ceg_net1635                                                                                                      |               16 |
+|ceg_net1637                                                                                                      |               16 |
+|ceg_net1639                                                                                                      |               16 |
+|ceg_net1641                                                                                                      |               16 |
+|ceg_net1643                                                                                                      |               16 |
+|ceg_net893                                                                                                       |               16 |
+|ceg_net1969                                                                                                      |               16 |
 |u_axi4_ctrl/Gen_Transform.u_transform/u_div/n144                                                                 |               16 |
-|ceg_net1703                                                                                                      |               16 |
+|ceg_net1627                                                                                                      |               16 |
 |u_image_control/n16194                                                                                           |               15 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12045                               |               15 |
-|u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/wr_en_int                                                     |               14 |
 |ceg_net263                                                                                                       |               14 |
-|ceg_net1671                                                                                                      |               13 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11450                                                                     |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/n272                  |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/_zz_16                |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/_zz_16                |               13 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11450                                                                     |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/_zz_16                |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/n272                  |               13 |
+|u_image_control/u_threshold_cdc/n76                                                                              |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/n212                  |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ack/_zz_16               |               13 |
+|u_axi4_ctrl/Gen_FIFO_W32.u_W0_FIFO_16/u_efx_fifo_top/wr_en_int                                                   |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/w_ack_rd_valid                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/_zz_16                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/_zz_16            |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/n548                  |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/n212                  |               13 |
-|u_image_control/u_threshold_cdc/n5                                                                               |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/_zz_16                |               13 |
+|ceg_net1785                                                                                                      |               13 |
 |u_image_control/u_threshold_cdc/n26                                                                              |               13 |
-|u_image_control/u_threshold_cdc/n76                                                                              |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/_zz_16                |               13 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/io_pop_valid      |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/_zz_16            |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/n548                  |               13 |
+|u_image_control/u_threshold_cdc/n5                                                                               |               13 |
 |u_lcd_driver/equal_17/n27                                                                                        |               12 |
-|u_image_control/n16130                                                                                           |               12 |
-|ceg_net1690                                                                                                      |               12 |
-|ceg_net790                                                                                                       |               12 |
-|ceg_net792                                                                                                       |               12 |
 |u_image_control/n1596                                                                                            |               12 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n5035                                                                      |               12 |
-|ceg_net803                                                                                                       |               12 |
+|ceg_net1261                                                                                                      |               12 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n5033                                                                      |               12 |
-|ceg_net685                                                                                                       |               12 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n5035                                                                      |               12 |
 |ceg_net689                                                                                                       |               12 |
-|ceg_net1171                                                                                                      |               12 |
 |ceg_net687                                                                                                       |               12 |
+|ceg_net685                                                                                                       |               12 |
+|ceg_net1804                                                                                                      |               12 |
+|ceg_net883                                                                                                       |               12 |
+|ceg_net881                                                                                                       |               12 |
+|u_image_control/n16130                                                                                           |               12 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12037                               |               11 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/n3879                                              |               10 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/equal_69/n7                                        |               10 |
 |ceg_net10                                                                                                        |                9 |
-|u_image_control/n2940                                                                                            |                8 |
+|ceg_net612                                                                                                       |                8 |
+|u_image_control/u_rx/n754                                                                                        |                8 |
 |u_image_control/n14940                                                                                           |                8 |
 |u_image_control/n15124                                                                                           |                8 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12017                               |                8 |
 |u_image_control/n15132                                                                                           |                8 |
 |u_image_control/n15140                                                                                           |                8 |
-|u_image_control/n15156                                                                                           |                8 |
-|u_image_control/n15148                                                                                           |                8 |
-|ceg_net818                                                                                                       |                8 |
-|rstn_sys                                                                                                         |                8 |
-|u_i2c_timing_ctrl_16bit/n525                                                                                     |                8 |
-|ceg_net2135                                                                                                      |                8 |
 |ceg_net215                                                                                                       |                8 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n477                                                                       |                8 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12017                               |                8 |
-|u_image_control/u_rx/n754                                                                                        |                8 |
-|u_image_control/n14105                                                                                           |                8 |
-|ceg_net612                                                                                                       |                8 |
+|u_image_control/n15148                                                                                           |                8 |
+|u_image_control/n15156                                                                                           |                8 |
 |u_image_control/n15164                                                                                           |                8 |
-|u_image_control/n15113                                                                                           |                8 |
-|u_image_control/n15112                                                                                           |                8 |
+|ceg_net908                                                                                                       |                8 |
 |u_image_control/n15172                                                                                           |                8 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u0/full_o|                7 |
+|rstn_sys                                                                                                         |                8 |
+|u_image_control/n15113                                                                                           |                8 |
+|u_image_control/n14105                                                                                           |                8 |
+|u_image_control/n2940                                                                                            |                8 |
+|ceg_net2015                                                                                                      |                8 |
+|ceg_net1273                                                                                                      |                8 |
+|u_image_control/n15112                                                                                           |                8 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n477                                                                       |                8 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u2/full_o|                7 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u1/full_o|                7 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u0/full_o|                7 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rd/wr_en_int             |                7 |
-|ceg_net855                                                                                                       |                6 |
-|ceg_net879                                                                                                       |                6 |
-|ceg_net876                                                                                                       |                6 |
-|ceg_net873                                                                                                       |                6 |
-|ceg_net870                                                                                                       |                6 |
-|ceg_net867                                                                                                       |                6 |
-|ceg_net864                                                                                                       |                6 |
-|ceg_net861                                                                                                       |                6 |
-|ceg_net858                                                                                                       |                6 |
-|u_i2c_timing_ctrl_16bit/i2c_transfer_en                                                                          |                4 |
-|ceg_net812                                                                                                       |                4 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12010                               |                4 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u1/full_o|                7 |
+|ceg_net948                                                                                                       |                6 |
+|ceg_net969                                                                                                       |                6 |
+|ceg_net954                                                                                                       |                6 |
+|ceg_net957                                                                                                       |                6 |
+|ceg_net960                                                                                                       |                6 |
+|ceg_net966                                                                                                       |                6 |
+|ceg_net963                                                                                                       |                6 |
+|ceg_net951                                                                                                       |                6 |
+|ceg_net945                                                                                                       |                6 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/Fifo_Wr_En                          |                4 |
-|ceg_net1568                                                                                                      |                4 |
-|ceg_net1173                                                                                                      |                4 |
-|ceg_net45                                                                                                        |                4 |
 |ceg_net634                                                                                                       |                4 |
-|ceg_net18                                                                                                        |                3 |
-|ceg_net1570                                                                                                      |                3 |
-|ceg_net810                                                                                                       |                3 |
-|ceg_net2295                                                                                                      |                3 |
+|ceg_net2022                                                                                                      |                4 |
+|ceg_net902                                                                                                       |                4 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12010                               |                4 |
+|ceg_net1978                                                                                                      |                4 |
+|ceg_net1682                                                                                                      |                4 |
+|ceg_net45                                                                                                        |                4 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n2454         |                3 |
-|ceg_net1675                                                                                                      |                3 |
-|u_image_control/u_isp_cdc/n16                                                                                    |                3 |
-|u_image_control/u_isp_cdc/n5                                                                                     |                3 |
+|ceg_net1684                                                                                                      |                3 |
+|ceg_net1974                                                                                                      |                3 |
+|ceg_net1789                                                                                                      |                3 |
+|ceg_net2204                                                                                                      |                3 |
+|ceg_net18                                                                                                        |                3 |
 |u_image_control/u_isp_cdc/n36                                                                                    |                3 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n11512                                                                     |                3 |
-|ceg_net2051                                                                                                      |                3 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n777          |                2 |
-|ceg_net2259                                                                                                      |                2 |
-|ceg_net1505                                                                                                      |                2 |
-|u_image_control/n12636                                                                                           |                2 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/Fifo_Wr_En                          |                2 |
-|u_axi4_ctrl/r_rframe_inc                                                                                         |                2 |
-|u_axi4_ctrl/n979                                                                                                 |                2 |
-|ceg_net35                                                                                                        |                2 |
-|ceg_net266                                                                                                       |                2 |
-|ceg_net2297                                                                                                      |                2 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6770         |                2 |
-|ceg_net2294                                                                                                      |                2 |
+|u_image_control/u_isp_cdc/n5                                                                                     |                3 |
+|ceg_net2469                                                                                                      |                3 |
+|u_image_control/u_isp_cdc/n16                                                                                    |                3 |
+|ceg_net900                                                                                                       |                3 |
+|ceg_net2468                                                                                                      |                2 |
+|ceg_net2433                                                                                                      |                2 |
 |ceg_net246                                                                                                       |                2 |
-|ceg_net702                                                                                                       |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n5055                                                                      |                1 |
-|ceg_net2292                                                                                                      |                1 |
-|u_image_control/u_rx/n1011                                                                                       |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n222                                                                       |                1 |
-|u_axi4_ctrl/equal_66/n7                                                                                          |                1 |
-|ceg_net671                                                                                                       |                1 |
-|u_axi4_ctrl/n988                                                                                                 |                1 |
-|ceg_net669                                                                                                       |                1 |
-|u_image_control/u_rx/n994                                                                                        |                1 |
-|u_image_control/u_rx/n1009                                                                                       |                1 |
-|u_image_control/u_rx/n1010                                                                                       |                1 |
+|u_axi4_ctrl/r_rframe_inc                                                                                         |                2 |
+|ceg_net266                                                                                                       |                2 |
+|ceg_net1619                                                                                                      |                2 |
+|u_axi4_ctrl/n954                                                                                                 |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6770         |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n777          |                2 |
+|ceg_net1267                                                                                                      |                2 |
+|u_camera_init/n1546                                                                                              |                2 |
+|u_image_control/n12636                                                                                           |                2 |
+|ceg_net35                                                                                                        |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/Fifo_Wr_En                          |                2 |
+|ceg_net2471                                                                                                      |                2 |
 |u_image_control/u_rx/n1015                                                                                       |                1 |
-|ceg_net693                                                                                                       |                1 |
-|ceg_net696                                                                                                       |                1 |
-|u_image_control/u_rx/n1012                                                                                       |                1 |
-|ceg_net697                                                                                                       |                1 |
-|ceg_net699                                                                                                       |                1 |
-|ceg_net701                                                                                                       |                1 |
-|u_image_control/u_rx/n1013                                                                                       |                1 |
-|u_image_control/u_rx/n1014                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_ref_rst     |                1 |
-|ceg_net1701                                                                                                      |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11486                                                                     |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n3508                                                                      |                1 |
-|ceg_net787                                                                                                       |                1 |
-|u_image_control/u_up/n194                                                                                        |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/Fifo_Wr_En                    |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/Fifo_Wr_En                       |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/Fifo_Wr_En                        |                1 |
-|ceg_net280                                                                                                       |                1 |
-|ceg_net642                                                                                                       |                1 |
-|axi4_awar_mux/n45                                                                                                |                1 |
-|ceg_net219                                                                                                       |                1 |
-|ceg_net43                                                                                                        |                1 |
-|ceg_net41                                                                                                        |                1 |
-|ceg_net1510                                                                                                      |                1 |
-|ceg_net1508                                                                                                      |                1 |
-|u_axi4_ctrl/r_wframe_inc                                                                                         |                1 |
-|rstn_pixel                                                                                                       |                1 |
-|ceg_net2293                                                                                                      |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6867         |                1 |
-|ceg_net1673                                                                                                      |                1 |
-|u_lcd_driver/n434                                                                                                |                1 |
-|ceg_net2300                                                                                                      |                1 |
-|ceg_net716                                                                                                       |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11494                                                                     |                1 |
-|ceg_net1704                                                                                                      |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11503                                                                     |                1 |
-|ceg_net5                                                                                                         |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6771         |                1 |
-|u_image_control/u_down/n194                                                                                      |                1 |
-|ceg_net823                                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6860         |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6863         |                1 |
-|ceg_net822                                                                                                       |                1 |
-|ceg_net820                                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6868         |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/dqs_state[1]  |                1 |
+|ceg_net697                                                                                                       |                1 |
+|u_image_control/u_rx/n1014                                                                                       |                1 |
+|u_image_control/u_rx/n1013                                                                                       |                1 |
 |ceg_net649                                                                                                       |                1 |
 |ceg_net646                                                                                                       |                1 |
+|u_image_control/u_rx/n1011                                                                                       |                1 |
+|ceg_net1815                                                                                                      |                1 |
+|u_image_control/u_rx/n1010                                                                                       |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11486                                                                     |                1 |
+|u_image_control/u_rx/n1009                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_ref_rst     |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11494                                                                     |                1 |
+|ceg_net1818                                                                                                      |                1 |
+|u_image_control/u_rx/n1012                                                                                       |                1 |
+|u_image_control/u_rx/n994                                                                                        |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11503                                                                     |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n3508                                                                      |                1 |
+|u_image_control/u_down/n194                                                                                      |                1 |
+|ceg_net787                                                                                                       |                1 |
+|ceg_net1787                                                                                                      |                1 |
+|ceg_net5                                                                                                         |                1 |
+|ceg_net41                                                                                                        |                1 |
+|ceg_net1624                                                                                                      |                1 |
+|ceg_net1622                                                                                                      |                1 |
+|ceg_net669                                                                                                       |                1 |
+|u_axi4_ctrl/n963                                                                                                 |                1 |
+|ceg_net671                                                                                                       |                1 |
+|axi4_awar_mux/n45                                                                                                |                1 |
+|u_axi4_ctrl/equal_66/n7                                                                                          |                1 |
+|ceg_net891                                                                                                       |                1 |
+|ceg_net888                                                                                                       |                1 |
+|ceg_net43                                                                                                        |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n222                                                                       |                1 |
+|ceg_net693                                                                                                       |                1 |
+|ceg_net1981                                                                                                      |                1 |
+|u_camera_init/n1544                                                                                              |                1 |
+|ceg_net696                                                                                                       |                1 |
+|ceg_net702                                                                                                       |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n5055                                                                      |                1 |
+|ceg_net701                                                                                                       |                1 |
+|ceg_net699                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6771         |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/Fifo_Wr_En                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/Fifo_Wr_En                    |                1 |
+|ceg_net280                                                                                                       |                1 |
+|ceg_net2466                                                                                                      |                1 |
+|u_axi4_ctrl/r_wframe_inc                                                                                         |                1 |
+|ceg_net716                                                                                                       |                1 |
+|ceg_net2467                                                                                                      |                1 |
+|rstn_pixel                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/dqs_state[1]  |                1 |
+|u_image_control/u_up/n194                                                                                        |                1 |
+|ceg_net642                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6867         |                1 |
+|ceg_net913                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6860         |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6863         |                1 |
+|ceg_net912                                                                                                       |                1 |
+|ceg_net910                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6868         |                1 |
+|u_lcd_driver/n434                                                                                                |                1 |
+|ceg_net219                                                                                                       |                1 |
 +-----------------------------------------------------------------------------------------------------------------+------------------+
 
 ### ### EFX_FF CE enables (end) ### ### ###
@@ -336,11 +345,11 @@ Total number of FFs with enable signals: 2433
 ### ### EFX_FF SR set/reset (begin) ### ### ###
 
 Total number of set/reset signals: 26
-Total number of FFs with set/reset signals: 4316
+Total number of FFs with set/reset signals: 4358
 +-------------------------------------------------------------------------------------------------+------------------+
 |SR Signal                                                                                        |Number of FF loads|
 +-------------------------------------------------------------------------------------------------+------------------+
-|rstn_sys                                                                                         |             1651 |
+|rstn_sys                                                                                         |             1694 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/core_clk_rstn |              814 |
 |led_o[2]                                                                                         |              376 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/tac_clk_rstn  |              289 |
@@ -349,23 +358,23 @@ Total number of FFs with set/reset signals: 4316
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/logic_rstn           |              236 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/clk_rstn      |              144 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/tdqss_clk_rstn|              104 |
-|u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/wr_rst_int                                    |               64 |
-|u_axi4_ctrl/Gen_FIFO_W8.u_W0_FIFO_8/u_efx_fifo_top/rd_rst_int                                    |               60 |
+|u_axi4_ctrl/Gen_FIFO_W32.u_W0_FIFO_16/u_efx_fifo_top/wr_rst_int                                  |               63 |
+|u_axi4_ctrl/Gen_FIFO_W32.u_W0_FIFO_16/u_efx_fifo_top/rd_rst_int                                  |               60 |
 |processed_de                                                                                     |               35 |
 |u_axi4_ctrl/Gen_Transform.u_transform/display_good                                               |               16 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/w_init_done          |                5 |
 |u_axi4_ctrl/r_w_rst                                                                              |                4 |
 |w_pll_lock                                                                                       |                2 |
 |axi4_awar_mux/n133                                                                               |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/n860                |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/n1212               |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/n332          |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/n332             |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_brust_fifo/n332            |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/n332              |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_arid_fifo/n332                |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_awid_fifo/n332                |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_arburst_fifo/n332             |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/n332          |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/n860                |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/n1212               |                1 |
 +-------------------------------------------------------------------------------------------------+------------------+
 
 ### ### EFX_FF SR set/reset (end) ### ### ###
@@ -378,18 +387,18 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 ### ### Memory Trimming Report (end) ### ### ### 
 
 ### ### Sequential Elements/Signals Trimming Report (begin) ### ### ### 
-'r_flash_en' (example_top.v:523) (optimized to 0)
-'rs_axilite[0]' (example_top.v:851) (optimized to 0)
-'r_axi_req' (example_top.v:843) (optimized to 0)
-'rc_axi_init[0]' (example_top.v:861) (optimized to 0)
-'r_axi_awvalid' (example_top.v:857) (optimized to 0)
-'r_axi_wvalid' (example_top.v:857) (optimized to 0)
-'r_axi_arvalid' (example_top.v:857) (optimized to 0)
-'r_axi_idle' (example_top.v:849) (optimized to 0)
-'o_dqs_hi[0]' (example_top.v:171) (optimized to 0)
-'o_dqs_n_lo[0]' (example_top.v:175) (optimized to 0)
-'o_dqs_hi[1]' (example_top.v:171) (optimized to 0)
-'o_dqs_n_lo[1]' (example_top.v:175) (optimized to 0)
+'r_flash_en' (example_top.v:534) (optimized to 0)
+'rs_axilite[0]' (example_top.v:833) (optimized to 0)
+'r_axi_req' (example_top.v:825) (optimized to 0)
+'rc_axi_init[0]' (example_top.v:843) (optimized to 0)
+'r_axi_awvalid' (example_top.v:839) (optimized to 0)
+'r_axi_wvalid' (example_top.v:839) (optimized to 0)
+'r_axi_arvalid' (example_top.v:839) (optimized to 0)
+'r_axi_idle' (example_top.v:831) (optimized to 0)
+'o_dqs_hi[0]' (example_top.v:180) (optimized to 0)
+'o_dqs_n_lo[0]' (example_top.v:184) (optimized to 0)
+'o_dqs_hi[1]' (example_top.v:180) (optimized to 0)
+'o_dqs_n_lo[1]' (example_top.v:184) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/frame_base[4]' (src\isp\axi_transform_reader.v:125) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/frame_base[5]' (src\isp\axi_transform_reader.v:125) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/frame_base[6]' (src\isp\axi_transform_reader.v:125) (optimized to 0)
@@ -424,12 +433,12 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_lcd_driver/r_lcd_rgb[16]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[17]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[18]' (src\lcd_driver.v:124) (optimized to 0)
-'rs_axilite[1]' (example_top.v:851) (optimized to 0)
-'rs_axilite[2]' (example_top.v:851) (optimized to 0)
-'rs_axilite[3]' (example_top.v:851) (optimized to 0)
-'rc_axi_init[1]' (example_top.v:861) (optimized to 0)
-'rc_axi_init[2]' (example_top.v:861) (optimized to 0)
-'rc_axi_init[3]' (example_top.v:861) (optimized to 0)
+'rs_axilite[1]' (example_top.v:833) (optimized to 0)
+'rs_axilite[2]' (example_top.v:833) (optimized to 0)
+'rs_axilite[3]' (example_top.v:833) (optimized to 0)
+'rc_axi_init[1]' (example_top.v:843) (optimized to 0)
+'rc_axi_init[2]' (example_top.v:843) (optimized to 0)
+'rc_axi_init[3]' (example_top.v:843) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[16]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[17]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[18]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
@@ -511,11 +520,20 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_video_processing/original[5][16]' (src\isp\video_processing.v:29) (optimized to 0)
 'u_video_processing/original[5][17]' (src\isp\video_processing.v:29) (optimized to 0)
 'u_video_processing/original[5][18]' (src\isp\video_processing.v:29) (optimized to 0)
-'w_ddr3_awaddr[0]' (example_top.v:567) (unreachable)
-'w_ddr3_awaddr[1]' (example_top.v:567) (unreachable)
-'w_ddr3_awaddr[2]' (example_top.v:567) (unreachable)
-'w_ddr3_awaddr[3]' (example_top.v:567) (unreachable)
-'u_Sensor_Image_XYCrop/image_in_href_r' (src\Sensor_Image_XYCrop.v:60) (merged to equivalence)
+'w_ddr3_awaddr[0]' (example_top.v:578) (unreachable)
+'w_ddr3_awaddr[1]' (example_top.v:578) (unreachable)
+'w_ddr3_awaddr[2]' (example_top.v:578) (unreachable)
+'w_ddr3_awaddr[3]' (example_top.v:578) (unreachable)
+'cmos_frame_Gray[6]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[7]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[8]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[9]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[10]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[11]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[12]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[13]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[14]' (example_top.v:899) (merged to equivalence)
+'cmos_frame_Gray[15]' (example_top.v:899) (merged to equivalence)
 'u_axi4_ctrl/Gen_Transform.u_transform/render_bank' (src\isp\axi_transform_reader.v:124) (merged to equivalence)
 'u_video_processing/dff_8/i31_rst_0' (src\isp\video_processing.v:36) (merged to equivalence)
 'u_video_processing/dff_8/i31_rst_1' (src\isp\video_processing.v:36) (merged to equivalence)
@@ -592,9 +610,9 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_video_processing/dff_8/i35_rst_2' (src\isp\video_processing.v:36) (merged to equivalence)
 'u_video_processing/dff_8/i35_rst_3' (src\isp\video_processing.v:36) (merged to equivalence)
 'u_video_processing/dff_8/i35_rst_4' (src\isp\video_processing.v:36) (merged to equivalence)
-'o_dqs_n_hi[1]' (example_top.v:174) (merged to equivalence)
-'o_dqs_lo[1]' (example_top.v:172) (merged to equivalence)
-'o_dqs_lo[0]' (example_top.v:172) (merged to equivalence)
+'o_dqs_n_hi[1]' (example_top.v:183) (merged to equivalence)
+'o_dqs_lo[1]' (example_top.v:181) (merged to equivalence)
+'o_dqs_lo[0]' (example_top.v:181) (merged to equivalence)
 'u_video_processing/u_window/top_left1[0]' (src\isp\video_window3x3.v:28) (merged to equivalence)
 'u_video_processing/u_window/top_left1[1]' (src\isp\video_window3x3.v:28) (merged to equivalence)
 'u_video_processing/u_window/top_left1[2]' (src\isp\video_window3x3.v:28) (merged to equivalence)
@@ -658,9 +676,9 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_video_processing/sobel_rgb[22]' (src\isp\video_processing.v:27) (merged to equivalence)
 'u_video_processing/sobel_rgb[21]' (src\isp\video_processing.v:27) (merged to equivalence)
 'u_video_processing/sobel_rgb[23]' (src\isp\video_processing.v:27) (merged to equivalence)
-'o_dqs_oe[0]' (example_top.v:177) (merged to equivalence)
-'o_dqs_n_oe[1]' (example_top.v:178) (merged to equivalence)
-'o_dqs_n_oe[0]' (example_top.v:178) (merged to equivalence)
+'o_dqs_oe[0]' (example_top.v:186) (merged to equivalence)
+'o_dqs_n_oe[1]' (example_top.v:187) (merged to equivalence)
+'o_dqs_n_oe[0]' (example_top.v:187) (merged to equivalence)
 'u_video_processing/gray[0]' (src\isp\video_processing.v:45) (optimized to 0)
 'u_video_processing/u_window/gray_q[0]' (src\isp\video_window3x3.v:26) (optimized to 0)
 'u_video_processing/window_pixels[0]' (src\isp\video_processing.v:55) (optimized to 0)
@@ -674,22 +692,22 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 
 Module                                                              FFs      SRLs       ADDs       LUTs    COMB4s      RAMs DSP/MULTs
 ------------------------------------------------------------        ---      ----       ----       ----      ----      ---- ---------
-example_top:example_top                                        4359(20)    538(0)    1452(0)    6327(8)      0(0)     57(0)     10(0)
- +ddr3_ctl_axi:DdrCtrl                                          2302(0)    522(0)     486(0)    2832(0)      0(0)     30(0)      0(0)
-  +u_efx_ddr3_soft_controller:efx_ddr3_soft_controller_dc...    2302(0)    522(0)     486(0)    2832(0)      0(0)     30(0)      0(0)
-   +genblk1.inst_ddr3_axi:efx_ddr3_axi_dc13612a41d14b64a6...  2302(376)    522(0)   486(113)  2832(494)      0(0)     30(0)      0(0)
+example_top:example_top                                         4389(9)    538(0)    1481(0)    6168(8)      0(0)     57(0)     11(0)
+ +ddr3_ctl_axi:DdrCtrl                                          2302(0)    522(0)     486(0)    2821(0)      0(0)     30(0)      0(0)
+  +u_efx_ddr3_soft_controller:efx_ddr3_soft_controller_dc...    2302(0)    522(0)     486(0)    2821(0)      0(0)     30(0)      0(0)
+   +genblk1.inst_ddr3_axi:efx_ddr3_axi_dc13612a41d14b64a6...  2302(376)    522(0)   486(113)  2821(494)      0(0)     30(0)      0(0)
     +inst_arburst_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a...       7(7)      8(8)     12(12)     21(21)      0(0)      0(0)      0(0)
     +u_rd_addr_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c...       7(7)  116(116)     12(12)     15(15)      0(0)      0(0)      0(0)
     +u_wr_addr_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c...       7(7)  156(156)     12(12)     65(65)      0(0)      0(0)      0(0)
     +inst_awid_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c...       7(7)      0(0)     12(12)     13(13)      0(0)      0(0)      0(0)
     +inst_arid_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c...       7(7)      0(0)     12(12)     12(12)      0(0)      0(0)      0(0)
-    +inst_respon_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a6...       7(7)      0(0)     12(12)     46(46)      0(0)      0(0)      0(0)
+    +inst_respon_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a6...       7(7)      0(0)     12(12)     49(49)      0(0)      0(0)      0(0)
     +inst_rd_brust_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64...       7(7)    32(32)     12(12)     33(33)      0(0)      0(0)      0(0)
     +inst_rd_last_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a...       7(7)    32(32)     12(12)     41(41)      0(0)      0(0)      0(0)
     +inst_respon_len_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b...       7(7)    32(32)     12(12)     15(15)      0(0)      0(0)      0(0)
-    +inst_efx_ddr3:top_dc13612a41d14b64a60c05045f64d9b7       1863(220)    146(0)    265(64)  2077(540)      0(0)     30(0)      0(0)
+    +inst_efx_ddr3:top_dc13612a41d14b64a60c05045f64d9b7       1863(220)    146(0)    265(64)  2063(528)      0(0)     30(0)      0(0)
      +mux0:native_mux_dc13612a41d14b64a60c05045f64d9b7             0(0)      0(0)       0(0)   186(186)      0(0)      0(0)      0(0)
-     +top_mc:controller_top_dc13612a41d14b64a60c05045f64d9b7   1622(29)    144(0)     201(0)   1338(26)      0(0)     30(0)      0(0)
+     +top_mc:controller_top_dc13612a41d14b64a60c05045f64d9b7   1622(29)    144(0)     201(0)   1336(26)      0(0)     30(0)      0(0)
       +rst_ctrl0:reset_ctrl_dc13612a41d14b64a60c05045f64d...      16(0)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
        +genblk1[0].genblk1.genblk1.inst_sysclk_rstn:reset...       4(4)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
        +genblk1[1].genblk1.genblk1.inst_sysclk_rstn:reset...       4(4)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
@@ -734,11 +752,11 @@ example_top:example_top                                        4359(20)    538(0
       +ac_fifo:streamfifocc64_dc13612a41d14b64a60c05045f6...     54(26)      0(0)       0(0)     42(42)      0(0)      3(3)      0(0)
        +popToPushGray_buffercc:buffercc_dc13612a41d14b64a...     14(14)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
        +pushToPopGray_buffercc:buffercc_1_dc13612a41d14b6...     14(14)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
-      +controller_main:ddr_3_controller_dc13612a41d14b64a... 1178(1007)  144(144)   142(103)   985(893)      0(0)      7(0)      0(0)
-       +bram_u2:bram_wrapper_fifo_dc13612a41d14b64a60c050...      57(0)      0(0)      13(0)      30(0)      0(0)      1(0)      0(0)
-        +u_efx_fifo_top:efx_fifo_top_dc13612a41d14b64a60c...      57(0)      0(0)      13(0)      30(0)      0(0)      1(0)      0(0)
+      +controller_main:ddr_3_controller_dc13612a41d14b64a... 1178(1007)  144(144)   142(103)   983(892)      0(0)      7(0)      0(0)
+       +bram_u2:bram_wrapper_fifo_dc13612a41d14b64a60c050...      57(0)      0(0)      13(0)      29(0)      0(0)      1(0)      0(0)
+        +u_efx_fifo_top:efx_fifo_top_dc13612a41d14b64a60c...      57(0)      0(0)      13(0)      29(0)      0(0)      1(0)      0(0)
          +xefx_fifo_ram:efx_fifo_ram_dc13612a41d14b64a60c...       1(1)      0(0)       0(0)       1(1)      0(0)      1(1)      0(0)
-         +xefx_fifo_ctl:efx_fifo_ctl_dc13612a41d14b64a60c...     56(28)      0(0)     13(13)     29(17)      0(0)      0(0)      0(0)
+         +xefx_fifo_ctl:efx_fifo_ctl_dc13612a41d14b64a60c...     56(28)      0(0)     13(13)     28(16)      0(0)      0(0)      0(0)
           +async_clk.xrd2wr_bin2gray:efx_fifo_bin2gray_dc...       0(0)      0(0)       0(0)       6(6)      0(0)      0(0)      0(0)
           +async_clk.xrd2wr_addr_sync:efx_asyncreg_dc1361...     14(14)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
           +async_clk.wr2rd_bin2gray:efx_fifo_bin2gray_dc1...       0(0)      0(0)       0(0)       6(6)      0(0)      0(0)      0(0)
@@ -765,56 +783,57 @@ example_top:example_top                                        4359(20)    538(0
       +genblk1[1].genblk1.genblk1.inst_sysclk_rstn:reset_...       5(5)      1(1)       0(0)       1(1)      0(0)      0(0)      0(0)
      +phase_u0:phase_shift_dc13612a41d14b64a60c05045f64d9b7      11(11)      0(0)       0(0)     11(11)      0(0)      0(0)      0(0)
  +axi4_awar_mux:AXI4_AWARMux(AID_LEN=4)                            6(6)      0(0)       0(0)     10(10)      0(0)      0(0)      0(0)
- +u_i2c_timing_ctrl_16bit:i2c_timing_ctrl_16bit(CLK_FREQ=...     70(70)      0(0)     48(48)   519(519)      0(0)      0(0)      0(0)
- +u_Sensor_Image_XYCrop:Sensor_Image_XYCrop(IMAGE_HSIZE_S...     35(35)      0(0)     23(23)     29(29)      0(0)      0(0)      0(0)
- +u_axi4_ctrl:axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END...    893(42)      0(0)     442(8)   1151(60)      0(0)     23(0)      6(0)
-  +Gen_FIFO_W8.u_W0_FIFO_8:W0_FIFO_8                             128(0)      0(0)      34(0)      51(0)      0(0)      8(0)      0(0)
-   +u_efx_fifo_top:efx_fifo_top_454c86596906436b9ebcc7aa9...     128(0)      0(0)      34(0)      51(0)      0(0)      8(0)      0(0)
-    +genblk2.genblk1.efx_resetsync_wr_rst:efx_resetsync_4...       2(0)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
+ +u_camera_init:ar0135_init                                      99(99)      0(0)     71(71)   271(233)      0(0)      0(0)      1(1)
+  +table_i:I2C_AR0135_1280720_Config                               0(0)      0(0)       0(0)     38(38)      0(0)      0(0)      0(0)
+ +u_camera_capture:ar0135_capture                                48(48)      0(0)     30(30)     66(66)      0(0)      0(0)      0(0)
+ +u_axi4_ctrl:axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END...    892(42)      0(0)     441(8)   1158(60)      0(0)     23(0)      6(0)
+  +Gen_FIFO_W32.u_W0_FIFO_16:W0_FIFO_16                          127(0)      0(0)      33(0)      51(0)      0(0)      8(0)      0(0)
+   +u_efx_fifo_top:efx_fifo_top_3a5a8130f9dc48d5847ad155a...     127(0)      0(0)      33(0)      51(0)      0(0)      8(0)      0(0)
+    +genblk2.genblk1.efx_resetsync_wr_rst:efx_resetsync_3...       2(0)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
      +active_high.efx_resetsync_active_high:efx_asyncreg_...       2(2)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
-    +genblk2.genblk1.efx_resetsync_rd_rst:efx_resetsync_4...       2(0)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
+    +genblk2.genblk1.efx_resetsync_rd_rst:efx_resetsync_3...       2(0)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
      +active_high.efx_resetsync_active_high:efx_asyncreg_...       2(2)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
-    +xefx_fifo_ram:efx_fifo_ram_454c86596906436b9ebcc7aa9...       0(0)      0(0)       0(0)       0(0)      0(0)      8(8)      0(0)
-    +xefx_fifo_ctl:efx_fifo_ctl_454c86596906436b9ebcc7aa9...    124(64)      0(0)     34(34)     51(15)      0(0)      0(0)      0(0)
-     +async_clk.xrd2wr_bin2gray:efx_fifo_bin2gray_454c865...       0(0)      0(0)       0(0)       9(9)      0(0)      0(0)      0(0)
-     +async_clk.xrd2wr_addr_sync:efx_asyncreg_454c8659690...     30(30)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
-     +async_clk.xrd2wr_gray2bin:efx_fifo_gray2bin_454c865...       0(0)      0(0)       0(0)       9(1)      0(0)      0(0)      0(0)
-      +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_454c8...       0(0)      0(0)       0(0)       8(1)      0(0)      0(0)      0(0)
-       +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_454c...       0(0)      0(0)       0(0)       7(1)      0(0)      0(0)      0(0)
-        +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_454...       0(0)      0(0)       0(0)       6(1)      0(0)      0(0)      0(0)
-         +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_45...       0(0)      0(0)       0(0)       5(1)      0(0)      0(0)      0(0)
-          +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_4...       0(0)      0(0)       0(0)       4(1)      0(0)      0(0)      0(0)
+    +xefx_fifo_ram:efx_fifo_ram_3a5a8130f9dc48d5847ad155a...       0(0)      0(0)       0(0)       0(0)      0(0)      8(8)      0(0)
+    +xefx_fifo_ctl:efx_fifo_ctl_3a5a8130f9dc48d5847ad155a...    123(63)      0(0)     33(33)     51(15)      0(0)      0(0)      0(0)
+     +async_clk.xrd2wr_bin2gray:efx_fifo_bin2gray_3a5a813...       0(0)      0(0)       0(0)       9(9)      0(0)      0(0)      0(0)
+     +async_clk.xrd2wr_addr_sync:efx_asyncreg_3a5a8130f9d...     30(30)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
+     +async_clk.xrd2wr_gray2bin:efx_fifo_gray2bin_3a5a813...       0(0)      0(0)       0(0)       9(1)      0(0)      0(0)      0(0)
+      +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a5a8...       0(0)      0(0)       0(0)       8(1)      0(0)      0(0)      0(0)
+       +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a5a...       0(0)      0(0)       0(0)       7(1)      0(0)      0(0)      0(0)
+        +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a5...       0(0)      0(0)       0(0)       6(1)      0(0)      0(0)      0(0)
+         +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a...       0(0)      0(0)       0(0)       5(1)      0(0)      0(0)      0(0)
+          +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3...       0(0)      0(0)       0(0)       4(1)      0(0)      0(0)      0(0)
            +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_...       0(0)      0(0)       0(0)       3(1)      0(0)      0(0)      0(0)
             +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin...       0(0)      0(0)       0(0)       2(1)      0(0)      0(0)      0(0)
              +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bi...       0(0)      0(0)       0(0)       1(1)      0(0)      0(0)      0(0)
-     +async_clk.wr2rd_bin2gray:efx_fifo_bin2gray_454c8659...       0(0)      0(0)       0(0)       9(9)      0(0)      0(0)      0(0)
-     +async_clk.wr2rd_addr_sync:efx_asyncreg_454c86596906...     30(30)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
-     +async_clk.wr2rd_gray2bin:efx_fifo_gray2bin_454c8659...       0(0)      0(0)       0(0)       9(1)      0(0)      0(0)      0(0)
-      +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_454c8...       0(0)      0(0)       0(0)       8(1)      0(0)      0(0)      0(0)
-       +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_454c...       0(0)      0(0)       0(0)       7(1)      0(0)      0(0)      0(0)
-        +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_454...       0(0)      0(0)       0(0)       6(1)      0(0)      0(0)      0(0)
-         +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_45...       0(0)      0(0)       0(0)       5(1)      0(0)      0(0)      0(0)
-          +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_4...       0(0)      0(0)       0(0)       4(1)      0(0)      0(0)      0(0)
+     +async_clk.wr2rd_bin2gray:efx_fifo_bin2gray_3a5a8130...       0(0)      0(0)       0(0)       9(9)      0(0)      0(0)      0(0)
+     +async_clk.wr2rd_addr_sync:efx_asyncreg_3a5a8130f9dc...     30(30)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
+     +async_clk.wr2rd_gray2bin:efx_fifo_gray2bin_3a5a8130...       0(0)      0(0)       0(0)       9(1)      0(0)      0(0)      0(0)
+      +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a5a8...       0(0)      0(0)       0(0)       8(1)      0(0)      0(0)      0(0)
+       +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a5a...       0(0)      0(0)       0(0)       7(1)      0(0)      0(0)      0(0)
+        +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a5...       0(0)      0(0)       0(0)       6(1)      0(0)      0(0)      0(0)
+         +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3a...       0(0)      0(0)       0(0)       5(1)      0(0)      0(0)      0(0)
+          +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_3...       0(0)      0(0)       0(0)       4(1)      0(0)      0(0)      0(0)
            +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_...       0(0)      0(0)       0(0)       3(1)      0(0)      0(0)      0(0)
             +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin...       0(0)      0(0)       0(0)       2(1)      0(0)      0(0)      0(0)
              +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bi...       0(0)      0(0)       0(0)       1(1)      0(0)      0(0)      0(0)
-  +Gen_Transform.u_transform:axi_transform_reader(BASE_AD...   723(587)      0(0)   400(362)  1040(925)      0(0)    15(15)      6(6)
-   +u_div:unsigned_divider                                     136(136)      0(0)     38(38)   115(115)      0(0)      0(0)      0(0)
- +u_lcd_driver:lcd_driver                                        46(46)      0(0)     24(24)     61(61)      0(0)      0(0)      0(0)
- +u_image_control:uart_image_control                           735(504)      0(0)    194(99) 1429(1180)      0(0)      0(0)      4(4)
-  +u_rx:uart_rx                                                  57(57)      0(0)       0(0)     86(86)      0(0)      0(0)      0(0)
+  +Gen_Transform.u_transform:axi_transform_reader(BASE_AD...   723(587)      0(0)   400(362)  1047(930)      0(0)    15(15)      6(6)
+   +u_div:unsigned_divider                                     136(136)      0(0)     38(38)   117(117)      0(0)      0(0)      0(0)
+ +u_lcd_driver:lcd_driver                                        46(46)      0(0)     24(24)     60(60)      0(0)      0(0)      0(0)
+ +u_image_control:uart_image_control                           735(504)      0(0)    194(99) 1465(1218)      0(0)      0(0)      4(4)
+  +u_rx:uart_rx                                                  57(57)      0(0)       0(0)     84(84)      0(0)      0(0)      0(0)
   +u_tx:uart_tx                                                  46(46)      0(0)     33(33)     64(64)      0(0)      0(0)      0(0)
   +u_up:key_debounce                                             36(36)      0(0)     31(31)     46(46)      0(0)      0(0)      0(0)
   +u_down:key_debounce                                           36(36)      0(0)     31(31)     46(46)      0(0)      0(0)      0(0)
   +u_threshold_cdc:threshold_cdc                                 43(43)      0(0)       0(0)       3(3)      0(0)      0(0)      0(0)
   +u_isp_cdc:threshold_cdc(WIDTH=2,RESET_VALUE=0)                13(13)      0(0)       0(0)       4(4)      0(0)      0(0)      0(0)
- +u_video_processing:video_processing                           207(31)    16(16)    154(14)    122(31)      0(0)      4(0)      0(0)
+ +u_video_processing:video_processing                           207(31)    16(16)    154(14)    124(31)      0(0)      4(0)      0(0)
   +u_window:video_window3x3                                    130(130)      0(0)     22(22)     46(46)      0(0)      4(4)      0(0)
-  +u_sobel:video_sobel                                           46(46)      0(0)   118(118)     45(45)      0(0)      0(0)      0(0)
- +u_rgb2dvi:rgb2dvi(ENABLE_OSERDES=0)                             45(0)      0(0)      81(0)     166(0)      0(0)      0(0)      0(0)
-  +enc_0:tmds_channel                                            15(15)      0(0)     27(27)     58(58)      0(0)      0(0)      0(0)
-  +enc_1:tmds_channel                                            15(15)      0(0)     27(27)     58(58)      0(0)      0(0)      0(0)
-  +enc_2:tmds_channel                                            15(15)      0(0)     27(27)     50(50)      0(0)      0(0)      0(0)
+  +u_sobel:video_sobel                                           46(46)      0(0)   118(118)     47(47)      0(0)      0(0)      0(0)
+ +u_rgb2dvi:rgb2dvi(ENABLE_OSERDES=0)                             45(0)      0(0)      81(0)     185(0)      0(0)      0(0)      0(0)
+  +enc_0:tmds_channel                                            15(15)      0(0)     27(27)     57(57)      0(0)      0(0)      0(0)
+  +enc_1:tmds_channel                                            15(15)      0(0)     27(27)     73(73)      0(0)      0(0)      0(0)
+  +enc_2:tmds_channel                                            15(15)      0(0)     27(27)     55(55)      0(0)      0(0)      0(0)
 
 ### ### Module Resource Usage Distribution Estimates (end) ### ###
 
@@ -841,6 +860,7 @@ example_top:example_top                                        4359(20)    538(0
 |u_axi4_ctrl/Gen_Transform.u_transform/mult_232_pp_0x0|DSP48|      |       |      | (A*B) |  (A*B)  |    |
 |u_axi4_ctrl/Gen_Transform.u_transform/mult_219_pp_1x0|DSP48|      |       |      |       |(A*B)+CIN|    |
 |u_axi4_ctrl/Gen_Transform.u_transform/mult_232_pp_1x0|DSP48|      |       |      |       |(A*B)+CIN|    |
+|u_camera_init/mult_30                                |DSP48|      |       |      |       |  (A*B)  |    |
 +-----------------------------------------------------+-----+------+-------+------+-------+---------+----+
 
 ### ### Clock Load Distribution Report (begin) ### ###
@@ -848,11 +868,11 @@ example_top:example_top                                        4359(20)    538(0
 +---------+----------+----------+------------+----------------+
 |Clock    |Flip-Flops|Shift-Regs|Memory Ports|Multipliers/DSPs|
 +---------+----------+----------+------------+----------------+
-|core_clk |      814 |        0 |         15 |              0 |
-|clk_sys  |     2336 |      378 |         50 |              0 |
+|clk_sys  |     2365 |      378 |         50 |              0 |
 |clk_pixel|      423 |       16 |         16 |              0 |
-|cmos_pclk|      118 |        0 |          8 |              0 |
+|cmos_pclk|      119 |        0 |          8 |              0 |
 |tdqss_clk|      109 |        0 |          4 |              0 |
+|core_clk |      814 |        0 |         15 |              0 |
 |tac_clk  |      302 |        0 |          8 |              0 |
 |twd_clk  |      257 |      144 |          9 |              0 |
 +---------+----------+----------+------------+----------------+
@@ -874,16 +894,16 @@ example_top:example_top                                        4359(20)    538(0
 INPUT  PORTS    : 	98
 OUTPUT PORTS    : 	232
 
-EFX_ADD                 : 	1452
-EFX_LUT4                : 	6327
-   1-2  Inputs          : 	1616
-   3    Inputs          : 	1994
-   4    Inputs          : 	2717
-EFX_DSP48               : 	10
-EFX_FF                  : 	4359
+EFX_ADD                 : 	1481
+EFX_LUT4                : 	6168
+   1-2  Inputs          : 	1610
+   3    Inputs          : 	1927
+   4    Inputs          : 	2631
+EFX_DSP48               : 	11
+EFX_FF                  : 	4389
 EFX_SRL8                : 	538
 EFX_RAM10               : 	57
 ### ### Resource Summary (end) ### ### ###
 
-Plain synthesis (without verilog dump and post-map checks) time : 36s
-Elapsed synthesis time : 40s
+Plain synthesis (without verilog dump and post-map checks) time : 16s
+Elapsed synthesis time : 17s

@@ -1,7 +1,7 @@
 
 Efinity Interface Designer Timing Report
 Version: 2026.1.132
-Date: 2026-09-23 00:28
+Date: 2026-09-23 19:39
 
 Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -31,7 +31,7 @@ Timing Model: C4 (final)
 |   clk_pixel_2x   |    6.720    |           false            |         0.000         |  false   |
 |  clk_pixel_10x   |    1.344    |           false            |         90.000        |  false   |
 | clk_cam_feedback |    20.833   |           false            |         0.000         |  false   |
-|   clk_cam_xclk   |    62.500   |           false            |         0.000         |  false   |
+|   clk_cam_xclk   |    37.037   |           false            |         0.000         |  false   |
 +------------------+-------------+----------------------------+-----------------------+----------+
 
 ---------- PLL Timing Report (end) ----------
