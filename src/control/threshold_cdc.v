@@ -4,16 +4,17 @@
    仅在 HDMI 输出场消隐期间采样稳定的多位邮箱并确认，避免一帧中途换阈值。
    两域复位必须共同来自系统锁定条件；src_request_i 仅在 busy_o=0 时提交。
    applied_o 是已确认的值，不能用 desired 值冒充硬件已生效状态。 */
-module threshold_cdc(
+/* V0.6 / 25: parameterize mailbox width/reset to reuse for runtime ISP flags. */
+module threshold_cdc #(parameter WIDTH=12, parameter RESET_VALUE=128)(
     input wire src_clk, src_rst_n,
     input wire src_request_i,
-    input wire [11:0] src_value_i,
+    input wire [WIDTH-1:0] src_value_i,
     output wire busy_o,
-    output reg [11:0] applied_o,
+    output reg [WIDTH-1:0] applied_o,
     input wire pixel_clk, pixel_rst_n, frame_blank_i,
-    output reg [11:0] pixel_value_o
+    output reg [WIDTH-1:0] pixel_value_o
 );
-    reg [11:0] mailbox;
+    reg [WIDTH-1:0] mailbox;
     reg request_toggle, acknowledge;
     reg ack_meta, ack_sync, ack_seen;
     reg req_meta, req_sync;
@@ -21,7 +22,7 @@ module threshold_cdc(
     assign busy_o=(request_toggle!=ack_sync) || (ack_seen!=ack_sync);
     always @(posedge src_clk or negedge src_rst_n) begin
         if (!src_rst_n) begin
-            mailbox<=128; request_toggle<=0; ack_meta<=0; ack_sync<=0; ack_seen<=0; applied_o<=128;
+            mailbox<=RESET_VALUE; request_toggle<=0; ack_meta<=0; ack_sync<=0; ack_seen<=0; applied_o<=RESET_VALUE;
         end else begin
             ack_meta<=acknowledge; ack_sync<=ack_meta;
             if (ack_seen!=ack_sync) begin ack_seen<=ack_sync; applied_o<=mailbox; end
@@ -29,7 +30,7 @@ module threshold_cdc(
         end
     end
     always @(posedge pixel_clk or negedge pixel_rst_n) begin
-        if (!pixel_rst_n) begin req_meta<=0; req_sync<=0; acknowledge<=0; pixel_value_o<=128; end
+        if (!pixel_rst_n) begin req_meta<=0; req_sync<=0; acknowledge<=0; pixel_value_o<=RESET_VALUE; end
         else begin
             req_meta<=request_toggle; req_sync<=req_meta;
             if ((req_sync!=acknowledge) && frame_blank_i) begin

@@ -41,6 +41,8 @@ def main():
         cases.append((rng.randrange(4),rng.randint(0,w-cw),rng.randint(0,h-ch),cw,ch,n,d))
     if args.fullframe:
         cases=[(0,0,0,w,h,1,1),(3,0,0,w,h,1,1),(1,1,1,w-3,h-3,1,2),(2,1,1,w-3,h-3,3,2)]
+    # V0.6: percentage endpoints and two-decimal input ratios.
+    cases += [(flip,0,0,w,h,n,d) for flip in (0,3) for n,d in ((1,10),(5,1),(499,100),(12345,10000)) if h*n>=d]
     out=ROOT/'tools/debug'/f'transform_sim_{w}x{h}'
     out.mkdir(parents=True,exist_ok=True)
     with (out/'vectors.txt').open('w',encoding='ascii') as f:

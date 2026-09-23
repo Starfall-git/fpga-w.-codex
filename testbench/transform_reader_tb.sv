@@ -123,5 +123,6 @@ module transform_reader_tb;
         $display("PASS TRANSFORM: %0d cases, %0d pixels, %0d bursts, %0d frames, faults/drain/backpressure",cases,checked,bursts,switches);
         $finish;
     end
-    initial begin #100000000; $fatal(1,"Transform test timeout"); end
+    /* V0.6: allow additional full-frame 10%-500% regression cases. */
+    initial begin #500000000; $fatal(1,"Transform test timeout"); end
 endmodule

@@ -3,16 +3,18 @@
 2026-09-18 V0.3 新增：DDR 显示数据至 HDMI 之间的图像处理封装。
 接口统一为 clk/rst_n + RGB888/HS/VS/DE；每拍一个像素，没有 ready/反压。
 ENABLE_SOBEL=1：灰度一级 + 窗口两级 + Sobel 三级，共六级寄存器。
-ENABLE_SOBEL=0：组合直通（零延迟），用于比较原始图像。
+V0.6: ENABLE_SOBEL=0为六拍对齐的原图；=1为Sobel。BINARY_OUTPUT=1正常、=0反相。
 后续高斯滤波等模块可在本封装中串联，必须同时传递 RGB 和全部同步信号。
 */
 module video_processing #(
     parameter IMAGE_WIDTH = 1280,
-    parameter ENABLE_SOBEL = 1,
-    parameter SOBEL_BINARY = 1,
+    /* V0.6 / 25: old ENABLE_SOBEL/SOBEL_BINARY parameters replaced by ports.
+       Optional grayscale diagnostic kept separate from black/white polarity. */
+    parameter GRAYSCALE_OUTPUT = 0,
     parameter VS_ACTIVE = 1'b0
 )(
     input wire clk, rst_n,
+    input wire ENABLE_SOBEL, BINARY_OUTPUT,
     /* V0.4 / 13、15：保留用户改为变量的阈值接口；输入须已同步到本clk域。 */
     input wire [11:0] SOBEL_THRESHOLD,
     input wire [23:0] rgb_i,
@@ -20,7 +22,23 @@ module video_processing #(
     output wire [23:0] rgb_o,
     output wire hs_o, vs_o, de_o
 );
-    generate if (ENABLE_SOBEL) begin: g_sobel
+    /* V0.6: always run Sobel; bypass is delayed by the same six registers.
+       Old zero-delay generate bypass would shift HS/VS when switched at runtime. */
+    wire [23:0] sobel_rgb;
+    wire sobel_hs, sobel_vs, sobel_de;
+    reg [23:0] original [0:5];
+    integer i;
+    always @(posedge clk or negedge rst_n) begin
+        if(!rst_n) begin for(i=0;i<6;i=i+1) original[i]<=0; end
+        else begin
+            original[0]<=de_i ? rgb_i : 0;
+            for(i=1;i<6;i=i+1) original[i]<=original[i-1];
+        end
+    end
+    assign rgb_o=ENABLE_SOBEL ? sobel_rgb : original[5];
+    assign hs_o=sobel_hs;
+    assign vs_o=sobel_vs;
+    assign de_o=sobel_de;
         /* 新增：近似灰度 Y=(R+2G+B)/4；10 bit 累加避免溢出。 */
         wire [9:0] gray_sum = {2'b0,rgb_i[23:16]} + {1'b0,rgb_i[15:8],1'b0}
                            + {2'b0,rgb_i[7:0]};
@@ -42,16 +60,10 @@ module video_processing #(
             .pixels_o(window_pixels), .hs_o(window_hs), .vs_o(window_vs),
             .de_o(window_de), .window_valid_o(window_valid)
         );
-        video_sobel #(.BINARY_OUTPUT(SOBEL_BINARY),
+        video_sobel #(.GRAYSCALE_OUTPUT(GRAYSCALE_OUTPUT),
                       .VS_ACTIVE(VS_ACTIVE)) u_sobel (
-            .clk(clk), .rst_n(rst_n), .THRESHOLD(SOBEL_THRESHOLD), .pixels_i(window_pixels),
+            .clk(clk), .rst_n(rst_n), .THRESHOLD(SOBEL_THRESHOLD), .BINARY_OUTPUT(BINARY_OUTPUT), .pixels_i(window_pixels),
             .hs_i(window_hs), .vs_i(window_vs), .de_i(window_de), .window_valid_i(window_valid),
-            .rgb_o(rgb_o), .hs_o(hs_o), .vs_o(vs_o), .de_o(de_o)
+            .rgb_o(sobel_rgb), .hs_o(sobel_hs), .vs_o(sobel_vs), .de_o(sobel_de)
         );
-    end else begin: g_bypass
-        assign rgb_o = rgb_i;
-        assign hs_o = hs_i;
-        assign vs_o = vs_i;
-        assign de_o = de_i;
-    end endgenerate
 endmodule

@@ -1,5 +1,5 @@
 # vsim -c -onfinish stop work.video_processing_tb "+VECTORS=vectors.txt" -do "onerror {quit -code 1}; onbreak {quit -code 1}; run -all; quit -code 0" -gWIDTH=8 
-# Start time: 22:58:53 on Sep 21,2026
+# Start time: 00:31:57 on Sep 23,2026
 # Loading sv_std.std
 # Loading work.video_processing_tb
 # Loading work.video_processing
@@ -11,10 +11,10 @@
 #  Warning: onbreak command for use within macro
 #  run -all
 # PASS: 1143 cycles, WIDTH=8, six configurations
-# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/video_processing_tb.sv(54)
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/video_processing_tb.sv(73)
 #    Time: 11436 ns  Iteration: 0  Instance: /video_processing_tb
-# Break in Module video_processing_tb at C:/Users/francis/Desktop/fpga-w.-codex/testbench/video_processing_tb.sv line 54
-# Stopped at C:/Users/francis/Desktop/fpga-w.-codex/testbench/video_processing_tb.sv line 54
+# Break in Module video_processing_tb at C:/Users/francis/Desktop/fpga-w.-codex/testbench/video_processing_tb.sv line 73
+# Stopped at C:/Users/francis/Desktop/fpga-w.-codex/testbench/video_processing_tb.sv line 73
 #  quit -code 0
-# End time: 22:58:53 on Sep 21,2026, Elapsed time: 0:00:00
+# End time: 00:31:58 on Sep 23,2026, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

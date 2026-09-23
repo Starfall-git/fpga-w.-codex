@@ -2,11 +2,15 @@
 from dataclasses import dataclass
 from enum import IntEnum
 import struct
+from decimal import Decimal
+from fractions import Fraction
+import re
 
 HEADER = b"\xa5\x5a"
 FRAME_SIZE = 13
 PROTOCOL_VERSION = 1
 CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM = 1, 2, 4, 8
+CAP_ISP, CAP_WIDE_ZOOM, CAP_DEFAULTS = 16, 32, 64  # V0.6
 
 
 class Command(IntEnum):
@@ -14,6 +18,8 @@ class Command(IntEnum):
     # V0.5: four-page readback of committed geometry; V1 framing is unchanged.
     GET_CONFIG = 0x02
     SET_THRESHOLD = 0x10
+    SET_ISP = 0x11
+    DEFAULTS = 0x12
     SET_FLIP = 0x20
     SET_CROP = 0x21
     SET_ZOOM = 0x22
@@ -103,11 +109,30 @@ def crop_payload(x: int, y: int, width: int, height: int,
 
 
 def zoom_payload(numerator: int, denominator: int) -> bytes:
-    _integer(numerator, 1, 16, "缩放分子")
-    _integer(denominator, 1, 16, "缩放分母")
-    if not 0.25 <= numerator / denominator <= 4:
-        raise ValueError("缩放倍率必须为 0.25～4")
+    # V0.6: full uint16 ratios support percentages without floating-point rounding.
+    _integer(numerator, 1, 65535, "缩放分子")
+    _integer(denominator, 1, 65535, "缩放分母")
+    if numerator*10 < denominator or numerator > denominator*5:
+        raise ValueError("缩放范围必须为 10%～500%")
     return struct.pack("<HH", numerator, denominator) + bytes(4)
+
+
+def percent_ratio(text: str) -> tuple[int, int]:
+    """V0.6: 10..500 percent, optional %, up to two decimal places."""
+    value = text.strip().removesuffix('%').strip()
+    if not re.fullmatch(r'\d+(?:\.\d{1,2})?', value):
+        raise ValueError("请输入10%～500%，最多两位小数，按回车应用")
+    number = Decimal(value)
+    if not Decimal(10) <= number <= Decimal(500):
+        raise ValueError("缩放范围必须为10%～500%")
+    ratio = Fraction(number)/100
+    return ratio.numerator, ratio.denominator
+
+
+def isp_payload(enabled: bool, inverted: bool) -> bytes:
+    if type(enabled) is not bool or type(inverted) is not bool:
+        raise ValueError("Sobel和反相状态必须为布尔值")
+    return bytes((int(enabled) | (int(inverted)<<1),))+bytes(7)
 
 
 @dataclass(frozen=True)
@@ -116,14 +141,21 @@ class DeviceStatus:
     threshold: int
     version: int
     capabilities: int
+    isp_flags: int = 0
+
+    @property
+    def sobel_enabled(self): return bool(self.isp_flags & 1)
+
+    @property
+    def inverted(self): return bool(self.isp_flags & 2)
 
     @classmethod
     def from_frame(cls, frame: Frame):
         status = cls(frame.payload[0], int.from_bytes(frame.payload[1:3], "little"),
-                     frame.payload[3], frame.payload[4])
+                     frame.payload[3], frame.payload[4], frame.payload[5])
         if status.version != PROTOCOL_VERSION:
             raise ValueError(f"协议版本不匹配：设备为 {status.version}")
-        if status.threshold > 4095 or any(frame.payload[5:]):
+        if status.threshold > 4095 or any(frame.payload[6:]) or status.isp_flags>3 or (status.isp_flags and not status.capabilities & CAP_ISP):
             raise ValueError("设备状态字段不合法")
         return status
 

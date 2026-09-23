@@ -23,6 +23,8 @@ module uart_image_control #(
     input wire [1:0] key_data,
     input wire pixel_clk, pixel_rst_n, frame_blank_i,
     output wire [11:0] threshold_pixel_o,
+    /* V0.6 / 25: pixel-domain runtime Sobel enable and binary polarity. */
+    output wire enable_sobel_o, binary_output_o,
     /* V0.5 / 20,22: mailbox held stable until DDR reader acknowledges frame commit. */
     output reg [97:0] geometry_o,
     output reg geometry_toggle_o,
@@ -72,7 +74,18 @@ module uart_image_control #(
        Existing 01/10 and standard response remain wire-compatible with V1. */
     localparam [15:0] DEFAULT_W=IMAGE_WIDTH, DEFAULT_H=IMAGE_HEIGHT;
     localparam [97:0] DEFAULT_GEOMETRY={16'd1,16'd1,DEFAULT_H,DEFAULT_W,16'd0,16'd0,2'd0};
-    localparam [7:0] CAPABILITIES=TRANSFORM_ENABLE ? 8'h0f : 8'h01;
+    /* V0.6 / 26~27: bit4 ISP controls, bit5 10%-500%, bit6 device defaults. */
+    localparam [7:0] CAPABILITIES=TRANSFORM_ENABLE ? 8'h7f : 8'h51;
+    reg [1:0] isp_target;
+    wire [1:0] isp_applied, isp_pixel;
+    reg isp_request, waiting_isp, waiting_default;
+    wire isp_busy;
+    threshold_cdc #(.WIDTH(2),.RESET_VALUE(0)) u_isp_cdc(
+        .src_clk(clk),.src_rst_n(rst_n),.src_request_i(isp_request),.src_value_i(isp_target),
+        .busy_o(isp_busy),.applied_o(isp_applied),.pixel_clk(pixel_clk),.pixel_rst_n(pixel_rst_n),
+        .frame_blank_i(frame_blank_i),.pixel_value_o(isp_pixel));
+    assign enable_sobel_o=isp_pixel[0];
+    assign binary_output_o=!isp_pixel[1];
     reg [97:0] geometry_applied;
     reg geometry_ack_meta, geometry_ack_sync, waiting_geometry;
     reg [1:0] fault_meta, fault_sync;
@@ -100,7 +113,8 @@ module uart_image_control #(
         input [7:0] seq, cmd, status;
         begin
             /* V0.4 body had capability=01; V0.5 advertises only compiled functions. */
-            reply_body(seq,cmd,{24'd0,CAPABILITIES,8'h01,4'b0,applied[11:8],applied[7:0],status});
+            /* V0.6: D5 contains applied ISP flags; D6/D7 remain zero. */
+            reply_body(seq,cmd,{16'd0,6'd0,isp_applied,CAPABILITIES,8'h01,4'b0,applied[11:8],applied[7:0],status});
         end
     endtask
 
@@ -113,10 +127,21 @@ module uart_image_control #(
             /* V0.5: initialize full-frame identity geometry and CDC state. */
             geometry_o<=DEFAULT_GEOMETRY; geometry_applied<=DEFAULT_GEOMETRY; geometry_toggle_o<=0;
             geometry_ack_meta<=0; geometry_ack_sync<=0; waiting_geometry<=0; fault_meta<=0; fault_sync<=0;
+            isp_target<=0; isp_request<=0; waiting_isp<=0; waiting_default<=0;
         end else begin
             geometry_ack_meta<=geometry_ack_i; geometry_ack_sync<=geometry_ack_meta;
             fault_meta<=transform_faults_i; fault_sync<=fault_meta;
             transfer_request<=0; tx_start<=0;
+            isp_request<=0;
+            /* V0.6: default ACK waits for every registered feature; threshold is preserved.
+               Future features must add their reset and completion here, not in GUI. */
+            if(waiting_isp && !isp_request && !isp_busy && isp_applied==isp_target) begin
+                waiting_isp<=0;
+                if(!waiting_default) reply(wait_sequence,wait_command,0);
+            end
+            if(waiting_default && !waiting_isp && !waiting_geometry) begin
+                waiting_default<=0; reply(wait_sequence,wait_command,0);
+            end
             /* 同一寄存器集中写入；范围0..4095，两个键同时按下不修改。 */
             if (!waiting_apply) begin
                 if (key_up && !key_down && desired!=4095) desired<=desired+1'b1;
@@ -132,7 +157,7 @@ module uart_image_control #(
             /* V0.5: do not acknowledge a desired value before DDR frame setup completes. */
             if(waiting_geometry && geometry_ack_sync==geometry_toggle_o) begin
                 geometry_applied<=geometry_o; waiting_geometry<=0;
-                reply(wait_sequence,wait_command,0);
+                if(!waiting_default) reply(wait_sequence,wait_command,0);
             end
             if (reply_busy && !tx_busy && !tx_start) begin
                 tx_data<=reply_shift[7:0]; tx_start<=1; reply_shift<=reply_shift>>8;
@@ -151,7 +176,7 @@ module uart_image_control #(
                     12: begin
                         rx_index<=0;
                         /* stop-and-wait：处理或发送应答期间不接受额外命令。 */
-                        if (!waiting_apply && !waiting_geometry && !reply_busy && !tx_busy && !tx_start) begin
+                        if (!waiting_apply && !waiting_geometry && !waiting_isp && !waiting_default && !reply_busy && !tx_busy && !tx_start) begin
                             if (rx_data!=crc) reply(sequence_id,command,1);
                             else if (command==8'h01) begin
                                 if (payload!=0) reply(sequence_id,command,2);
@@ -161,6 +186,22 @@ module uart_image_control #(
                                 else begin
                                     desired<=payload[11:0]; command_target<=payload[11:0];
                                     waiting_apply<=1; wait_sequence<=sequence_id; wait_command<=command;
+                                end
+                            end else if(command==8'h11 || command==8'h12) begin
+                                /* V0.6: 11 sets {invert,enable}; 12 resets all options except threshold. */
+                                if((command==8'h11 && payload[63:2]!=0) || (command==8'h12 && payload!=0))
+                                    reply(sequence_id,command,2);
+                                else begin
+                                    isp_target<=command==8'h12 ? 2'd0 : payload[1:0];
+                                    isp_request<=1; waiting_isp<=1;
+                                    wait_sequence<=sequence_id; wait_command<=command;
+                                    if(command==8'h12) begin
+                                        waiting_default<=1;
+                                        if(TRANSFORM_ENABLE) begin
+                                            geometry_o<=DEFAULT_GEOMETRY; geometry_toggle_o<=~geometry_toggle_o;
+                                            waiting_geometry<=1;
+                                        end
+                                    end
                                 end
                             end else if(TRANSFORM_ENABLE && command==8'h02) begin
                                 /* Query response: status,page,6-byte data. Invalid request returns status2. */
@@ -176,8 +217,9 @@ module uart_image_control #(
                                 if((command==8'h20 && payload[63:2]!=0) ||
                                    (command==8'h21 && (gw==0 || gh==0 || crop_right>IMAGE_WIDTH || crop_bottom>IMAGE_HEIGHT ||
                                       crop_scaled_w<geometry_applied[97:82] || crop_scaled_h<geometry_applied[97:82])) ||
-                                   (command==8'h22 && (payload[63:32]!=0 || gx==0 || gy==0 || gx>16 || gy>16 ||
-                                      {1'b0,gx}>({1'b0,gy}<<2) || {1'b0,gy}>({1'b0,gx}<<2) ||
+                                   /* V0.6: old 1..16 and 0.25..4 limits replaced by uint16 rational 0.1..5. */
+                                   (command==8'h22 && (payload[63:32]!=0 || gx==0 || gy==0 ||
+                                      {16'd0,gx}>({16'd0,gy}*5) || {16'd0,gy}>({16'd0,gx}*10) ||
                                       zoom_scaled_w<gy || zoom_scaled_h<gy))) reply(sequence_id,command,2);
                                 else begin
                                     geometry_o<=geometry_applied;
