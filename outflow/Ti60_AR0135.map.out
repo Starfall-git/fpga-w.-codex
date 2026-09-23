@@ -1,0 +1,661 @@
+INFO     : Elitestek FPGA Synthesis.
+INFO     : Version: 2026.1.132.3.9
+INFO     : Compiled: May 29 2026.
+INFO     : 
+INFO     : Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
+
+INFO     : Reading project database "C:\Users\francis\Desktop\fpga-w.-codex\Ti60_AR0135.xml" [FlowMsg::ProjectDatabaseReading]
+INFO     : Maximum concurrency has been set to 8 [FlowMsg::MaxThreads]
+INFO     : Reading project database "C:\Users\francis\Desktop\fpga-w.-codex\Ti60_AR0135.xml" [FlowMsg::ProjectDatabaseReading]
+INFO     : ***** Beginning Analysis ... *****
+INFO     : default VHDL library search path is now "C:/Users/francis/Desktop/FPGA Contest/env/Efinity IDE/2026.1/sim_models/vhdl/packages/vhdl_2008" [VHDL-1504]
+INFO     : Restoring all Verilog modules from file 'C:/Users/francis/Desktop/FPGA Contest/env/Efinity IDE/2026.1/sim_models/maplib/perilib_efxlib_parsetree.vdb' [VERI-2484]
+INFO     : Restoring all Verilog modules from file 'C:/Users/francis/Desktop/FPGA Contest/env/Efinity IDE/2026.1/sim_models/maplib/maplib_efxlib_parsetree.vdb' [VERI-2484]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO\W0_FIFO.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO\R0_FIFO.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\dsi_tx\dsi_tx.sv' [VERI-1482]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\dsi_tx\dsi_tx.sv(6312): undeclared symbol '**', assumed default net type '**' [VERI-2561]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\dsi_tx\dsi_tx.sv(6312): undeclared symbol '**', assumed default net type '**' [VERI-2561]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\dsi_tx\dsi_tx.sv(9145): undeclared symbol '**', assumed default net type '**' [VERI-2561]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\csi_rx\csi_rx.sv' [VERI-1482]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\csi_rx\csi_rx.sv(7306): undeclared symbol '**', assumed default net type '**' [VERI-2561]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv' [VERI-1482]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(267): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl/ddr3_controller.vh' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(267): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv' [VERI-2320]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(590): undeclared symbol '**', assumed default net type '**' [VERI-2561]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(595): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl/ddr3_controller.vh' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(595): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv' [VERI-2320]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1585): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl/ddr3_controller.vh' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1585): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv' [VERI-2320]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1839): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl/ddr3_controller.vh' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1839): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv' [VERI-2320]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2146): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl/ddr3_controller.vh' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2146): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv' [VERI-2320]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2615): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl/ddr3_controller.vh' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2615): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv' [VERI-2320]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_8\W0_FIFO_8.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_64\W0_FIFO_64.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\FIFO_W48R24\FIFO_W48R24.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO_8\R0_FIFO_8.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_FIFO_16\R0_FIFO_16.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_32\W0_FIFO_32.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\example_top.v' [VERI-1482]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(454): parameter 'SIM_DATA' becomes localparam in 'example_top' with formal parameter declaration list [VERI-1199]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\unsigned_divider.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\ddr_rw_ctrl.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\i2c_timing_ctrl_16bit.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\CMOS_Capture_RAW_Gray.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_MT9M001_Gray_Config.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_para.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v' [VERI-1482]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v(37): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\src/lcd_para.v' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v(37): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v' [VERI-2320]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\hdmi_tx_ip.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\encode.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\serdes_4b_10to1.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_SC130GS_12801024_4Lanes_Config.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\PWMLite.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_display.v' [VERI-1482]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_display.v(48): analyzing included file 'C:\Users\francis\Desktop\fpga-w.-codex\src/lcd_para.v' [VERI-1328]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_display.v(48): back to file 'C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_display.v' [VERI-2320]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\dsi\dsi_init.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\Sensor_Image_XYCrop.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\i2c_timing_ctrl_reg16_dat16.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\axi\AXI4_AWARMux.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\lvds\LCDDual2LVDS.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\tmds_channel.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_OV5640_1280720_Config.v' [VERI-1482]
+INFO     : Analysis took 0.7520753 seconds [FlowMsg::StageDuration]
+INFO     :     Analysis took 0.6875 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Analysis virtual memory usage: begin = 59.604 MB, end = 68.896 MB, delta = 9.292 MB [FlowMsg::VMUsage]
+INFO     :     Analysis peak virtual memory usage = 68.896 MB [FlowMsg::VMUsage::Peak]
+INFO     : Analysis resident set memory usage: begin = 63.988 MB, end = 77.428 MB, delta = 13.44 MB [FlowMsg::RSSUsage]
+INFO     :     Analysis peak resident set memory usage = 77.428 MB [FlowMsg::RSSUsage::Peak]
+INFO     : ***** Ending Analysis ... *****
+INFO     : ***** Beginning Elaboration ... *****
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(707): port 'cal_shift_val' remains unconnected for this instance [VERI-1927]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1004): port 'axi_awid' remains unconnected for this instance [VERI-1927]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1041): port 'lcd_xpos' remains unconnected for this instance [VERI-1927]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1189): port 'TMDS_Clk_p' remains unconnected for this instance [VERI-1927]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(68): compiling module 'example_top' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(538): expression size 32 truncated to fit in target size 1 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(184): port 'wr_busy' remains unconnected for this instance [VERI-1927]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(184): port 'wr_data' is not connected on this instance [VERI-2435]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(49): compiling module 'DdrCtrl' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1840): compiling module 'efx_ddr3_soft_controller_dc13612a41d14b64a60c05045f64d9b7' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2495): port '**' is not connected on this instance [VERI-2435]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2495): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2610): compiling module '**' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2610): expression size ** truncated to fit in target size ** [VERI-1209]
+INFO     : ../../vdb/src/efinix_maplib.v(884): compiling module 'EFX_SRL8' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2495): actual bit length ** differs from formal bit length *** for port '**' [VERI-1330]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2610): compiling module '**' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2610): expression size ** truncated to fit in target size ** [VERI-1209]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2610): compiling module '**' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2610): expression size ** truncated to fit in target size ** [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2495): actual bit length ** differs from formal bit length *** for port '**' [VERI-1330]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3274): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1644): compiling module '**' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(590): port '**' remains unconnected for this instance [VERI-1927]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(590): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1767): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1834): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1767): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): extracting RAM for identifier '**' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(262): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(222): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): extracting RAM for identifier '**' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): extracting RAM for identifier '**' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3295): compiling module 'efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,MODE="FWFT",DEPTH=64,DATA_WIDTH=128,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=33,PROG_FULL_NEGATE=33,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3615): compiling module 'efx_fifo_ram_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",WR_DEPTH=64,RD_DEPTH=64,WDATA_WIDTH=128,RDATA_WIDTH=128,WADDR_WIDTH=6,RADDR_WIDTH=6,RAM_MUX_RATIO=1)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3652): extracting RAM for identifier 'ram' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4324): compiling module 'efx_fifo_ctl_dc13612a41d14b64a60c05045f64d9b7(SYNC_CLK=0,MODE="FWFT",WR_DEPTH=64,WADDR_WIDTH=6,RADDR_WIDTH=6,PROG_FULL_ASSERT=33,PROG_FULL_NEGATE=33,PROG_EMPTY_NEGATE=2,OUTPUT_REG=1,OVERFLOW_PROTECT=1,UNDERFLOW_PROTECT=1)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4767): compiling module 'efx_fifo_bin2gray_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4129): compiling module 'efx_asyncreg_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7,ACTIVE_LOW=0,OFF_ASSERTION=1)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3931): compiling module 'efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3931): compiling module 'efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=6)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3931): compiling module 'efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3931): compiling module 'efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=4)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3931): compiling module 'efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=3)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3931): compiling module 'efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=2)' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(590): actual bit length ** differs from formal bit length *** for port '**' [VERI-1330]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): extracting RAM for identifier '**' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1580): extracting RAM for identifier '**' [VERI-2571]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1441): port '**' remains unconnected for this instance [VERI-1927]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1441): compiling module '**' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4885): port '**' remains unconnected for this instance [VERI-1927]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4885): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3295): compiling module 'efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,DEPTH=64,DATA_WIDTH=1,PIPELINE_REG=0,OPTIONAL_FLAGS=0,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3615): compiling module 'efx_fifo_ram_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",WR_DEPTH=64,RD_DEPTH=64,WDATA_WIDTH=1,RDATA_WIDTH=1,WADDR_WIDTH=6,RADDR_WIDTH=6,RAM_MUX_RATIO=1)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(3652): extracting RAM for identifier 'ram' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4324): compiling module 'efx_fifo_ctl_dc13612a41d14b64a60c05045f64d9b7(SYNC_CLK=0,WR_DEPTH=64,WADDR_WIDTH=6,RADDR_WIDTH=6,PIPELINE_REG=0,ALMOST_FLAG=0,PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROG_EMPTY_NEGATE=2,OUTPUT_REG=1,HANDSHAKE_FLAG=0,OVERFLOW_PROTECT=1,UNDERFLOW_PROTECT=1)' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4885): actual bit length ** differs from formal bit length *** for port '**' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(4885): input port '**' is not connected on this instance [VDB-1013]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2141): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2141): extracting RAM for identifier '**' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2141): **: reading from file '**' [VERI-2855]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1441): expression size ** truncated to fit in target size ** [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1441): net '**' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(590): net '**' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(590): input port '**' is not connected on this instance [VDB-1013]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1767): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1834): compiling module '**' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1707): compiling module '**' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2495): input port '**' is not connected on this instance [VDB-1013]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(117): input port 'wr_data[127]' is not connected on this instance [VDB-1013]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(674): actual bit length 4 differs from formal bit length 8 for port 'axi_aid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(681): actual bit length 4 differs from formal bit length 8 for port 'axi_wid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(690): actual bit length 4 differs from formal bit length 8 for port 'axi_bid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(696): actual bit length 4 differs from formal bit length 8 for port 'axi_rid' [VERI-1330]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\AXI4_AWARMux.v(11): compiling module 'AXI4_AWARMux(AID_LEN=4)' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\AXI4_AWARMux.v(90): expression size 2 truncated to fit in target size 1 [VERI-1209]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v(8): compiling module 'ar0135_init' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v(17): compiling module 'I2C_AR0135_1280720_Config' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(779): expression size 3 truncated to fit in target size 2 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(780): expression size 5 truncated to fit in target size 4 [VERI-1209]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v(7): compiling module 'ar0135_capture' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(2): compiling module 'axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END_ADDR=1843200,C_W_WIDTH=16,C_R_WIDTH=16)' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(98): expression size 32 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(120): expression size 3 truncated to fit in target size 2 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(121): expression size 3 truncated to fit in target size 2 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(205): expression size 3 truncated to fit in target size 2 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(247): expression size 2 truncated to fit in target size 1 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(266): expression size 23 truncated to fit in target size 22 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(110): port 'a_wr_rst_i' remains unconnected for this instance [VERI-1927]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(49): compiling module 'W0_FIFO_16' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(310): compiling module 'efx_fifo_top_3a5a8130f9dc48d5847ad155af31e06b(FAMILY="TITANIUM",SYNC_STAGE=3,MODE="FWFT",DEPTH=4096,DATA_WIDTH=16,OPTIONAL_FLAGS=0,PROGRAMMABLE_FULL="STATIC_SINGLE",PROG_FULL_ASSERT=1536,PROG_FULL_NEGATE=1536,PROGRAMMABLE_EMPTY="STATIC_SINGLE",PROG_EMPTY_ASSERT=127,PROG_EMPTY_NEGATE=128,ASYM_WIDTH_RATIO=7)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(1370): compiling module 'efx_resetsync_3a5a8130f9dc48d5847ad155af31e06b(ACTIVE_LOW=0)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(1415): compiling module 'efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=1,ACTIVE_LOW=0,RST_VALUE=1)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(630): compiling module 'efx_fifo_ram_3a5a8130f9dc48d5847ad155af31e06b(FAMILY="TITANIUM",WR_DEPTH=4096,WDATA_WIDTH=16,RDATA_WIDTH=128,WADDR_WIDTH=12,OUTPUT_REG=0,RAM_MUX_RATIO=8)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(667): extracting RAM for identifier 'ram' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(942): compiling module 'efx_fifo_ctl_3a5a8130f9dc48d5847ad155af31e06b_renamed_due_excessive_length_1' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(1245): expression size 32 truncated to fit in target size 13 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(1246): expression size 32 truncated to fit in target size 10 [VERI-1209]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(221): compiling module 'efx_fifo_bin2gray_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=10)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(1415): compiling module 'efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(ASYNC_STAGE=3,WIDTH=10,ACTIVE_LOW=0,OFF_ASSERTION=1)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=10)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=9)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=8)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=7)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=6)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=4)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=3)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=2)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(221): compiling module 'efx_fifo_bin2gray_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=13)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(1415): compiling module 'efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(ASYNC_STAGE=3,WIDTH=13,ACTIVE_LOW=0,OFF_ASSERTION=1)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=13)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=12)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(133): compiling module 'efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=11)' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv(92): input port 'a_wr_rst_i' is not connected on this instance [VDB-1013]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(13): compiling module 'axi_transform_reader(BASE_ADDR=32'b0)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(38): extracting RAM for identifier 'source_ram' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(39): extracting RAM for identifier 'display_ram' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\unsigned_divider.v(5): compiling module 'unsigned_divider' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\unsigned_divider.v(15): expression size 33 truncated to fit in target size 32 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(168): expression size 13 truncated to fit in target size 12 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(188): expression size 31 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(189): expression size 32 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(193): expression size 31 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(194): expression size 32 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(195): expression size 31 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(198): expression size 32 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(200): expression size 32 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(215): expression size 16 truncated to fit in target size 8 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(232): expression size 17 truncated to fit in target size 16 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(971): actual bit length 32 differs from formal bit length 4 for port 'axi_bid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(972): actual bit length 32 differs from formal bit length 2 for port 'axi_bresp' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(973): actual bit length 32 differs from formal bit length 1 for port 'axi_bvalid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1003): actual bit length 8 differs from formal bit length 32 for port 'tp_o' [VERI-1330]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v(39): compiling module 'lcd_driver' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v(145): expression size 14 truncated to fit in target size 12 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1040): actual bit length 24 differs from formal bit length 48 for port 'lcd_data' [VERI-1330]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v(13): compiling module 'uart_image_control' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v(3): compiling module 'uart_rx' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v(3): compiling module 'uart_tx' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v(4): compiling module 'key_debounce' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v(8): compiling module 'threshold_cdc' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v(8): compiling module 'threshold_cdc(WIDTH=2,RESET_VALUE=0)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v(9): compiling module 'video_processing' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(10): compiling module 'video_window3x3' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(22): extracting RAM for identifier 'line1' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(23): extracting RAM for identifier 'line2' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v(10): compiling module 'video_sobel' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(7): compiling module 'rgb2dvi(ENABLE_OSERDES=0)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\tmds_channel.v(4): compiling module 'tmds_channel' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(50): actual bit length 32 differs from formal bit length 4 for port 'data_island_data' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(52): actual bit length 4 differs from formal bit length 3 for port 'mode' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(58): actual bit length 32 differs from formal bit length 4 for port 'data_island_data' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(60): actual bit length 4 differs from formal bit length 3 for port 'mode' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(66): actual bit length 32 differs from formal bit length 4 for port 'data_island_data' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(68): actual bit length 4 differs from formal bit length 3 for port 'mode' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1167): actual bit length 32 differs from formal bit length 1 for port 'oe_i' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(523): net 'w_dev_index_o[7]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(524): net 'w_dev_cmd_o[7]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(525): net 'w_dev_wdata_o[31]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(526): net 'w_dev_wvalid_o' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(530): net 'w_spi_ssn_o' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(531): net 'w_spi_data_o[3]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(548): net 'w_lcd_b_o[7]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1160): input port 'SerialClk' is not connected on this instance [VDB-1013]
+INFO     : Elaboration took 0.2915266 seconds [FlowMsg::StageDuration]
+INFO     :     Elaboration took 0.234375 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Elaboration virtual memory usage: begin = 68.896 MB, end = 127.7 MB, delta = 58.804 MB [FlowMsg::VMUsage]
+INFO     :     Elaboration peak virtual memory usage = 127.7 MB [FlowMsg::VMUsage::Peak]
+INFO     : Elaboration resident set memory usage: begin = 77.472 MB, end = 137.256 MB, delta = 59.784 MB [FlowMsg::RSSUsage]
+INFO     :     Elaboration peak resident set memory usage = 137.256 MB [FlowMsg::RSSUsage::Peak]
+INFO     : ***** Ending Elaboration ... *****
+INFO     : ... Setting Synthesis Option: mode=speed
+INFO     : ***** Beginning Reading Mapping Library ... *****
+INFO     : Reading Mapping Library took 0.0115559 seconds [FlowMsg::StageDuration]
+INFO     :     Reading Mapping Library took 0 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Reading Mapping Library virtual memory usage: begin = 127.7 MB, end = 127.7 MB, delta = 0 MB [FlowMsg::VMUsage]
+INFO     :     Reading Mapping Library peak virtual memory usage = 127.7 MB [FlowMsg::VMUsage::Peak]
+INFO     : Reading Mapping Library resident set memory usage: begin = 138.404 MB, end = 138.404 MB, delta = 0 MB [FlowMsg::RSSUsage]
+INFO     :     Reading Mapping Library peak resident set memory usage = 138.404 MB [FlowMsg::RSSUsage::Peak]
+INFO     : ***** Ending Reading Mapping Library ... *****
+INFO     : ... Pre-synthesis checks begin
+WARNING  : The primary output port 'lcd_tp_sda_o' wire 'lcd_tp_sda_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_tp_sda_oe' wire 'lcd_tp_sda_oe' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_tp_scl_o' wire 'lcd_tp_scl_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_tp_scl_oe' wire 'lcd_tp_scl_oe' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_tp_int_o' wire 'lcd_tp_int_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_tp_int_oe' wire 'lcd_tp_int_oe' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_tp_rst_o' wire 'lcd_tp_rst_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_pwm_o' wire 'lcd_pwm_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_blen_o' wire 'lcd_blen_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_vs_o' wire 'lcd_vs_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_hs_o' wire 'lcd_hs_o' is not driven. [EFX-0256]
+WARNING  : The primary output port 'lcd_de_o' wire 'lcd_de_o' is not driven. [EFX-0256]
+WARNING  : Removing redundant signal : Shift_Q7_Out[4][7:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:2610) [EFX-0200]
+WARNING  : Removing redundant signal : Shift_Out[7:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:2610) [EFX-0200]
+WARNING  : Removing redundant signal : Shift_Q7_Out[4][31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:2610) [EFX-0200]
+WARNING  : Removing redundant signal : Shift_Out[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:2610) [EFX-0200]
+WARNING  : Removing redundant signal : Shift_Q7_Out[4][47:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:2610) [EFX-0200]
+WARNING  : Removing redundant signal : Shift_Out[47:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:2610) [EFX-0200]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) [EFX-0677]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) [EFX-0677]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) [EFX-0677]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3652) [EFX-0677]
+WARNING  : Removing redundant signal : bit_xor. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:4778) [EFX-0200]
+WARNING  : Removing redundant signal : bit_xor.nex_bit[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:4779) [EFX-0200]
+WARNING  : Removing redundant signal : bit_xor.curr_bit[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:4780) [EFX-0200]
+WARNING  : Removing redundant signal : bit_xor.xor_in[6:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:4781) [EFX-0200]
+WARNING  : Removing redundant signal : a_rst_i. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3325) [EFX-0200]
+WARNING  : Removing redundant signal : clk_i. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3328) [EFX-0200]
+WARNING  : Removing redundant signal : depth2width[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3551) [EFX-0200]
+WARNING  : Removing redundant signal : width2depth.width[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3565) [EFX-0200]
+WARNING  : Removing redundant signal : width2depth[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3564) [EFX-0200]
+WARNING  : Removing redundant signal : rddepthcompute.rd_width[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3590) [EFX-0200]
+WARNING  : Removing redundant signal : rddepthcompute.wr_width[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3589) [EFX-0200]
+WARNING  : Removing redundant signal : rddepthcompute.wr_depth[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3588) [EFX-0200]
+WARNING  : Removing redundant signal : rddepthcompute[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3587) [EFX-0200]
+WARNING  : Removing redundant signal : rdwidthcompute.wr_width[31:0]. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3573) [EFX-0200]
+WARNING  : (The above message was generated too many times, subsequent similar messages will be muted.) [EFX-0200]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) [EFX-0677]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) [EFX-0677]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:3652) [EFX-0677]
+WARNING  : Re-wiring to GND non-driven net/port 'a_rst_i' in module 'efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,DEPTH=64,DATA_WIDTH=1,PIPELINE_REG=0,OPTIONAL_FLAGS=0,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:4885) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'clk_i' in module 'efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,DEPTH=64,DATA_WIDTH=1,PIPELINE_REG=0,OPTIONAL_FLAGS=0,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:4885) [EFX-0201]
+INFO     : Module Instance 'bram_u2' input pin 'wr_en_i' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'bram_u2' input pin 'rd_en_i' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'bram_u1' input pin 'wr_en_i' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'bram_u1' input pin 'rd_en_i' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'bram_u0' input pin 'wr_en_i' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'bram_u0' input pin 'rd_en_i' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wclk' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[0]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[1]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[2]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[3]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[4]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[5]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[6]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[7]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[8]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[9]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[10]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[11]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[12]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[13]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[14]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[15]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[16]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[17]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[18]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[19]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[20]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[21]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[22]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[23]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[24]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[25]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[26]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[27]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[28]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[29]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[30]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[31]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[32]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[33]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[34]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[35]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[36]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[37]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[38]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[39]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[40]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[41]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[42]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[43]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[44]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[45]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[46]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[47]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[48]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[49]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[50]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[51]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[52]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[53]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[54]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[55]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[56]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[57]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[58]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[59]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[60]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[61]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[62]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[63]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[64]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[65]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[66]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[67]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[68]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[69]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[70]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'wdata[71]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[0]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[1]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[2]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[3]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[4]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[5]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[6]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[7]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'waddr[8]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 'we' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'map_ram' input pin 're' is tied to constant (=1). [EFX-0266]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[31]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[30]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[29]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[28]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[27]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[26]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[25]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : Re-wiring to GND non-driven net/port 'r_rd_fifo_wr_en_p[24]' in module 'ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7'. (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) [EFX-0201]
+WARNING  : (The above message was generated too many times, subsequent similar messages will be muted.) [EFX-0201]
+INFO     : Module Instance 'fifo_rdpush' input pin 'io_push_payload[0]' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'fifo_rdpush' input pin 'io_pop_ready' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'fifo_ack' input pin 'io_pop_ready' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'mux0' input pin 'b_rd_en' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'phase_u0' input pin 'pll_sel[0]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'phase_u0' input pin 'pll_sel[1]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'phase_u0' input pin 'pll_sel[2]' is tied to constant (=1). [EFX-0266]
+INFO     : Module Instance 'phase_u0' input pin 'pll_sel[3]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'phase_u0' input pin 'pll_sel[4]' is tied to constant (=0). [EFX-0266]
+INFO     : Module Instance 'inst_arburst_fifo' input pin 'I_Wr_Data[2]' is tied to constant (=0). [EFX-0266]
+INFO     : (The above message was generated too many times, subsequent similar messages will be muted.) [EFX-0266]
+INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv:667) [EFX-0677]
+INFO     : ... Memory 'source_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:38) [EFX-0677]
+INFO     : ... Memory 'display_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:39) [EFX-0677]
+INFO     : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:22) [EFX-0677]
+INFO     : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:23) [EFX-0677]
+INFO     : ... Pre-synthesis checks end (Real time : 0s)
+INFO     : ... NameSpace init begin
+INFO     : ... NameSpace init end (Real time : 0s)
+INFO     : ... Mapping design "example_top"
+INFO     : ... Hierarchical pre-synthesis "Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=8,DATA_DEPTH=32)" begin
+INFO     : ... Hierarchical pre-synthesis "Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=8,DATA_DEPTH=32)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c05045f64d9b7(DATA_DEPTH=32)" begin
+INFO     : ... Hierarchical pre-synthesis "Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c05045f64d9b7(DATA_DEPTH=32)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=48,DATA_DEPTH=32)" begin
+INFO     : ... Hierarchical pre-synthesis "Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=48,DATA_DEPTH=32)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "native_mux_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "native_mux_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "reset_sub_dc13612a41d14b64a60c05045f64d9b7(OUT_RST_ACTIVE="LOW",CYCLE=4)" begin
+INFO     : ... Hierarchical pre-synthesis "reset_sub_dc13612a41d14b64a60c05045f64d9b7(OUT_RST_ACTIVE="LOW",CYCLE=4)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f64d9b7(NUM_RST=4,CYCLE=4,IN_RST_ACTIVE=4'b0,OUT_RST_ACTIVE=4'b0)" begin
+INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f64d9b7(NUM_RST=4,CYCLE=4,IN_RST_ACTIVE=4'b0,OUT_RST_ACTIVE=4'b0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f64d9b7(CYCLE=4,IN_RST_ACTIVE=4'b0,OUT_RST_ACTIVE=4'b0)" begin
+INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f64d9b7(CYCLE=4,IN_RST_ACTIVE=4'b0,OUT_RST_ACTIVE=4'b0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "buffercc_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "buffercc_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "buffercc_1_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "buffercc_1_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=32)" begin
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=32)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=144)" begin
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=144)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=1)" begin
+WARNING  : Mapping into logic memory block 'ram' (64 bits) (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) because size is too small (<=64) [EFX-0657]
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ram_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",WR_DEPTH=64,RD_DEPTH=64,WDATA_WIDTH=128,RDATA_WIDTH=128,WADDR_WIDTH=6,RADDR_WIDTH=6,RAM_MUX_RATIO=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ram_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",WR_DEPTH=64,RD_DEPTH=64,WDATA_WIDTH=128,RDATA_WIDTH=128,WADDR_WIDTH=6,RADDR_WIDTH=6,RAM_MUX_RATIO=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_bin2gray_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_bin2gray_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7,ACTIVE_LOW=0,OFF_ASSERTION=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7,ACTIVE_LOW=0,OFF_ASSERTION=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=2)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=2)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=3)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=3)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=4)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=4)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=6)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=6)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_dc13612a41d14b64a60c05045f64d9b7(WIDTH=7)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ctl_dc13612a41d14b64a60c05045f64d9b7(SYNC_CLK=0,MODE="FWFT",WR_DEPTH=64,WADDR_WIDTH=6,RADDR_WIDTH=6,PROG_FULL_ASSERT=33,PROG_FULL_NEGATE=33,PROG_EMPTY_NEGATE=2,OUTPUT_REG=1,OVERFLOW_PROTECT=1,UNDERFLOW_PROTECT=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ctl_dc13612a41d14b64a60c05045f64d9b7(SYNC_CLK=0,MODE="FWFT",WR_DEPTH=64,WADDR_WIDTH=6,RADDR_WIDTH=6,PROG_FULL_ASSERT=33,PROG_FULL_NEGATE=33,PROG_EMPTY_NEGATE=2,OUTPUT_REG=1,OVERFLOW_PROTECT=1,UNDERFLOW_PROTECT=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,MODE="FWFT",DEPTH=64,DATA_WIDTH=128,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=33,PROG_FULL_NEGATE=33,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,MODE="FWFT",DEPTH=64,DATA_WIDTH=128,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=33,PROG_FULL_NEGATE=33,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=2)" begin
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=2)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=52)" begin
+INFO     : ... Hierarchical pre-synthesis "streamfifocc64_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=52)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ram_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",WR_DEPTH=64,RD_DEPTH=64,WDATA_WIDTH=1,RDATA_WIDTH=1,WADDR_WIDTH=6,RADDR_WIDTH=6,RAM_MUX_RATIO=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ram_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",WR_DEPTH=64,RD_DEPTH=64,WDATA_WIDTH=1,RDATA_WIDTH=1,WADDR_WIDTH=6,RADDR_WIDTH=6,RAM_MUX_RATIO=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ctl_dc13612a41d14b64a60c05045f64d9b7(SYNC_CLK=0,WR_DEPTH=64,WADDR_WIDTH=6,RADDR_WIDTH=6,PIPELINE_REG=0,ALMOST_FLAG=0,PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROG_EMPTY_NEGATE=2,OUTPUT_REG=1,HANDSHAKE_FLAG=0,OVERFLOW_PROTECT=1,UNDERFLOW_PROTECT=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ctl_dc13612a41d14b64a60c05045f64d9b7(SYNC_CLK=0,WR_DEPTH=64,WADDR_WIDTH=6,RADDR_WIDTH=6,PIPELINE_REG=0,ALMOST_FLAG=0,PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROG_EMPTY_NEGATE=2,OUTPUT_REG=1,HANDSHAKE_FLAG=0,OVERFLOW_PROTECT=1,UNDERFLOW_PROTECT=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,DEPTH=64,DATA_WIDTH=1,PIPELINE_REG=0,OPTIONAL_FLAGS=0,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_top_dc13612a41d14b64a60c05045f64d9b7(FAMILY="TITANIUM",BYPASS_RESET_SYNC=1,DEPTH=64,DATA_WIDTH=1,PIPELINE_REG=0,OPTIONAL_FLAGS=0,OUTPUT_REG=1,PROGRAMMABLE_FULL="NONE",PROG_FULL_ASSERT=62,PROG_FULL_NEGATE=62,PROGRAMMABLE_EMPTY="NONE",PROG_EMPTY_ASSERT=0,PROG_EMPTY_NEGATE=2)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "bram_wrapper_fifo_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "bram_wrapper_fifo_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "user_dual_port_ram_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=72,OUTPUT_REG="FALSE",RAM_INIT_FILE="ddr3_controller.bin")" begin
+INFO     : ... Hierarchical pre-synthesis "user_dual_port_ram_dc13612a41d14b64a60c05045f64d9b7(DATA_WIDTH=72,OUTPUT_REG="FALSE",RAM_INIT_FILE="ddr3_controller.bin")" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "controller_top_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "controller_top_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 1s)
+INFO     : ... Hierarchical pre-synthesis "reset_sub_dc13612a41d14b64a60c05045f64d9b7(OUT_RST_ACTIVE="LOW",CYCLE=5)" begin
+INFO     : ... Hierarchical pre-synthesis "reset_sub_dc13612a41d14b64a60c05045f64d9b7(OUT_RST_ACTIVE="LOW",CYCLE=5)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f64d9b7(NUM_RST=2,CYCLE=5,IN_RST_ACTIVE=2'b0,OUT_RST_ACTIVE=2'b0)" begin
+INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f64d9b7(NUM_RST=2,CYCLE=5,IN_RST_ACTIVE=2'b0,OUT_RST_ACTIVE=2'b0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "phase_shift_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "phase_shift_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "top_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "top_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_ddr3_axi_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "efx_ddr3_axi_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_ddr3_soft_controller_dc13612a41d14b64a60c05045f64d9b7" begin
+INFO     : ... Hierarchical pre-synthesis "efx_ddr3_soft_controller_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 1s)
+INFO     : ... Hierarchical pre-synthesis "DdrCtrl" begin
+INFO     : ... Hierarchical pre-synthesis "DdrCtrl" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "AXI4_AWARMux(AID_LEN=4)" begin
+INFO     : ... Hierarchical pre-synthesis "AXI4_AWARMux(AID_LEN=4)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "I2C_AR0135_1280720_Config" begin
+INFO     : ... Hierarchical pre-synthesis "I2C_AR0135_1280720_Config" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "ar0135_init" begin
+INFO     : ... Hierarchical pre-synthesis "ar0135_init" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "ar0135_capture" begin
+INFO     : ... Hierarchical pre-synthesis "ar0135_capture" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=1,ACTIVE_LOW=0,RST_VALUE=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=1,ACTIVE_LOW=0,RST_VALUE=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_resetsync_3a5a8130f9dc48d5847ad155af31e06b(ACTIVE_LOW=0)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_resetsync_3a5a8130f9dc48d5847ad155af31e06b(ACTIVE_LOW=0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ram_3a5a8130f9dc48d5847ad155af31e06b(FAMILY="TITANIUM",WR_DEPTH=4096,WDATA_WIDTH=16,RDATA_WIDTH=128,WADDR_WIDTH=12,OUTPUT_REG=0,RAM_MUX_RATIO=8)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ram_3a5a8130f9dc48d5847ad155af31e06b(FAMILY="TITANIUM",WR_DEPTH=4096,WDATA_WIDTH=16,RDATA_WIDTH=128,WADDR_WIDTH=12,OUTPUT_REG=0,RAM_MUX_RATIO=8)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_bin2gray_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=10)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_bin2gray_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=10)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(ASYNC_STAGE=3,WIDTH=10,ACTIVE_LOW=0,OFF_ASSERTION=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(ASYNC_STAGE=3,WIDTH=10,ACTIVE_LOW=0,OFF_ASSERTION=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=2)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=2)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=3)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=3)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=4)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=4)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=6)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=6)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=7)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=7)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=8)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=8)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=9)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=9)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=10)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=10)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_bin2gray_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=13)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_bin2gray_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=13)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(ASYNC_STAGE=3,WIDTH=13,ACTIVE_LOW=0,OFF_ASSERTION=1)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_asyncreg_3a5a8130f9dc48d5847ad155af31e06b(ASYNC_STAGE=3,WIDTH=13,ACTIVE_LOW=0,OFF_ASSERTION=1)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=11)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=11)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=12)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=12)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=13)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_gray2bin_3a5a8130f9dc48d5847ad155af31e06b(WIDTH=13)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ctl_3a5a8130f9dc48d5847ad155af31e06b_renamed_due_excessive_length_1" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_ctl_3a5a8130f9dc48d5847ad155af31e06b_renamed_due_excessive_length_1" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_top_3a5a8130f9dc48d5847ad155af31e06b(FAMILY="TITANIUM",SYNC_STAGE=3,MODE="FWFT",DEPTH=4096,DATA_WIDTH=16,OPTIONAL_FLAGS=0,PROGRAMMABLE_FULL="STATIC_SINGLE",PROG_FULL_ASSERT=1536,PROG_FULL_NEGATE=1536,PROGRAMMABLE_EMPTY="STATIC_SINGLE",PROG_EMPTY_ASSERT=127,PROG_EMPTY_NEGATE=128,ASYM_WIDTH_RATIO=7)" begin
+INFO     : ... Hierarchical pre-synthesis "efx_fifo_top_3a5a8130f9dc48d5847ad155af31e06b(FAMILY="TITANIUM",SYNC_STAGE=3,MODE="FWFT",DEPTH=4096,DATA_WIDTH=16,OPTIONAL_FLAGS=0,PROGRAMMABLE_FULL="STATIC_SINGLE",PROG_FULL_ASSERT=1536,PROG_FULL_NEGATE=1536,PROGRAMMABLE_EMPTY="STATIC_SINGLE",PROG_EMPTY_ASSERT=127,PROG_EMPTY_NEGATE=128,ASYM_WIDTH_RATIO=7)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "W0_FIFO_16" begin
+INFO     : ... Hierarchical pre-synthesis "W0_FIFO_16" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "unsigned_divider" begin
+INFO     : ... Hierarchical pre-synthesis "unsigned_divider" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "axi_transform_reader(BASE_ADDR=32'b0)" begin
+INFO     : ... Hierarchical pre-synthesis "axi_transform_reader(BASE_ADDR=32'b0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END_ADDR=1843200,C_W_WIDTH=16,C_R_WIDTH=16)" begin
+INFO     : ... Hierarchical pre-synthesis "axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END_ADDR=1843200,C_W_WIDTH=16,C_R_WIDTH=16)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "lcd_driver" begin
+INFO     : ... Hierarchical pre-synthesis "lcd_driver" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "uart_rx" begin
+INFO     : ... Hierarchical pre-synthesis "uart_rx" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "uart_tx" begin
+INFO     : ... Hierarchical pre-synthesis "uart_tx" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "key_debounce" begin
+INFO     : ... Hierarchical pre-synthesis "key_debounce" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "threshold_cdc" begin
+INFO     : ... Hierarchical pre-synthesis "threshold_cdc" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "threshold_cdc(WIDTH=2,RESET_VALUE=0)" begin
+INFO     : ... Hierarchical pre-synthesis "threshold_cdc(WIDTH=2,RESET_VALUE=0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "uart_image_control" begin
+INFO     : ... Hierarchical pre-synthesis "uart_image_control" end (Real time : 1s)
+INFO     : ... Hierarchical pre-synthesis "video_window3x3" begin
+INFO     : ... Hierarchical pre-synthesis "video_window3x3" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "video_sobel" begin
+INFO     : ... Hierarchical pre-synthesis "video_sobel" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "video_processing" begin
+INFO     : ... Hierarchical pre-synthesis "video_processing" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "tmds_channel" begin
+INFO     : ... Hierarchical pre-synthesis "tmds_channel" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "rgb2dvi(ENABLE_OSERDES=0)" begin
+INFO     : ... Hierarchical pre-synthesis "rgb2dvi(ENABLE_OSERDES=0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "example_top" begin
+INFO     : ... Clock Enable Synthesis Performed on 2113 flops.
+INFO     : Cannot infer shift registers from 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_rd_fifo_wr_en_p[0]' (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) to 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_rd_fifo_wr_en_p[17]' (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441). Shift registers with both dynamic address and reset not supported. [EFX-0688]
+INFO     : ... Hierarchical pre-synthesis "example_top" end (Real time : 2s)
+INFO     : ... Flat optimizations begin
+INFO     : ... Flat optimizations end (Real time : 0s)
+INFO     : ... Flat synthesis begin
+INFO     : ... Flat synthesis end (Real time : 0s)
+INFO     : ... Flat optimizations begin
+INFO     : ... Flat optimizations end (Real time : 0s)
+INFO     : ... Check and break combinational loops begin
+INFO     : ... Check and break combinational loops end (Real time : 0s)
+INFO     : ... Setup for logic synthesis begin
+INFO     : ... Setup for logic synthesis end (Real time : 0s)
+INFO     : ... LUT mapping begin
+INFO     : ... LS, strategy: 3, nd: 6202, ed: 19671, lv: 8, pw: 12767.15
+INFO     : ... LUT mapping end (Real time : 10s)
+INFO     : ... Post-synthesis Verific netlist creation begin
+INFO     : ... Post-synthesis Verific netlist creation end (Real time : 0s)
+INFO     : ***** Beginning VDB Netlist Checker ... *****
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(84): Input/inout port clk_24m is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(85): Input/inout port clk_25m is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(95): Input/inout port clk_pixel_2x is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(96): Input/inout port clk_pixel_10x is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(178): Input/inout port i_dqs_n_hi[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(179): Input/inout port i_dqs_n_lo[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(348): Input/inout port cmos_data[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(352): Input/inout port cmos_ctl1_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(355): Input/inout port cmos_ctl2_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(358): Input/inout port cmos_ctl3_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(406): Input/inout port lcd_tp_sda_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(410): Input/inout port lcd_tp_scl_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(414): Input/inout port lcd_tp_int_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(434): Input/inout port lcd_b7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(435): Input/inout port lcd_g7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(436): Input/inout port lcd_r7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : Found 40 warnings in the post-synthesis netlist.
+INFO     : VDB Netlist Checker took 0.0166865 seconds [FlowMsg::StageDuration]
+INFO     :     VDB Netlist Checker took 0.03125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : VDB Netlist Checker virtual memory usage: begin = 171.552 MB, end = 171.58 MB, delta = 0.028 MB [FlowMsg::VMUsage]
+INFO     :     VDB Netlist Checker peak virtual memory usage = 246.552 MB [FlowMsg::VMUsage::Peak]
+INFO     : VDB Netlist Checker resident set memory usage: begin = 185.188 MB, end = 185.284 MB, delta = 0.096 MB [FlowMsg::RSSUsage]
+INFO     :     VDB Netlist Checker peak resident set memory usage = 248.688 MB [FlowMsg::RSSUsage::Peak]
+INFO     : ***** Ending VDB Netlist Checker ... *****
+INFO     : Resource Summary 
+INFO     : ======================================= 
+INFO     : EFX_ADD                 : 	1481
+INFO     : EFX_LUT4                : 	6168
+INFO     : EFX_DSP48               : 	11
+INFO     : EFX_FF                  : 	4389
+INFO     : EFX_SRL8                : 	538
+INFO     : EFX_RAM10               : 	57
+INFO     : ======================================= 
+INFO     : ... Post-Map Verilog Writer begin
+INFO     : Writing netlist 'example_top' to Verilog file 'outflow\Ti60_AR0135.map.v' [VDB-1030]
+INFO     : ... Post-Map Verilog Writer end (Real time : 0s)
+INFO     : The entire flow of EFX_MAP took 18.1962965 seconds [FlowMsg::StageDuration]
+INFO     :     The entire flow of EFX_MAP took 21.953125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : The entire flow of EFX_MAP virtual memory usage: begin = 19.064 MB, end = 242.292 MB, delta = 223.228 MB [FlowMsg::VMUsage]
+INFO     :     The entire flow of EFX_MAP peak virtual memory usage = 246.552 MB [FlowMsg::VMUsage::Peak]
+INFO     : The entire flow of EFX_MAP resident set memory usage: begin = 19.696 MB, end = 252.212 MB, delta = 232.516 MB [FlowMsg::RSSUsage]
+INFO     :     The entire flow of EFX_MAP peak resident set memory usage = 252.712 MB [FlowMsg::RSSUsage::Peak]

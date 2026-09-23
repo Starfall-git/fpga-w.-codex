@@ -1,0 +1,107 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/francis/Desktop/fpga-w.-codex/tools/debug/ar0135_sim
+var0135_capture
+Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z2 !s110 1790163516
+!i10b 1
+!s100 VETNLdTMzlf_R<HU@g@RY3
+IEF>YXYKSi1RZI7o0G73Xk2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s105 ar0135_capture_v_unit
+S1
+R0
+Z4 w1790163338
+8C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v
+L0 7
+Z5 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z6 !s108 1790163516.000000
+Z7 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\ar0135_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v|C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v|C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v|
+Z8 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v|C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v|C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\ar0135_tb.sv|
+!i113 1
+o-sv
+Z9 tCvgOpt 0
+var0135_init
+R1
+R2
+!i10b 1
+!s100 Hl^M67j1_gc4edZ;d@V1W1
+I6]<5?I32jSEgARN1nb9Gg0
+R3
+!s105 ar0135_init_v_unit
+S1
+R0
+R4
+8C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v
+L0 8
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+o-sv
+R9
+var0135_tb
+R1
+R2
+!i10b 1
+!s100 hizQCI84=H1m@lg5WEUTa2
+IX^7Zaz1bMJXlAQA?:aQJk2
+R3
+!s105 ar0135_tb_sv_unit
+S1
+R0
+w1790163508
+8C:\Users\francis\Desktop\fpga-w.-codex\testbench\ar0135_tb.sv
+FC:\Users\francis\Desktop\fpga-w.-codex\testbench\ar0135_tb.sv
+L0 4
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+o-sv
+R9
+vI2C_AR0135_1280720_Config
+R1
+R2
+!i10b 1
+!s100 :EgM7JALVBG^i4Fo1h;N^1
+IfHiGokU2ngDbKmKAA1DBD0
+R3
+!s105 I2C_AR0135_1280720_Config_v_unit
+S1
+R0
+w1790163414
+8C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v
+L0 17
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+o-sv
+R9
+n@i2@c_@a@r0135_1280720_@config

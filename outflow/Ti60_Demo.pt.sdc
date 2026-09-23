@@ -5,7 +5,7 @@
 
 # Efinity Interface Designer SDC
 # Version: 2026.1.132
-# Date: 2026-09-23 00:28
+# Date: 2026-09-23 19:39
 
 # Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -24,7 +24,7 @@ create_clock -period 5.208 -name core_clk [get_ports {core_clk}]
 create_clock -period 2.604 -name tac_clk [get_ports {tac_clk}]
 create_clock -waveform {0.651 1.953} -period 2.604 -name twd_clk [get_ports {twd_clk}]
 create_clock -period 20.833 -name clk_cam_feedback [get_ports {clk_cam_feedback}]
-create_clock -period 62.500 -name clk_cam_xclk [get_ports {clk_cam_xclk}]
+create_clock -period 37.037 -name clk_cam_xclk [get_ports {clk_cam_xclk}]
 
 # GPIO Constraints
 ####################

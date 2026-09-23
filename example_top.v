@@ -51,6 +51,16 @@
 29. 增加模式/反相/默认保阈值/扩大缩放范围和延迟回归，更新使用说明。
 ////--------------------2026-09-23-V0.6:快捷交互与运行时图像模式------------------------------
 */
+/*
+////--------------------2026-09-23-V0.7:AR0135摄像头适配与灰度采集------------------------------
+30. 替换OV5640初始化为AR0135的16位地址/16位数据I2C，读取型号、逐字节ACK检查、失败重试及真实复位/PLL等待。
+31. 摄像头XCLK由16MHz改为27MHz，匹配74.25MHz传感器PLL；CTL1改为高阻输入，保留触发/OE低电平。
+32. 新增AR0135 RAW8转RGB565采集，过滤AE必需的前两行元数据及尾部统计行，完整帧开始后才写入DDR。
+33. DDR写入宽度由8位改为16位，仍为1280x720 RGB565；保留几何变换、Sobel、UART协议及默认设置行为。
+34. 新增摄像头I2C/采集仿真和配置检查，更新摄像头适配说明；原图为AR0135灰度画面。
+35. 新增Ti60_AR0135.xml及同名外围/SDC独立工程入口，避免旧Efinity窗口回写文件列表，并确保引脚配置随新工程加载。
+////--------------------2026-09-23-V0.7:AR0135摄像头适配与灰度采集------------------------------
+*/
 //`include "ddr3_controller.vh"
 
 
@@ -450,7 +460,9 @@ module example_top #(
 	assign clk_n_lo = 1'b0; 
 	
 	assign cmos_ctl1_o = 0; 
-	assign cmos_ctl1_oe = 1; 
+	/* V0.7 / 31: old OE=1 removed. CTL1 is AR0135 FLASH output,
+       so FPGA must release this pad; CTL2=TRIGGER=0, CTL3=OE_BAR=0. */
+    assign cmos_ctl1_oe = 0;
 	assign cmos_ctl2_o = 0; 
 	assign cmos_ctl2_oe = 1; 
 	assign cmos_ctl3_o = 0; 
@@ -735,51 +747,22 @@ module example_top #(
 	
 	
 	////////////////////////////////////////////////////////////////
-	//	I2C Config (OV5640)
-	
-	//  i2c timing controller module of 16Bit
-	wire            [ 7:0]          ov5640_i2c_config_index;
-	wire            [23:0]          ov5640_i2c_config_data;
-	wire            [ 7:0]          ov5640_i2c_config_size;
-	wire                            ov5640_i2c_config_done;
-	wire            [15:0]          ov5640_i2c_rdata;                              //  i2c register data
+    /* V0.7 / 30: replaced OV5640 controller/LUT (wire address78,
+       16-bit register + 8-bit data) with AR0135 (20/21, 16+16).
+       Prior implementation is backed up in tools/debug/before-v07/example_top.v. */
+    wire camera_config_done, camera_config_error;
+    wire [15:0] camera_model_id;
+    wire [7:0] camera_config_index;
+    ar0135_init #(.CLK_FREQ(CLOCK_MAIN), .I2C_FREQ(100000)) u_camera_init (
+        .clk(clk_sys), .rst_n(rstn_sys),
+        .scl(cmos_sclk), .sda_o(cmos_sdat_OUT),
+        .sda_oe(cmos_sdat_OE), .sda_i(cmos_sdat_IN),
+        .done(camera_config_done), .error(camera_config_error),
+        .model_id(camera_model_id), .config_index(camera_config_index)
+    );
+    /* Hardware connector: cmos_data[7:0] = AR0135 DOUT[11:4].
+       CTRL0/RESET_BAR has module RC pull-up, not an FPGA port on this board. */
 
-	i2c_timing_ctrl_16bit
-	#(
-	    .CLK_FREQ           (CLOCK_MAIN),                              //  100 MHz
-	    .I2C_FREQ           (50_000    )                               //  10 KHz(<= 400KHz)
-	) 
-	u_i2c_timing_ctrl_16bit 
-	(
-	    //global clock
-	    .clk                (clk_sys                 ),                          //  96MHz
-	    .rst_n              (rstn_sys                ),                          //  system reset
-
-	    //i2c interface
-	    .i2c_sclk           (cmos_sclk                  ),                  //  i2c clock
-		.i2c_sdat_OUT 	(cmos_sdat_OUT), 
-		.i2c_sdat_OE	(cmos_sdat_OE), 
-		.i2c_sdat_IN 	(cmos_sdat_IN), 
-		
-	    //i2c config data
-	    .i2c_config_index   (ov5640_i2c_config_index           ),                  //  i2c config reg index, read 2 reg and write xx reg
-	    .i2c_config_data    ({8'h78, ov5640_i2c_config_data}   ),                  //  i2c config data
-	    .i2c_config_size    (ov5640_i2c_config_size            ),                  //  i2c config data counte
-	    .i2c_config_done    (ov5640_i2c_config_done            ),                  //  i2c config timing complete
-	    .i2c_rdata          (ov5640_i2c_rdata                  )                   //  i2c register data while read i2c slave
-	);
-	
-	//----------------------------------------------------------------------
-	//  I2C Configure Data of OV5640
-	I2C_OV5640_1280720_Config u_I2C_OV5640_1280720_Config
-	(
-	    .LUT_INDEX  (ov5640_i2c_config_index   ),
-	    .LUT_DATA   (ov5640_i2c_config_data    ),
-	    .LUT_SIZE   (ov5640_i2c_config_size    )
-	); 
-	
-	
-	//	CMOS Interface
 	//input 			cmos_pclk,
 	//input 			cmos_vsync,
 	//input 			cmos_href,
@@ -909,68 +892,19 @@ module example_top #(
 	////////////////////////////////////////////////////////////////
 	//	MIPI CSI RX
 	
-	localparam 	CSI_RXD_INV 	= 4'b1111; 
-	localparam 	CSI_DATA_WIDTH 	= 8; 			
-	localparam 	CSI_STRB_WIDTH 	= CSI_DATA_WIDTH / 8; 
+    /* V0.7 / 32-33: removed the OV5640 byte-stream crop and 64-bit
+       temporary wires. AR0135 has ONE gray sample per PCLK, not two RGB bytes.
+       Convert before DDR so all existing reader/ISP controls keep RGB565. */
+    wire cmos_frame_vsync;
+    wire cmos_frame_href;
+    wire [15:0] cmos_frame_Gray;
+    ar0135_capture #(.WIDTH(1280), .HEIGHT(720), .EMBEDDED_ROWS(2)) u_camera_capture (
+        .pclk(w_cmos_pclk), .rst_n(rstn_sys), .configured(camera_config_done),
+        .fv(cmos_vsync), .lv(cmos_href), .raw(cmos_data),
+        .frame_valid(cmos_frame_vsync), .pixel_valid(cmos_frame_href),
+        .rgb565(cmos_frame_Gray)
+    );
 
-
-
-	
-	////////////////////////////////////////////////////////////////
-	//	MIPI-CSI Crop
-	
-	wire			XYCrop_frame_vsync; 
-	wire			XYCrop_frame_href;
-	wire			XYCrop_frame_de;
-	wire	[63:0]	XYCrop_frame_Gray;
-
-
-
-    /* V0.2：将曾改为 1920x1080 的裁剪源/目标尺寸恢复为 OV5640 的 1280x720。 */
-	Sensor_Image_XYCrop
-	#(
-		//	RGB width doubled. 
-		.IMAGE_HSIZE_SOURCE (1280*2 / CSI_STRB_WIDTH),
-		.IMAGE_VSIZE_SOURCE (720	 ),
-		.IMAGE_HSIZE_TARGET (1280*2 / CSI_STRB_WIDTH),
-		.IMAGE_YSIZE_TARGET (720 	 ),
-		.PIXEL_DATA_WIDTH	(CSI_DATA_WIDTH) 		//	32		 )
-	)
-	u_Sensor_Image_XYCrop
-	(
-		//	globel clock
-		.clk			(w_cmos_pclk),			//	image pixel clock
-		.rst_n		(rstn_sys),			//	system reset
-		
-		//CMOS Sensor interface
-		.image_in_vsync (cmos_vsync		),			//H : Data Valid; L : Frame Sync(Set it by register)
-		.image_in_href	(cmos_href		),			//H : Data vaild, L : Line Sync
-		.image_in_de	(cmos_href		), 			//H : Data Enable, L : Line Sync
-		.image_in_data	(cmos_data),			//8 bits cmos data input
-		
-		.image_out_vsync(XYCrop_frame_vsync ),			//H : Data Valid; L : Frame Sync(Set it by register)
-		.image_out_href (XYCrop_frame_href	),			//H : Data vaild, L : Line Sync
-		.image_out_de	(XYCrop_frame_de	), 			//H : Data Enable, L : Line Sync
-		.image_out_data (XYCrop_frame_Gray	)			//8 bits cmos data input	
-	);
-
-	reg			r_XYCrop_frame_vsync = 0; 
-	reg			r_XYCrop_frame_href = 0;
-	reg			r_XYCrop_frame_de = 0;
-	reg	[63:0]	r_XYCrop_frame_Gray = 0;
-	
-	always @(posedge w_cmos_pclk) begin
-		r_XYCrop_frame_vsync <= XYCrop_frame_vsync; 
-		r_XYCrop_frame_href <= XYCrop_frame_href;
-		r_XYCrop_frame_de <= XYCrop_frame_de;
-		r_XYCrop_frame_Gray <= XYCrop_frame_Gray;
-	end
-	
-	//	Data Write Assignment
-	wire			cmos_frame_vsync = r_XYCrop_frame_vsync;                     //  cmos frame data vsync valid signal
-	wire			cmos_frame_href = r_XYCrop_frame_href && r_XYCrop_frame_de;	 //  cmos frame data href vaild  signal
-	wire	[63:0]	cmos_frame_Gray = r_XYCrop_frame_Gray; 
-	wire 			cmos_vsync_end;
 
 	
 
@@ -1015,7 +949,7 @@ module example_top #(
     /* V0.5 / 19: select line-buffer transform reader; legacy branch remains in axi4_ctrl. */
     .C_TRANSFORM(1), .IMAGE_WIDTH(1280), .IMAGE_HEIGHT(720),
     .C_RD_END_ADDR(1280 * 2 * 720), 
-    .C_W_WIDTH(CSI_DATA_WIDTH), 
+    .C_W_WIDTH(16) /* V0.7 / 33: was 8-bit OV5640 byte stream. */,
     .C_R_WIDTH(16), 
     .C_ID_LEN(4))
     u_axi4_ctrl (
@@ -1072,7 +1006,9 @@ module example_top #(
        DEBUG_LEDS=0 时 LED[3:0] 恢复原有 AXI 测试信号；LED[4] 仅代表序列完成，不代表 ACK 成功。 */
     assign led_o[3:0] = DEBUG_LEDS ?
         {w_ddr3_cal_pass, w_ddr3_cal_done, cam_pll_lock, sys_pll_lock} : w_axi_tp[3:0];
-    assign led_o[4] = ov5640_i2c_config_done; 
+    /* V0.7 / 34: LED4 now means AR0135 configuration ACKed, not OV5640.
+       LED5 remains FV heartbeat; failed initialization leaves LED4 low. */
+    assign led_o[4] = camera_config_done;
 	
 	
 	
