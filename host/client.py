@@ -4,7 +4,8 @@ import time
 from dataclasses import replace
 from .protocol import (Command, DeviceStatus, DeviceError, Frame, FrameDecoder,
                        CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM,
-                       threshold_payload, flip_payload, crop_payload, zoom_payload, Geometry)
+                       threshold_payload, flip_payload, crop_payload, zoom_payload, Geometry,
+                       CAP_ISP, CAP_DEFAULTS, CAP_WIDE_ZOOM, isp_payload)
 
 
 def list_ports():
@@ -35,6 +36,7 @@ class SerialClient:
         self.trace = trace or (lambda direction, raw: None)
         self.status = None
         self.geometry = None
+        self.last_roundtrip_ms = 0.0
 
     # V0.5: raw exchange supports command-specific GET_CONFIG response payloads.
     def _exchange(self, command, payload=bytes(8)):
@@ -42,19 +44,23 @@ class SerialClient:
             sequence = self.sequence
             self.sequence = (sequence+1) & 255
             packet = Frame(sequence, command, payload).encode()
+            started = time.monotonic()
             decoder = FrameDecoder()
             self.trace("TX", packet)
             if self.transport.write(packet) != len(packet):
                 raise OSError("串口未完整发送命令")
             deadline = time.monotonic()+self.timeout
             while time.monotonic() < deadline:
-                raw = self.transport.read(128)
+                # V0.6: read(128) used to wait for a 50ms timeout for a 13-byte reply.
+                # Block for the first byte only, then drain bytes already available.
+                raw = self.transport.read(min(128, max(1, getattr(self.transport, 'in_waiting', 0))))
                 if not raw:
                     continue
                 self.trace("RX", raw)
                 for frame in decoder.feed(raw):
                     if frame.sequence != sequence or frame.command != (command | 0x80):
                         continue
+                    self.last_roundtrip_ms = (time.monotonic()-started)*1000
                     return frame
             raise TimeoutError("未收到匹配的 FPGA 确认；是否生效未知，请查询回读后再操作")
 
@@ -118,6 +124,8 @@ class SerialClient:
     def set_zoom(self, numerator, denominator):
         payload = zoom_payload(numerator, denominator)
         self._require(CAP_ZOOM)
+        if not self.status.capabilities & CAP_WIDE_ZOOM and not (numerator<=16 and denominator<=16 and denominator<=4*numerator and numerator<=4*denominator):
+            raise RuntimeError("当前bit只支持旧倍率范围，请下载V0.6 bitstream")
         with self.lock:
             self.request(Command.SET_ZOOM, payload)
             result = self.get_geometry()
@@ -132,6 +140,23 @@ class SerialClient:
             self.set_crop(0,0,1280,720)
             return self.set_flip(False,False)
 
+    def set_isp(self, enabled, inverted):
+        payload = isp_payload(enabled, inverted)
+        self._require(CAP_ISP)
+        result = self.request(Command.SET_ISP, payload)
+        if result.isp_flags != payload[0]: raise RuntimeError("图像模式回读与请求不一致")
+        return result
+
+    def reset_defaults(self):
+        """V0.6: one device command owns defaults, including future device features."""
+        self._require(CAP_DEFAULTS)
+        with self.lock:
+            status = self.request(Command.DEFAULTS)
+            geometry = self.get_geometry() if status.capabilities & CAP_CROP else None
+            if status.isp_flags or (geometry and replace(geometry,faults=0) != Geometry()):
+                raise RuntimeError("默认设置回读不一致")
+            return status, geometry
+
     def close(self):
         self.transport.close()
 
@@ -142,10 +167,11 @@ class DemoClient(SerialClient):
 
     def __init__(self, trace=None):
         self.trace = trace or (lambda direction, raw: None)
-        self.status = DeviceStatus(0, 128, 1, 15)
+        self.status = DeviceStatus(0, 128, 1, 127)
         self.geometry = Geometry()
         self.lock = threading.RLock()
         self.sequence = 0
+        self.last_roundtrip_ms = 0.0
 
     def _exchange(self, cmd, payload=bytes(8)):
         request = Frame(self.sequence, cmd, payload)
@@ -154,7 +180,12 @@ class DemoClient(SerialClient):
         candidate = self.geometry
         if cmd == Command.SET_THRESHOLD:
             value = int.from_bytes(payload[:2], "little")
-            self.status = DeviceStatus(0, value, 1, 15)
+            self.status = replace(self.status, code=0, threshold=value)
+        elif cmd == Command.SET_ISP:
+            self.status = replace(self.status, code=0, isp_flags=payload[0])
+        elif cmd == Command.DEFAULTS:
+            self.status = replace(self.status, code=0, isp_flags=0)
+            candidate = Geometry()
         elif cmd == Command.SET_FLIP:
             candidate = replace(candidate,vertical=bool(payload[0]&1),horizontal=bool(payload[0]&2))
         elif cmd == Command.SET_CROP:
@@ -168,7 +199,7 @@ class DemoClient(SerialClient):
             code = 2
         if code == 0:
             self.geometry = candidate
-        body = bytes((code, self.status.threshold & 255, self.status.threshold >> 8, 1, 15, 0, 0, 0))
+        body = bytes((code, self.status.threshold & 255, self.status.threshold >> 8, 1, 127, self.status.isp_flags, 0, 0))
         if cmd == Command.GET_CONFIG:
             g = self.geometry
             page = payload[0]

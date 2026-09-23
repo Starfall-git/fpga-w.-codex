@@ -1,405 +1,315 @@
-"""V0.5 / 23: live geometry controls and confirmed readback; COM stays off the UI thread."""
+"""V0.6 / 28: direct controls, latest-value queue, low-latency status updates."""
 import argparse
+from collections import OrderedDict
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from fractions import Fraction
-import json
-from pathlib import Path
 import queue
+import time
 import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
+from tkinter import ttk
 from .client import SerialClient, DemoClient, list_ports
-from .protocol import (Command, Frame, CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM,
-                       threshold_payload, flip_payload, crop_payload, zoom_payload)
+from .protocol import (CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM, CAP_ISP,
+                       CAP_DEFAULTS, threshold_payload, crop_payload, percent_ratio)
 
 
 class ImageControlApp:
     def __init__(self, root, demo=False):
         self.root = root
-        root.title("VF-Ti60 · 实时图像控制台")
-        root.geometry("1060x880")
-        root.minsize(1020, 820)
+        root.title('VF-Ti60 · 实时图像控制台')
+        root.geometry('1000x700')
+        root.minsize(950, 650)
         self.executor = ThreadPoolExecutor(max_workers=1)
         self.events = queue.Queue()
+        self.pending = OrderedDict()
         self.client = None
-        self.busy = False
-        self.closing = False
+        self.busy = self.closing = self.resetting = False
         self.caps = 0
-        self.mode = tk.StringVar(value="模拟演示" if demo else "串口硬件")
-        self.port = tk.StringVar()
-        self.baud = tk.StringVar(value="115200")
-        self.threshold = tk.StringVar(value="128")
-        self.readback = tk.StringVar(value="—")
-        self.connection = tk.StringVar(value="未连接")
-        self.message = tk.StringVar(value="选择串口并连接；也可切换到模拟演示。")
-        self.cap_text = tk.StringVar(value="等待查询设备能力")
-        self.flip = tk.BooleanVar(value=False)
-        self.flip_horizontal = tk.BooleanVar(value=False)
-        self.geometry_readback = tk.StringVar(value="尚未回读图像变换配置")
-        self.crop = {name: tk.StringVar(value=value) for name, value in
-                     (("x", "0"), ("y", "0"), ("width", "1280"), ("height", "720"))}
-        self.zoom = tk.StringVar(value="1")
+        self.inflight_kind = None
+        self.last_interaction = 0.0
+        self.mode = tk.StringVar(value='模拟演示' if demo else '串口硬件')
+        self.port, self.baud = tk.StringVar(), tk.StringVar(value='115200')
+        self.threshold, self.readback = tk.StringVar(value='128'), tk.StringVar(value='—')
+        self.connection = tk.StringVar(value='未连接')
+        self.message = tk.StringVar(value='连接设备后，阈值与缩放输入回车生效，开关点击即生效。')
+        self.cap_text = tk.StringVar(value='')
+        self.geometry_readback = tk.StringVar(value='尚未读取图像设置')
+        self.mode_readback = tk.StringVar(value='当前模式：—')
+        self.latency = tk.StringVar(value='')
+        self.flip, self.flip_horizontal = tk.BooleanVar(), tk.BooleanVar()
+        self.sobel, self.inverted = tk.BooleanVar(), tk.BooleanVar()
+        self.crop = {k: tk.StringVar(value=v) for k,v in (('x','0'),('y','0'),('width','1280'),('height','720'))}
+        self.zoom = tk.StringVar(value='100%')
         self.auto_poll = tk.BooleanVar(value=True)
+        self.show_log = tk.BooleanVar(value=False)
+        self.controls = []
         self._build()
         self.refresh_ports()
-        root.protocol("WM_DELETE_WINDOW", self.close)
-        root.after(50, self._drain)
-        root.after(1500, self._poll)
+        root.protocol('WM_DELETE_WINDOW', self.close)
+        self._drain_id=root.after(5, self._drain)
+        self._poll_id=root.after(1500, self._poll)
         self._states()
 
     def _build(self):
         style = ttk.Style()
-        if "clam" in style.theme_names():
-            style.theme_use("clam")
-        style.configure("TFrame", background="#f3f5f8")
-        style.configure("TLabel", background="#f3f5f8", font=("Microsoft YaHei UI", 10))
-        style.configure("TButton", padding=(12, 6), font=("Microsoft YaHei UI", 10))
-        style.configure("TLabelframe", background="#f3f5f8")
-        style.configure("TLabelframe.Label", font=("Microsoft YaHei UI", 11, "bold"))
-        style.configure("Title.TLabel", font=("Microsoft YaHei UI", 21, "bold"), foreground="#17364c")
-        style.configure("Value.TLabel", font=("Consolas", 26, "bold"), foreground="#137c70")
-        main = ttk.Frame(self.root, padding=22)
-        main.pack(fill="both", expand=True)
-        ttk.Label(main, text="实时图像控制台", style="Title.TLabel").pack(anchor="w")
-        ttk.Label(main, text="VF-Ti60F225  /  OV5640 → DDR3 → 几何变换 → Sobel → HDMI").pack(anchor="w", pady=(3, 16))
-        connection = ttk.LabelFrame(main, text="01  连接设备", padding=12)
-        connection.pack(fill="x")
-        self.mode_box = ttk.Combobox(connection, textvariable=self.mode,
-                                     values=("串口硬件", "模拟演示"), width=11, state="readonly")
-        self.mode_box.grid(row=0, column=0, padx=(0, 9))
-        self.mode_box.bind("<<ComboboxSelected>>", lambda _: self._states())
-        self.port_box = ttk.Combobox(connection, textvariable=self.port, width=14, state="readonly")
-        self.port_box.grid(row=0, column=1, padx=6)
-        self.refresh_button = ttk.Button(connection, text="刷新串口", command=self.refresh_ports)
-        self.refresh_button.grid(row=0, column=2, padx=6)
-        ttk.Label(connection, text="波特率").grid(row=0, column=3, padx=(10, 2))
-        self.baud_entry = ttk.Entry(connection, textvariable=self.baud, width=9)
-        self.baud_entry.grid(row=0, column=4, padx=6)
-        self.connect_button = ttk.Button(connection, text="连接", command=self.toggle_connection)
-        self.connect_button.grid(row=0, column=5, padx=6)
-        ttk.Label(connection, textvariable=self.connection).grid(row=0, column=6, padx=12)
-        ttk.Label(connection, text="8N1 · 无流控 · 默认 115200；UART 仅传控制命令，图像仍从 HDMI 输出。",
-                  foreground="#64748b").grid(row=1, column=0, columnspan=7, sticky="w", pady=(9, 0))
+        if 'clam' in style.theme_names(): style.theme_use('clam')
+        for cls in ('TFrame','TLabel','TLabelframe'):
+            style.configure(cls, background='#f3f5f8')
+        style.configure('TLabel', font=('Microsoft YaHei UI',10))
+        style.configure('TButton', padding=(10,6), font=('Microsoft YaHei UI',10))
+        style.configure('Title.TLabel', font=('Microsoft YaHei UI',20,'bold'), foreground='#17364c')
+        main = ttk.Frame(self.root, padding=20)
+        main.pack(fill='both', expand=True)
+        ttk.Label(main, text='实时图像控制台', style='Title.TLabel').pack(anchor='w')
+        ttk.Label(main, text='VF-Ti60F225   /   HDMI 720p · 原图、Sobel 与几何变换').pack(anchor='w',pady=(4,12))
+        connection = ttk.LabelFrame(main,text='连接',padding=10)
+        connection.pack(fill='x')
+        self.mode_box = ttk.Combobox(connection,textvariable=self.mode,values=('串口硬件','模拟演示'),width=10,state='readonly')
+        self.mode_box.pack(side='left',padx=4)
+        self.port_box = ttk.Combobox(connection,textvariable=self.port,width=10,state='readonly')
+        self.port_box.pack(side='left',padx=4)
+        self.refresh_button = ttk.Button(connection,text='刷新',command=self.refresh_ports)
+        self.refresh_button.pack(side='left',padx=4)
+        ttk.Label(connection,text='波特率').pack(side='left',padx=6)
+        self.baud_entry = ttk.Entry(connection,textvariable=self.baud,width=8)
+        self.baud_entry.pack(side='left')
+        self.connect_button = ttk.Button(connection,text='连接',command=self.toggle_connection)
+        self.connect_button.pack(side='left',padx=12)
+        ttk.Label(connection,textvariable=self.connection).pack(side='left')
 
-        threshold = ttk.LabelFrame(main, text="02  Sobel 阈值  ·  当前已实现", padding=14)
-        threshold.pack(fill="x", pady=14)
-        ttk.Label(threshold, text="输入阈值（0–4095）").grid(row=0, column=0, sticky="w")
-        self.threshold_entry = ttk.Entry(threshold, textvariable=self.threshold, width=13, font=("Consolas", 17))
-        self.threshold_entry.grid(row=1, column=0, sticky="w", pady=9)
-        self.threshold_entry.bind("<Return>", lambda _: self.apply_threshold())
-        self.apply_button = ttk.Button(threshold, text="确认并应用", command=self.apply_threshold)
-        self.apply_button.grid(row=1, column=1, padx=16)
-        self.query_button = ttk.Button(threshold, text="查询当前值", command=self.query)
-        self.query_button.grid(row=1, column=2, padx=5)
-        ttk.Checkbutton(threshold, text="定时回读按键变化", variable=self.auto_poll).grid(row=2, column=0, columnspan=3, sticky="w")
-        ttk.Label(threshold, text="已确认值 · 模拟模式下为模拟回读").grid(row=0, column=3, padx=(30, 0), sticky="w")
-        ttk.Label(threshold, textvariable=self.readback, style="Value.TLabel").grid(row=1, column=3, sticky="w", padx=(30, 0))
-        ttk.Label(threshold, text="输入不会自动发送；确认后在 FPGA 场消隐生效，收到应答才更新右侧数值。",
-                  foreground="#64748b").grid(row=3, column=0, columnspan=4, sticky="w", pady=(8, 0))
+        image = ttk.LabelFrame(main,text='图像',padding=12)
+        image.pack(fill='x',pady=12)
+        row = ttk.Frame(image); row.pack(fill='x')
+        for text, variable in (('Sobel 边缘检测',self.sobel),('黑白反转',self.inverted)):
+            button=ttk.Checkbutton(row,text=text,variable=variable,command=self.apply_isp)
+            button.pack(side='left',padx=(0,20)); self.controls.append((button,CAP_ISP))
+        ttk.Label(row,text='阈值').pack(side='left',padx=(10,6))
+        self.threshold_entry=ttk.Entry(row,textvariable=self.threshold,width=9,font=('Consolas',14))
+        self.threshold_entry.pack(side='left'); self.controls.append((self.threshold_entry,CAP_THRESHOLD))
+        self.threshold_entry.bind('<Return>',lambda _: self.apply_threshold())
+        ttk.Label(row,text='0–4095 · 回车生效').pack(side='left',padx=10)
+        ttk.Label(image,textvariable=self.mode_readback,foreground='#137c70').pack(anchor='w',pady=(10,0))
+        info=ttk.Frame(image); info.pack(fill='x',pady=(4,0))
+        ttk.Label(info,text='设备阈值：').pack(side='left')
+        ttk.Label(info,textvariable=self.readback,foreground='#137c70').pack(side='left')
+        ttk.Label(info,textvariable=self.latency,foreground='#64748b').pack(side='right')
 
-        future = ttk.LabelFrame(main, text="03  图像变换  ·  帧边界应用", padding=12)
-        future.pack(fill="x")
-        ttk.Label(future, text="先裁剪，再翻转、最近邻缩放；720p 居中显示，缩小补黑、放大截取。输入后点击应用。",
-                  foreground="#64748b").pack(anchor="w", pady=(0, 10))
-        tabs = ttk.Notebook(future)
-        tabs.pack(fill="x")
-        self.feature_buttons = []
-        for title, capability, kind in (("上下 / 左右翻转", CAP_FLIP, "flip"), ("自定义裁剪", CAP_CROP, "crop"),
-                                         ("放大 / 缩小", CAP_ZOOM, "zoom")):
-            panel = ttk.Frame(tabs, padding=12)
-            tabs.add(panel, text=title)
-            if kind == "flip":
-                ttk.Checkbutton(panel, text="上下翻转", variable=self.flip).pack(side="left", padx=5)
-                ttk.Checkbutton(panel, text="左右翻转", variable=self.flip_horizontal).pack(side="left", padx=5)
-            elif kind == "crop":
-                for name, label in (("x", "X"), ("y", "Y"), ("width", "宽"), ("height", "高")):
-                    ttk.Label(panel, text=label).pack(side="left", padx=(0, 5))
-                    ttk.Entry(panel, textvariable=self.crop[name], width=6).pack(side="left", padx=(0, 12))
-            else:
-                ttk.Label(panel, text="倍率").pack(side="left", padx=(0, 9))
-                ttk.Combobox(panel, textvariable=self.zoom, values=("0.25", "0.5", "1", "1.5", "2", "3", "4"),
-                             width=10, state="readonly").pack(side="left")
-            apply = ttk.Button(panel, text="应用到 FPGA", command=lambda k=kind: self.apply_feature(k))
-            apply.pack(side="right", padx=6)
-            self.feature_buttons.append((apply, capability))
-            ttk.Button(panel, text="预览命令", command=lambda k=kind: self.preview(k)).pack(side="right", padx=6)
-        bottom = ttk.Frame(future)
-        bottom.pack(fill="x", pady=(10, 0))
-        ttk.Label(bottom, textvariable=self.cap_text).pack(side="left")
-        ttk.Button(bottom, text="保存配置草稿", command=self.save_draft).pack(side="right")
-        self.reset_geometry_button = ttk.Button(bottom, text="恢复全图 / 1倍 / 不翻转", command=self.reset_geometry)
-        self.reset_geometry_button.pack(side="right", padx=8)
-        ttk.Label(future, textvariable=self.geometry_readback, wraplength=940,
-                  foreground="#137c70").pack(fill="x", pady=(10,0))
-
-        log_frame = ttk.LabelFrame(main, text="04  通信记录", padding=8)
-        log_frame.pack(fill="both", expand=True, pady=(14, 8))
-        self.log = tk.Text(log_frame, height=7, wrap="word", font=("Consolas", 10),
-                           background="#142735", foreground="#d7e5ee", relief="flat", state="disabled")
-        scroll = ttk.Scrollbar(log_frame, command=self.log.yview)
+        transform=ttk.LabelFrame(main,text='翻转、缩放与裁剪',padding=12)
+        transform.pack(fill='x')
+        row=ttk.Frame(transform); row.pack(fill='x')
+        for text,variable in (('上下翻转',self.flip),('左右翻转',self.flip_horizontal)):
+            button=ttk.Checkbutton(row,text=text,variable=variable,command=lambda: self.apply_feature('flip'))
+            button.pack(side='left',padx=(0,20)); self.controls.append((button,CAP_FLIP))
+        ttk.Label(row,text='缩放').pack(side='left',padx=(15,5))
+        self.zoom_box=ttk.Combobox(row,textvariable=self.zoom,values=('10%','25%','50%','100%','150%','200%','300%','400%','500%'),width=10)
+        self.zoom_box.pack(side='left'); self.controls.append((self.zoom_box,CAP_ZOOM))
+        self.zoom_box.bind('<<ComboboxSelected>>',lambda _: self.apply_feature('zoom'))
+        self.zoom_box.bind('<Return>',lambda _: self.apply_feature('zoom'))
+        ttk.Label(row,text='10%–500% · 可输入，回车生效').pack(side='left',padx=10)
+        row=ttk.Frame(transform); row.pack(fill='x',pady=12)
+        for name,label in (('x','X'),('y','Y'),('width','宽'),('height','高')):
+            ttk.Label(row,text=label).pack(side='left',padx=(0,5))
+            entry=ttk.Entry(row,textvariable=self.crop[name],width=7)
+            entry.pack(side='left',padx=(0,12)); self.controls.append((entry,CAP_CROP))
+            entry.bind('<Return>',lambda _: self.apply_feature('crop'))
+        crop_button=ttk.Button(row,text='裁剪',command=lambda: self.apply_feature('crop'))
+        crop_button.pack(side='left'); self.controls.append((crop_button,CAP_CROP))
+        self.defaults_button=ttk.Button(row,text='默认',command=self.reset_defaults)
+        self.defaults_button.pack(side='right')
+        ttk.Label(transform,text='居中显示：缩小补黑，放大截取。黑白反转只作用于 Sobel；“默认”保留阈值。',foreground='#64748b').pack(anchor='w')
+        ttk.Label(transform,textvariable=self.geometry_readback,wraplength=880,foreground='#137c70').pack(fill='x',pady=(8,0))
+        ttk.Label(main,textvariable=self.message,wraplength=900).pack(fill='x',pady=12)
+        row=ttk.Frame(main); row.pack(fill='x')
+        ttk.Checkbutton(row,text='通信记录',variable=self.show_log,command=self._toggle_log).pack(side='left')
+        ttk.Label(row,textvariable=self.cap_text,foreground='#64748b').pack(side='right')
+        self.log_frame=ttk.Frame(main)
+        self.log=tk.Text(self.log_frame,height=6,wrap='word',font=('Consolas',9),background='#142735',foreground='#d7e5ee',state='disabled')
+        scroll=ttk.Scrollbar(self.log_frame,command=self.log.yview)
         self.log.configure(yscrollcommand=scroll.set)
-        scroll.pack(side="right", fill="y")
-        self.log.pack(fill="both", expand=True)
-        ttk.Label(main, textvariable=self.message, wraplength=940, foreground="#17364c").pack(fill="x", anchor="w")
+        scroll.pack(side='right',fill='y'); self.log.pack(fill='both',expand=True)
+
+    def _toggle_log(self):
+        if self.show_log.get(): self.log_frame.pack(fill='both',expand=True,pady=(6,0))
+        else: self.log_frame.pack_forget()
 
     def _states(self):
-        connected = self.client is not None
-        for widget in (self.mode_box, self.port_box):
-            widget.configure(state="disabled" if connected or self.busy else "readonly")
-        self.baud_entry.configure(state="disabled" if connected or self.busy else "normal")
-        self.refresh_button.configure(state="disabled" if connected or self.busy else "normal")
-        self.connect_button.configure(text="断开" if connected else "连接", state="disabled" if self.busy else "normal")
-        enabled = connected and not self.busy
-        self.apply_button.configure(state="normal" if enabled and self.caps & CAP_THRESHOLD else "disabled")
-        self.query_button.configure(state="normal" if enabled else "disabled")
-        for button, cap in self.feature_buttons:
-            button.configure(state="normal" if enabled and self.caps & cap else "disabled")
-        self.reset_geometry_button.configure(state="normal" if enabled and self.caps & 14 == 14 else "disabled")
+        connected=self.client is not None
+        for widget in (self.mode_box,self.port_box): widget.configure(state='disabled' if connected or self.busy else 'readonly')
+        self.baud_entry.configure(state='disabled' if connected or self.busy else 'normal')
+        self.refresh_button.configure(state='disabled' if connected or self.busy else 'normal')
+        self.connect_button.configure(text='断开' if connected else '连接',state='disabled' if self.busy or self.pending else 'normal')
+        # V0.6: edits remain usable while a packet is in flight; latest values are queued.
+        for widget,cap in self.controls:
+            widget.configure(state='normal' if connected and not self.resetting and self.caps & cap else 'disabled')
+        self.defaults_button.configure(state='normal' if connected and not self.resetting and self.caps & CAP_DEFAULTS else 'disabled')
 
-    def _trace(self, direction, raw):
-        self.events.put(("log", f"{direction}  {raw.hex(' ').upper()}"))
+    def _trace(self,direction,raw): self.events.put(('log',f'{direction}  {raw.hex(" ").upper()}'))
 
-    def _log(self, message):
-        self.log.configure(state="normal")
-        self.log.insert("end", datetime.now().strftime("%H:%M:%S")+"  "+message+"\n")
-        if int(self.log.index("end-1c").split(".")[0]) > 500:
-            self.log.delete("1.0", "100.0")
-        self.log.see("end")
-        self.log.configure(state="disabled")
+    def _log(self,message):
+        self.log.configure(state='normal')
+        self.log.insert('end',datetime.now().strftime('%H:%M:%S')+'  '+message+'\n')
+        if int(self.log.index('end-1c').split('.')[0])>500: self.log.delete('1.0','100.0')
+        self.log.see('end'); self.log.configure(state='disabled')
 
-    def _submit(self, operation, success):
-        if self.busy or self.closing:
+    def _submit(self,operation,success,kind='command'):
+        if self.closing: return
+        if self.busy:
+            if kind!='poll':
+                self.pending[kind]=(operation,success)
+                self.message.set('已记录最新操作，当前应答完成后立即应用。')
             return
-        self.busy = True
-        self._states()
-        future = self.executor.submit(operation)
-        future.add_done_callback(lambda result: self.events.put(("done", result, success)))
+        self.busy=True; self.inflight_kind=kind; self._states()
+        future=self.executor.submit(operation)
+        future.add_done_callback(lambda result:self.events.put(('done',result,success,kind)))
 
     def _drain(self):
         while not self.events.empty():
-            item = self.events.get_nowait()
-            if item[0] == "log":
-                self._log(item[1])
-            else:
-                self.busy = False
-                try:
-                    item[2](item[1].result())
-                except Exception as error:
-                    self.message.set(str(error))
-                    self._log("错误  "+str(error))
-                self._states()
-        if not self.closing:
-            self.root.after(50, self._drain)
+            item=self.events.get_nowait()
+            if item[0]=='log': self._log(item[1]); continue
+            self.busy=False; self.inflight_kind=None
+            try: item[2](item[1].result())
+            except Exception as error:
+                self.message.set(str(error)); self._log('错误  '+str(error))
+                if item[3]=='defaults': self.resetting=False
+            self._states()
+            if self.pending:
+                kind,(operation,success)=self.pending.popitem(last=False)
+                self._submit(operation,success,kind)
+        if not self.closing: self._drain_id=self.root.after(5,self._drain)
 
     def refresh_ports(self):
         try:
-            ports = list_ports()
-            self.port_box.configure(values=[p[0] for p in ports])
-            if ports and self.port.get() not in [p[0] for p in ports]:
-                self.port.set(ports[0][0])
-            if not ports:
-                self.port.set("")
-        except ImportError:
-            self.message.set("串口模式需要 pyserial：pip install -r host/requirements.txt；模拟演示可直接使用。")
+            ports=list_ports(); self.port_box.configure(values=[p[0] for p in ports])
+            if ports and self.port.get() not in [p[0] for p in ports]: self.port.set(ports[0][0])
+            if not ports: self.port.set('')
+        except ImportError: self.message.set('请安装串口依赖：python -m pip install -r host/requirements.txt')
 
     def toggle_connection(self):
-        if self.busy:
-            return
+        if self.busy or self.pending: return
         if self.client:
-            backend = self.client
+            backend=self.client
             def disconnected(_):
-                self.client = None
-                self.caps = 0
-                self.readback.set("—")
-                self.connection.set("未连接")
-                self.cap_text.set("等待查询设备能力")
-                self.geometry_readback.set("尚未回读图像变换配置")
-                self.message.set("连接已断开。")
-            self._submit(backend.close, disconnected)
-            return
+                self.client=None; self.caps=0; self.connection.set('未连接'); self.readback.set('—')
+                self.mode_readback.set('当前模式：—'); self.geometry_readback.set('尚未读取图像设置')
+                self.message.set('已断开。')
+            self._submit(backend.close,disconnected,'disconnect'); return
         try:
-            mode, port, baud = self.mode.get(), self.port.get(), int(self.baud.get())
-            if not 1200 <= baud <= 1000000:
-                raise ValueError("波特率应为 1200～1000000，并与 FPGA 一致")
-            if mode == "串口硬件" and not port:
-                raise ValueError("请先选择串口")
-        except ValueError as error:
-            self.message.set(str(error))
-            return
+            mode,port,baud=self.mode.get(),self.port.get(),int(self.baud.get())
+            if not 1200<=baud<=1000000: raise ValueError('波特率无效')
+            if mode=='串口硬件' and not port: raise ValueError('请选择串口')
+        except ValueError as error: self.message.set(str(error)); return
         def connect():
-            backend = DemoClient(self._trace) if mode == "模拟演示" else SerialClient(port, baud, trace=self._trace)
+            backend=DemoClient(self._trace) if mode=='模拟演示' else SerialClient(port,baud,trace=self._trace)
             try:
-                status = backend.get_status()
-                geometry = backend.get_geometry() if status.capabilities & 14 else None
-            except Exception:
-                backend.close()
-                raise
-            return backend, status, geometry
+                status=backend.get_status()
+                geometry=backend.get_geometry() if status.capabilities & CAP_CROP else None
+            except Exception: backend.close(); raise
+            return backend,status,geometry
         def connected(result):
-            self.client, status, geometry = result
-            self.connection.set("模拟 · 未连接硬件" if self.client.simulated else f"已连接 {port}")
-            self._status(status)
-            if geometry:
-                self._geometry(geometry)
-                self._load_geometry_draft(geometry)
-            else:
-                self.geometry_readback.set("当前 bitstream 仅支持阈值；请下载 V0.5 几何变换版本。")
-        self.message.set("正在连接并查询协议版本及设备能力…")
-        self._submit(connect, connected)
+            self.client,status,geometry=result
+            self.connection.set('模拟 · 未连接硬件' if self.client.simulated else f'已连接 {port}')
+            self._status(status); self.threshold.set(str(status.threshold))
+            self.sobel.set(status.sobel_enabled); self.inverted.set(status.inverted)
+            if geometry: self._geometry(geometry); self._load_geometry_draft(geometry)
+        self._submit(connect,connected,'connect')
 
-    def _status(self, status):
-        self.caps = status.capabilities
-        self.readback.set(str(status.threshold))
-        names = [name for bit, name in ((1, "阈值"), (2, "翻转"), (4, "裁剪"), (8, "缩放")) if self.caps & bit]
-        self.cap_text.set("设备能力："+" / ".join(names)+f"；协议 V{status.version}")
-        prefix = "模拟回读" if self.client.simulated else "FPGA 已确认"
-        self.message.set(f"{prefix}：当前阈值 {status.threshold}。")
+    def _status(self,status,announce=True):
+        self.caps=status.capabilities; self.readback.set(str(status.threshold))
+        prefix='模拟' if self.client.simulated else '设备'
+        mode='Sobel · '+('黑边白底' if status.inverted else '白边黑底') if status.sobel_enabled else '原始图像'
+        if status.capabilities & CAP_ISP:
+            self.mode_readback.set(f'{prefix}已确认：{mode}；黑白反转'+('开启' if status.inverted else '关闭'))
+        else:
+            mode='模式由旧版bit固定，无法回读'
+            self.mode_readback.set(mode)
+        self.cap_text.set('V0.6 功能可用' if status.capabilities & CAP_DEFAULTS else '旧版设备：新功能需下载 V0.6')
+        if announce: self.message.set(f'{prefix}已确认：阈值 {status.threshold}，{mode}。')
+
+    def _status_action(self,status):
+        self._status(status)
+        if not self.client.simulated: self.latency.set(f'最近命令往返 {self.client.last_roundtrip_ms:.1f} ms')
 
     def apply_threshold(self):
-        if not self.client or self.busy or not self.caps & CAP_THRESHOLD:
-            return
-        try:
-            value = int(self.threshold.get())
-            threshold_payload(value)
-        except ValueError:
-            self.message.set("阈值必须是 0～4095 的整数，未发送命令。")
-            return
-        self.message.set("已提交，等待 FPGA 在场消隐应用并返回确认…")
-        self._submit(lambda: self.client.set_threshold(value), self._status)
+        if not self.client or self.resetting or not self.caps & CAP_THRESHOLD: return
+        try: value=int(self.threshold.get()); threshold_payload(value)
+        except ValueError: self.message.set('阈值必须为0～4095整数，未发送。'); return
+        self.last_interaction=time.monotonic(); backend=self.client
+        self._submit(lambda:backend.set_threshold(value),self._status_action,'threshold')
 
-    def query(self):
-        if self.client and not self.busy:
-            backend = self.client
-            def read():
-                status = backend.get_status()
-                return status, backend.get_geometry() if status.capabilities & 14 else None
-            def updated(result):
-                self._status(result[0])
-                if result[1]: self._geometry(result[1])
-            self._submit(read, updated)
+    def apply_isp(self):
+        if not self.client or self.resetting or not self.caps & CAP_ISP: return
+        enabled,inverted=self.sobel.get(),self.inverted.get(); backend=self.client
+        self.last_interaction=time.monotonic()
+        self._submit(lambda:backend.set_isp(enabled,inverted),self._status_action,'isp')
+
+    def apply_feature(self,kind):
+        if not self.client or self.resetting: return
+        cap={'flip':CAP_FLIP,'crop':CAP_CROP,'zoom':CAP_ZOOM}[kind]
+        if not self.caps & cap: return
+        try:
+            if kind=='flip': args=(self.flip.get(),self.flip_horizontal.get())
+            elif kind=='crop':
+                args=tuple(int(self.crop[k].get()) for k in ('x','y','width','height')); crop_payload(*args)
+            else: args=percent_ratio(self.zoom.get())
+        except ValueError as error: self.message.set(str(error)); return
+        backend=self.client; self.last_interaction=time.monotonic()
+        self._submit(lambda:getattr(backend,'set_'+kind)(*args),self._geometry,kind)
+
+    def _geometry(self,g):
+        prefix='模拟' if self.client.simulated else '设备'
+        self.geometry_readback.set(f'{prefix}已确认：上下'+('开' if g.vertical else '关')+' / 左右'+('开' if g.horizontal else '关')+
+            f'；裁剪 ({g.x}, {g.y}, {g.width}, {g.height})；缩放 {g.numerator*100/g.denominator:g}%。')
+        self.message.set('图像设置已生效并回读。' if not self.client.simulated else '模拟设置已回读，未连接硬件。')
+        if g.faults: self.message.set('设备历史诊断：'+('出现过缺行；' if g.faults&1 else '')+('出现过DDR读错误；' if g.faults&2 else '')+'标志保持至FPGA复位。')
+
+    def _load_geometry_draft(self,g):
+        self.flip.set(g.vertical); self.flip_horizontal.set(g.horizontal)
+        for name in self.crop: self.crop[name].set(str(getattr(g,name)))
+        self.zoom.set(f'{g.numerator*100/g.denominator:g}%')
+
+    def reset_defaults(self):
+        if not self.client or self.resetting or not self.caps & CAP_DEFAULTS: return
+        # V0.6: defaults supersede unsent edits, never discard an in-flight packet.
+        threshold_task=self.pending.get('threshold')
+        self.pending.clear()
+        if threshold_task: self.pending['threshold']=threshold_task
+        self.resetting=True; self._states()
+        backend=self.client; self.last_interaction=time.monotonic()
+        def updated(result):
+            status,geometry=result; self.resetting=False; self._status(status)
+            self.sobel.set(status.sobel_enabled); self.inverted.set(status.inverted)
+            if geometry: self._geometry(geometry); self._load_geometry_draft(geometry)
+            self.message.set('已恢复默认，Sobel阈值保持不变。')
+        self._submit(backend.reset_defaults,updated,'defaults')
 
     def _poll(self):
-        if self.auto_poll.get():
-            self.query()
-        if not self.closing:
-            self.root.after(1500, self._poll)
-
-    def _feature(self, kind):
-        if kind == "flip":
-            args = (self.flip.get(),self.flip_horizontal.get())
-            return Command.SET_FLIP, flip_payload(*args), args
-        if kind == "crop":
-            args = tuple(int(self.crop[name].get()) for name in ("x", "y", "width", "height"))
-            return Command.SET_CROP, crop_payload(*args), args
-        value = Fraction(self.zoom.get())
-        args = (value.numerator, value.denominator)
-        return Command.SET_ZOOM, zoom_payload(*args), args
-
-    def preview(self, kind):
-        try:
-            command, payload, _ = self._feature(kind)
-            raw = Frame(0, command, payload).encode()
-            self._log("草稿（未发送）  "+raw.hex(" ").upper())
-            self.message.set("命令已校验并显示在记录中，尚未发送到硬件。")
-        except (ValueError, ZeroDivisionError) as error:
-            self.message.set("参数无效："+str(error))
-
-    def apply_feature(self, kind):
-        if not self.client or self.busy:
-            return
-        cap = {"flip": CAP_FLIP, "crop": CAP_CROP, "zoom": CAP_ZOOM}[kind]
-        if not self.caps & cap:
-            self.message.set("当前 RTL 尚未实现此功能。")
-            return
-        try:
-            _, _, args = self._feature(kind)
-        except (ValueError, ZeroDivisionError) as error:
-            self.message.set(str(error))
-            return
-        operation = getattr(self.client, "set_"+kind)
-        self.message.set("正在应用图像变换，等待帧边界确认和配置回读…")
-        self._submit(lambda: operation(*args), self._geometry)
-
-    def _geometry(self, geometry):
-        prefix = "模拟回读" if self.client.simulated else "上次 FPGA 已确认"
-        self.geometry_readback.set(
-            f"{prefix}：上下 {'开' if geometry.vertical else '关'} / 左右 {'开' if geometry.horizontal else '关'}；"
-            f"裁剪 ({geometry.x}, {geometry.y}, {geometry.width}, {geometry.height})；"
-            f"倍率 {geometry.numerator}/{geometry.denominator}。")
-        self.message.set(f"{prefix}：图像变换配置已回读，图像通过 HDMI 输出。")
-        if geometry.faults:
-            errors = []
-            if geometry.faults & 1: errors.append("出现过显示缺行（已补黑）")
-            if geometry.faults & 2: errors.append("出现过 DDR 读响应错误")
-            self.message.set("硬件诊断："+"；".join(errors)+"。标志保持至 FPGA 复位。")
-
-    def _load_geometry_draft(self, geometry):
-        self.flip.set(geometry.vertical)
-        self.flip_horizontal.set(geometry.horizontal)
-        for name in self.crop: self.crop[name].set(str(getattr(geometry,name)))
-        self.zoom.set(str(Fraction(geometry.numerator,geometry.denominator)))
-
-    def reset_geometry(self):
-        if not self.client or self.busy or self.caps & 14 != 14: return
-        def updated(geometry):
-            self._geometry(geometry)
-            self._load_geometry_draft(geometry)
-        self.message.set("依次恢复1倍缩放、全图裁剪和不翻转；每一步均等待硬件确认…")
-        self._submit(self.client.reset_geometry, updated)
-
-    def save_draft(self):
-        try:
-            value = int(self.threshold.get())
-            threshold_payload(value)
-            for kind in ("flip", "crop", "zoom"):
-                self._feature(kind)
-        except (ValueError, ZeroDivisionError) as error:
-            self.message.set("不能保存："+str(error))
-            return
-        path = filedialog.asksaveasfilename(defaultextension=".json", initialfile="image_settings.json",
-                                           filetypes=[("JSON 配置", "*.json")])
-        if path:
-            try:
-                Path(path).write_text(json.dumps({"protocol_version": 1, "threshold": value,
-                    "flip_vertical": self.flip.get(), "flip_horizontal": self.flip_horizontal.get(),
-                    "crop": {k: int(v.get()) for k,v in self.crop.items()},
-                    "zoom": str(Fraction(self.zoom.get())), "note": "配置草稿，不代表硬件已应用"},
-                    ensure_ascii=False, indent=2), encoding="utf-8")
-                self.message.set("配置草稿已保存。")
-            except OSError as error:
-                self.message.set("保存失败："+str(error))
+        # Only one short status request; geometry is read after commands, not every poll.
+        if self.auto_poll.get() and self.client and not self.busy and not self.pending and time.monotonic()-self.last_interaction>.3:
+            self._submit(self.client.get_status,lambda status:self._status(status,False),'poll')
+        if not self.closing: self._poll_id=self.root.after(1500,self._poll)
 
     def close(self):
-        if self.closing:
-            return
-        self.closing = True
-        # Queue cleanup after any in-flight bounded serial operation, including connect.
-        pending_client = self.client
+        if self.closing: return
+        self.closing=True; self.pending.clear(); client=self.client
+        # V0.6: cancel owned timers before destroying Tcl widgets.
+        for timer in (self._drain_id,self._poll_id):
+            self.root.after_cancel(timer)
         def cleanup():
-            if pending_client:
-                pending_client.close()
+            if client: client.close()
             while not self.events.empty():
-                item = self.events.get_nowait()
-                if item[0] == "done":
+                item=self.events.get_nowait()
+                if item[0]=='done':
                     try:
-                        result = item[1].result()
-                        if isinstance(result, tuple) and hasattr(result[0], "close"):
-                            result[0].close()
-                    except Exception:
-                        pass
-        self.executor.submit(cleanup)
-        self.executor.shutdown(wait=False)
-        self.root.destroy()
+                        result=item[1].result()
+                        if isinstance(result,tuple) and hasattr(result[0],'close'): result[0].close()
+                    except Exception: pass
+        self.executor.submit(cleanup); self.executor.shutdown(wait=False); self.root.destroy()
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--demo", action="store_true", help="Select simulation mode without opening a COM port")
-    args = parser.parse_args()
-    root = tk.Tk()
-    ImageControlApp(root, demo=args.demo)
-    root.mainloop()
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--demo',action='store_true')
+    args=parser.parse_args()
+    root=tk.Tk(); ImageControlApp(root,demo=args.demo); root.mainloop()
 
 
-if __name__ == "__main__":
-    main()
+if __name__=='__main__': main()

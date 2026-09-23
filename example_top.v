@@ -42,6 +42,15 @@
 ////--------------------2026-09-22-V0.5:DDR读出几何变换与上位机实时控制------------------------------
 */
 
+/*
+////--------------------2026-09-23-V0.6:快捷交互与运行时图像模式------------------------------
+25. ENABLE_SOBEL和BINARY_OUTPUT改为像素域输入，默认原图、正常黑白；原图旁路对齐六拍。
+26. 扩展缩放至10%-500%，GUI保留预置并支持百分比输入回车；翻转点击直接提交。
+27. 新增11模式命令和12默认命令，统一恢复全部功能默认但保留阈值；应答携带实际模式。
+28. 移除阈值确认/查询按钮，回车提交；交互请求合并排队，缩短串口读取及UI等待。
+29. 增加模式/反相/默认保阈值/扩大缩放范围和延迟回归，更新使用说明。
+////--------------------2026-09-23-V0.6:快捷交互与运行时图像模式------------------------------
+*/
 //`include "ddr3_controller.vh"
 
 
@@ -51,10 +60,10 @@ module example_top #(
     parameter HDMI_TEST_PATTERN = 0,
     /* V0.3 / 11：新增 Sobel 开关及阈值；ENABLE_SOBEL=0 恢复原图。
        SOBEL_BINARY=0 输出饱和灰度梯度，=1 输出黑底白边。 */
-    parameter ENABLE_SOBEL = 1,
+    /* V0.6 / 25: old parameter ENABLE_SOBEL=1 removed; runtime signal defaults to0. */
     /* V0.4 / 13：用户已将阈值参数改为输入变量，现由UART/按键控制，复位值128。
        原 parameter [11:0] SOBEL_THRESHOLD = 12'd128, */
-    parameter SOBEL_BINARY = 1,
+    /* V0.6 / 25: old parameter SOBEL_BINARY=1 replaced by BINARY_OUTPUT input. */
     /* V0.4 / 14：与Python上位机默认波特率一致。 */
     parameter UART_BAUD = 115200
 )
@@ -1165,6 +1174,8 @@ module example_top #(
     wire processed_hs, processed_vs, processed_de;
     */
     wire [11:0] SOBEL_THRESHOLD;
+    /* V0.6 / 25: applied pixel-domain mode outputs, not compile-time parameters. */
+    wire ENABLE_SOBEL, BINARY_OUTPUT;
     wire processed_hs, processed_vs, processed_de;
     /* V0.4 / 14~16：UART/按键共同控制；输出阈值已经安全进入像素时钟域。
        processed_vs低有效时处于场消隐，处理流水中已没有上一帧有效像素。 */
@@ -1175,19 +1186,19 @@ module example_top #(
         .clk(clk_sys), .rst_n(rstn_sys), .uart_rx_i(uart_rx_i), .uart_tx_o(uart_tx_o),
         .key_data(key_data), .pixel_clk(clk_pixel), .pixel_rst_n(rstn_pixel),
         .frame_blank_i(!processed_vs), .threshold_pixel_o(SOBEL_THRESHOLD),
+        .enable_sobel_o(ENABLE_SOBEL), .binary_output_o(BINARY_OUTPUT),
         /* V0.5 / 22: UART now controls DDR source geometry as well as Sobel threshold. */
         .geometry_o(transform_geometry), .geometry_toggle_o(transform_toggle),
         .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults)
     );
     video_processing #(
         .IMAGE_WIDTH(1280),
-        .ENABLE_SOBEL(ENABLE_SOBEL),
-       
-        .SOBEL_BINARY(SOBEL_BINARY),
+        /* V0.6: runtime enable/polarity connect below; parameter overrides removed. */
         .VS_ACTIVE(1'b0)
     ) u_video_processing (
         .clk(clk_pixel), .rst_n(rstn_pixel),
         .SOBEL_THRESHOLD(SOBEL_THRESHOLD),
+        .ENABLE_SOBEL(ENABLE_SOBEL), .BINARY_OUTPUT(BINARY_OUTPUT),
         .rgb_i({lcd_red, lcd_green, lcd_blue}),
         .hs_i(lcd_hs), .vs_i(lcd_vs), .de_i(lcd_de),
         .rgb_o(processed_rgb),

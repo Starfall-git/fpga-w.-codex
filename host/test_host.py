@@ -54,7 +54,7 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(len(crop_payload(0, 0, 1280, 720)), 8)
         for args in ((0, 0, 0, 1), (1279, 0, 2, 1), (0, 719, 1, 2)):
             with self.assertRaises(ValueError): crop_payload(*args)
-        for args in ((1, 0), (1, 5), (5, 1)):
+        for args in ((1, 0), (1, 11), (6, 1)):
             with self.assertRaises(ValueError): zoom_payload(*args)
         self.assertEqual(zoom_payload(1, 4)[:4], b"\x01\x00\x04\x00")
 
@@ -86,7 +86,34 @@ class ProtocolTests(unittest.TestCase):
         client = DemoClient()
         self.assertTrue(client.simulated)
         self.assertEqual(client.set_threshold(512).threshold, 512)
-        self.assertEqual(client.get_status().capabilities, 15)
+        self.assertEqual(client.get_status().capabilities, 127)
+
+    def test_percent_modes_and_device_defaults(self):
+        self.assertEqual(percent_ratio('10%'),(1,10))
+        self.assertEqual(percent_ratio('500'),(5,1))
+        self.assertEqual(percent_ratio('123.45%'),(2469,2000))
+        for text in ('9.99%','500.01%','NaN','inf','0.1','12.345%'):
+            with self.assertRaises(ValueError): percent_ratio(text)
+        client=DemoClient()
+        self.assertFalse(client.get_status().sobel_enabled)
+        client.set_threshold(777)
+        self.assertEqual(client.set_isp(True,True).isp_flags,3)
+        client.set_flip(True,True); client.set_zoom(5,1)
+        status,geometry=client.reset_defaults()
+        self.assertEqual(status.threshold,777)
+        self.assertEqual(status.isp_flags,0)
+        self.assertEqual(geometry,Geometry())
+
+    def test_serial_read_does_not_wait_for_128_bytes(self):
+        class ExactSerial(FakeSerial):
+            @property
+            def in_waiting(self): return len(self.buffer)
+            def read(self,size):
+                if size>len(self.buffer): raise AssertionError('Would wait for timeout despite complete reply')
+                data=bytes(self.buffer[:size]); del self.buffer[:size]; return data
+        client=SerialClient(transport=ExactSerial())
+        self.assertEqual(client.get_status().threshold,128)
+        self.assertGreaterEqual(client.last_roundtrip_ms,0)
 
     def test_geometry_roundtrip_and_cross_validation(self):
         client = DemoClient()
@@ -134,7 +161,7 @@ class GuiTests(unittest.TestCase):
             self.assertEqual(app.readback.get(), "256")
             app.threshold.set("4096"); app.apply_threshold()
             self.assertEqual(app.client.status.threshold, 256)
-            for button, _ in app.feature_buttons:
+            for button, _ in app.controls:
                 self.assertEqual(str(button.cget("state")), "normal")
             app.flip.set(True); app.flip_horizontal.set(True)
             app.apply_feature('flip'); finish()
@@ -142,18 +169,51 @@ class GuiTests(unittest.TestCase):
             app.crop['x'].set('100'); app.crop['width'].set('640'); app.crop['height'].set('360')
             app.apply_feature('crop'); finish()
             self.assertEqual(app.client.geometry.width,640)
-            app.zoom.set('1.5'); app.apply_feature('zoom'); finish()
-            self.assertIn('3/2',app.geometry_readback.get())
+            app.zoom.set('150%'); app.apply_feature('zoom'); finish()
+            self.assertIn('150%',app.geometry_readback.get())
             app.crop['width'].set('1280'); app.apply_feature('crop')
             self.assertEqual(app.client.geometry.width,640)
-            app.reset_geometry(); finish()
+            app.sobel.set(True); app.inverted.set(True); app.apply_isp(); finish()
+            self.assertEqual(app.client.status.isp_flags,3)
+            app.reset_defaults(); finish()
             self.assertEqual(app.client.geometry,Geometry())
-            app.preview("crop")
+            self.assertEqual(app.client.status.isp_flags,0)
+            self.assertEqual(app.client.status.threshold,256)
             self.assertIn("A5 5A", app.log.get("1.0", "end"))
             app.toggle_connection(); finish()
             self.assertIsNone(app.client)
         finally:
             app.close()
+
+    def test_busy_edits_coalesce_and_defaults_preserve_pending_threshold(self):
+        import tkinter as tk
+        from .gui import ImageControlApp
+        root=tk.Tk(); root.withdraw(); app=ImageControlApp(root,demo=True); app.auto_poll.set(False)
+        def finish():
+            deadline=time.monotonic()+3
+            while (app.busy or app.pending) and time.monotonic()<deadline:
+                root.update(); time.sleep(.005)
+            self.assertFalse(app.busy or app.pending)
+        try:
+            app.toggle_connection(); finish()
+            writes=[]; setter=app.client.set_threshold
+            def slow(value):
+                writes.append(value); time.sleep(.03); return setter(value)
+            app.client.set_threshold=slow
+            app.threshold.set('201'); app.apply_threshold()
+            app.threshold.set('202'); app.apply_threshold()
+            app.threshold.set('203'); app.apply_threshold()
+            app.flip.set(True); app.apply_feature('flip')
+            app.reset_defaults(); finish()
+            self.assertEqual(writes,[201,203])
+            self.assertEqual(app.client.status.threshold,203)
+            self.assertEqual(app.client.geometry,Geometry())
+            # Actual checkbox callbacks submit immediately; no Apply button involved.
+            app.controls[0][0].invoke(); finish()
+            self.assertTrue(app.client.status.sobel_enabled)
+            self.assertTrue(app.threshold_entry.bind('<Return>'))
+            self.assertTrue(app.zoom_box.bind('<Return>'))
+        finally: app.close()
 
 
 if __name__ == "__main__":
