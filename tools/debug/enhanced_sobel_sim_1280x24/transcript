@@ -1,0 +1,21 @@
+# vsim -c -onfinish stop work.enhanced_video_processing_tb "+VECTORS=vectors.txt" -do "onerror {quit -code 1}; onbreak {quit -code 1}; run -all; quit -code 0" -gWIDTH=1280 
+# Start time: 17:19:46 on Sep 24,2026
+# Loading sv_std.std
+# Loading work.enhanced_video_processing_tb
+# Loading work.video_processing
+# Loading work.video_window3x3
+# Loading work.video_sobel
+# Loading work.video_window3x3_generic
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS: 370331 cycles, WIDTH=1280, six configurations
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/enhanced_video_processing_tb.sv(73)
+#    Time: 3703316 ns  Iteration: 0  Instance: /enhanced_video_processing_tb
+# Break in Module enhanced_video_processing_tb at C:/Users/francis/Desktop/fpga-w.-codex/testbench/enhanced_video_processing_tb.sv line 73
+# Stopped at C:/Users/francis/Desktop/fpga-w.-codex/testbench/enhanced_video_processing_tb.sv line 73
+#  quit -code 0
+# End time: 17:22:04 on Sep 24,2026, Elapsed time: 0:02:18
+# Errors: 0, Warnings: 0

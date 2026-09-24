@@ -1,0 +1,18 @@
+{
+  "built": "2026-09-24",
+  "project": "Ti60_AR0135.xml",
+  "tool": "Efinity 2026.1.132.3.9",
+  "hardware_test": "pending user verification",
+  "sha256": {
+    "example_top.v": "dcde9a02aaa3afedc0a77b33cabaf36b6f86225a23679d99e25b2f853196066f",
+    "Ti60_AR0135.xml": "8b6aceecfc4ed1539bcf562c1d4fba43f58f62de97732fb5d173149d4e3f4dc1",
+    "Ti60_AR0135.peri.xml": "58a3dcb316c680c645ae1c5d50338d9129024a7f5e5140226fe8c8c64c0baa35",
+    "Ti60_AR0135.pt.sdc": "c1bd5442c1611c172016c677de93a2195b69cef4a5b28b3a9287e4a2dc213f36",
+    "src/isp/video_processing.v": "1f96c05a6b7523cae18fc59bbb7e75578bead19eb30cd7952fda29c9c98bb152",
+    "src/isp/video_sobel.v": "b7881603f08f24979a8b711136be3a0a5645cf8f3275c821070b9990730b2944",
+    "src/isp/video_window3x3.v": "8795c392d40a4c1e58b60653ae07c274c5ab7ca1e4eb4e40654226252182c80d",
+    "src/isp/video_window3x3_generic.v": "637ba83658e14d7817cc97ccc282575e6a259db232ed32cad77688d677c6a7da",
+    "outflow/Ti60_AR0135.bit": "f493e43bd46b950e1133bbd6556c3cf4b843142a72db7f2bd60e5a502cd386ee",
+    "outflow/Ti60_AR0135_v08_fixed.bit": "f493e43bd46b950e1133bbd6556c3cf4b843142a72db7f2bd60e5a502cd386ee"
+  }
+}

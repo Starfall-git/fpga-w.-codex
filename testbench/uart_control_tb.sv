@@ -7,7 +7,8 @@ module uart_control_tb;
     wire [11:0] threshold;
     wire [23:0] edge_rgb;
     /* Fixed window |Gx|=128: serial threshold change must affect actual Sobel output. */
-    video_sobel sobel(.clk(pixel_clk),.rst_n(rst),.THRESHOLD(threshold),.BINARY_OUTPUT(1'b1),
+    /* V0.8: small continuous raster exercises enhanced neighborhood stages. */
+    video_sobel #(.IMAGE_WIDTH(16)) sobel(.clk(pixel_clk),.rst_n(rst),.THRESHOLD(threshold),.BINARY_OUTPUT(1'b1),
         .pixels_i({8'd0,8'd0,8'd32,8'd0,8'd0,8'd32,8'd0,8'd0,8'd32}),
         .hs_i(1'b1),.vs_i(1'b1),.de_i(1'b1),.window_valid_i(1'b1),
         .rgb_o(edge_rgb),.hs_o(),.vs_o(),.de_o());
@@ -89,6 +90,8 @@ module uart_control_tb;
     initial begin
         #43; rst=1; #200;
         send_frame(1,1,0,0); expect_reply(1,1,0,128);
+        repeat(160) @(negedge pixel_clk);
+        wait(sobel.edge_window_valid); @(posedge pixel_clk); #1;
         if(edge_rgb!==24'hffffff) $fatal(1,"Initial Sobel threshold equality");
         send_frame(2,16,256,0);
         #3000;
@@ -97,6 +100,8 @@ module uart_control_tb;
         blank=1;
         expect_reply(2,16,0,256);
         if(threshold!==256) $fatal(1,"CDC apply");
+        repeat(160) @(negedge pixel_clk);
+        wait(sobel.edge_window_valid); @(posedge pixel_clk); #1;
         if(edge_rgb!==0) $fatal(1,"Runtime threshold not reaching Sobel");
         send_frame(3,16,4096,0); expect_reply(3,16,2,256);
         send_frame(4,16,100,1); expect_reply(4,16,1,256);
