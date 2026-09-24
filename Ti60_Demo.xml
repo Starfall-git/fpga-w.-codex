@@ -13,6 +13,7 @@
         <efx:design_file name="src/control/key_debounce.v" version="default" library="default"/>
         <efx:design_file name="src/control/threshold_cdc.v" version="default" library="default"/>
         <efx:design_file name="src/control/uart_image_control.v" version="default" library="default"/>
+        <efx:design_file name="src/isp/video_rgb2gray.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_processing.v" version="default" library="default"/>
         <efx:design_file name="src/isp/unsigned_divider.v" version="default" library="default"/>
         <efx:design_file name="src/isp/axi_transform_reader.v" version="default" library="default"/>

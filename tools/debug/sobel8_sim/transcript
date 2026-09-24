@@ -1,0 +1,13 @@
+# vsim -c work.sobel8_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 23:48:40 on Sep 24,2026
+# Loading sv_std.std
+# Loading work.sobel8_tb
+# Loading work.video_sobel
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# PASS SOBEL8: 6784 vectors
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/sobel8_tb.sv(42)
+#    Time: 339236 ns  Iteration: 0  Instance: /sobel8_tb
+# End time: 23:48:40 on Sep 24,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

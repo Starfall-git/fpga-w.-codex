@@ -1,6 +1,6 @@
-# VF-Ti60 图像控制台 V0.10
+# VF-Ti60 图像控制台 V0.11
 
-2026-09-24。建议配套下载已修正摄像头方向和图像边缘的 `outflow/Ti60_AR0135_v010_orientation_border.bit`。
+2026-09-24。配套八方向Sobel与独立灰度模块：`outflow/Ti60_AR0135_v011_sobel8_gray.bit`。GUI协议不变。
 
 在工程根目录运行：
 
@@ -12,7 +12,7 @@ python -m host.gui
 也可双击 `host/start_gui.bat`。本机解释器为 `D:/python/python.exe`；无硬件演示用 `python -m host.gui --demo` 后点击连接。
 
 - 默认显示原图；“中值滤波”和“Sobel边缘检测”可独立点击切换，支持四种组合；“黑白反转”只作用于 Sobel。
-- 阈值0～4095，输入后回车，不再点击确认或查询。
+- 阈值0～4095，输入后回车。V0.11默认作为自适应门限的下限，实际门限=max(输入值,中心亮度,1)；大于1020时没有有效边缘。
 - 上下/左右翻转点击即提交。
 - 缩放保留预置，也可输入10%～500%后回车，支持两位小数。
 - 裁剪输入源图X/Y/宽/高，回车或点击“裁剪”。
@@ -22,6 +22,6 @@ python -m host.gui
 
 串口仍为115200/8N1。RX F10、TX E10是FPGA封装管脚，配置电平1.8V；接线按实际板卡电路核对。串口只传控制，图像仍通过HDMI输出。
 
-摄像头方向与白线修复见 [V0.10 修复说明](../docs/ORIENTATION_BORDER_V010_GUIDE.md)；中值滤波接口见 [V0.9 中值滤波说明](../docs/MEDIAN_V09_GUIDE.md)。
+八方向算法与调试方法见 [V0.11 算法说明](../docs/SOBEL8_GRAY_V011_GUIDE.md)。摄像头方向与白线修复见 [V0.10 修复说明](../docs/ORIENTATION_BORDER_V010_GUIDE.md)；中值滤波接口见 [V0.9 中值滤波说明](../docs/MEDIAN_V09_GUIDE.md)。
 
 测试：`python -m unittest host.test_host -v`。本版已完成软件/RTL仿真与Efinity编译，实际显示仍需下载到板卡确认。帧冻结、回放和对比尚未加入。

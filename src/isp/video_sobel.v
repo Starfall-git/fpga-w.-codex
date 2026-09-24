@@ -2,14 +2,18 @@
 /*
 2026-09-18 V0.3 新增：3x3 Sobel 梯度、绝对值幅度及阈值输出。
 pixels_i 顺序为 {p00,p01,p02,p10,p11,p12,p20,p21,p22}，每项 8 bit。
-Gx = 右列加权和 - 左列加权和；Gy = 下行加权和 - 上行加权和。
-幅度使用 |Gx|+|Gy|，不使用开方；三段流水使 RGB/HS/VS/DE 同步延迟。
+V0.11 / 53: 参考 Sobeledge_8d 的四组方向梯度，绝对值对应八方向。
+原 |Gx|+|Gy| 改为 max(|G0|,|G45|,|G90|,|G135|)，三拍同步。
+ADAPTIVE_THRESHOLD=1 使用 max(THRESHOLD, 窗口中心亮度, 1)，
+防止原参考全黑区域 0>=0 误判；=0 仅使用 UART 固定阈值。
+参考来源：用户提供 Sobeledge_8d/hdl/Sobeledge_proc.v。
 BINARY_OUTPUT=1：幅度 >= THRESHOLD 输出白色，否则黑色。
 V0.6 BINARY_OUTPUT=0：黑白反相；灰度诊断改用GRAYSCALE_OUTPUT参数。
 */
 module video_sobel #(
     /* V0.6 / 25: old BINARY_OUTPUT parameter becomes polarity input below. */
     parameter GRAYSCALE_OUTPUT = 0,
+    parameter ADAPTIVE_THRESHOLD = 1,
     parameter VS_ACTIVE = 1'b0
 )(
     input wire clk, rst_n,
@@ -24,13 +28,22 @@ module video_sobel #(
     wire [7:0] p00 = pixels_i[71:64], p01 = pixels_i[63:56], p02 = pixels_i[55:48];
     wire [7:0] p10 = pixels_i[47:40], p12 = pixels_i[31:24];
     wire [7:0] p20 = pixels_i[23:16], p21 = pixels_i[15:8], p22 = pixels_i[7:0];
-    reg signed [10:0] gx, gy;
+    /* V0.11 / 53: each directional signed result is in [-1020,1020]. */
+    reg signed [10:0] gx, gy, g45, g135;
+    reg [7:0] center_s1, center_s2;
+    wire [10:0] abs_g45 = g45[10] ? (~g45 + 11'd1) : g45;
+    wire [10:0] abs_g135 = g135[10] ? (~g135 + 11'd1) : g135;
     wire [10:0] abs_gx = gx[10] ? (~gx + 11'd1) : gx;
     wire [10:0] abs_gy = gy[10] ? (~gy + 11'd1) : gy;
+    wire [10:0] max_xy = abs_gx > abs_gy ? abs_gx : abs_gy;
+    wire [10:0] max_diag = abs_g45 > abs_g135 ? abs_g45 : abs_g135;
     reg [11:0] magnitude;
     reg [1:0] hs_pipe, vs_pipe, de_pipe, valid_pipe;
     /* V0.6: explicit binary polarity; original grayscale option is independent. */
-    wire edge_hit=(magnitude>=THRESHOLD);
+    wire [11:0] local_floor = center_s2 == 0 ? 12'd1 : {4'b0,center_s2};
+    wire [11:0] effective_threshold = ADAPTIVE_THRESHOLD && local_floor > THRESHOLD
+                                              ? local_floor : THRESHOLD;
+    wire edge_hit=(magnitude>=effective_threshold);
     wire [7:0] edge_value=GRAYSCALE_OUTPUT ?
         ((magnitude>255) ? 8'hff : magnitude[7:0]) :
         ((edge_hit == BINARY_OUTPUT) ? 8'hff : 8'h00);
@@ -38,7 +51,8 @@ module video_sobel #(
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            gx <= 0; gy <= 0; magnitude <= 0; rgb_o <= 0;
+            gx <= 0; gy <= 0; g45 <= 0; g135 <= 0;
+            center_s1 <= 0; center_s2 <= 0; magnitude <= 0; rgb_o <= 0;
             hs_pipe <= 2'b11; vs_pipe <= {2{VS_ACTIVE}};
             de_pipe <= 0; valid_pipe <= 0;
             hs_o <= 1; vs_o <= VS_ACTIVE; de_o <= 0;
@@ -48,7 +62,14 @@ module video_sobel #(
                 - $signed({3'b0,p00}) - $signed({2'b0,p10,1'b0}) - $signed({3'b0,p20});
             gy <= $signed({3'b0,p20}) + $signed({2'b0,p21,1'b0}) + $signed({3'b0,p22})
                 - $signed({3'b0,p00}) - $signed({2'b0,p01,1'b0}) - $signed({3'b0,p02});
-            magnitude <= {1'b0,abs_gx} + {1'b0,abs_gy};
+            /* V0.11 / 53: diagonal kernels match the reference, with explicit
+               signed widening before addition/subtraction. */
+            g45 <= $signed({3'b0,p12}) + $signed({2'b0,p22,1'b0}) + $signed({3'b0,p21})
+                 - $signed({3'b0,p01}) - $signed({2'b0,p00,1'b0}) - $signed({3'b0,p10});
+            g135 <= $signed({3'b0,p01}) + $signed({2'b0,p02,1'b0}) + $signed({3'b0,p12})
+                  - $signed({3'b0,p10}) - $signed({2'b0,p20,1'b0}) - $signed({3'b0,p21});
+            center_s1 <= pixels_i[39:32]; center_s2 <= center_s1;
+            magnitude <= max_xy > max_diag ? {1'b0,max_xy} : {1'b0,max_diag};
             hs_pipe <= {hs_pipe[0],hs_i}; vs_pipe <= {vs_pipe[0],vs_i};
             de_pipe <= {de_pipe[0],de_i}; valid_pipe <= {valid_pipe[0],window_valid_i};
             hs_o <= hs_pipe[1]; vs_o <= vs_pipe[1]; de_o <= de_pipe[1];

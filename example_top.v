@@ -89,6 +89,14 @@
 51. 新增均匀亮场、首行/首列黑边回归，更新AR0135寄存器验证；完整编译和时序检查。
 ////--------------------2026-09-24-V0.10:AR0135方向与Sobel边界伪影修复------------------------------
 */
+/*
+////--------------------2026-09-24-V0.11:参考八方向Sobel与独立灰度转换------------------------------
+52. 新增video_rgb2gray，采用306/601/117加权公式；video_processing新增ENABLE_GRAY，AR0135默认0直接取G亮度。
+53. Sobel采用参考四组方向梯度绝对值的最大值，等效八方向；中心亮度自适应门限叠加UART阈值下限，避免全黑误判。
+54. 保持video_processing实例化各分模块的结构，中值独立选择及窗口有效位不变；全部输出同步对齐13拍。
+55. 新增彩色/黑白、方向梯度、阈值、反相及边界回归，更新工程文件与算法使用说明。
+////--------------------2026-09-24-V0.11:参考八方向Sobel与独立灰度转换------------------------------
+*/
 //`include "ddr3_controller.vh"
 
 
@@ -96,6 +104,9 @@
 module example_top #(
     parameter DEBUG_LEDS = 1,
     parameter HDMI_TEST_PATTERN = 0,
+    /* V0.11 / 52: monochrome AR0135=0; color RGB input=1. */
+    parameter ENABLE_GRAY = 0,
+    parameter SOBEL_ADAPTIVE = 1,
     /* V0.3 / 11：新增 Sobel 开关及阈值；ENABLE_SOBEL=0 恢复原图。
        SOBEL_BINARY=0 输出饱和灰度梯度，=1 输出黑底白边。 */
     /* V0.6 / 25: old parameter ENABLE_SOBEL=1 removed; runtime signal defaults to0. */
@@ -1159,6 +1170,8 @@ module example_top #(
     );
     video_processing #(
         .IMAGE_WIDTH(1280),
+        /* V0.11 / 52-54: configurable independent gray and reference Sobel. */
+        .ENABLE_GRAY(ENABLE_GRAY), .SOBEL_ADAPTIVE(SOBEL_ADAPTIVE),
         /* V0.6: runtime enable/polarity connect below; parameter overrides removed. */
         .VS_ACTIVE(1'b0)
     ) u_video_processing (
