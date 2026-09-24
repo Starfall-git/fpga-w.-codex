@@ -70,6 +70,25 @@
 40. 通用窗口改为同步块RAM读写并打包有效位，避免三组行缓存映射为大量逻辑；总流水线延迟15拍。
 ////--------------------2026-09-23-V0.8:修复增强边缘处理链与HDMI同步------------------------------
 */
+/*
+////--------------------2026-09-24-V0.9:中值滤波独立开关与四模式同拍输出------------------------------
+41. video_processing新增ENABLE_MEDIAN输入，支持原图、中值滤波、Sobel、中值滤波加Sobel四种组合；默认关闭中值滤波。
+42. 原始RGB和中值结果分别延迟至11拍处理末级；HDMI统一使用Sobel末级HS/VS/DE，切换模式不再跳拍。
+43. Sobel前在中值结果与同拍灰度之间选择，保留3x3中值与现有Sobel算法及阈值、反相行为。
+44. UART 11命令增加bit2中值开关，02状态不变；能力位bit7声明支持，12默认命令复位中值开关且保留阈值。
+45. Python协议、串口客户端和GUI增加中值滤波即时按钮及状态回读；旧bit无能力位时禁用该按钮。
+46. 新增四模式像素/同步及UART模式回归，重新编译并导出Ti60_AR0135新bit。
+////--------------------2026-09-24-V0.9:中值滤波独立开关与四模式同拍输出------------------------------
+*/
+/*
+////--------------------2026-09-24-V0.10:AR0135方向与Sobel边界伪影修复------------------------------
+47. AR0135的READ_MODE 0x3040由0000改为8000，使板载摄像头输出的默认画面方向恢复正立；保留上位机翻转功能。
+48. 3x3行缓存新增逐像素有效位及九点有效判定，不再把中值滤波产生的黑色无效边界当作真实像素。
+49. 中值模块输出pixel_valid_o并传至Sobel窗口；纯Sobel仍按原始灰度有效位处理，四模式RGB及同步延迟不变。
+50. Sobel输入窗口增加可配置的左上8像素保护区，抑制帧首/行首与DDR边界形成的虚假亮边，原图和中值图不裁切。
+51. 新增均匀亮场、首行/首列黑边回归，更新AR0135寄存器验证；完整编译和时序检查。
+////--------------------2026-09-24-V0.10:AR0135方向与Sobel边界伪影修复------------------------------
+*/
 //`include "ddr3_controller.vh"
 
 
@@ -1120,7 +1139,8 @@ module example_top #(
     */
     wire [11:0] SOBEL_THRESHOLD;
     /* V0.6 / 25: applied pixel-domain mode outputs, not compile-time parameters. */
-    wire ENABLE_SOBEL, BINARY_OUTPUT;
+    /* V0.9 / 41,44: Median 与 Sobel 分别由像素域配置控制。 */
+    wire ENABLE_SOBEL, ENABLE_MEDIAN, BINARY_OUTPUT;
     wire processed_hs, processed_vs, processed_de;
     /* V0.4 / 14~16：UART/按键共同控制；输出阈值已经安全进入像素时钟域。
        processed_vs低有效时处于场消隐，处理流水中已没有上一帧有效像素。 */
@@ -1132,6 +1152,7 @@ module example_top #(
         .key_data(key_data), .pixel_clk(clk_pixel), .pixel_rst_n(rstn_pixel),
         .frame_blank_i(!processed_vs), .threshold_pixel_o(SOBEL_THRESHOLD),
         .enable_sobel_o(ENABLE_SOBEL), .binary_output_o(BINARY_OUTPUT),
+        .enable_median_o(ENABLE_MEDIAN),
         /* V0.5 / 22: UART now controls DDR source geometry as well as Sobel threshold. */
         .geometry_o(transform_geometry), .geometry_toggle_o(transform_toggle),
         .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults)
@@ -1143,7 +1164,8 @@ module example_top #(
     ) u_video_processing (
         .clk(clk_pixel), .rst_n(rstn_pixel),
         .SOBEL_THRESHOLD(SOBEL_THRESHOLD),
-        .ENABLE_SOBEL(ENABLE_SOBEL), .BINARY_OUTPUT(BINARY_OUTPUT),
+        .ENABLE_SOBEL(ENABLE_SOBEL), .ENABLE_MEDIAN(ENABLE_MEDIAN),
+        .BINARY_OUTPUT(BINARY_OUTPUT),
         .rgb_i({lcd_red, lcd_green, lcd_blue}),
         .hs_i(lcd_hs), .vs_i(lcd_vs), .de_i(lcd_de),
         .rgb_o(processed_rgb),
@@ -1207,5 +1229,3 @@ module example_top #(
 	
 	
 endmodule
-
-

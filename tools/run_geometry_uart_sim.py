@@ -24,7 +24,8 @@ def exchange(cmd,payload=bytes(8),code=0,page_body=None,bad_crc=False):
     seq=len(packets)&255
     request=Frame(seq,cmd,payload).encode()
     if bad_crc: request=request[:-1]+bytes((request[-1]^1,))
-    body=bytes((code,threshold&255,threshold>>8,1,127,isp,0,0)) if page_body is None else page_body
+    # V0.9 / 46: capability bit7 and applied mode bit2 expose Median.
+    body=bytes((code,threshold&255,threshold>>8,1,255,isp,0,0)) if page_body is None else page_body
     reply=Frame(seq,cmd|128,body).encode()
     packets.append((int.from_bytes(request,'little'),int.from_bytes(reply,'little')))
 
@@ -59,9 +60,9 @@ threshold=256; exchange(16,threshold_payload(threshold)); exchange(1); query()
 exchange(2,b'\x04'+bytes(7),page_body=b'\x02\x04'+bytes(6))
 exchange(0x7f,code=3)
 # V0.6: mode toggle, reverse while bypassed, bad bits, defaults preserve threshold.
-for isp in (1,3,2,0,1):
+for isp in (1,3,2,0,1,5,4,6,7,0):
     exchange(17,bytes((isp,))+bytes(7)); exchange(1)
-exchange(17,b'\x04'+bytes(7),code=2)
+exchange(17,b'\x08'+bytes(7),code=2)
 flags=3; exchange(32,flip_payload(True,True))
 zoom=(5,1); exchange(34,zoom_payload(*zoom))
 isp=0; flags=0; crop=(0,0,1280,720); zoom=(1,1)

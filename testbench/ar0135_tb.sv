@@ -123,7 +123,8 @@ module ar0135_tb;
         if(regs['h3008]-regs['h3004]+1!=W || regs['h3006]-regs['h3002]+1!=H)
             $fatal(1,"Window mismatch");
         if(regs['h3064]!=16'h1982 || regs['h3100]!=16'h13 || regs['h301A]!=16'h10DC ||
-           regs['h3040]!=0 || regs['h3028]!=16'h10 || regs['h3030]!=44)
+           /* V0.10 / 47: sensor vertical readout corrects board orientation. */
+           regs['h3040]!=16'h8000 || regs['h3028]!=16'h10 || regs['h3030]!=44)
             $fatal(1,"Mode/PLL/AE mismatch");
         $display("PASS AR0135: ACK/retry/missing-device/ID/delays/ROI/AE, 2 full720p frames (%0d pixels)",seen);
         $finish;

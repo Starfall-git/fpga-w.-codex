@@ -86,7 +86,7 @@ class ProtocolTests(unittest.TestCase):
         client = DemoClient()
         self.assertTrue(client.simulated)
         self.assertEqual(client.set_threshold(512).threshold, 512)
-        self.assertEqual(client.get_status().capabilities, 127)
+        self.assertEqual(client.get_status().capabilities, 255)
 
     def test_percent_modes_and_device_defaults(self):
         self.assertEqual(percent_ratio('10%'),(1,10))
@@ -103,6 +103,21 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(status.threshold,777)
         self.assertEqual(status.isp_flags,0)
         self.assertEqual(geometry,Geometry())
+
+    def test_optional_median_flags_and_legacy_capability(self):
+        # V0.9 / 46: independent Sobel/Median modes, defaults, old-bit guard.
+        self.assertEqual(isp_payload(False,False,True),b'\x04'+bytes(7))
+        self.assertEqual(isp_payload(True,False,True),b'\x05'+bytes(7))
+        for flags in range(8):
+            status=DemoClient().set_isp(bool(flags&1),bool(flags&2),bool(flags&4))
+            self.assertEqual(status.isp_flags,flags)
+            self.assertEqual(status.median_enabled,bool(flags&4))
+        demo=DemoClient(); demo.set_isp(True,True,True)
+        self.assertEqual(demo.reset_defaults()[0].isp_flags,0)
+        old=SerialClient(transport=FakeSerial()); old.get_status()
+        with self.assertRaises(RuntimeError): old.set_isp(False,False,True)
+        self.assertEqual(len(old.transport.writes),1)
+        with self.assertRaises(ValueError): DeviceStatus.from_frame(Frame(0,0x81,bytes((0,128,0,1,127,4,0,0))))
 
     def test_serial_read_does_not_wait_for_128_bytes(self):
         class ExactSerial(FakeSerial):
@@ -163,6 +178,10 @@ class GuiTests(unittest.TestCase):
             self.assertEqual(app.client.status.threshold, 256)
             for button, _ in app.controls:
                 self.assertEqual(str(button.cget("state")), "normal")
+            # V0.9 / 46: actual Median checkbox click sends without an Apply button.
+            app.controls[1][0].invoke(); finish()
+            self.assertTrue(app.client.status.median_enabled)
+            self.assertFalse(app.client.status.sobel_enabled)
             app.flip.set(True); app.flip_horizontal.set(True)
             app.apply_feature('flip'); finish()
             self.assertTrue(app.client.geometry.horizontal)
@@ -173,11 +192,14 @@ class GuiTests(unittest.TestCase):
             self.assertIn('150%',app.geometry_readback.get())
             app.crop['width'].set('1280'); app.apply_feature('crop')
             self.assertEqual(app.client.geometry.width,640)
-            app.sobel.set(True); app.inverted.set(True); app.apply_isp(); finish()
-            self.assertEqual(app.client.status.isp_flags,3)
+            app.sobel.set(True); app.inverted.set(True); app.median.set(True)
+            app.apply_isp(); finish()
+            self.assertEqual(app.client.status.isp_flags,7)
+            self.assertIn('中值滤波',app.mode_readback.get())
             app.reset_defaults(); finish()
             self.assertEqual(app.client.geometry,Geometry())
             self.assertEqual(app.client.status.isp_flags,0)
+            self.assertFalse(app.median.get())
             self.assertEqual(app.client.status.threshold,256)
             self.assertIn("A5 5A", app.log.get("1.0", "end"))
             app.toggle_connection(); finish()

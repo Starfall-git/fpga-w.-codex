@@ -1,0 +1,17 @@
+# vsim -c work.median_modes_tb "+VECTORS=vectors.txt" -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 22:22:15 on Sep 24,2026
+# Loading sv_std.std
+# Loading work.median_modes_tb
+# Loading work.video_processing
+# Loading work.video_window3x3
+# Loading work.video_median3x3
+# Loading work.sort3_8bit
+# Loading work.video_sobel
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# PASS MEDIAN MODES: 2104 cycles
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/median_modes_tb.sv(42)
+#    Time: 21046 ns  Iteration: 0  Instance: /median_modes_tb
+# End time: 22:22:16 on Sep 24,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

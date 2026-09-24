@@ -1,5 +1,5 @@
 # vsim -c work.uart_geometry_tb -do "run -all; quit -f" 
-# Start time: 17:22:06 on Sep 24,2026
+# Start time: 22:01:37 on Sep 24,2026
 # Loading sv_std.std
 # Loading work.uart_geometry_tb
 # Loading work.uart_image_control
@@ -10,8 +10,8 @@
 # Loading work.axi_transform_reader
 # Loading work.unsigned_divider
 # run -all
-# PASS UART GEOMETRY: 113 Python wire packets, real DDR frame commit and actual configuration readback
-# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_geometry_tb.sv(75)
-#    Time: 4724077934 ps  Iteration: 0  Instance: /uart_geometry_tb
-# End time: 17:22:11 on Sep 24,2026, Elapsed time: 0:00:05
+# PASS UART GEOMETRY: 123 Python wire packets, real DDR frame commit and actual configuration readback
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_geometry_tb.sv(77)
+#    Time: 5261678942 ps  Iteration: 0  Instance: /uart_geometry_tb
+# End time: 22:01:40 on Sep 24,2026, Elapsed time: 0:00:03
 # Errors: 0, Warnings: 0

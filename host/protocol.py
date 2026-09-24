@@ -11,6 +11,7 @@ FRAME_SIZE = 13
 PROTOCOL_VERSION = 1
 CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM = 1, 2, 4, 8
 CAP_ISP, CAP_WIDE_ZOOM, CAP_DEFAULTS = 16, 32, 64  # V0.6
+CAP_MEDIAN = 128  # V0.9: runtime optional Median
 
 
 class Command(IntEnum):
@@ -129,10 +130,11 @@ def percent_ratio(text: str) -> tuple[int, int]:
     return ratio.numerator, ratio.denominator
 
 
-def isp_payload(enabled: bool, inverted: bool) -> bytes:
-    if type(enabled) is not bool or type(inverted) is not bool:
-        raise ValueError("Sobel和反相状态必须为布尔值")
-    return bytes((int(enabled) | (int(inverted)<<1),))+bytes(7)
+def isp_payload(enabled: bool, inverted: bool, median: bool = False) -> bytes:
+    # V0.9 / 45: retain the first two bits for older firmware.
+    if any(type(value) is not bool for value in (enabled, inverted, median)):
+        raise ValueError("Sobel、反相和中值滤波状态必须为布尔值")
+    return bytes((int(enabled) | (int(inverted)<<1) | (int(median)<<2),))+bytes(7)
 
 
 @dataclass(frozen=True)
@@ -149,13 +151,19 @@ class DeviceStatus:
     @property
     def inverted(self): return bool(self.isp_flags & 2)
 
+    @property
+    def median_enabled(self): return bool(self.isp_flags & 4)
+
     @classmethod
     def from_frame(cls, frame: Frame):
         status = cls(frame.payload[0], int.from_bytes(frame.payload[1:3], "little"),
                      frame.payload[3], frame.payload[4], frame.payload[5])
         if status.version != PROTOCOL_VERSION:
             raise ValueError(f"协议版本不匹配：设备为 {status.version}")
-        if status.threshold > 4095 or any(frame.payload[6:]) or status.isp_flags>3 or (status.isp_flags and not status.capabilities & CAP_ISP):
+        # V0.9 / 45: bit2 is valid only when capability bit7 is advertised.
+        if (status.threshold > 4095 or any(frame.payload[6:]) or status.isp_flags>7 or
+                (status.isp_flags and not status.capabilities & CAP_ISP) or
+                (status.median_enabled and not status.capabilities & CAP_MEDIAN)):
             raise ValueError("设备状态字段不合法")
         return status
 
