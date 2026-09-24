@@ -8,7 +8,7 @@ import time
 import tkinter as tk
 from tkinter import ttk
 from .client import SerialClient, DemoClient, list_ports
-from .protocol import (CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM, CAP_ISP,
+from .protocol import (CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM, CAP_ISP, CAP_MEDIAN,
                        CAP_DEFAULTS, threshold_payload, crop_payload, percent_ratio)
 
 
@@ -36,7 +36,8 @@ class ImageControlApp:
         self.mode_readback = tk.StringVar(value='当前模式：—')
         self.latency = tk.StringVar(value='')
         self.flip, self.flip_horizontal = tk.BooleanVar(), tk.BooleanVar()
-        self.sobel, self.inverted = tk.BooleanVar(), tk.BooleanVar()
+        # V0.9 / 46: Median is independent of Sobel and defaults off.
+        self.sobel, self.inverted, self.median = tk.BooleanVar(), tk.BooleanVar(), tk.BooleanVar()
         self.crop = {k: tk.StringVar(value=v) for k,v in (('x','0'),('y','0'),('width','1280'),('height','720'))}
         self.zoom = tk.StringVar(value='100%')
         self.auto_poll = tk.BooleanVar(value=True)
@@ -60,7 +61,7 @@ class ImageControlApp:
         main = ttk.Frame(self.root, padding=20)
         main.pack(fill='both', expand=True)
         ttk.Label(main, text='实时图像控制台', style='Title.TLabel').pack(anchor='w')
-        ttk.Label(main, text='VF-Ti60F225   /   HDMI 720p · 原图、Sobel 与几何变换').pack(anchor='w',pady=(4,12))
+        ttk.Label(main, text='VF-Ti60F225   /   HDMI 720p · 原图、中值滤波、Sobel 与几何变换').pack(anchor='w',pady=(4,12))
         connection = ttk.LabelFrame(main,text='连接',padding=10)
         connection.pack(fill='x')
         self.mode_box = ttk.Combobox(connection,textvariable=self.mode,values=('串口硬件','模拟演示'),width=10,state='readonly')
@@ -79,9 +80,11 @@ class ImageControlApp:
         image = ttk.LabelFrame(main,text='图像',padding=12)
         image.pack(fill='x',pady=12)
         row = ttk.Frame(image); row.pack(fill='x')
-        for text, variable in (('Sobel 边缘检测',self.sobel),('黑白反转',self.inverted)):
+        for text, variable, cap in (('Sobel 边缘检测',self.sobel,CAP_ISP),
+                                    ('中值滤波',self.median,CAP_MEDIAN),
+                                    ('黑白反转',self.inverted,CAP_ISP)):
             button=ttk.Checkbutton(row,text=text,variable=variable,command=self.apply_isp)
-            button.pack(side='left',padx=(0,20)); self.controls.append((button,CAP_ISP))
+            button.pack(side='left',padx=(0,20)); self.controls.append((button,cap))
         ttk.Label(row,text='阈值').pack(side='left',padx=(10,6))
         self.threshold_entry=ttk.Entry(row,textvariable=self.threshold,width=9,font=('Consolas',14))
         self.threshold_entry.pack(side='left'); self.controls.append((self.threshold_entry,CAP_THRESHOLD))
@@ -209,19 +212,24 @@ class ImageControlApp:
             self.connection.set('模拟 · 未连接硬件' if self.client.simulated else f'已连接 {port}')
             self._status(status); self.threshold.set(str(status.threshold))
             self.sobel.set(status.sobel_enabled); self.inverted.set(status.inverted)
+            self.median.set(status.median_enabled)
             if geometry: self._geometry(geometry); self._load_geometry_draft(geometry)
         self._submit(connect,connected,'connect')
 
     def _status(self,status,announce=True):
         self.caps=status.capabilities; self.readback.set(str(status.threshold))
         prefix='模拟' if self.client.simulated else '设备'
-        mode='Sobel · '+('黑边白底' if status.inverted else '白边黑底') if status.sobel_enabled else '原始图像'
+        mode=('中值滤波 + ' if status.median_enabled else '') + (
+            'Sobel · '+('黑边白底' if status.inverted else '白边黑底') if status.sobel_enabled else
+            ('灰度图像' if status.median_enabled else '原始图像'))
         if status.capabilities & CAP_ISP:
             self.mode_readback.set(f'{prefix}已确认：{mode}；黑白反转'+('开启' if status.inverted else '关闭'))
         else:
             mode='模式由旧版bit固定，无法回读'
             self.mode_readback.set(mode)
-        self.cap_text.set('V0.6 功能可用' if status.capabilities & CAP_DEFAULTS else '旧版设备：新功能需下载 V0.6')
+        self.cap_text.set('中值滤波可用' if status.capabilities & CAP_MEDIAN else
+                          '当前 bit 不支持中值滤波' if status.capabilities & CAP_DEFAULTS else
+                          '旧版设备：新功能需更新 bit')
         if announce: self.message.set(f'{prefix}已确认：阈值 {status.threshold}，{mode}。')
 
     def _status_action(self,status):
@@ -237,9 +245,10 @@ class ImageControlApp:
 
     def apply_isp(self):
         if not self.client or self.resetting or not self.caps & CAP_ISP: return
-        enabled,inverted=self.sobel.get(),self.inverted.get(); backend=self.client
+        enabled,inverted,median=self.sobel.get(),self.inverted.get(),self.median.get()
+        backend=self.client
         self.last_interaction=time.monotonic()
-        self._submit(lambda:backend.set_isp(enabled,inverted),self._status_action,'isp')
+        self._submit(lambda:backend.set_isp(enabled,inverted,median),self._status_action,'isp')
 
     def apply_feature(self,kind):
         if not self.client or self.resetting: return
@@ -277,6 +286,7 @@ class ImageControlApp:
         def updated(result):
             status,geometry=result; self.resetting=False; self._status(status)
             self.sobel.set(status.sobel_enabled); self.inverted.set(status.inverted)
+            self.median.set(status.median_enabled)
             if geometry: self._geometry(geometry); self._load_geometry_draft(geometry)
             self.message.set('已恢复默认，Sobel阈值保持不变。')
         self._submit(backend.reset_defaults,updated,'defaults')

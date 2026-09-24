@@ -22,8 +22,9 @@ def run(exe, *args):
 if not (out / "work").exists():
     run("vlib", "work")
 sources = sorted((ROOT / "src/control").glob("*.v"))
-# V0.8: enhanced Sobel includes three generic RAM windows.
-sources.extend(ROOT / "src/isp" / n for n in ("video_window3x3_generic.v", "video_sobel.v"))
+# V0.9 / 46: this checkout uses the standalone Sobel; obsolete generic-window
+# dependency from the previous algorithm must not break the UART regression.
+sources.append(ROOT / "src/isp/video_sobel.v")
 run("vlog", "-sv", *[str(p) for p in sources], str(ROOT / "testbench/uart_control_tb.sv"))
 output = run("vsim", "-c", "work.uart_control_tb", "-do", "run -all; quit -f")
 if "PASS UART:" not in output:

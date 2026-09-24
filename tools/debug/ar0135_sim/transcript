@@ -1,5 +1,5 @@
 # vsim -c work.ar0135_tb -do "run -all; quit -f" 
-# Start time: 23:46:26 on Sep 23,2026
+# Start time: 22:22:15 on Sep 24,2026
 # Loading sv_std.std
 # Loading work.ar0135_tb
 # Loading work.ar0135_init
@@ -7,7 +7,7 @@
 # Loading work.ar0135_capture
 # run -all
 # PASS AR0135: ACK/retry/missing-device/ID/delays/ROI/AE, 2 full720p frames (1843200 pixels)
-# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/ar0135_tb.sv(129)
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/ar0135_tb.sv(130)
 #    Time: 18607546 ns  Iteration: 0  Instance: /ar0135_tb
-# End time: 23:46:32 on Sep 23,2026, Elapsed time: 0:00:06
+# End time: 22:22:21 on Sep 24,2026, Elapsed time: 0:00:06
 # Errors: 0, Warnings: 0

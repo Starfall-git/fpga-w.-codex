@@ -1,6 +1,6 @@
 Efinity Synthesis report for project Ti60_AR0135
 Version: 2026.1.132.3.9
-Generated at: Sep 24, 2026 17:35:10
+Generated at: Sep 24, 2026 22:28:20
 Copyright (C) 2013 - 2026  All rights reserved.
 
 Top-level Entity Name : example_top
@@ -92,7 +92,8 @@ C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\tmds_channel.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v
 C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_OV5640_1280720_Config.v
-C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v
+C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v
 
 ### ### Report Section Start ### ###
 
@@ -106,221 +107,212 @@ C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v
 "MEM|SYN-0677" : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv:667)
 "MEM|SYN-0677" : ... Memory 'source_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:38)
 "MEM|SYN-0677" : ... Memory 'display_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:39)
-"MEM|SYN-0677" : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:22)
-"MEM|SYN-0677" : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:23)
-"MEM|SYN-0677" : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:26)
-"MEM|SYN-0677" : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:27)
-"MEM|SYN-0677" : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:26)
-"MEM|SYN-0677" : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:27)
+"MEM|SYN-0677" : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:28)
+"MEM|SYN-0677" : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:29)
+"MEM|SYN-0677" : ... Memory 'line1_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:30)
+"MEM|SYN-0677" : ... Memory 'line2_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:31)
+"MEM|SYN-0677" : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:28)
+"MEM|SYN-0677" : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:29)
+"MEM|SYN-0677" : ... Memory 'line1_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:30)
+"MEM|SYN-0677" : ... Memory 'line2_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:31)
 "MEM|SYN-0657" : Mapping into logic memory block 'ram' (64 bits) (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1580) because size is too small (<=64)
 
 ### ### EFX_FF CE enables (begin) ### ### ###
 
-Total number of enable signals: 221
-Total number of FFs with enable signals: 2702
+Total number of enable signals: 215
+Total number of FFs with enable signals: 2579
 +-----------------------------------------------------------------------------------------------------------------+------------------+
 |CE Signal                                                                                                        |Number of FF loads|
 +-----------------------------------------------------------------------------------------------------------------+------------------+
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/n425                                               |              128 |
-|u_video_processing/u_sobel/u_grad_window/de_q                                                                    |              118 |
-|ceg_net1750                                                                                                      |               99 |
-|u_image_control/n2172                                                                                            |               98 |
+|ceg_net1740                                                                                                      |               99 |
+|u_image_control/n2178                                                                                            |               98 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n11572                                                                     |               93 |
+|u_video_processing/g_median_sobel.u_window_sobel/de_q                                                            |               78 |
+|u_video_processing/g_median_sobel.u_window_median/gray_valid_q                                                   |               75 |
 |ceg_net714                                                                                                       |               70 |
-|u_video_processing/u_window/de_q                                                                                 |               69 |
 |ceg_net2                                                                                                         |               61 |
-|ceg_net909                                                                                                       |               61 |
+|ceg_net899                                                                                                       |               61 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/w_init_done                          |               60 |
-|ceg_net2258                                                                                                      |               52 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n3196                                                                      |               52 |
 |u_axi4_ctrl/Gen_Transform.u_transform/u_div/n892                                                                 |               48 |
+|ceg_net1830                                                                                                      |               44 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n12817                                                                     |               44 |
-|ceg_net1840                                                                                                      |               44 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n13237                                                                     |               36 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n11865                                                                     |               35 |
-|ceg_net2329                                                                                                      |               32 |
-|ceg_net2449                                                                                                      |               32 |
+|ceg_net2439                                                                                                      |               32 |
+|ceg_net1626                                                                                                      |               32 |
 |ceg_net622                                                                                                       |               32 |
-|ceg_net1636                                                                                                      |               32 |
-|ceg_net2224                                                                                                      |               32 |
-|ceg_net1801                                                                                                      |               32 |
-|u_video_processing/u_sobel/u_state_window/de_q                                                                   |               30 |
+|ceg_net1791                                                                                                      |               32 |
+|ceg_net2214                                                                                                      |               32 |
+|ceg_net2319                                                                                                      |               32 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n11499                                                                     |               29 |
-|ceg_net910                                                                                                       |               29 |
 |ceg_net15                                                                                                        |               29 |
-|ceg_net1097                                                                                                      |               27 |
+|ceg_net900                                                                                                       |               29 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n12880                                                                     |               27 |
+|ceg_net1087                                                                                                      |               27 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n5050                                                                      |               21 |
 |ceg_net224                                                                                                       |               17 |
-|ceg_net1984                                                                                                      |               16 |
-|ceg_net1642                                                                                                      |               16 |
-|ceg_net900                                                                                                       |               16 |
-|ceg_net908                                                                                                       |               16 |
-|ceg_net1832                                                                                                      |               16 |
-|ceg_net1646                                                                                                      |               16 |
+|ceg_net1644                                                                                                      |               16 |
 |ceg_net1648                                                                                                      |               16 |
-|ceg_net1658                                                                                                      |               16 |
-|ceg_net1656                                                                                                      |               16 |
-|u_axi4_ctrl/Gen_Transform.u_transform/u_div/n144                                                                 |               16 |
-|ceg_net1654                                                                                                      |               16 |
-|ceg_net1652                                                                                                      |               16 |
-|ceg_net1650                                                                                                      |               16 |
+|ceg_net1642                                                                                                      |               16 |
+|ceg_net1640                                                                                                      |               16 |
+|ceg_net890                                                                                                       |               16 |
+|ceg_net1646                                                                                                      |               16 |
+|ceg_net1636                                                                                                      |               16 |
+|ceg_net1632                                                                                                      |               16 |
+|ceg_net1638                                                                                                      |               16 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/n422                                               |               16 |
+|ceg_net898                                                                                                       |               16 |
+|u_axi4_ctrl/Gen_Transform.u_transform/u_div/n144                                                                 |               16 |
+|ceg_net1974                                                                                                      |               16 |
+|ceg_net1822                                                                                                      |               16 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12045                               |               15 |
-|u_image_control/n16194                                                                                           |               15 |
-|u_video_processing/u_sobel/u_edge_window/de_q                                                                    |               15 |
+|u_image_control/n16222                                                                                           |               15 |
 |ceg_net263                                                                                                       |               14 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/_zz_16                |               13 |
-|ceg_net1800                                                                                                      |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/_zz_16            |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/io_pop_valid      |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/_zz_16                |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/n548                  |               13 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n11447                                                                     |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/io_pop_valid      |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/_zz_16                |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/_zz_16                |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rdpush/_zz_16            |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/n272                  |               13 |
+|ceg_net1790                                                                                                      |               13 |
+|u_axi4_ctrl/Gen_FIFO_W32.u_W0_FIFO_16/u_efx_fifo_top/wr_en_int                                                   |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/_zz_16                |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/n212                  |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/w_ack_rd_valid                |               13 |
+|u_image_control/u_threshold_cdc/n5                                                                               |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/n212                  |               13 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ack/_zz_16               |               13 |
 |u_image_control/u_threshold_cdc/n26                                                                              |               13 |
 |u_image_control/u_threshold_cdc/n76                                                                              |               13 |
-|u_axi4_ctrl/Gen_FIFO_W32.u_W0_FIFO_16/u_efx_fifo_top/wr_en_int                                                   |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/n212                  |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/ac_fifo/n272                  |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ar/_zz_16                |               13 |
-|u_image_control/u_threshold_cdc/n5                                                                               |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/_zz_16                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_aw/n212                  |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_ack/_zz_16               |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/_zz_16                |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_wr/n548                  |               13 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/w_ack_rd_valid                |               13 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n5033                                                                      |               12 |
-|ceg_net685                                                                                                       |               12 |
-|ceg_net687                                                                                                       |               12 |
-|ceg_net689                                                                                                       |               12 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n5035                                                                      |               12 |
-|ceg_net1276                                                                                                      |               12 |
-|ceg_net1819                                                                                                      |               12 |
-|u_image_control/n16130                                                                                           |               12 |
-|u_image_control/n1596                                                                                            |               12 |
 |ceg_net790                                                                                                       |               12 |
-|ceg_net792                                                                                                       |               12 |
+|ceg_net1266                                                                                                      |               12 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n5033                                                                      |               12 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n5035                                                                      |               12 |
+|ceg_net689                                                                                                       |               12 |
+|ceg_net687                                                                                                       |               12 |
 |u_lcd_driver/equal_17/n27                                                                                        |               12 |
+|ceg_net685                                                                                                       |               12 |
+|u_image_control/n16160                                                                                           |               12 |
+|ceg_net1809                                                                                                      |               12 |
+|ceg_net792                                                                                                       |               12 |
+|u_image_control/n1601                                                                                            |               12 |
 |ceg_net795                                                                                                       |               12 |
 |ceg_net797                                                                                                       |               12 |
-|ceg_net800                                                                                                       |               12 |
-|ceg_net802                                                                                                       |               12 |
-|ceg_net805                                                                                                       |               12 |
-|ceg_net807                                                                                                       |               12 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12037                               |               11 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12039                               |               11 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/equal_69/n7                                        |               10 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/n3879                                              |               10 |
 |ceg_net10                                                                                                        |                9 |
-|u_image_control/n15132                                                                                           |                8 |
-|u_image_control/n15124                                                                                           |                8 |
-|u_image_control/n15112                                                                                           |                8 |
-|ceg_net1288                                                                                                      |                8 |
-|ceg_net2030                                                                                                      |                8 |
-|u_image_control/n15156                                                                                           |                8 |
 |ceg_net215                                                                                                       |                8 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12017                               |                8 |
-|u_image_control/n15148                                                                                           |                8 |
-|u_image_control/n15140                                                                                           |                8 |
-|ceg_net612                                                                                                       |                8 |
-|u_image_control/n14941                                                                                           |                8 |
-|rstn_sys                                                                                                         |                8 |
+|u_image_control/n2947                                                                                            |                8 |
+|ceg_net913                                                                                                       |                8 |
 |u_image_control/u_rx/n754                                                                                        |                8 |
-|ceg_net923                                                                                                       |                8 |
-|u_image_control/n15113                                                                                           |                8 |
-|u_image_control/n14105                                                                                           |                8 |
+|ceg_net612                                                                                                       |                8 |
+|ceg_net2020                                                                                                      |                8 |
+|ceg_net1278                                                                                                      |                8 |
+|rstn_sys                                                                                                         |                8 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12019                               |                8 |
+|u_image_control/n14131                                                                                           |                8 |
+|u_image_control/n15139                                                                                           |                8 |
+|u_image_control/n15199                                                                                           |                8 |
+|u_image_control/n14967                                                                                           |                8 |
+|u_image_control/n15191                                                                                           |                8 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n477                                                                       |                8 |
-|u_image_control/n15164                                                                                           |                8 |
-|u_image_control/n2940                                                                                            |                8 |
-|u_image_control/n15172                                                                                           |                8 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u1/full_o|                7 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u0/full_o|                7 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u2/full_o|                7 |
+|u_image_control/n15183                                                                                           |                8 |
+|u_image_control/n15175                                                                                           |                8 |
+|u_image_control/n15151                                                                                           |                8 |
+|u_image_control/n15167                                                                                           |                8 |
+|u_image_control/n15140                                                                                           |                8 |
+|u_image_control/n15159                                                                                           |                8 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/fifo_rd/wr_en_int             |                7 |
-|ceg_net975                                                                                                       |                6 |
-|ceg_net960                                                                                                       |                6 |
-|ceg_net972                                                                                                       |                6 |
-|ceg_net984                                                                                                       |                6 |
-|ceg_net963                                                                                                       |                6 |
-|ceg_net969                                                                                                       |                6 |
-|ceg_net966                                                                                                       |                6 |
-|ceg_net981                                                                                                       |                6 |
-|ceg_net978                                                                                                       |                6 |
-|ceg_net917                                                                                                       |                4 |
-|ceg_net1993                                                                                                      |                4 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12010                               |                4 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/Fifo_Wr_En                          |                4 |
-|ceg_net2037                                                                                                      |                4 |
-|ceg_net1697                                                                                                      |                4 |
-|ceg_net45                                                                                                        |                4 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u1/full_o|                7 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u2/full_o|                7 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/bram_u0/full_o|                7 |
+|ceg_net965                                                                                                       |                6 |
+|ceg_net968                                                                                                       |                6 |
+|ceg_net950                                                                                                       |                6 |
+|ceg_net971                                                                                                       |                6 |
+|ceg_net953                                                                                                       |                6 |
+|ceg_net974                                                                                                       |                6 |
+|ceg_net956                                                                                                       |                6 |
+|ceg_net959                                                                                                       |                6 |
+|ceg_net962                                                                                                       |                6 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/n12012                               |                4 |
+|ceg_net1983                                                                                                      |                4 |
 |ceg_net634                                                                                                       |                4 |
-|ceg_net1989                                                                                                      |                3 |
-|ceg_net1804                                                                                                      |                3 |
-|ceg_net2219                                                                                                      |                3 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11504                                                                     |                3 |
-|ceg_net2484                                                                                                      |                3 |
-|ceg_net1699                                                                                                      |                3 |
+|u_image_control/u_isp_cdc/n5                                                                                     |                4 |
+|u_image_control/u_isp_cdc/n17                                                                                    |                4 |
+|u_image_control/u_isp_cdc/n40                                                                                    |                4 |
+|ceg_net2027                                                                                                      |                4 |
+|ceg_net1687                                                                                                      |                4 |
+|ceg_net907                                                                                                       |                4 |
+|ceg_net45                                                                                                        |                4 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/Fifo_Wr_En                          |                4 |
+|u_image_control/n12660                                                                                           |                3 |
+|ceg_net2209                                                                                                      |                3 |
 |ceg_net18                                                                                                        |                3 |
-|u_image_control/u_isp_cdc/n16                                                                                    |                3 |
-|ceg_net915                                                                                                       |                3 |
-|u_image_control/u_isp_cdc/n5                                                                                     |                3 |
-|u_image_control/u_isp_cdc/n36                                                                                    |                3 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n2454         |                3 |
-|ceg_net2486                                                                                                      |                2 |
-|ceg_net246                                                                                                       |                2 |
-|u_axi4_ctrl/r_rframe_inc                                                                                         |                2 |
-|u_image_control/n12636                                                                                           |                2 |
-|u_axi4_ctrl/n954                                                                                                 |                2 |
-|ceg_net266                                                                                                       |                2 |
+|ceg_net1979                                                                                                      |                3 |
+|ceg_net1794                                                                                                      |                3 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11504                                                                     |                3 |
+|ceg_net905                                                                                                       |                3 |
+|ceg_net2474                                                                                                      |                3 |
+|ceg_net1689                                                                                                      |                3 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6770         |                2 |
-|ceg_net2448                                                                                                      |                2 |
-|ceg_net1634                                                                                                      |                2 |
-|ceg_net35                                                                                                        |                2 |
+|ceg_net2473                                                                                                      |                2 |
+|ceg_net1272                                                                                                      |                2 |
+|ceg_net246                                                                                                       |                2 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n777          |                2 |
-|ceg_net2483                                                                                                      |                2 |
-|ceg_net1282                                                                                                      |                2 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/Fifo_Wr_En                          |                2 |
 |u_camera_init/n1546                                                                                              |                2 |
-|ceg_net906                                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/Fifo_Wr_En                       |                1 |
-|ceg_net280                                                                                                       |                1 |
-|axi4_awar_mux/n45                                                                                                |                1 |
-|ceg_net787                                                                                                       |                1 |
-|ceg_net903                                                                                                       |                1 |
-|rstn_pixel                                                                                                       |                1 |
-|u_axi4_ctrl/r_wframe_inc                                                                                         |                1 |
-|ceg_net219                                                                                                       |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/Fifo_Wr_En                        |                1 |
+|ceg_net266                                                                                                       |                2 |
+|u_axi4_ctrl/r_rframe_inc                                                                                         |                2 |
+|ceg_net1624                                                                                                      |                2 |
+|u_axi4_ctrl/n954                                                                                                 |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/Fifo_Wr_En                          |                2 |
+|ceg_net35                                                                                                        |                2 |
+|ceg_net2438                                                                                                      |                2 |
+|ceg_net2476                                                                                                      |                2 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_ref_rst     |                1 |
+|ceg_net2472                                                                                                      |                1 |
+|ceg_net893                                                                                                       |                1 |
+|ceg_net2471                                                                                                      |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6771         |                1 |
 |u_lcd_driver/n434                                                                                                |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11478                                                                     |                1 |
+|ceg_net5                                                                                                         |                1 |
+|ceg_net896                                                                                                       |                1 |
+|ceg_net787                                                                                                       |                1 |
+|ceg_net280                                                                                                       |                1 |
+|ceg_net696                                                                                                       |                1 |
+|ceg_net41                                                                                                        |                1 |
+|ceg_net1629                                                                                                      |                1 |
+|ceg_net1627                                                                                                      |                1 |
+|axi4_awar_mux/n45                                                                                                |                1 |
+|u_image_control/u_down/n194                                                                                      |                1 |
+|ceg_net649                                                                                                       |                1 |
+|ceg_net646                                                                                                       |                1 |
+|ceg_net642                                                                                                       |                1 |
+|ceg_net702                                                                                                       |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n5055                                                                      |                1 |
 |ceg_net701                                                                                                       |                1 |
 |ceg_net699                                                                                                       |                1 |
 |ceg_net697                                                                                                       |                1 |
-|ceg_net696                                                                                                       |                1 |
+|ceg_net43                                                                                                        |                1 |
 |ceg_net693                                                                                                       |                1 |
 |u_axi4_ctrl/Gen_Transform.u_transform/n222                                                                       |                1 |
 |u_axi4_ctrl/equal_66/n7                                                                                          |                1 |
 |ceg_net671                                                                                                       |                1 |
 |u_axi4_ctrl/n963                                                                                                 |                1 |
 |ceg_net669                                                                                                       |                1 |
+|u_axi4_ctrl/r_wframe_inc                                                                                         |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/Fifo_Wr_En                    |                1 |
-|ceg_net1996                                                                                                      |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/Fifo_Wr_En                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/Fifo_Wr_En                        |                1 |
+|ceg_net1986                                                                                                      |                1 |
 |u_camera_init/n1544                                                                                              |                1 |
-|ceg_net5                                                                                                         |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n3508                                                                      |                1 |
-|ceg_net702                                                                                                       |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n5055                                                                      |                1 |
-|ceg_net2482                                                                                                      |                1 |
-|ceg_net2481                                                                                                      |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/dqs_state[1]  |                1 |
-|u_image_control/u_up/n194                                                                                        |                1 |
-|ceg_net716                                                                                                       |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11486                                                                     |                1 |
-|ceg_net1833                                                                                                      |                1 |
-|u_axi4_ctrl/Gen_Transform.u_transform/n11495                                                                     |                1 |
-|ceg_net1830                                                                                                      |                1 |
-|ceg_net1802                                                                                                      |                1 |
-|ceg_net649                                                                                                       |                1 |
-|ceg_net646                                                                                                       |                1 |
-|ceg_net642                                                                                                       |                1 |
-|u_image_control/u_rx/n993                                                                                        |                1 |
+|ceg_net1820                                                                                                      |                1 |
 |u_image_control/u_rx/n1010                                                                                       |                1 |
 |u_image_control/u_rx/n1011                                                                                       |                1 |
 |u_image_control/u_rx/n1012                                                                                       |                1 |
@@ -328,20 +320,25 @@ Total number of FFs with enable signals: 2702
 |u_image_control/u_rx/n1014                                                                                       |                1 |
 |u_image_control/u_rx/n1015                                                                                       |                1 |
 |u_image_control/u_rx/n1016                                                                                       |                1 |
-|u_image_control/u_down/n194                                                                                      |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_ref_rst     |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6771         |                1 |
+|u_image_control/u_up/n194                                                                                        |                1 |
+|ceg_net1792                                                                                                      |                1 |
+|ceg_net716                                                                                                       |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11486                                                                     |                1 |
+|ceg_net1823                                                                                                      |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11495                                                                     |                1 |
+|u_image_control/u_rx/n995                                                                                        |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n11478                                                                     |                1 |
+|u_axi4_ctrl/Gen_Transform.u_transform/n3508                                                                      |                1 |
+|rstn_pixel                                                                                                       |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/dqs_state[1]  |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6867         |                1 |
-|ceg_net928                                                                                                       |                1 |
+|ceg_net918                                                                                                       |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6860         |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6863         |                1 |
-|ceg_net927                                                                                                       |                1 |
-|ceg_net925                                                                                                       |                1 |
+|ceg_net917                                                                                                       |                1 |
+|ceg_net915                                                                                                       |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/n6868         |                1 |
-|ceg_net43                                                                                                        |                1 |
-|ceg_net41                                                                                                        |                1 |
-|ceg_net1639                                                                                                      |                1 |
-|ceg_net1637                                                                                                      |                1 |
+|ceg_net219                                                                                                       |                1 |
 +-----------------------------------------------------------------------------------------------------------------+------------------+
 
 ### ### EFX_FF CE enables (end) ### ### ###
@@ -349,13 +346,13 @@ Total number of FFs with enable signals: 2702
 ### ### EFX_FF SR set/reset (begin) ### ### ###
 
 Total number of set/reset signals: 26
-Total number of FFs with set/reset signals: 4749
+Total number of FFs with set/reset signals: 4719
 +-------------------------------------------------------------------------------------------------+------------------+
 |SR Signal                                                                                        |Number of FF loads|
 +-------------------------------------------------------------------------------------------------+------------------+
-|rstn_sys                                                                                         |             1694 |
+|rstn_sys                                                                                         |             1697 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/core_clk_rstn |              814 |
-|rstn_pixel                                                                                       |              644 |
+|rstn_pixel                                                                                       |              611 |
 |led_o[2]                                                                                         |              376 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/tac_clk_rstn  |              289 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/twd_clk_rstn  |              252 |
@@ -368,17 +365,17 @@ Total number of FFs with set/reset signals: 4749
 |u_axi4_ctrl/Gen_Transform.u_transform/display_good                                               |               16 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/w_init_done          |                5 |
 |u_axi4_ctrl/r_w_rst                                                                              |                4 |
-|w_pll_lock                                                                                       |                2 |
 |axi4_awar_mux/n133                                                                               |                2 |
+|w_pll_lock                                                                                       |                2 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_len_fifo/n332          |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/n1212               |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_rd_addr_fifo/n860                |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_arburst_fifo/n332             |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_awid_fifo/n332                |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_arid_fifo/n332                |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/n332              |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_brust_fifo/n332            |                1 |
 |ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_last_fifo/n332             |                1 |
-|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/u_wr_addr_fifo/n1212               |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_rd_brust_fifo/n332            |                1 |
+|ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_respon_fifo/n332              |                1 |
 +-------------------------------------------------------------------------------------------------+------------------+
 
 ### ### EFX_FF SR set/reset (end) ### ### ###
@@ -391,18 +388,18 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 ### ### Memory Trimming Report (end) ### ### ### 
 
 ### ### Sequential Elements/Signals Trimming Report (begin) ### ### ### 
-'r_flash_en' (example_top.v:544) (optimized to 0)
-'rs_axilite[0]' (example_top.v:843) (optimized to 0)
-'r_axi_req' (example_top.v:835) (optimized to 0)
-'rc_axi_init[0]' (example_top.v:853) (optimized to 0)
-'r_axi_awvalid' (example_top.v:849) (optimized to 0)
-'r_axi_wvalid' (example_top.v:849) (optimized to 0)
-'r_axi_arvalid' (example_top.v:849) (optimized to 0)
-'r_axi_idle' (example_top.v:841) (optimized to 0)
-'o_dqs_hi[0]' (example_top.v:190) (optimized to 0)
-'o_dqs_n_lo[0]' (example_top.v:194) (optimized to 0)
-'o_dqs_hi[1]' (example_top.v:190) (optimized to 0)
-'o_dqs_n_lo[1]' (example_top.v:194) (optimized to 0)
+'r_flash_en' (example_top.v:563) (optimized to 0)
+'rs_axilite[0]' (example_top.v:862) (optimized to 0)
+'r_axi_req' (example_top.v:854) (optimized to 0)
+'rc_axi_init[0]' (example_top.v:872) (optimized to 0)
+'r_axi_awvalid' (example_top.v:868) (optimized to 0)
+'r_axi_wvalid' (example_top.v:868) (optimized to 0)
+'r_axi_arvalid' (example_top.v:868) (optimized to 0)
+'r_axi_idle' (example_top.v:860) (optimized to 0)
+'o_dqs_hi[0]' (example_top.v:209) (optimized to 0)
+'o_dqs_n_lo[0]' (example_top.v:213) (optimized to 0)
+'o_dqs_hi[1]' (example_top.v:209) (optimized to 0)
+'o_dqs_n_lo[1]' (example_top.v:213) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/frame_base[4]' (src\isp\axi_transform_reader.v:125) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/frame_base[5]' (src\isp\axi_transform_reader.v:125) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/frame_base[6]' (src\isp\axi_transform_reader.v:125) (optimized to 0)
@@ -437,12 +434,12 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_lcd_driver/r_lcd_rgb[16]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[17]' (src\lcd_driver.v:124) (optimized to 0)
 'u_lcd_driver/r_lcd_rgb[18]' (src\lcd_driver.v:124) (optimized to 0)
-'rs_axilite[1]' (example_top.v:843) (optimized to 0)
-'rs_axilite[2]' (example_top.v:843) (optimized to 0)
-'rs_axilite[3]' (example_top.v:843) (optimized to 0)
-'rc_axi_init[1]' (example_top.v:853) (optimized to 0)
-'rc_axi_init[2]' (example_top.v:853) (optimized to 0)
-'rc_axi_init[3]' (example_top.v:853) (optimized to 0)
+'rs_axilite[1]' (example_top.v:862) (optimized to 0)
+'rs_axilite[2]' (example_top.v:862) (optimized to 0)
+'rs_axilite[3]' (example_top.v:862) (optimized to 0)
+'rc_axi_init[1]' (example_top.v:872) (optimized to 0)
+'rc_axi_init[2]' (example_top.v:872) (optimized to 0)
+'rc_axi_init[3]' (example_top.v:872) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[16]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[17]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[18]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
@@ -460,7 +457,7 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[30]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/divisor[31]' (src\isp\axi_transform_reader.v:109) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/div_return[4]' (src\isp\axi_transform_reader.v:107) (optimized to 0)
-'u_video_processing/original[0][0]' (src\isp\video_processing.v:35) (optimized to 0)
+'u_video_processing/original_delay[0][0]' (src\isp\video_processing.v:85) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/u_div/d[16]' (src\isp\unsigned_divider.v:11) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/u_div/d[17]' (src\isp\unsigned_divider.v:11) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/u_div/d[18]' (src\isp\unsigned_divider.v:11) (optimized to 0)
@@ -477,514 +474,466 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 'u_axi4_ctrl/Gen_Transform.u_transform/u_div/d[29]' (src\isp\unsigned_divider.v:11) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/u_div/d[30]' (src\isp\unsigned_divider.v:11) (optimized to 0)
 'u_axi4_ctrl/Gen_Transform.u_transform/u_div/d[31]' (src\isp\unsigned_divider.v:11) (optimized to 0)
-'u_video_processing/original[1][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[0][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[0][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[0][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[0][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[0][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[0][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[0][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[1][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[1][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[1][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[1][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[1][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[1][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[1][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[2][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[3][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[4][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[5][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[6][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[7][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[8][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[9][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[10][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[11][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[12][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][0]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[13][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][1]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][2]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][8]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][9]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][16]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][17]' (src\isp\video_processing.v:35) (optimized to 0)
-'u_video_processing/original[14][18]' (src\isp\video_processing.v:35) (optimized to 0)
-'w_ddr3_awaddr[0]' (example_top.v:588) (unreachable)
-'w_ddr3_awaddr[1]' (example_top.v:588) (unreachable)
-'w_ddr3_awaddr[2]' (example_top.v:588) (unreachable)
-'w_ddr3_awaddr[3]' (example_top.v:588) (unreachable)
-'cmos_frame_Gray[6]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[7]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[8]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[9]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[10]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[11]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[12]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[13]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[14]' (example_top.v:909) (merged to equivalence)
-'cmos_frame_Gray[15]' (example_top.v:909) (merged to equivalence)
+'u_video_processing/original_delay[1][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[0][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[0][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[0][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[0][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[0][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[0][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[0][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[1][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[1][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[1][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[1][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[1][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[1][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[1][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[2][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[3][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[4][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[5][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[6][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[7][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[8][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][0]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[9][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][1]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][2]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][8]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][9]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][16]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][17]' (src\isp\video_processing.v:85) (optimized to 0)
+'u_video_processing/original_delay[10][18]' (src\isp\video_processing.v:85) (optimized to 0)
+'w_ddr3_awaddr[0]' (example_top.v:607) (unreachable)
+'w_ddr3_awaddr[1]' (example_top.v:607) (unreachable)
+'w_ddr3_awaddr[2]' (example_top.v:607) (unreachable)
+'w_ddr3_awaddr[3]' (example_top.v:607) (unreachable)
+'cmos_frame_Gray[6]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[7]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[8]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[9]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[10]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[11]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[12]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[13]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[14]' (example_top.v:928) (merged to equivalence)
+'cmos_frame_Gray[15]' (example_top.v:928) (merged to equivalence)
 'u_axi4_ctrl/Gen_Transform.u_transform/render_bank' (src\isp\axi_transform_reader.v:124) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i175_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i31_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i31_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i31_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i31_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i31_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i31_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i174_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i30_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i30_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i30_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i30_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i30_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i30_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i173_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i29_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i29_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i29_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i29_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i29_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i29_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i172_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i28_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i28_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i28_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i28_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i28_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i28_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i192_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i48_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i48_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i48_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i48_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i48_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i48_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i191_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i47_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i47_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i47_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i47_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i47_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i47_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i190_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i46_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i46_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i46_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i46_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i46_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i46_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i189_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i45_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i45_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i45_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i45_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i45_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i45_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i188_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i44_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i44_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i44_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i44_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i44_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i44_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i184_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i40_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i40_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i40_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i40_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i40_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i40_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i183_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i39_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i39_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i39_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i39_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i39_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i39_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i182_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i38_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i38_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i38_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i38_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i38_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i38_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i181_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i37_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i37_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i37_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i37_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i37_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i37_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i180_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i36_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i36_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i36_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i36_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i36_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i36_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_6' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i179_rst_7' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i35_rst_0' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i35_rst_1' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i35_rst_2' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i35_rst_3' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i35_rst_4' (src\isp\video_processing.v:42) (merged to equivalence)
-'u_video_processing/dff_8/i35_rst_5' (src\isp\video_processing.v:42) (merged to equivalence)
-'o_dqs_n_hi[1]' (example_top.v:193) (merged to equivalence)
-'o_dqs_lo[1]' (example_top.v:191) (merged to equivalence)
-'o_dqs_lo[0]' (example_top.v:191) (merged to equivalence)
-'u_video_processing/window_pixels[0]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[1]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[2]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[3]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[4]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[5]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[6]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[7]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[48]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[24]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[25]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[26]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[27]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[28]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[29]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[30]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[31]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[49]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[50]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[51]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[52]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[53]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[54]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[55]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[56]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[57]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[58]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[59]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[60]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[61]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[62]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[63]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[8]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[9]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[10]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[11]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[12]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[13]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[14]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/window_pixels[15]' (src\isp\video_processing.v:61) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[0]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[0]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[0]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[14]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[0]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[42]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[25]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[11]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[53]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[24]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[10]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[52]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[23]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[9]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[51]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[22]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[8]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[50]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[21]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[7]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[49]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[20]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[6]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[48]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[19]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[5]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[47]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[18]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[4]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[46]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[17]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[3]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[45]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[16]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[2]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[44]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[15]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[1]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/grad_window[43]' (src\isp\video_sobel.v:199) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[11]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[11]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[11]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[10]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[10]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[10]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[9]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[9]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[9]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[8]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[8]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[8]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[7]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[7]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[7]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[6]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[6]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[6]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[5]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[5]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[5]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[4]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[4]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[4]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[3]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[3]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[3]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[2]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[2]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[2]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left1[1]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/top_left2[1]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_grad_window/mid_left2[1]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/bot_left1[13]' (src\isp\video_window3x3_generic.v:34) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/bot_left1[12]' (src\isp\video_window3x3_generic.v:34) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/bot_left2[13]' (src\isp\video_window3x3_generic.v:34) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/bot_left2[12]' (src\isp\video_window3x3_generic.v:34) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/mid_left1[13]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/mid_left1[12]' (src\isp\video_window3x3_generic.v:33) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/top_left1[13]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/top_left1[12]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/top_left2[13]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/u_state_window/top_left2[12]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/state_window[69]' (src\isp\video_sobel.v:394) (merged to equivalence)
-'u_video_processing/u_sobel/state_window[68]' (src\isp\video_sobel.v:394) (merged to equivalence)
-'u_video_processing/u_sobel/u_edge_window/top_left2[12]' (src\isp\video_window3x3_generic.v:32) (merged to equivalence)
-'u_video_processing/u_sobel/edge_window[90]' (src\isp\video_sobel.v:521) (merged to equivalence)
-'u_video_processing/u_sobel/edge_window[51]' (src\isp\video_sobel.v:521) (merged to equivalence)
-'u_video_processing/u_sobel/u_edge_window/bot_left2[12]' (src\isp\video_window3x3_generic.v:34) (merged to equivalence)
-'u_video_processing/u_sobel/edge_window[12]' (src\isp\video_sobel.v:521) (merged to equivalence)
-'u_video_processing/u_sobel/edge_window[64]' (src\isp\video_sobel.v:521) (merged to equivalence)
-'u_video_processing/sobel_rgb[1]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[2]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[3]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[4]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[6]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[5]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[7]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[8]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[9]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[10]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[11]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[12]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[14]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[13]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[15]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[16]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[17]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[18]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[19]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[20]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[22]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[21]' (src\isp\video_processing.v:29) (merged to equivalence)
-'u_video_processing/sobel_rgb[23]' (src\isp\video_processing.v:29) (merged to equivalence)
-'o_dqs_oe[0]' (example_top.v:196) (merged to equivalence)
-'o_dqs_n_oe[1]' (example_top.v:197) (merged to equivalence)
-'o_dqs_n_oe[0]' (example_top.v:197) (merged to equivalence)
-'u_video_processing/gray[0]' (src\isp\video_processing.v:51) (optimized to 0)
-'u_video_processing/u_window/gray_q[0]' (src\isp\video_window3x3.v:26) (optimized to 0)
-'u_video_processing/u_window/bot_left1[0]' (src\isp\video_window3x3.v:30) (optimized to 0)
-'u_video_processing/u_window/bot_left2[0]' (src\isp\video_window3x3.v:30) (optimized to 0)
-'u_video_processing/window_pixels[16]' (src\isp\video_processing.v:61) (optimized to 0)
+'u_video_processing/dff_18/i79_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i79_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i79_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i79_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i79_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i79_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i79_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i79_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i78_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i77_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i76_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i96_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i95_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i94_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i93_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i92_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i88_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i87_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i86_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i85_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i84_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_4' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_5' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_6' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_18/i83_rst_7' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i16_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i16_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i16_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i16_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i15_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i15_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i15_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i15_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i14_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i14_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i14_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i14_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i13_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i13_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i13_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i13_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i12_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i12_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i12_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i12_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i11_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i11_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i11_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i11_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i10_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i10_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i10_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i10_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i9_rst_0' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i9_rst_1' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i9_rst_2' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/dff_17/i9_rst_3' (src\isp\video_processing.v:100) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/de_q' (src\isp\video_window3x3.v:37) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left1[7]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[7]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[6]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[5]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[4]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[3]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[2]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[1]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/bot_left2[0]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[6]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[5]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[4]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[3]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[2]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[1]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[0]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left1[7]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[7]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[6]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[5]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[4]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[3]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[2]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[1]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/mid_left2[0]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[30]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[29]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[28]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[27]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[26]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[25]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[24]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left1[7]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[7]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[6]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[5]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[4]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[3]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[2]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[1]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_median/top_left2[0]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[54]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[53]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[52]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[51]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[50]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[49]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/g_median_sobel.median_window_pixels[48]' (src\isp\video_processing.v:137) (merged to equivalence)
+'u_video_processing/dff_26/i34_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i34_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i34_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i34_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i34_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i33_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i33_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i33_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i33_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i33_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i48_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i48_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i48_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i48_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i48_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i47_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i47_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i47_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i47_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i47_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i46_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i46_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i46_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i46_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i46_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i45_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i45_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i45_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i45_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i45_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i44_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i44_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i44_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i44_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i44_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i43_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i43_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i43_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i43_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i43_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i42_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i42_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i42_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i42_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i42_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i41_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i41_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i41_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i41_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i41_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i40_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i40_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i40_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i40_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i40_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i39_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i39_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i39_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i39_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i39_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i38_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i38_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i38_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i38_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i38_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i37_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i37_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i37_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i37_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i37_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i36_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i36_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i36_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i36_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i36_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i35_rst_0' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i35_rst_1' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i35_rst_2' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i35_rst_3' (src\isp\video_processing.v:316) (merged to equivalence)
+'u_video_processing/dff_26/i35_rst_4' (src\isp\video_processing.v:316) (merged to equivalence)
+'o_dqs_n_hi[1]' (example_top.v:212) (merged to equivalence)
+'o_dqs_lo[1]' (example_top.v:210) (merged to equivalence)
+'o_dqs_lo[0]' (example_top.v:210) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[0]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[1]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[2]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[3]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[4]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[5]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[6]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/top_left1[7]' (src\isp\video_window3x3.v:38) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[0]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[8]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[1]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[2]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[3]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[4]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[5]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[6]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left1[7]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left2[1]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left2[2]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left2[3]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left2[4]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left2[5]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left2[6]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/bot_left2[7]' (src\isp\video_window3x3.v:40) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[56]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[57]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[58]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[59]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[60]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[61]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[62]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_window_pixels[63]' (src\isp\video_processing.v:230) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[0]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[1]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[2]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[3]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[4]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[5]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[6]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_window_sobel/mid_left1[7]' (src\isp\video_window3x3.v:39) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[1]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[2]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[3]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[4]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[6]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[5]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[7]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[8]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[9]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[10]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[11]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[12]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[14]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[13]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[15]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[16]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[17]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[18]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[19]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[20]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[22]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[21]' (src\isp\video_processing.v:273) (merged to equivalence)
+'u_video_processing/g_median_sobel.sobel_rgb[23]' (src\isp\video_processing.v:273) (merged to equivalence)
+'o_dqs_oe[0]' (example_top.v:215) (merged to equivalence)
+'o_dqs_n_oe[1]' (example_top.v:216) (merged to equivalence)
+'o_dqs_n_oe[0]' (example_top.v:216) (merged to equivalence)
+'u_video_processing/gray[0]' (src\isp\video_processing.v:52) (optimized to 0)
+'u_video_processing/g_median_sobel.u_window_median/gray_q[0]' (src\isp\video_window3x3.v:35) (optimized to 0)
+'u_video_processing/g_median_sobel.u_window_median/bot_left1[0]' (src\isp\video_window3x3.v:40) (optimized to 0)
+'u_video_processing/g_median_sobel.median_window_pixels[8]' (src\isp\video_processing.v:137) (optimized to 0)
+'u_video_processing/g_median_sobel.median_window_pixels[16]' (src\isp\video_processing.v:137) (optimized to 0)
+'u_video_processing/g_median_sobel.u_median/m2_s1[0]' (src\isp\video_median3x3.v:102) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_median/l2_s1[0]' (src\isp\video_median3x3.v:102) (merged to equivalence)
+'u_video_processing/g_median_sobel.u_median/h2_s1[0]' (src\isp\video_median3x3.v:102) (optimized to 0)
 ### ### Sequential Elements Trimming Report (end) ### ### ### 
 
 ### ### Module Resource Usage Distribution Estimates (begin) ### ###
@@ -993,10 +942,10 @@ Memory instance 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/i
 
 Module                                                              FFs      SRLs       ADDs       LUTs    COMB4s      RAMs DSP/MULTs
 ------------------------------------------------------------        ---      ----       ----       ----      ----      ---- ---------
-example_top:example_top                                         4780(9)    554(0)    1537(0)    6394(8)      0(0)     68(0)     11(0)
- +ddr3_ctl_axi:DdrCtrl                                          2302(0)    522(0)     486(0)    2839(0)      0(0)     30(0)      0(0)
-  +u_efx_ddr3_soft_controller:efx_ddr3_soft_controller_dc...    2302(0)    522(0)     486(0)    2839(0)      0(0)     30(0)      0(0)
-   +genblk1.inst_ddr3_axi:efx_ddr3_axi_dc13612a41d14b64a6...  2302(376)    522(0)   486(113)  2839(494)      0(0)     30(0)      0(0)
+example_top:example_top                                         4750(9)    562(0)    1507(0)    6665(8)      0(0)     65(0)     11(0)
+ +ddr3_ctl_axi:DdrCtrl                                          2302(0)    522(0)     486(0)    2823(0)      0(0)     30(0)      0(0)
+  +u_efx_ddr3_soft_controller:efx_ddr3_soft_controller_dc...    2302(0)    522(0)     486(0)    2823(0)      0(0)     30(0)      0(0)
+   +genblk1.inst_ddr3_axi:efx_ddr3_axi_dc13612a41d14b64a6...  2302(376)    522(0)   486(113)  2823(495)      0(0)     30(0)      0(0)
     +inst_arburst_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a...       7(7)      8(8)     12(12)     21(21)      0(0)      0(0)      0(0)
     +u_rd_addr_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c...       7(7)  116(116)     12(12)     15(15)      0(0)      0(0)      0(0)
     +u_wr_addr_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a60c...       7(7)  156(156)     12(12)     65(65)      0(0)      0(0)      0(0)
@@ -1006,9 +955,9 @@ example_top:example_top                                         4780(9)    554(0
     +inst_rd_brust_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64...       7(7)    32(32)     12(12)     33(33)      0(0)      0(0)      0(0)
     +inst_rd_last_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b64a...       7(7)    32(32)     12(12)     41(41)      0(0)      0(0)      0(0)
     +inst_respon_len_fifo:Ddr_Ctrl_Sc_Fifo_dc13612a41d14b...       7(7)    32(32)     12(12)     15(15)      0(0)      0(0)      0(0)
-    +inst_efx_ddr3:top_dc13612a41d14b64a60c05045f64d9b7       1863(220)    146(0)    265(64)  2084(526)      0(0)     30(0)      0(0)
+    +inst_efx_ddr3:top_dc13612a41d14b64a60c05045f64d9b7       1863(220)    146(0)    265(64)  2067(528)      0(0)     30(0)      0(0)
      +mux0:native_mux_dc13612a41d14b64a60c05045f64d9b7             0(0)      0(0)       0(0)   186(186)      0(0)      0(0)      0(0)
-     +top_mc:controller_top_dc13612a41d14b64a60c05045f64d9b7   1622(29)    144(0)     201(0)   1359(26)      0(0)     30(0)      0(0)
+     +top_mc:controller_top_dc13612a41d14b64a60c05045f64d9b7   1622(29)    144(0)     201(0)   1340(26)      0(0)     30(0)      0(0)
       +rst_ctrl0:reset_ctrl_dc13612a41d14b64a60c05045f64d...      16(0)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
        +genblk1[0].genblk1.genblk1.inst_sysclk_rstn:reset...       4(4)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
        +genblk1[1].genblk1.genblk1.inst_sysclk_rstn:reset...       4(4)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
@@ -1053,7 +1002,7 @@ example_top:example_top                                         4780(9)    554(0
       +ac_fifo:streamfifocc64_dc13612a41d14b64a60c05045f6...     54(26)      0(0)       0(0)     42(42)      0(0)      3(3)      0(0)
        +popToPushGray_buffercc:buffercc_dc13612a41d14b64a...     14(14)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
        +pushToPopGray_buffercc:buffercc_1_dc13612a41d14b6...     14(14)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
-      +controller_main:ddr_3_controller_dc13612a41d14b64a... 1178(1007)  144(144)   142(103)  1006(915)      0(0)      7(0)      0(0)
+      +controller_main:ddr_3_controller_dc13612a41d14b64a... 1178(1007)  144(144)   142(103)   987(896)      0(0)      7(0)      0(0)
        +bram_u2:bram_wrapper_fifo_dc13612a41d14b64a60c050...      57(0)      0(0)      13(0)      29(0)      0(0)      1(0)      0(0)
         +u_efx_fifo_top:efx_fifo_top_dc13612a41d14b64a60c...      57(0)      0(0)      13(0)      29(0)      0(0)      1(0)      0(0)
          +xefx_fifo_ram:efx_fifo_ram_dc13612a41d14b64a60c...       1(1)      0(0)       0(0)       1(1)      0(0)      1(1)      0(0)
@@ -1084,10 +1033,10 @@ example_top:example_top                                         4780(9)    554(0
       +genblk1[1].genblk1.genblk1.inst_sysclk_rstn:reset_...       5(5)      1(1)       0(0)       1(1)      0(0)      0(0)      0(0)
      +phase_u0:phase_shift_dc13612a41d14b64a60c05045f64d9b7      11(11)      0(0)       0(0)     11(11)      0(0)      0(0)      0(0)
  +axi4_awar_mux:AXI4_AWARMux(AID_LEN=4)                            6(6)      0(0)       0(0)     10(10)      0(0)      0(0)      0(0)
- +u_camera_init:ar0135_init                                      99(99)      0(0)     71(71)   266(227)      0(0)      0(0)      1(1)
-  +table_i:I2C_AR0135_1280720_Config                               0(0)      0(0)       0(0)     39(39)      0(0)      0(0)      0(0)
- +u_camera_capture:ar0135_capture                                48(48)      0(0)     30(30)     66(66)      0(0)      0(0)      0(0)
- +u_axi4_ctrl:axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END...    892(42)      0(0)     441(8)   1166(60)      0(0)     23(0)      6(0)
+ +u_camera_init:ar0135_init                                      99(99)      0(0)     71(71)   267(227)      0(0)      0(0)      1(1)
+  +table_i:I2C_AR0135_1280720_Config                               0(0)      0(0)       0(0)     40(40)      0(0)      0(0)      0(0)
+ +u_camera_capture:ar0135_capture                                48(48)      0(0)     30(30)     65(65)      0(0)      0(0)      0(0)
+ +u_axi4_ctrl:axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END...    892(42)      0(0)     441(8)   1145(60)      0(0)     23(0)      6(0)
   +Gen_FIFO_W32.u_W0_FIFO_16:W0_FIFO_16                          127(0)      0(0)      33(0)      51(0)      0(0)      8(0)      0(0)
    +u_efx_fifo_top:efx_fifo_top_3a5a8130f9dc48d5847ad155a...     127(0)      0(0)      33(0)      51(0)      0(0)      8(0)      0(0)
     +genblk2.genblk1.efx_resetsync_wr_rst:efx_resetsync_3...       2(0)      0(0)       0(0)       0(0)      0(0)      0(0)      0(0)
@@ -1118,26 +1067,29 @@ example_top:example_top                                         4780(9)    554(0
            +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin_...       0(0)      0(0)       0(0)       3(1)      0(0)      0(0)      0(0)
             +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bin...       0(0)      0(0)       0(0)       2(1)      0(0)      0(0)      0(0)
              +genblk1.genblk1.u_gray2bin:efx_fifo_gray2bi...       0(0)      0(0)       0(0)       1(1)      0(0)      0(0)      0(0)
-  +Gen_Transform.u_transform:axi_transform_reader(BASE_AD...   723(587)      0(0)   400(362)  1055(933)      0(0)    15(15)      6(6)
-   +u_div:unsigned_divider                                     136(136)      0(0)     38(38)   122(122)      0(0)      0(0)      0(0)
+  +Gen_Transform.u_transform:axi_transform_reader(BASE_AD...   723(587)      0(0)   400(362)  1034(917)      0(0)    15(15)      6(6)
+   +u_div:unsigned_divider                                     136(136)      0(0)     38(38)   117(117)      0(0)      0(0)      0(0)
  +u_lcd_driver:lcd_driver                                        46(46)      0(0)     24(24)     61(61)      0(0)      0(0)      0(0)
- +u_image_control:uart_image_control                           735(504)      0(0)    194(99) 1392(1142)      0(0)      0(0)      4(4)
-  +u_rx:uart_rx                                                  57(57)      0(0)       0(0)     87(87)      0(0)      0(0)      0(0)
+ +u_image_control:uart_image_control                           739(505)      0(0)    194(99) 1446(1202)      0(0)      0(0)      4(4)
+  +u_rx:uart_rx                                                  57(57)      0(0)       0(0)     81(81)      0(0)      0(0)      0(0)
   +u_tx:uart_tx                                                  46(46)      0(0)     33(33)     64(64)      0(0)      0(0)      0(0)
   +u_up:key_debounce                                             36(36)      0(0)     31(31)     46(46)      0(0)      0(0)      0(0)
   +u_down:key_debounce                                           36(36)      0(0)     31(31)     46(46)      0(0)      0(0)      0(0)
   +u_threshold_cdc:threshold_cdc                                 43(43)      0(0)       0(0)       3(3)      0(0)      0(0)      0(0)
-  +u_isp_cdc:threshold_cdc(WIDTH=2,RESET_VALUE=0)                13(13)      0(0)       0(0)       4(4)      0(0)      0(0)      0(0)
- +u_video_processing:video_processing                           598(40)    32(32)    210(14)    413(31)      0(0)     15(0)      0(0)
-  +u_window:video_window3x3                                    130(130)      0(0)     22(22)     46(46)      0(0)      4(4)      0(0)
-  +u_sobel:video_sobel                                          428(85)      0(0)   174(108)   336(189)      0(0)     11(0)      0(0)
-   +u_grad_window:video_window3x3_generic(DATA_WIDTH=14)       185(185)      0(0)     22(22)     49(49)      0(0)      6(6)      0(0)
-   +u_state_window:video_window3x3_generic(DATA_WIDTH=14)        87(87)      0(0)     22(22)     49(49)      0(0)      3(3)      0(0)
-   +u_edge_window:video_window3x3_generic(DATA_WIDTH=13)         71(71)      0(0)     22(22)     49(49)      0(0)      2(2)      0(0)
- +u_rgb2dvi:rgb2dvi(ENABLE_OSERDES=0)                             45(0)      0(0)      81(0)     173(0)      0(0)      0(0)      0(0)
-  +enc_0:tmds_channel                                            15(15)      0(0)     27(27)     67(67)      0(0)      0(0)      0(0)
-  +enc_1:tmds_channel                                            15(15)      0(0)     27(27)     59(59)      0(0)      0(0)      0(0)
-  +enc_2:tmds_channel                                            15(15)      0(0)     27(27)     47(47)      0(0)      0(0)      0(0)
+  +u_isp_cdc:threshold_cdc(WIDTH=3,RESET_VALUE=0)                16(16)      0(0)       0(0)       4(4)      0(0)      0(0)      0(0)
+ +u_video_processing:video_processing                          564(130)    40(40)    180(14)    633(64)      0(0)     12(0)      0(0)
+  +g_median_sobel.u_window_median:video_window3x3              136(136)      0(0)     22(22)     48(48)      0(0)      6(6)      0(0)
+  +g_median_sobel.u_median:video_median3x3                     113(113)      0(0)       0(0)   431(130)      0(0)      0(0)      0(0)
+   +u_sort_row0:sort3_8bit                                         0(0)      0(0)       0(0)     87(87)      0(0)      0(0)      0(0)
+   +u_sort_row1:sort3_8bit                                         0(0)      0(0)       0(0)     87(87)      0(0)      0(0)      0(0)
+   +u_sort_row2:sort3_8bit                                         0(0)      0(0)       0(0)     67(67)      0(0)      0(0)      0(0)
+   +u_sort_middle:sort3_8bit                                       0(0)      0(0)       0(0)     60(60)      0(0)      0(0)      0(0)
+  +g_median_sobel.u_window_sobel:video_window3x3(MIN_VALI...   139(139)      0(0)     22(22)     47(47)      0(0)      6(6)      0(0)
+  +g_median_sobel.u_sobel:video_sobel                            46(46)      0(0)   122(122)     43(43)      0(0)      0(0)      0(0)
+ +u_rgb2dvi:rgb2dvi(ENABLE_OSERDES=0)                             45(0)      0(0)      81(0)     207(0)      0(0)      0(0)      0(0)
+  +enc_0:tmds_channel                                            15(15)      0(0)     27(27)     79(79)      0(0)      0(0)      0(0)
+  +enc_1:tmds_channel                                            15(15)      0(0)     27(27)     65(65)      0(0)      0(0)      0(0)
+  +enc_2:tmds_channel                                            15(15)      0(0)     27(27)     63(63)      0(0)      0(0)      0(0)
 
 ### ### Module Resource Usage Distribution Estimates (end) ### ###
 
@@ -1154,10 +1106,10 @@ example_top:example_top                                         4780(9)    554(0
 +-----------------------------------------------------+-----+------+-------+------+-------+---------+----+
 |DSP                                                  |TYPE |SIGNED|SHIFTER|BFLOAT|CAS_OUT|    O    |REGS|
 +-----------------------------------------------------+-----+------+-------+------+-------+---------+----+
-|u_image_control/mult_11                              |DSP48|      |       |      |       |  (A*B)  |    |
 |u_image_control/mult_12                              |DSP48|      |       |      |       |  (A*B)  |    |
 |u_image_control/mult_13                              |DSP48|      |       |      |       |  (A*B)  |    |
 |u_image_control/mult_14                              |DSP48|      |       |      |       |  (A*B)  |    |
+|u_image_control/mult_15                              |DSP48|      |       |      |       |  (A*B)  |    |
 |u_axi4_ctrl/Gen_Transform.u_transform/mult_201       |DSP48|      |       |      |       |  (A*B)  |    |
 |u_axi4_ctrl/Gen_Transform.u_transform/mult_207       |DSP48|      |       |      |       |  (A*B)  |    |
 |u_axi4_ctrl/Gen_Transform.u_transform/mult_219_pp_0x0|DSP48|      |       |      | (A*B) |  (A*B)  |    |
@@ -1172,8 +1124,8 @@ example_top:example_top                                         4780(9)    554(0
 +---------+----------+----------+------------+----------------+
 |Clock    |Flip-Flops|Shift-Regs|Memory Ports|Multipliers/DSPs|
 +---------+----------+----------+------------+----------------+
-|clk_sys  |     2365 |      378 |         50 |              0 |
-|clk_pixel|      814 |       32 |         38 |              0 |
+|clk_sys  |     2368 |      378 |         50 |              0 |
+|clk_pixel|      781 |       40 |         32 |              0 |
 |cmos_pclk|      119 |        0 |          8 |              0 |
 |tdqss_clk|      109 |        0 |          4 |              0 |
 |core_clk |      814 |        0 |         15 |              0 |
@@ -1198,16 +1150,16 @@ example_top:example_top                                         4780(9)    554(0
 INPUT  PORTS    : 	98
 OUTPUT PORTS    : 	232
 
-EFX_ADD                 : 	1537
-EFX_LUT4                : 	6394
-   1-2  Inputs          : 	1744
-   3    Inputs          : 	1935
-   4    Inputs          : 	2715
+EFX_ADD                 : 	1507
+EFX_LUT4                : 	6665
+   1-2  Inputs          : 	1776
+   3    Inputs          : 	2148
+   4    Inputs          : 	2741
 EFX_DSP48               : 	11
-EFX_FF                  : 	4780
-EFX_SRL8                : 	554
-EFX_RAM10               : 	68
+EFX_FF                  : 	4750
+EFX_SRL8                : 	562
+EFX_RAM10               : 	65
 ### ### Resource Summary (end) ### ### ###
 
-Plain synthesis (without verilog dump and post-map checks) time : 31s
-Elapsed synthesis time : 34s
+Plain synthesis (without verilog dump and post-map checks) time : 18s
+Elapsed synthesis time : 20s

@@ -41,7 +41,7 @@ INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\R0_
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_32\W0_FIFO_32.sv' [VERI-1482]
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv' [VERI-1482]
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\example_top.v' [VERI-1482]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(463): parameter 'SIM_DATA' becomes localparam in 'example_top' with formal parameter declaration list [VERI-1199]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(482): parameter 'SIM_DATA' becomes localparam in 'example_top' with formal parameter declaration list [VERI-1199]
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v' [VERI-1482]
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v' [VERI-1482]
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v' [VERI-1482]
@@ -80,21 +80,22 @@ INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\ax
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\tmds_channel.v' [VERI-1482]
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v' [VERI-1482]
 INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_OV5640_1280720_Config.v' [VERI-1482]
-INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v' [VERI-1482]
-INFO     : Analysis took 1.4412666 seconds [FlowMsg::StageDuration]
-INFO     :     Analysis took 1.28125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Analysis virtual memory usage: begin = 59.592 MB, end = 68.884 MB, delta = 9.292 MB [FlowMsg::VMUsage]
-INFO     :     Analysis peak virtual memory usage = 68.884 MB [FlowMsg::VMUsage::Peak]
-INFO     : Analysis resident set memory usage: begin = 64.028 MB, end = 77.692 MB, delta = 13.664 MB [FlowMsg::RSSUsage]
-INFO     :     Analysis peak resident set memory usage = 77.692 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v' [VERI-1482]
+INFO     : Analyzing Verilog file 'C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v' [VERI-1482]
+INFO     : Analysis took 0.7084612 seconds [FlowMsg::StageDuration]
+INFO     :     Analysis took 0.671875 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Analysis virtual memory usage: begin = 59.568 MB, end = 68.864 MB, delta = 9.296 MB [FlowMsg::VMUsage]
+INFO     :     Analysis peak virtual memory usage = 68.864 MB [FlowMsg::VMUsage::Peak]
+INFO     : Analysis resident set memory usage: begin = 64.016 MB, end = 77.484 MB, delta = 13.468 MB [FlowMsg::RSSUsage]
+INFO     :     Analysis peak resident set memory usage = 77.484 MB [FlowMsg::RSSUsage::Peak]
 INFO     : ***** Ending Analysis ... *****
 INFO     : ***** Beginning Elaboration ... *****
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(716): port 'cal_shift_val' remains unconnected for this instance [VERI-1927]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1013): port 'axi_awid' remains unconnected for this instance [VERI-1927]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1050): port 'lcd_xpos' remains unconnected for this instance [VERI-1927]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1198): port 'TMDS_Clk_p' remains unconnected for this instance [VERI-1927]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(77): compiling module 'example_top' [VERI-1018]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(547): expression size 32 truncated to fit in target size 1 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(735): port 'cal_shift_val' remains unconnected for this instance [VERI-1927]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1032): port 'axi_awid' remains unconnected for this instance [VERI-1927]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1069): port 'lcd_xpos' remains unconnected for this instance [VERI-1927]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1220): port 'TMDS_Clk_p' remains unconnected for this instance [VERI-1927]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(96): compiling module 'example_top' [VERI-1018]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(566): expression size 32 truncated to fit in target size 1 [VERI-1209]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(184): port 'wr_busy' remains unconnected for this instance [VERI-1927]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(184): port 'wr_data' is not connected on this instance [VERI-2435]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(49): compiling module 'DdrCtrl' [VERI-1018]
@@ -164,16 +165,16 @@ INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1834): c
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(1707): compiling module '**' [VERI-1018]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(2495): input port '**' is not connected on this instance [VDB-1013]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv(117): input port 'wr_data[127]' is not connected on this instance [VDB-1013]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(683): actual bit length 4 differs from formal bit length 8 for port 'axi_aid' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(690): actual bit length 4 differs from formal bit length 8 for port 'axi_wid' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(699): actual bit length 4 differs from formal bit length 8 for port 'axi_bid' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(705): actual bit length 4 differs from formal bit length 8 for port 'axi_rid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(702): actual bit length 4 differs from formal bit length 8 for port 'axi_aid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(709): actual bit length 4 differs from formal bit length 8 for port 'axi_wid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(718): actual bit length 4 differs from formal bit length 8 for port 'axi_bid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(724): actual bit length 4 differs from formal bit length 8 for port 'axi_rid' [VERI-1330]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\AXI4_AWARMux.v(11): compiling module 'AXI4_AWARMux(AID_LEN=4)' [VERI-1018]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\AXI4_AWARMux.v(90): expression size 2 truncated to fit in target size 1 [VERI-1209]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_init.v(8): compiling module 'ar0135_init' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\I2C_AR0135_1280720_Config.v(17): compiling module 'I2C_AR0135_1280720_Config' [VERI-1018]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(788): expression size 3 truncated to fit in target size 2 [VERI-1209]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(789): expression size 5 truncated to fit in target size 4 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(807): expression size 3 truncated to fit in target size 2 [VERI-1209]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(808): expression size 5 truncated to fit in target size 4 [VERI-1209]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\cmos_i2c\ar0135_capture.v(7): compiling module 'ar0135_capture' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(2): compiling module 'axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END_ADDR=1843200,C_W_WIDTH=16,C_R_WIDTH=16)' [VERI-1018]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\axi\axi4_ctrl.v(98): expression size 32 truncated to fit in target size 16 [VERI-1209]
@@ -224,30 +225,33 @@ WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(200): expression size 32 truncated to fit in target size 16 [VERI-1209]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(215): expression size 16 truncated to fit in target size 8 [VERI-1209]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v(232): expression size 17 truncated to fit in target size 16 [VERI-1209]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(980): actual bit length 32 differs from formal bit length 4 for port 'axi_bid' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(981): actual bit length 32 differs from formal bit length 2 for port 'axi_bresp' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(982): actual bit length 32 differs from formal bit length 1 for port 'axi_bvalid' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1012): actual bit length 8 differs from formal bit length 32 for port 'tp_o' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(999): actual bit length 32 differs from formal bit length 4 for port 'axi_bid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1000): actual bit length 32 differs from formal bit length 2 for port 'axi_bresp' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1001): actual bit length 32 differs from formal bit length 1 for port 'axi_bvalid' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1031): actual bit length 8 differs from formal bit length 32 for port 'tp_o' [VERI-1330]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v(39): compiling module 'lcd_driver' [VERI-1018]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\lcd_driver.v(145): expression size 14 truncated to fit in target size 12 [VERI-1209]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1049): actual bit length 24 differs from formal bit length 48 for port 'lcd_data' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1068): actual bit length 24 differs from formal bit length 48 for port 'lcd_data' [VERI-1330]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v(13): compiling module 'uart_image_control' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v(3): compiling module 'uart_rx' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v(3): compiling module 'uart_tx' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v(4): compiling module 'key_debounce' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v(8): compiling module 'threshold_cdc' [VERI-1018]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v(8): compiling module 'threshold_cdc(WIDTH=2,RESET_VALUE=0)' [VERI-1018]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v(10): compiling module 'video_processing' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v(8): compiling module 'threshold_cdc(WIDTH=3,RESET_VALUE=0)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v(9): compiling module 'video_processing' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(10): compiling module 'video_window3x3' [VERI-1018]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(22): extracting RAM for identifier 'line1' [VERI-2571]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(23): extracting RAM for identifier 'line2' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(28): extracting RAM for identifier 'line1' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(29): extracting RAM for identifier 'line2' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(30): extracting RAM for identifier 'line1_valid' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(31): extracting RAM for identifier 'line2_valid' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v(1): compiling module 'video_median3x3' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v(1): compiling module 'sort3_8bit' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(10): compiling module 'video_window3x3(MIN_VALID_XY=8)' [VERI-1018]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(28): extracting RAM for identifier 'line1' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(29): extracting RAM for identifier 'line2' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(30): extracting RAM for identifier 'line1_valid' [VERI-2571]
+INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v(31): extracting RAM for identifier 'line2_valid' [VERI-2571]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v(10): compiling module 'video_sobel' [VERI-1018]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v(6): compiling module 'video_window3x3_generic(DATA_WIDTH=14)' [VERI-1018]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v(26): extracting RAM for identifier 'line1' [VERI-2571]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v(27): extracting RAM for identifier 'line2' [VERI-2571]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v(6): compiling module 'video_window3x3_generic(DATA_WIDTH=13)' [VERI-1018]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v(26): extracting RAM for identifier 'line1' [VERI-2571]
-INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v(27): extracting RAM for identifier 'line2' [VERI-2571]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(7): compiling module 'rgb2dvi(ENABLE_OSERDES=0)' [VERI-1018]
 INFO     : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\tmds_channel.v(4): compiling module 'tmds_channel' [VERI-1018]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(50): actual bit length 32 differs from formal bit length 4 for port 'data_island_data' [VERI-1330]
@@ -256,30 +260,30 @@ WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(58): act
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(60): actual bit length 4 differs from formal bit length 3 for port 'mode' [VERI-1330]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(66): actual bit length 32 differs from formal bit length 4 for port 'data_island_data' [VERI-1330]
 WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\src\hdmi_ip\rgb2dvi.v(68): actual bit length 4 differs from formal bit length 3 for port 'mode' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1176): actual bit length 32 differs from formal bit length 1 for port 'oe_i' [VERI-1330]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(532): net 'w_dev_index_o[7]' does not have a driver [VDB-1002]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(533): net 'w_dev_cmd_o[7]' does not have a driver [VDB-1002]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(534): net 'w_dev_wdata_o[31]' does not have a driver [VDB-1002]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(535): net 'w_dev_wvalid_o' does not have a driver [VDB-1002]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(539): net 'w_spi_ssn_o' does not have a driver [VDB-1002]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(540): net 'w_spi_data_o[3]' does not have a driver [VDB-1002]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(557): net 'w_lcd_b_o[7]' does not have a driver [VDB-1002]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1169): input port 'SerialClk' is not connected on this instance [VDB-1013]
-INFO     : Elaboration took 0.4928765 seconds [FlowMsg::StageDuration]
-INFO     :     Elaboration took 0.46875 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Elaboration virtual memory usage: begin = 68.884 MB, end = 130.768 MB, delta = 61.884 MB [FlowMsg::VMUsage]
-INFO     :     Elaboration peak virtual memory usage = 130.768 MB [FlowMsg::VMUsage::Peak]
-INFO     : Elaboration resident set memory usage: begin = 77.736 MB, end = 140.42 MB, delta = 62.684 MB [FlowMsg::RSSUsage]
-INFO     :     Elaboration peak resident set memory usage = 140.42 MB [FlowMsg::RSSUsage::Peak]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1198): actual bit length 32 differs from formal bit length 1 for port 'oe_i' [VERI-1330]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(551): net 'w_dev_index_o[7]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(552): net 'w_dev_cmd_o[7]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(553): net 'w_dev_wdata_o[31]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(554): net 'w_dev_wvalid_o' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(558): net 'w_spi_ssn_o' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(559): net 'w_spi_data_o[3]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(576): net 'w_lcd_b_o[7]' does not have a driver [VDB-1002]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(1191): input port 'SerialClk' is not connected on this instance [VDB-1013]
+INFO     : Elaboration took 0.2556761 seconds [FlowMsg::StageDuration]
+INFO     :     Elaboration took 0.25 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Elaboration virtual memory usage: begin = 68.864 MB, end = 127.672 MB, delta = 58.808 MB [FlowMsg::VMUsage]
+INFO     :     Elaboration peak virtual memory usage = 127.672 MB [FlowMsg::VMUsage::Peak]
+INFO     : Elaboration resident set memory usage: begin = 77.528 MB, end = 138.032 MB, delta = 60.504 MB [FlowMsg::RSSUsage]
+INFO     :     Elaboration peak resident set memory usage = 138.032 MB [FlowMsg::RSSUsage::Peak]
 INFO     : ***** Ending Elaboration ... *****
 INFO     : ... Setting Synthesis Option: mode=speed
 INFO     : ***** Beginning Reading Mapping Library ... *****
-INFO     : Reading Mapping Library took 0.0190355 seconds [FlowMsg::StageDuration]
-INFO     :     Reading Mapping Library took 0.03125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Reading Mapping Library virtual memory usage: begin = 141.028 MB, end = 141.028 MB, delta = 0 MB [FlowMsg::VMUsage]
-INFO     :     Reading Mapping Library peak virtual memory usage = 141.028 MB [FlowMsg::VMUsage::Peak]
-INFO     : Reading Mapping Library resident set memory usage: begin = 152.504 MB, end = 152.504 MB, delta = 0 MB [FlowMsg::RSSUsage]
-INFO     :     Reading Mapping Library peak resident set memory usage = 152.504 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Reading Mapping Library took 0.0117987 seconds [FlowMsg::StageDuration]
+INFO     :     Reading Mapping Library took 0 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Reading Mapping Library virtual memory usage: begin = 138.956 MB, end = 138.956 MB, delta = 0 MB [FlowMsg::VMUsage]
+INFO     :     Reading Mapping Library peak virtual memory usage = 138.956 MB [FlowMsg::VMUsage::Peak]
+INFO     : Reading Mapping Library resident set memory usage: begin = 150.088 MB, end = 150.088 MB, delta = 0 MB [FlowMsg::RSSUsage]
+INFO     :     Reading Mapping Library peak resident set memory usage = 150.088 MB [FlowMsg::RSSUsage::Peak]
 INFO     : ***** Ending Reading Mapping Library ... *****
 INFO     : ... Pre-synthesis checks begin
 WARNING  : The primary output port 'lcd_tp_sda_o' wire 'lcd_tp_sda_o' is not driven. [EFX-0256]
@@ -437,12 +441,14 @@ INFO     : (The above message was generated too many times, subsequent similar m
 INFO     : ... Memory 'ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\ip\W0_FIFO_16\W0_FIFO_16.sv:667) [EFX-0677]
 INFO     : ... Memory 'source_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:38) [EFX-0677]
 INFO     : ... Memory 'display_ram' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\axi_transform_reader.v:39) [EFX-0677]
-INFO     : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:22) [EFX-0677]
-INFO     : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:23) [EFX-0677]
-INFO     : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:26) [EFX-0677]
-INFO     : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:27) [EFX-0677]
-INFO     : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:26) [EFX-0677]
-INFO     : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3_generic.v:27) [EFX-0677]
+INFO     : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:28) [EFX-0677]
+INFO     : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:29) [EFX-0677]
+INFO     : ... Memory 'line1_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:30) [EFX-0677]
+INFO     : ... Memory 'line2_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:31) [EFX-0677]
+INFO     : ... Memory 'line1' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:28) [EFX-0677]
+INFO     : ... Memory 'line2' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:29) [EFX-0677]
+INFO     : ... Memory 'line1_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:30) [EFX-0677]
+INFO     : ... Memory 'line2_valid' is not initialized, assuming empty initial contents. (C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v:31) [EFX-0677]
 INFO     : ... Pre-synthesis checks end (Real time : 0s)
 INFO     : ... NameSpace init begin
 INFO     : ... NameSpace init end (Real time : 0s)
@@ -511,7 +517,7 @@ INFO     : ... Hierarchical pre-synthesis "user_dual_port_ram_dc13612a41d14b64a6
 INFO     : ... Hierarchical pre-synthesis "ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7" begin
 INFO     : ... Hierarchical pre-synthesis "ddr_3_controller_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "controller_top_dc13612a41d14b64a60c05045f64d9b7" begin
-INFO     : ... Hierarchical pre-synthesis "controller_top_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "controller_top_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 1s)
 INFO     : ... Hierarchical pre-synthesis "reset_sub_dc13612a41d14b64a60c05045f64d9b7(OUT_RST_ACTIVE="LOW",CYCLE=5)" begin
 INFO     : ... Hierarchical pre-synthesis "reset_sub_dc13612a41d14b64a60c05045f64d9b7(OUT_RST_ACTIVE="LOW",CYCLE=5)" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f64d9b7(NUM_RST=2,CYCLE=5,IN_RST_ACTIVE=2'b0,OUT_RST_ACTIVE=2'b0)" begin
@@ -519,11 +525,11 @@ INFO     : ... Hierarchical pre-synthesis "reset_ctrl_dc13612a41d14b64a60c05045f
 INFO     : ... Hierarchical pre-synthesis "phase_shift_dc13612a41d14b64a60c05045f64d9b7" begin
 INFO     : ... Hierarchical pre-synthesis "phase_shift_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "top_dc13612a41d14b64a60c05045f64d9b7" begin
-INFO     : ... Hierarchical pre-synthesis "top_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 1s)
+INFO     : ... Hierarchical pre-synthesis "top_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "efx_ddr3_axi_dc13612a41d14b64a60c05045f64d9b7" begin
-INFO     : ... Hierarchical pre-synthesis "efx_ddr3_axi_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 1s)
+INFO     : ... Hierarchical pre-synthesis "efx_ddr3_axi_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "efx_ddr3_soft_controller_dc13612a41d14b64a60c05045f64d9b7" begin
-INFO     : ... Hierarchical pre-synthesis "efx_ddr3_soft_controller_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "efx_ddr3_soft_controller_dc13612a41d14b64a60c05045f64d9b7" end (Real time : 1s)
 INFO     : ... Hierarchical pre-synthesis "DdrCtrl" begin
 INFO     : ... Hierarchical pre-synthesis "DdrCtrl" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "AXI4_AWARMux(AID_LEN=4)" begin
@@ -579,7 +585,7 @@ INFO     : ... Hierarchical pre-synthesis "efx_fifo_top_3a5a8130f9dc48d5847ad155
 INFO     : ... Hierarchical pre-synthesis "W0_FIFO_16" begin
 INFO     : ... Hierarchical pre-synthesis "W0_FIFO_16" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "unsigned_divider" begin
-INFO     : ... Hierarchical pre-synthesis "unsigned_divider" end (Real time : 1s)
+INFO     : ... Hierarchical pre-synthesis "unsigned_divider" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "axi_transform_reader(BASE_ADDR=32'b0)" begin
 INFO     : ... Hierarchical pre-synthesis "axi_transform_reader(BASE_ADDR=32'b0)" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "axi4_ctrl(C_TRANSFORM=1,C_ID_LEN=4,C_RD_END_ADDR=1843200,C_W_WIDTH=16,C_R_WIDTH=16)" begin
@@ -594,16 +600,18 @@ INFO     : ... Hierarchical pre-synthesis "key_debounce" begin
 INFO     : ... Hierarchical pre-synthesis "key_debounce" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "threshold_cdc" begin
 INFO     : ... Hierarchical pre-synthesis "threshold_cdc" end (Real time : 0s)
-INFO     : ... Hierarchical pre-synthesis "threshold_cdc(WIDTH=2,RESET_VALUE=0)" begin
-INFO     : ... Hierarchical pre-synthesis "threshold_cdc(WIDTH=2,RESET_VALUE=0)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "threshold_cdc(WIDTH=3,RESET_VALUE=0)" begin
+INFO     : ... Hierarchical pre-synthesis "threshold_cdc(WIDTH=3,RESET_VALUE=0)" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "uart_image_control" begin
 INFO     : ... Hierarchical pre-synthesis "uart_image_control" end (Real time : 1s)
 INFO     : ... Hierarchical pre-synthesis "video_window3x3" begin
 INFO     : ... Hierarchical pre-synthesis "video_window3x3" end (Real time : 0s)
-INFO     : ... Hierarchical pre-synthesis "video_window3x3_generic(DATA_WIDTH=14)" begin
-INFO     : ... Hierarchical pre-synthesis "video_window3x3_generic(DATA_WIDTH=14)" end (Real time : 0s)
-INFO     : ... Hierarchical pre-synthesis "video_window3x3_generic(DATA_WIDTH=13)" begin
-INFO     : ... Hierarchical pre-synthesis "video_window3x3_generic(DATA_WIDTH=13)" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "sort3_8bit" begin
+INFO     : ... Hierarchical pre-synthesis "sort3_8bit" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "video_median3x3" begin
+INFO     : ... Hierarchical pre-synthesis "video_median3x3" end (Real time : 0s)
+INFO     : ... Hierarchical pre-synthesis "video_window3x3(MIN_VALID_XY=8)" begin
+INFO     : ... Hierarchical pre-synthesis "video_window3x3(MIN_VALID_XY=8)" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "video_sobel" begin
 INFO     : ... Hierarchical pre-synthesis "video_sobel" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "video_processing" begin
@@ -613,64 +621,64 @@ INFO     : ... Hierarchical pre-synthesis "tmds_channel" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "rgb2dvi(ENABLE_OSERDES=0)" begin
 INFO     : ... Hierarchical pre-synthesis "rgb2dvi(ENABLE_OSERDES=0)" end (Real time : 0s)
 INFO     : ... Hierarchical pre-synthesis "example_top" begin
-INFO     : ... Clock Enable Synthesis Performed on 2185 flops.
+INFO     : ... Clock Enable Synthesis Performed on 2137 flops.
 INFO     : Cannot infer shift registers from 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_rd_fifo_wr_en_p[0]' (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441) to 'ddr3_ctl_axi/u_efx_ddr3_soft_controller/genblk1.inst_ddr3_axi/inst_efx_ddr3/top_mc/controller_main/r_rd_fifo_wr_en_p[17]' (C:\Users\francis\Desktop\fpga-w.-codex\ip\DdrCtrl\DdrCtrl.sv:1441). Shift registers with both dynamic address and reset not supported. [EFX-0688]
-INFO     : ... Hierarchical pre-synthesis "example_top" end (Real time : 4s)
+INFO     : ... Hierarchical pre-synthesis "example_top" end (Real time : 2s)
 INFO     : ... Flat optimizations begin
 INFO     : ... Flat optimizations end (Real time : 0s)
 INFO     : ... Flat synthesis begin
-INFO     : ... Flat synthesis end (Real time : 0s)
+INFO     : ... Flat synthesis end (Real time : 1s)
 INFO     : ... Flat optimizations begin
 INFO     : ... Flat optimizations end (Real time : 0s)
 INFO     : ... Check and break combinational loops begin
 INFO     : ... Check and break combinational loops end (Real time : 0s)
 INFO     : ... Setup for logic synthesis begin
-INFO     : ... Setup for logic synthesis end (Real time : 0s)
+INFO     : ... Setup for logic synthesis end (Real time : 1s)
 INFO     : ... LUT mapping begin
-INFO     : ... LS, strategy: 3, nd: 6438, ed: 20304, lv: 9, pw: 13389.26
-INFO     : ... LUT mapping end (Real time : 20s)
+INFO     : ... LS, strategy: 3, nd: 6703, ed: 21099, lv: 11, pw: 13740.72
+INFO     : ... LUT mapping end (Real time : 11s)
 INFO     : ... Post-synthesis Verific netlist creation begin
 INFO     : ... Post-synthesis Verific netlist creation end (Real time : 0s)
 INFO     : ***** Beginning VDB Netlist Checker ... *****
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(93): Input/inout port clk_24m is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(94): Input/inout port clk_25m is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(104): Input/inout port clk_pixel_2x is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(105): Input/inout port clk_pixel_10x is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(187): Input/inout port i_dqs_n_hi[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(188): Input/inout port i_dqs_n_lo[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(357): Input/inout port cmos_data[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(361): Input/inout port cmos_ctl1_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(364): Input/inout port cmos_ctl2_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(367): Input/inout port cmos_ctl3_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(415): Input/inout port lcd_tp_sda_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(419): Input/inout port lcd_tp_scl_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(423): Input/inout port lcd_tp_int_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(443): Input/inout port lcd_b7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(444): Input/inout port lcd_g7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
-WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(445): Input/inout port lcd_r7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(112): Input/inout port clk_24m is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(113): Input/inout port clk_25m is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(123): Input/inout port clk_pixel_2x is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(124): Input/inout port clk_pixel_10x is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(206): Input/inout port i_dqs_n_hi[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(207): Input/inout port i_dqs_n_lo[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(376): Input/inout port cmos_data[1] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(380): Input/inout port cmos_ctl1_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(383): Input/inout port cmos_ctl2_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(386): Input/inout port cmos_ctl3_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(434): Input/inout port lcd_tp_sda_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(438): Input/inout port lcd_tp_scl_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(442): Input/inout port lcd_tp_int_i is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(462): Input/inout port lcd_b7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(463): Input/inout port lcd_g7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
+WARNING  : C:\Users\francis\Desktop\fpga-w.-codex\example_top.v(464): Input/inout port lcd_r7_0_i[7] is unconnected. Place and route may remove this unconnected port. [VDB-8003]
 WARNING  : Found 40 warnings in the post-synthesis netlist.
-INFO     : VDB Netlist Checker took 0.0329973 seconds [FlowMsg::StageDuration]
-INFO     :     VDB Netlist Checker took 0.0625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : VDB Netlist Checker virtual memory usage: begin = 178.46 MB, end = 178.536 MB, delta = 0.076 MB [FlowMsg::VMUsage]
-INFO     :     VDB Netlist Checker peak virtual memory usage = 238.852 MB [FlowMsg::VMUsage::Peak]
-INFO     : VDB Netlist Checker resident set memory usage: begin = 192.804 MB, end = 192.948 MB, delta = 0.144 MB [FlowMsg::RSSUsage]
-INFO     :     VDB Netlist Checker peak resident set memory usage = 250.676 MB [FlowMsg::RSSUsage::Peak]
+INFO     : VDB Netlist Checker took 0.0179575 seconds [FlowMsg::StageDuration]
+INFO     :     VDB Netlist Checker took 0.03125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : VDB Netlist Checker virtual memory usage: begin = 176.5 MB, end = 176.576 MB, delta = 0.076 MB [FlowMsg::VMUsage]
+INFO     :     VDB Netlist Checker peak virtual memory usage = 249.856 MB [FlowMsg::VMUsage::Peak]
+INFO     : VDB Netlist Checker resident set memory usage: begin = 190.544 MB, end = 190.688 MB, delta = 0.144 MB [FlowMsg::RSSUsage]
+INFO     :     VDB Netlist Checker peak resident set memory usage = 262.252 MB [FlowMsg::RSSUsage::Peak]
 INFO     : ***** Ending VDB Netlist Checker ... *****
 INFO     : Resource Summary 
 INFO     : ======================================= 
-INFO     : EFX_ADD                 : 	1537
-INFO     : EFX_LUT4                : 	6394
+INFO     : EFX_ADD                 : 	1507
+INFO     : EFX_LUT4                : 	6665
 INFO     : EFX_DSP48               : 	11
-INFO     : EFX_FF                  : 	4780
-INFO     : EFX_SRL8                : 	554
-INFO     : EFX_RAM10               : 	68
+INFO     : EFX_FF                  : 	4750
+INFO     : EFX_SRL8                : 	562
+INFO     : EFX_RAM10               : 	65
 INFO     : ======================================= 
 INFO     : ... Post-Map Verilog Writer begin
 INFO     : Writing netlist 'example_top' to Verilog file 'C:/Users/francis/Desktop/fpga-w.-codex/outflow/Ti60_AR0135.map.v' [VDB-1030]
-INFO     : ... Post-Map Verilog Writer end (Real time : 1s)
-INFO     : The entire flow of EFX_MAP took 35.1435178 seconds [FlowMsg::StageDuration]
-INFO     :     The entire flow of EFX_MAP took 42.578125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : The entire flow of EFX_MAP virtual memory usage: begin = 19.048 MB, end = 247.676 MB, delta = 228.628 MB [FlowMsg::VMUsage]
-INFO     :     The entire flow of EFX_MAP peak virtual memory usage = 247.676 MB [FlowMsg::VMUsage::Peak]
-INFO     : The entire flow of EFX_MAP resident set memory usage: begin = 19.692 MB, end = 258.228 MB, delta = 238.536 MB [FlowMsg::RSSUsage]
-INFO     :     The entire flow of EFX_MAP peak resident set memory usage = 258.228 MB [FlowMsg::RSSUsage::Peak]
+INFO     : ... Post-Map Verilog Writer end (Real time : 0s)
+INFO     : The entire flow of EFX_MAP took 20.1359183 seconds [FlowMsg::StageDuration]
+INFO     :     The entire flow of EFX_MAP took 24.453125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : The entire flow of EFX_MAP virtual memory usage: begin = 19.024 MB, end = 250.3 MB, delta = 231.276 MB [FlowMsg::VMUsage]
+INFO     :     The entire flow of EFX_MAP peak virtual memory usage = 250.3 MB [FlowMsg::VMUsage::Peak]
+INFO     : The entire flow of EFX_MAP resident set memory usage: begin = 19.68 MB, end = 260.82 MB, delta = 241.14 MB [FlowMsg::RSSUsage]
+INFO     :     The entire flow of EFX_MAP peak resident set memory usage = 262.252 MB [FlowMsg::RSSUsage::Peak]

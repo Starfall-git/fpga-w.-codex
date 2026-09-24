@@ -1,0 +1,154 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/francis/Desktop/fpga-w.-codex/tools/debug/median_modes_16x12
+vmedian_modes_tb
+Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z2 !s110 1790259735
+!i10b 1
+!s100 6F;i:?XO]ac^4I3=G:khG2
+Ih_mE0CaWF<D8_lg]NhInl3
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s105 median_modes_tb_sv_unit
+S1
+R0
+w1790258328
+8C:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv
+FC:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv
+L0 3
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z5 !s108 1790259735.000000
+Z6 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v|
+Z7 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv|
+!i113 1
+o-sv
+Z8 tCvgOpt 0
+vsort3_8bit
+R1
+R2
+!i10b 1
+!s100 I4AI^>c=VoS6W3ZPEYk:c3
+IdX8>L:g?0DE5^8=YRBAEJ2
+R3
+!s105 sort3_8bit_v_unit
+S1
+R0
+w1790253854
+8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!i113 1
+o-sv
+R8
+vvideo_median3x3
+R1
+R2
+!i10b 1
+!s100 Je55;QF8j;IUeL[VQIC1M1
+IozR;k[0]eWR72?c]BoZO83
+R3
+!s105 video_median3x3_v_unit
+S1
+R0
+w1790259634
+8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!i113 1
+o-sv
+R8
+vvideo_processing
+R1
+R2
+!i10b 1
+!s100 >15cJNJS6]LC0;G0H`cgT0
+IJg8UbD^ZM7Q:^X2m`P]jB3
+R3
+!s105 video_processing_v_unit
+S1
+R0
+Z9 w1790259712
+8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v
+L0 9
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!i113 1
+o-sv
+R8
+vvideo_sobel
+R1
+R2
+!i10b 1
+!s100 G7TfiXn3?JMX?J:R]M3MH1
+IIHW=9CiIFo@OI?K=BMKB;1
+R3
+!s105 video_sobel_v_unit
+S1
+R0
+w1790242624
+8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v
+Z10 L0 10
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!i113 1
+o-sv
+R8
+vvideo_window3x3
+R1
+R2
+!i10b 1
+!s100 cC75IZf:4I6kZY5Bd3`]O3
+I^S?KUAh:Gd_c35Xa9UaKe3
+R3
+!s105 video_window3x3_v_unit
+S1
+R0
+R9
+8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v
+R10
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!i113 1
+o-sv
+R8

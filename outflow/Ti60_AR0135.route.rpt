@@ -1,14 +1,14 @@
 
 Elitestek FPGA Placement and Routing.
 Version: 2026.1.132.3.9 
-Date: Thu Sep 24 17:36:38 2026
+Date: Thu Sep 24 22:29:10 2026
 
 Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
  
 Family: Titanium 
 Device: Ti60F225
 Top-level Entity Name: Ti60_AR0135
-Elapsed time for routing: 0 hours 0 minutes 12 seconds
+Elapsed time for routing: 0 hours 0 minutes 7 seconds
 
 
 ---------- GBUFCE Assignments (begin) ----------
@@ -32,4 +32,4 @@ Elapsed time for routing: 0 hours 0 minutes 12 seconds
 ----------- GBUFCE Assignments (end) ----------
 
 
-Elapsed time for Latest PnR Run: 0 hours 0 minutes 52 seconds
+Elapsed time for Latest PnR Run: 0 hours 0 minutes 29 seconds

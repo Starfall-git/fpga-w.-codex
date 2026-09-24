@@ -7,8 +7,8 @@ module uart_control_tb;
     wire [11:0] threshold;
     wire [23:0] edge_rgb;
     /* Fixed window |Gx|=128: serial threshold change must affect actual Sobel output. */
-    /* V0.8: small continuous raster exercises enhanced neighborhood stages. */
-    video_sobel #(.IMAGE_WIDTH(16)) sobel(.clk(pixel_clk),.rst_n(rst),.THRESHOLD(threshold),.BINARY_OUTPUT(1'b1),
+    /* V0.9 / 46: standalone Sobel in this checkout has no IMAGE_WIDTH parameter. */
+    video_sobel sobel(.clk(pixel_clk),.rst_n(rst),.THRESHOLD(threshold),.BINARY_OUTPUT(1'b1),
         .pixels_i({8'd0,8'd0,8'd32,8'd0,8'd0,8'd32,8'd0,8'd0,8'd32}),
         .hs_i(1'b1),.vs_i(1'b1),.de_i(1'b1),.window_valid_i(1'b1),
         .rgb_o(edge_rgb),.hs_o(),.vs_o(),.de_o());
@@ -18,7 +18,7 @@ module uart_control_tb;
     uart_image_control #(.CLOCK_HZ(1000000),.BAUD(100000),.DEBOUNCE_CYCLES(4),.TRANSFORM_ENABLE(0)) dut
         (.clk(clk),.rst_n(rst),.uart_rx_i(rx),.uart_tx_o(tx),.key_data(keys),
          .pixel_clk(pixel_clk),.pixel_rst_n(rst),.frame_blank_i(blank),.threshold_pixel_o(threshold),
-         .enable_sobel_o(),.binary_output_o(), /* V0.6 runtime modes tested in uart_geometry_tb. */
+         .enable_sobel_o(),.binary_output_o(),.enable_median_o(), /* V0.9 median tested in uart_geometry_tb. */
          .geometry_o(),.geometry_toggle_o(),.geometry_ack_i(1'b0),.transform_faults_i(2'b00));
     localparam BIT=100;
     reg [7:0] received[0:1023];
@@ -74,7 +74,7 @@ module uart_control_tb;
                received[consumed+2]!==seq || received[consumed+3]!==(cmd|8'h80) ||
                received[consumed+4]!==status ||
                {received[consumed+6],received[consumed+5]}!=={4'd0,value} ||
-               received[consumed+7]!==1 || received[consumed+8]!==8'h51 ||
+               received[consumed+7]!==1 || received[consumed+8]!==8'hd1 ||
                received[consumed+9]!==0 || received[consumed+10]!==0 || received[consumed+11]!==0)
                 $fatal(1,"Response mismatch seq=%d status=%d threshold=%d",seq,received[consumed+4],{received[consumed+6],received[consumed+5]});
             c=0;
@@ -91,7 +91,7 @@ module uart_control_tb;
         #43; rst=1; #200;
         send_frame(1,1,0,0); expect_reply(1,1,0,128);
         repeat(160) @(negedge pixel_clk);
-        wait(sobel.edge_window_valid); @(posedge pixel_clk); #1;
+        @(posedge pixel_clk); #1;
         if(edge_rgb!==24'hffffff) $fatal(1,"Initial Sobel threshold equality");
         send_frame(2,16,256,0);
         #3000;
@@ -101,7 +101,7 @@ module uart_control_tb;
         expect_reply(2,16,0,256);
         if(threshold!==256) $fatal(1,"CDC apply");
         repeat(160) @(negedge pixel_clk);
-        wait(sobel.edge_window_valid); @(posedge pixel_clk); #1;
+        @(posedge pixel_clk); #1;
         if(edge_rgb!==0) $fatal(1,"Runtime threshold not reaching Sobel");
         send_frame(3,16,4096,0); expect_reply(3,16,2,256);
         send_frame(4,16,100,1); expect_reply(4,16,1,256);

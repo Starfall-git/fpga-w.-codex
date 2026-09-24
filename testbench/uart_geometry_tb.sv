@@ -5,14 +5,14 @@ module uart_geometry_tb;
     always #5.208333 clk=~clk;
     always #6.720430 pixel_clk=~pixel_clk;
     localparam real BIT=104.16666;
-    wire tx, gt, ga, enabled, polarity;
+    wire tx, gt, ga, enabled, polarity, median_enabled;
     wire [97:0] geometry;
     wire [11:0] threshold;
     wire [1:0] faults;
     uart_image_control #(.CLOCK_HZ(1000000),.BAUD(100000),.DEBOUNCE_CYCLES(4)) control(
         .clk(clk),.rst_n(rst),.uart_rx_i(rx),.uart_tx_o(tx),.key_data(2'b11),
         .pixel_clk(pixel_clk),.pixel_rst_n(rst),.frame_blank_i(!vs),.threshold_pixel_o(threshold),
-        .enable_sobel_o(enabled),.binary_output_o(polarity),
+        .enable_sobel_o(enabled),.binary_output_o(polarity),.enable_median_o(median_enabled),
         .geometry_o(geometry),.geometry_toggle_o(gt),.geometry_ack_i(ga),.transform_faults_i(faults));
     wire [31:0] addr;
     wire [7:0] len;
@@ -68,7 +68,9 @@ module uart_geometry_tb;
                 if(response[n*13+b]!==expected[b*8+:8]) $fatal(1,"Packet %0d byte%0d expected%h got%h",n,b,expected[b*8+:8],response[n*13+b]);
             /* V0.6: reply flags must match actual pixel-domain runtime ports. */
             if(command[31:24]==8'h11 || command[31:24]==8'h12)
-                if(enabled!==expected[72] || polarity!==!expected[73]) $fatal(1,"ISP applied ports mismatch");
+            /* V0.9 / 46: ACK includes the applied Median bit after pixel blank. */
+                if(enabled!==expected[72] || polarity!==!expected[73] || median_enabled!==expected[74])
+                    $fatal(1,"ISP applied ports mismatch");
             #(BIT*3);
         end
         $display("PASS UART GEOMETRY: %0d Python wire packets, real DDR frame commit and actual configuration readback",number);

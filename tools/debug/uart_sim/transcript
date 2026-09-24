@@ -1,9 +1,8 @@
 # vsim -c work.uart_control_tb -do "run -all; quit -f" 
-# Start time: 17:20:12 on Sep 24,2026
+# Start time: 21:59:51 on Sep 24,2026
 # Loading sv_std.std
 # Loading work.uart_control_tb
 # Loading work.video_sobel
-# Loading work.video_window3x3_generic
 # Loading work.uart_image_control
 # Loading work.uart_rx
 # Loading work.uart_tx
@@ -12,6 +11,6 @@
 # run -all
 # PASS UART: physical 8N1, CRC, errors, frame-boundary CDC, keys, limits, reset
 # ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(141)
-#    Time: 512905 ns  Iteration: 0  Instance: /uart_control_tb
-# End time: 17:20:14 on Sep 24,2026, Elapsed time: 0:00:02
+#    Time: 512805 ns  Iteration: 0  Instance: /uart_control_tb
+# End time: 21:59:51 on Sep 24,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

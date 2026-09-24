@@ -5,7 +5,7 @@ from dataclasses import replace
 from .protocol import (Command, DeviceStatus, DeviceError, Frame, FrameDecoder,
                        CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM,
                        threshold_payload, flip_payload, crop_payload, zoom_payload, Geometry,
-                       CAP_ISP, CAP_DEFAULTS, CAP_WIDE_ZOOM, isp_payload)
+                       CAP_ISP, CAP_DEFAULTS, CAP_WIDE_ZOOM, CAP_MEDIAN, isp_payload)
 
 
 def list_ports():
@@ -140,9 +140,11 @@ class SerialClient:
             self.set_crop(0,0,1280,720)
             return self.set_flip(False,False)
 
-    def set_isp(self, enabled, inverted):
-        payload = isp_payload(enabled, inverted)
+    def set_isp(self, enabled, inverted, median=False):
+        # V0.9 / 45: old boards accept flags 0..3; only advertise Median on new bit.
+        payload = isp_payload(enabled, inverted, median)
         self._require(CAP_ISP)
+        if median: self._require(CAP_MEDIAN)
         result = self.request(Command.SET_ISP, payload)
         if result.isp_flags != payload[0]: raise RuntimeError("图像模式回读与请求不一致")
         return result
@@ -167,7 +169,7 @@ class DemoClient(SerialClient):
 
     def __init__(self, trace=None):
         self.trace = trace or (lambda direction, raw: None)
-        self.status = DeviceStatus(0, 128, 1, 127)
+        self.status = DeviceStatus(0, 128, 1, 255)
         self.geometry = Geometry()
         self.lock = threading.RLock()
         self.sequence = 0
@@ -199,7 +201,7 @@ class DemoClient(SerialClient):
             code = 2
         if code == 0:
             self.geometry = candidate
-        body = bytes((code, self.status.threshold & 255, self.status.threshold >> 8, 1, 127, self.status.isp_flags, 0, 0))
+        body = bytes((code, self.status.threshold & 255, self.status.threshold >> 8, 1, 255, self.status.isp_flags, 0, 0))
         if cmd == Command.GET_CONFIG:
             g = self.geometry
             page = payload[0]
