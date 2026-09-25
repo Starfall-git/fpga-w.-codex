@@ -81,7 +81,7 @@ class ImageControlApp:
         image.pack(fill='x',pady=12)
         row = ttk.Frame(image); row.pack(fill='x')
         for text, variable, cap in (('Sobel 边缘检测',self.sobel,CAP_ISP),
-                                    ('中值滤波',self.median,CAP_MEDIAN),
+                                    ('选择性中值滤波',self.median,CAP_MEDIAN),
                                     ('黑白反转',self.inverted,CAP_ISP)):
             button=ttk.Checkbutton(row,text=text,variable=variable,command=self.apply_isp)
             button.pack(side='left',padx=(0,20)); self.controls.append((button,cap))
@@ -89,7 +89,7 @@ class ImageControlApp:
         self.threshold_entry=ttk.Entry(row,textvariable=self.threshold,width=9,font=('Consolas',14))
         self.threshold_entry.pack(side='left'); self.controls.append((self.threshold_entry,CAP_THRESHOLD))
         self.threshold_entry.bind('<Return>',lambda _: self.apply_threshold())
-        ttk.Label(row,text='0–4095 · 回车生效').pack(side='left',padx=10)
+        ttk.Label(row,text='0=参考原强度；增大可抑制弱边缘，>1020无边缘 · 回车生效').pack(side='left',padx=10)
         ttk.Label(image,textvariable=self.mode_readback,foreground='#137c70').pack(anchor='w',pady=(10,0))
         info=ttk.Frame(image); info.pack(fill='x',pady=(4,0))
         ttk.Label(info,text='设备阈值：').pack(side='left')
@@ -219,8 +219,8 @@ class ImageControlApp:
     def _status(self,status,announce=True):
         self.caps=status.capabilities; self.readback.set(str(status.threshold))
         prefix='模拟' if self.client.simulated else '设备'
-        mode=('中值滤波 + ' if status.median_enabled else '') + (
-            'Sobel · '+('黑边白底' if status.inverted else '白边黑底') if status.sobel_enabled else
+        mode=('选择性中值滤波 + ' if status.median_enabled else '') + (
+            'Sobel 强度 · '+('反相' if status.inverted else '白边黑底') if status.sobel_enabled else
             ('灰度图像' if status.median_enabled else '原始图像'))
         if status.capabilities & CAP_ISP:
             self.mode_readback.set(f'{prefix}已确认：{mode}；黑白反转'+('开启' if status.inverted else '关闭'))

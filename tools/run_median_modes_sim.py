@@ -31,7 +31,12 @@ def modes(image):
  h=len(image); w=len(image[0]); g=[[gray(p) for p in row] for row in image]
  med=[[0]*w for _ in range(h)]
  for y in range(2,h):
-  for x in range(2,w): med[y][x]=sorted(g[yy][xx] for yy in range(y-2,y+1) for xx in range(x-2,x+1))[4]
+  for x in range(2,w):
+   a,b,c=g[y-2][x-2:x+1]; d,e,f=g[y-1][x-2:x+1]; p,q,r=g[y][x-2:x+1]
+   median=sorted((a,b,c,d,e,f,p,q,r))[4]
+   supported=any(abs(u-e)<=12 and abs(v-e)<=12 for u,v in
+                 ((b,q),(d,f),(a,r),(c,p)))
+   med[y][x]=median if not supported and abs(e-median)>12 else e
  def sobel(src, first_valid):
   result=[[0xffffff if args.invert else 0]*w for _ in range(h)]
   # V0.10 / 50: Median has an invalid two-pixel border. A Sobel window
@@ -43,8 +48,11 @@ def modes(image):
     # Four signed convolutions from the reference eight-direction kernels.
     mag=max(abs(c+2*f+r-a-2*d-p),abs(p+2*q+r-a-2*b-c),
             abs(f+2*r+q-b-2*a-d),abs(b+2*c+f-d-2*p-q))
-    threshold=max(args.threshold,e,1) if args.adaptive else args.threshold
-    result[y][x]=0xffffff if ((mag>=threshold) != bool(args.invert)) else 0
+    # Reference bin_en=0 strength, with the live UART threshold subtracted.
+    # At threshold zero this is exactly min(Gmax/2, 255).
+    strength=min(max(mag-args.threshold,0)//2,255)
+    if args.invert: strength=255-strength
+    result[y][x]=strength*0x010101
   return result
  direct=sobel(g,8); filtered=sobel(med,8)
  return med,direct,filtered
@@ -59,7 +67,7 @@ with (out/'vectors.txt').open('w',encoding='ascii') as f:
  def blank(n,vs=1):
   for k in range(n): emit(1,1,vs,0,rng.randrange(1<<24))
  for _ in range(4): emit(0,1,0,0,0)
- for kind in range(9):
+ for kind in range(10):
   if kind==0: image=[[0x777777 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==1: image=[[0xffffff if x>=8 else 0 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==2: image=[[0x204080 if (x,y)==(7,6) else 0x505050 for x in range(WIDTH)] for y in range(HEIGHT)]
@@ -68,8 +76,11 @@ with (out/'vectors.txt').open('w',encoding='ascii') as f:
   elif kind==5: image=[[0x505050 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==6: image=[[0 if x==0 or y==0 else 0xa0a0a0 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==7: image=[[0 for x in range(WIDTH)] for y in range(HEIGHT)]
-  else: image=[[(min(255,4*x+7*y))*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
+  elif kind==8: image=[[(min(255,4*x+7*y))*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
+  else: image=[[0xffffff if x==WIDTH//2 else 0x505050 for x in range(WIDTH)] for y in range(HEIGHT)]
   med,edge,both=modes(image)
+  if kind==2: assert med[7][8]==0x50  # isolated impulse removed
+  if kind==9: assert all(med[y][WIDTH//2+1]==0xff for y in range(2,HEIGHT))
   # V0.10 / 50: uniform bright scenes must not grow artificial white rails.
   if kind in (0,6,7) and (args.adaptive or args.threshold>0):
    assert all(v==(0xffffff if args.invert else 0) for row in edge+both for v in row)
@@ -82,7 +93,7 @@ with (out/'vectors.txt').open('w',encoding='ascii') as f:
 def tool(name):
  path=Path(os.environ.get('MODELSIM_BIN','D:/intelfpga/modelsim_ase/win32aloem'))/(name+'.exe')
  return str(path) if path.exists() else shutil.which(name)
-sources=[ROOT/'src/isp'/s for s in ('video_rgb2gray.v','video_window3x3.v','sort3_8bit.v','video_median3x3.v','video_sobel.v','video_processing.v')]
+sources=[ROOT/'src/isp'/s for s in ('video_rgb2gray.v','video_window3x3.v','sort3_8bit.v','video_median3x3.v','sobeledge_8d_window.v','video_processing.v')]
 sources.append(ROOT/'testbench/median_modes_tb.sv')
 cmds=[[tool('vlib'),'work'],[tool('vlog'),'-sv',*map(str,sources)],
       [tool('vsim'),'-c','work.median_modes_tb',f'-gWIDTH={WIDTH}',f'-gGRAY={args.gray}',f'-gADAPTIVE={args.adaptive}',
