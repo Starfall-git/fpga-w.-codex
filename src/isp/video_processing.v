@@ -3,11 +3,15 @@
 2026-09-18 V0.3 新增：DDR 显示数据至 HDMI 之间的图像处理封装。
 接口统一为 clk/rst_n + RGB888/HS/VS/DE；每拍一个像素，没有 ready/反压。
 V0.9：ENABLE_MEDIAN 与 ENABLE_SOBEL 独立选择原图、Median、Sobel、Median+Sobel。
-四条输出路径均延迟 11 拍；控制信号由串口在场消隐边界提交。
+四条输出路径均延迟 13 拍；控制信号由串口在场消隐边界提交。
 后续高斯滤波等模块可在本封装中串联，必须同时传递 RGB 和全部同步信号。
 */
 module video_processing #(
     parameter IMAGE_WIDTH   = 1280,
+    /* V0.11 / 52: AR0135 monochrome=0; RGB color camera=1. */
+    parameter ENABLE_GRAY = 0,
+    /* V0.11 / 53: reference center-luminance threshold with UART floor. */
+    parameter SOBEL_ADAPTIVE = 1,
     /* V0.10 / 50: suppress initial Sobel halo caused by non-image border
        pixels or a DDR/display startup margin. Eight pixels out of 1280x720. */
     parameter SOBEL_BORDER_GUARD = 8,
@@ -34,68 +38,35 @@ module video_processing #(
     output wire			de_o
 );
 
-    /*==========================================================
-     * Stage 0
-     * RGB888 -> Gray
-     *
-     * Y = (R + 2G + B) / 4
-     *=========================================================*/
-
-    wire [9:0] gray_sum;
-
-    assign gray_sum =
-          {2'b0, rgb_i[23:16]}
-        + {1'b0, rgb_i[15:8], 1'b0}
-        + {2'b0, rgb_i[7:0]};
-
-
-    reg [7:0] gray;
-
-    reg gray_hs;
-    reg gray_vs;
-    reg gray_de;
-
-
-    always @(posedge clk or negedge rst_n) begin
-
-        if (!rst_n) begin
-
-            gray    <= 8'd0;
-
-            gray_hs <= 1'b1;
-            gray_vs <= VS_ACTIVE;
-            gray_de <= 1'b0;
-
-        end
-        else begin
-
-            gray <= gray_sum[9:2];
-
-            gray_hs <= hs_i;
-            gray_vs <= vs_i;
-            gray_de <= de_i;
-
-        end
-
-    end
+    /* V0.11 / 52: 原 gray_sum=(R+2G+B)/4 及其寄存器移至独立模块。
+       ENABLE_GRAY=1 使用参考工程 306/601/117 权重；=0 取 G 亮度。
+       两种选择均为三拍，AR0135 RGB565 的 G 保留六位亮度，R/B 仅五位。 */
+    wire [7:0] gray;
+    wire gray_hs, gray_vs, gray_de;
+    video_rgb2gray #(.ENABLE_GRAY(ENABLE_GRAY), .VS_ACTIVE(VS_ACTIVE)) u_gray (
+        .clk(clk), .rst_n(rst_n), .rgb_i(rgb_i),
+        .hs_i(hs_i), .vs_i(vs_i), .de_i(de_i),
+        .gray_o(gray), .hs_o(gray_hs), .vs_o(gray_vs), .de_o(gray_de)
+    );
 
     /* V0.9 / 42: 灰度到 Median 输出相差 5 拍，供纯 Sobel 路径使用。
-       原始 RGB 到最终 Sobel 同步相差 11 拍；原图仍保留全部颜色。 */
+       原始 RGB 到最终 Sobel 同步相差 13 拍；原图仍保留全部颜色。 */
     reg [7:0] gray_delay [0:4];
-    reg [23:0] original_delay [0:10];
+    /* V0.11 / 54: 灰度由一拍改为三拍，原图旁路同步扩为13拍。 */
+    reg [23:0] original_delay [0:12];
     integer delay_index;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             for (delay_index=0; delay_index<5; delay_index=delay_index+1)
                 gray_delay[delay_index] <= 0;
-            for (delay_index=0; delay_index<11; delay_index=delay_index+1)
+            for (delay_index=0; delay_index<13; delay_index=delay_index+1)
                 original_delay[delay_index] <= 0;
         end else begin
             gray_delay[0] <= gray;
             for (delay_index=1; delay_index<5; delay_index=delay_index+1)
                 gray_delay[delay_index] <= gray_delay[delay_index-1];
             original_delay[0] <= de_i ? rgb_i : 24'd0;
-            for (delay_index=1; delay_index<11; delay_index=delay_index+1)
+            for (delay_index=1; delay_index<13; delay_index=delay_index+1)
                 original_delay[delay_index] <= original_delay[delay_index-1];
         end
     end
@@ -277,6 +248,7 @@ module video_processing #(
 
             video_sobel #(
                 .GRAYSCALE_OUTPUT (GRAYSCALE_OUTPUT),
+                .ADAPTIVE_THRESHOLD (SOBEL_ADAPTIVE),
                 .VS_ACTIVE     (VS_ACTIVE)
             )
             u_sobel (
@@ -316,7 +288,7 @@ module video_processing #(
                 end
             end
             assign rgb_o = ENABLE_SOBEL ? sobel_rgb :
-                           ENABLE_MEDIAN ? median_delay[4] : original_delay[10];
+                           ENABLE_MEDIAN ? median_delay[4] : original_delay[12];
             assign hs_o = sobel_hs;
             assign vs_o = sobel_vs;
             assign de_o = sobel_de;

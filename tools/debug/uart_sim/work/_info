@@ -58,7 +58,7 @@ R9
 R10
 vkey_debounce
 R1
-Z13 !s110 1790258390
+Z13 !s110 1790264824
 !i10b 1
 !s100 YNgI`ni;I;dn=OJfY5D=Z3
 IUeUTRhhMAGZfHziUcBX<l2
@@ -74,7 +74,7 @@ R5
 r1
 !s85 0
 31
-Z15 !s108 1790258390.000000
+Z15 !s108 1790264824.000000
 Z16 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|
 Z17 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\uart_control_tb.sv|
 !i113 1
@@ -228,16 +228,16 @@ vvideo_sobel
 R1
 R13
 !i10b 1
-!s100 G7TfiXn3?JMX?J:R]M3MH1
-IIHW=9CiIFo@OI?K=BMKB;1
+!s100 ^LnZjOM=LZE4Cc7JJOj;_0
+I:[ozNU<I?d]zS<UE2>4G10
 R3
 !s105 video_sobel_v_unit
 S1
 R0
-w1790242624
+w1790264751
 8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v
-L0 10
+R12
 R5
 r1
 !s85 0

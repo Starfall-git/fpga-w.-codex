@@ -6,66 +6,66 @@ INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INFO     : Route Circuit with 32 threads
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INFO     : Beneficial skew enabled! Optimizing clock skews ... 
-INFO     : Non-legalized beneficial skew improved geomean CPD by -0.33% (from 3075ps to 3085ps)
-INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1969ps to 1969ps)
-INFO     : CSS improved CPD of clock core_clk by 0.00% (from 3896ps to 3896ps)
-INFO     : CSS improved CPD of clock tac_clk by 0.00% (from 1887ps to 1887ps)
-INFO     : CSS improved CPD of clock twd_clk by 0.00% (from 2019ps to 2019ps)
-INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 6149ps to 6149ps)
-INFO     : CSS improved CPD of clock clk_pixel by 0.00% (from 4060ps to 4060ps)
-INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 3564ps to 3564ps)
-INFO     : Discretized beneficial skew improved geomean CPD by 0.00% (from 3075ps to 3075ps in 5 iterations and 0.3 sec)
+INFO     : Non-legalized beneficial skew improved geomean CPD by 0.00% (from 3062ps to 3062ps)
+INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1996ps to 1996ps)
+INFO     : CSS improved CPD of clock core_clk by 0.00% (from 3626ps to 3626ps)
+INFO     : CSS improved CPD of clock tac_clk by 0.00% (from 1902ps to 1902ps)
+INFO     : CSS improved CPD of clock twd_clk by -2.72% (from 2022ps to 2077ps)
+INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 5653ps to 5653ps)
+INFO     : CSS improved CPD of clock clk_pixel by 0.00% (from 4265ps to 4265ps)
+INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 3768ps to 3768ps)
+INFO     : Discretized beneficial skew improved geomean CPD by -0.39% (from 3062ps to 3074ps in 4 iterations and 0.2 sec)
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INFO     : Overridding delay budgets for 342 synchronizer-related pins
-INFO     : Iter  1: overlap=19830   heapops=2525539    (0%) cpd=388   frr=1.00  msec=934
-INFO     : [Setup Delay Budgets | 227.6 ms]
+INFO     : Iter  1: overlap=20573   heapops=2588246    (0%) cpd=378   frr=1.00  msec=818
+INFO     : [Setup Delay Budgets | 212.9 ms]
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INFO     : Hold Fixing
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INFO     : Total min wire delay:   3999902
-INFO     : Hold fix wire delay:         76
-INFO     : Hold fix delay ratio:     0.00%
+INFO     : Total min wire delay:   4002430
+INFO     : Hold fix wire delay:        216
+INFO     : Hold fix delay ratio:     0.01%
 INFO     : Pins requiring hold fix:  0.01%
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INFO     : Iter  2: overlap=8409    heapops=1859527    (35%) cpd=388   frr=1.00  msec=316
-INFO     : Iter  3: overlap=5227    heapops=1428056    (51%) cpd=388   frr=1.00  msec=265
-INFO     : Iter  4: overlap=3093    heapops=1073486    (61%) cpd=388   frr=1.00  msec=227
-INFO     : Iter  5: overlap=1697    heapops=825360     (71%) cpd=388   frr=1.00  msec=203
-INFO     : Iter  6: overlap=804     heapops=542176     (78%) cpd=388   frr=1.00  msec=156
-INFO     : Iter  7: overlap=331     heapops=334206     (84%) cpd=388   frr=1.00  msec=119
+INFO     : Iter  2: overlap=8765    heapops=1926737    (32%) cpd=378   frr=1.00  msec=285
+INFO     : Iter  3: overlap=5419    heapops=1481410    (50%) cpd=378   frr=1.00  msec=231
+INFO     : Iter  4: overlap=3170    heapops=1095860    (63%) cpd=378   frr=1.00  msec=182
+INFO     : Iter  5: overlap=1764    heapops=791318     (69%) cpd=378   frr=1.00  msec=160
+INFO     : Iter  6: overlap=837     heapops=474814     (77%) cpd=378   frr=1.00  msec=115
+INFO     : Iter  7: overlap=368     heapops=305652     (84%) cpd=378   frr=1.00  msec=100
 INFO     : [Rebuild Parallel Routing Scheduler]
-INFO     : Iter  8: overlap=115     heapops=155758     (87%) cpd=388   frr=1.00  msec=98
-INFO     : Iter  9: overlap=23      heapops=90085      (88%) cpd=388   frr=1.00  msec=70
-INFO     : Iter 10: overlap=5       heapops=58061      (89%) cpd=388   frr=1.00  msec=61
+INFO     : Iter  8: overlap=129     heapops=160456     (86%) cpd=378   frr=1.00  msec=95
+INFO     : Iter  9: overlap=34      heapops=91342      (88%) cpd=378   frr=1.00  msec=68
+INFO     : Iter 10: overlap=6       heapops=80203      (88%) cpd=378   frr=1.00  msec=68
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INFO     : Beneficial skew enabled! Optimizing clock skews ... 
-INFO     : Non-legalized beneficial skew improved geomean CPD by 0.00% (from 3338ps to 3338ps)
-INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1969ps to 1969ps)
-INFO     : CSS improved CPD of clock core_clk by 0.00% (from 4082ps to 4082ps)
+INFO     : Non-legalized beneficial skew improved geomean CPD by 0.00% (from 3395ps to 3395ps)
+INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1991ps to 1991ps)
+INFO     : CSS improved CPD of clock core_clk by 0.00% (from 3965ps to 3965ps)
 INFO     : CSS improved CPD of clock tac_clk by 0.00% (from 2003ps to 2003ps)
-INFO     : CSS improved CPD of clock twd_clk by 0.00% (from 2117ps to 2117ps)
-INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 6996ps to 6996ps)
-INFO     : CSS improved CPD of clock clk_pixel by 0.00% (from 5434ps to 5434ps)
-INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 3564ps to 3564ps)
-INFO     : Discretized beneficial skew improved geomean CPD by 0.00% (from 3338ps to 3338ps in 1 iterations and 0.2 sec)
+INFO     : CSS improved CPD of clock twd_clk by 2.61% (from 2107ps to 2052ps)
+INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 6736ps to 6736ps)
+INFO     : CSS improved CPD of clock clk_pixel by 0.00% (from 5546ps to 5546ps)
+INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 4178ps to 4178ps)
+INFO     : Discretized beneficial skew improved geomean CPD by 0.38% (from 3395ps to 3382ps in 1 iterations and 0.2 sec)
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INFO     : Iter 11: overlap=0       heapops=44027      (89%) cpd=388   frr=1.00  msec=308
+INFO     : Iter 11: overlap=0       heapops=45369      (88%) cpd=378   frr=1.00  msec=288
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INFO     : Routing Result
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INFO     : Routing Succeeded in 3.33 seconds taking 11 iterations! 
+INFO     : Routing Succeeded in 2.92 seconds taking 11 iterations! 
 INFO     : 
-INFO     : First iteration critical path delay = 0.388 ns 
-INFO     : Last iteration critical path delay  = 0.388 ns (ratio = 1.00)
-INFO     : Max Routing Heap Size = 9,582
-INFO     : Routing trace written to file 'C:/Users/francis/Desktop/fpga-w.-codex/outflow/Ti60_AR0135.troutingtraces' 
+INFO     : First iteration critical path delay = 0.378 ns 
+INFO     : Last iteration critical path delay  = 0.378 ns (ratio = 1.00)
+INFO     : Max Routing Heap Size = 9,276
+INFO     : Routing trace written to file 'outflow\Ti60_AR0135.troutingtraces' 
 INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INFO     : Routing took 7.5322505 seconds [FlowMsg::StageDuration]
-INFO     :     Routing took 21.515625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Routing virtual memory usage: begin = 140.36 MB, end = 302.068 MB, delta = 161.708 MB [FlowMsg::VMUsage]
-INFO     :     Routing peak virtual memory usage = 412.724 MB [FlowMsg::VMUsage::Peak]
-INFO     : Routing resident set memory usage: begin = 160.908 MB, end = 315.54 MB, delta = 154.632 MB [FlowMsg::RSSUsage]
-INFO     :     Routing peak resident set memory usage = 411.228 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Routing took 6.8546907 seconds [FlowMsg::StageDuration]
+INFO     :     Routing took 21.28125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Routing virtual memory usage: begin = 141.668 MB, end = 304.06 MB, delta = 162.392 MB [FlowMsg::VMUsage]
+INFO     :     Routing peak virtual memory usage = 385.924 MB [FlowMsg::VMUsage::Peak]
+INFO     : Routing resident set memory usage: begin = 160.192 MB, end = 315.58 MB, delta = 155.388 MB [FlowMsg::RSSUsage]
+INFO     :     Routing peak resident set memory usage = 387.16 MB [FlowMsg::RSSUsage::Peak]
            ***** Beginning stage final timing analysis ... *****
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_AR0135.pt.sdc:3] No valid object(s) found for 'clk_cam_feedback'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_AR0135.pt.sdc:3] No valid pin(s) found for clock
@@ -102,73 +102,73 @@ WARNING  : No ports matched 'i_dqs_n_lo[1]'
 WARNING  : No ports matched 'i_dqs_n_hi[1]'
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_AR0135.pt.sdc:338] set_input_delay: No valid input port(s) found
 WARNING  : [SDC C:/Users/francis/Desktop/fpga-w.-codex/Ti60_AR0135.pt.sdc:338] Unable to run 'set_input_delay' constraint due to warnings found
-INFO     : SDC file 'C:/Users/francis/Desktop/fpga-w.-codex/Ti60_AR0135.pt.sdc' parsed successfully.
+INFO     : SDC file 'Ti60_AR0135.pt.sdc' parsed successfully.
 Maximum possible analyzed clocks frequency
  Clock Name  Period (ns)  Frequency (MHz)     Edge
- tdqss_clk      2.079        481.000         (R-R)
- core_clk       4.192        238.550         (R-R)
+ tdqss_clk      2.101        475.964         (R-R)
+ core_clk       4.075        245.399         (R-R)
  tac_clk        2.113        473.261         (R-R)
- twd_clk        2.227        449.035         (R-R)
- clk_sys        7.106        140.726         (R-R)
- clk_pixel      5.544        180.375         (R-R)
- cmos_pclk      7.348        136.091         (F-R)
+ twd_clk        2.162        462.535         (R-R)
+ clk_sys        6.846        146.071         (R-R)
+ clk_pixel      5.656        176.803         (R-R)
+ cmos_pclk      8.576        116.604         (F-R)
 
-Geomean max period: 3.820
+Geomean max period: 3.869
 
 Setup (Max) Clock Relationship
   Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
-   tdqss_clk        tdqss_clk           2.604            0.525           (R-R)
-   tdqss_clk        core_clk            2.604            2.249           (R-R)
-   core_clk         tdqss_clk           2.604            1.044           (R-R)
-   core_clk         core_clk            5.208            1.016           (R-R)
-   core_clk         tac_clk             2.604            2.121           (R-R)
-   core_clk         twd_clk             0.541            0.153           (R-R)
-   tac_clk          core_clk            2.604            2.230           (R-R)
+   tdqss_clk        tdqss_clk           2.604            0.503           (R-R)
+   tdqss_clk        core_clk            2.604            2.247           (R-R)
+   core_clk         tdqss_clk           2.604            0.937           (R-R)
+   core_clk         core_clk            5.208            1.133           (R-R)
+   core_clk         tac_clk             2.604            2.107           (R-R)
+   core_clk         twd_clk             0.541            0.163           (R-R)
+   tac_clk          core_clk            2.604            2.233           (R-R)
    tac_clk          tac_clk             2.604            0.491           (R-R)
-   twd_clk          twd_clk             2.604            0.377           (R-R)
-   clk_sys          clk_sys            10.417            3.311           (R-R)
-   clk_pixel        clk_pixel          13.441            7.897           (R-R)
-   cmos_pclk        cmos_pclk          13.468           10.804           (R-R)
-   cmos_pclk        cmos_pclk           6.734            3.060           (F-R)
+   twd_clk          twd_clk             2.604            0.442           (R-R)
+   clk_sys          clk_sys            10.417            3.571           (R-R)
+   clk_pixel        clk_pixel          13.441            7.785           (R-R)
+   cmos_pclk        cmos_pclk          13.468           10.706           (R-R)
+   cmos_pclk        cmos_pclk           6.734            2.446           (F-R)
 
 Hold (Min) Clock Relationship
   Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
-   tdqss_clk        tdqss_clk           0.000           0.080            (R-R)
-   tdqss_clk        core_clk            0.000           0.069            (R-R)
-   core_clk         tdqss_clk           0.000           0.158            (R-R)
-   core_clk         core_clk            0.000           0.026            (R-R)
+   tdqss_clk        tdqss_clk           0.000           0.082            (R-R)
+   tdqss_clk        core_clk            0.000           0.071            (R-R)
+   core_clk         tdqss_clk           0.000           0.161            (R-R)
+   core_clk         core_clk            0.000           0.029            (R-R)
    core_clk         tac_clk             0.000           0.152            (R-R)
-   core_clk         twd_clk            -1.883           2.122            (R-R)
+   core_clk         twd_clk            -1.883           2.120            (R-R)
    tac_clk          core_clk            0.000           0.080            (R-R)
-   tac_clk          tac_clk             0.000           0.026            (R-R)
-   twd_clk          twd_clk             0.000           0.017            (R-R)
+   tac_clk          tac_clk             0.000           0.028            (R-R)
+   twd_clk          twd_clk             0.000           0.023            (R-R)
    clk_sys          clk_sys             0.000           0.035            (R-R)
-   clk_pixel        clk_pixel           0.000           0.071            (R-R)
-   cmos_pclk        cmos_pclk           0.000           0.079            (R-R)
-   cmos_pclk        cmos_pclk          -6.734           8.083            (F-R)
+   clk_pixel        clk_pixel           0.000           0.035            (R-R)
+   cmos_pclk        cmos_pclk           0.000           0.109            (R-R)
+   cmos_pclk        cmos_pclk          -6.734           8.158            (F-R)
 
-INFO     : Write Timing Report to "C:/Users/francis/Desktop/fpga-w.-codex/outflow\Ti60_AR0135.timing.rpt" ...
-INFO     : final timing analysis took 3.095629 seconds [FlowMsg::StageDuration]
-INFO     :     final timing analysis took 3.34375 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : final timing analysis virtual memory usage: begin = 289.74 MB, end = 330.06 MB, delta = 40.32 MB [FlowMsg::VMUsage]
-INFO     :     final timing analysis peak virtual memory usage = 412.724 MB [FlowMsg::VMUsage::Peak]
-INFO     : final timing analysis resident set memory usage: begin = 302.688 MB, end = 342.512 MB, delta = 39.824 MB [FlowMsg::RSSUsage]
-INFO     :     final timing analysis peak resident set memory usage = 411.228 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Write Timing Report to "outflow\Ti60_AR0135.timing.rpt" ...
+INFO     : final timing analysis took 3.0629508 seconds [FlowMsg::StageDuration]
+INFO     :     final timing analysis took 3.0625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : final timing analysis virtual memory usage: begin = 292.892 MB, end = 331.204 MB, delta = 38.312 MB [FlowMsg::VMUsage]
+INFO     :     final timing analysis peak virtual memory usage = 385.924 MB [FlowMsg::VMUsage::Peak]
+INFO     : final timing analysis resident set memory usage: begin = 303.588 MB, end = 341.788 MB, delta = 38.2 MB [FlowMsg::RSSUsage]
+INFO     :     final timing analysis peak resident set memory usage = 387.16 MB [FlowMsg::RSSUsage::Peak]
            ***** Ending stage final timing analysis *****
            
            ***** Beginning stage bitstream generation ... *****
-INFO     : Reading core interface constraints file "C:/Users/francis/Desktop/fpga-w.-codex/outflow/Ti60_AR0135.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
-INFO     : Successfully read core interface constraints file "C:/Users/francis/Desktop/fpga-w.-codex/outflow/Ti60_AR0135.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
-INFO     : Finished writing bitstream file C:/Users/francis/Desktop/fpga-w.-codex/work_pnr\Ti60_AR0135.lbf.
-INFO     : Bitstream generation took 1.0704156 seconds [FlowMsg::StageDuration]
-INFO     :     Bitstream generation took 0.96875 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Bitstream generation virtual memory usage: begin = 276.324 MB, end = 370.732 MB, delta = 94.408 MB [FlowMsg::VMUsage]
-INFO     :     Bitstream generation peak virtual memory usage = 412.724 MB [FlowMsg::VMUsage::Peak]
-INFO     : Bitstream generation resident set memory usage: begin = 290.736 MB, end = 386.736 MB, delta = 96 MB [FlowMsg::RSSUsage]
-INFO     :     Bitstream generation peak resident set memory usage = 411.228 MB [FlowMsg::RSSUsage::Peak]
-INFO     : The entire flow of EFX_PNR took 29.6516882 seconds [FlowMsg::StageDuration]
-INFO     :     The entire flow of EFX_PNR took 85.21875 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : The entire flow of EFX_PNR virtual memory usage: begin = 20.124 MB, end = 370.732 MB, delta = 350.608 MB [FlowMsg::VMUsage]
-INFO     :     The entire flow of EFX_PNR peak virtual memory usage = 412.724 MB [FlowMsg::VMUsage::Peak]
-INFO     : The entire flow of EFX_PNR resident set memory usage: begin = 22.652 MB, end = 386.776 MB, delta = 364.124 MB [FlowMsg::RSSUsage]
-INFO     :     The entire flow of EFX_PNR peak resident set memory usage = 411.228 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Reading core interface constraints file "outflow\Ti60_AR0135.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "outflow\Ti60_AR0135.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+INFO     : Finished writing bitstream file work_pnr\Ti60_AR0135.lbf.
+INFO     : Bitstream generation took 1.1410547 seconds [FlowMsg::StageDuration]
+INFO     :     Bitstream generation took 1 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Bitstream generation virtual memory usage: begin = 277.372 MB, end = 397.624 MB, delta = 120.252 MB [FlowMsg::VMUsage]
+INFO     :     Bitstream generation peak virtual memory usage = 397.624 MB [FlowMsg::VMUsage::Peak]
+INFO     : Bitstream generation resident set memory usage: begin = 289.668 MB, end = 411.34 MB, delta = 121.672 MB [FlowMsg::RSSUsage]
+INFO     :     Bitstream generation peak resident set memory usage = 411.34 MB [FlowMsg::RSSUsage::Peak]
+INFO     : The entire flow of EFX_PNR took 28.1087597 seconds [FlowMsg::StageDuration]
+INFO     :     The entire flow of EFX_PNR took 80.125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : The entire flow of EFX_PNR virtual memory usage: begin = 20.076 MB, end = 397.624 MB, delta = 377.548 MB [FlowMsg::VMUsage]
+INFO     :     The entire flow of EFX_PNR peak virtual memory usage = 397.624 MB [FlowMsg::VMUsage::Peak]
+INFO     : The entire flow of EFX_PNR resident set memory usage: begin = 22.604 MB, end = 411.384 MB, delta = 388.78 MB [FlowMsg::RSSUsage]
+INFO     :     The entire flow of EFX_PNR peak resident set memory usage = 411.384 MB [FlowMsg::RSSUsage::Peak]

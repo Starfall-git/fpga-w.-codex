@@ -1,0 +1,58 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/francis/Desktop/fpga-w.-codex/tools/debug/sobel8_sim
+vsobel8_tb
+Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z2 !s110 1790264919
+!i10b 1
+!s100 6@CK90DCenD4lNlb9iG4n2
+I?bSSBze80a5Y8aWTi?VQX2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s105 sobel8_tb_sv_unit
+S1
+R0
+w1790264919
+8C:\Users\francis\Desktop\fpga-w.-codex\testbench\sobel8_tb.sv
+FC:\Users\francis\Desktop\fpga-w.-codex\testbench\sobel8_tb.sv
+L0 4
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z5 !s108 1790264919.000000
+Z6 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\sobel8_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|
+Z7 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\sobel8_tb.sv|
+!i113 1
+o-sv
+Z8 tCvgOpt 0
+vvideo_sobel
+R1
+R2
+!i10b 1
+!s100 ^LnZjOM=LZE4Cc7JJOj;_0
+I:[ozNU<I?d]zS<UE2>4G10
+R3
+!s105 video_sobel_v_unit
+S1
+R0
+w1790264751
+8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v
+FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v
+L0 13
+R4
+r1
+!s85 0
+31
+R5
+R6
+R7
+!i113 1
+o-sv
+R8
