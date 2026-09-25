@@ -246,8 +246,9 @@ module video_processing #(
             wire sobel_vs;
             wire sobel_de;
 
-            video_sobel #(
-                .GRAYSCALE_OUTPUT (GRAYSCALE_OUTPUT),
+            /* The reference demo uses bin_en=0: 8-bit Gmax/2 strength. */
+            sobeledge_8d_window #(
+                .GRAYSCALE_OUTPUT (1),
                 .ADAPTIVE_THRESHOLD (SOBEL_ADAPTIVE),
                 .VS_ACTIVE     (VS_ACTIVE)
             )
