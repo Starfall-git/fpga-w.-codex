@@ -1,5 +1,7 @@
 module video_median3x3 #(
-    parameter VS_ACTIVE = 1'b0
+    parameter VS_ACTIVE = 1'b0,
+    /* Replace isolated spikes while retaining supported one-pixel strokes. */
+    parameter [7:0] SWITCH_DELTA = 8'd12
 )(
     input  wire        clk,
     input  wire        rst_n,
@@ -35,6 +37,20 @@ module video_median3x3 #(
     wire [7:0] p20 = pixels_i[23:16];
     wire [7:0] p21 = pixels_i[15:8];
     wire [7:0] p22 = pixels_i[7:0];
+
+    function [7:0] distance;
+        input [7:0] a, b;
+        begin distance = a >= b ? a-b : b-a; end
+    endfunction
+    /* A line has a similar pixel on both sides in at least one direction.
+       An isolated bright/dark sensor spike has no such opposing pair. */
+    wire supported_center =
+        ((distance(p01,p11) <= SWITCH_DELTA) && (distance(p21,p11) <= SWITCH_DELTA)) ||
+        ((distance(p10,p11) <= SWITCH_DELTA) && (distance(p12,p11) <= SWITCH_DELTA)) ||
+        ((distance(p00,p11) <= SWITCH_DELTA) && (distance(p22,p11) <= SWITCH_DELTA)) ||
+        ((distance(p02,p11) <= SWITCH_DELTA) && (distance(p20,p11) <= SWITCH_DELTA));
+    reg [7:0] center_s1, center_s2;
+    reg supported_s1, supported_s2;
 
 
     /*==========================================================
@@ -203,6 +219,9 @@ module video_median3x3 #(
         .mid_o (median_value),
         .max_o (final_max_unused)
     );
+    wire [7:0] filtered_value = !supported_s2 &&
+        (distance(center_s2,median_value) > SWITCH_DELTA)
+        ? median_value : center_s2;
 
 
     /*==========================================================
@@ -231,6 +250,8 @@ module video_median3x3 #(
             vs_s1    <= ~VS_ACTIVE;
             de_s1    <= 1'b0;
             valid_s1 <= 1'b0;
+            center_s1 <= 0;
+            supported_s1 <= 0;
 
 
             /*---------------- Stage 2 ----------------*/
@@ -243,6 +264,8 @@ module video_median3x3 #(
             vs_s2    <= ~VS_ACTIVE;
             de_s2    <= 1'b0;
             valid_s2 <= 1'b0;
+            center_s2 <= 0;
+            supported_s2 <= 0;
 
 
             /*---------------- Stage 3 ----------------*/
@@ -277,6 +300,8 @@ module video_median3x3 #(
             vs_s1    <= vs_i;
             de_s1    <= de_i;
             valid_s1 <= window_valid_i;
+            center_s1 <= p11;
+            supported_s1 <= supported_center;
 
 
             /*==================================================
@@ -291,6 +316,8 @@ module video_median3x3 #(
             vs_s2    <= vs_s1;
             de_s2    <= de_s1;
             valid_s2 <= valid_s1;
+            center_s2 <= center_s1;
+            supported_s2 <= supported_s1;
 
 
             /*==================================================
@@ -309,9 +336,9 @@ module video_median3x3 #(
                  */
 
                 rgb_o <= {
-                    median_value,
-                    median_value,
-                    median_value
+                    filtered_value,
+                    filtered_value,
+                    filtered_value
                 };
 
             end

@@ -40,11 +40,16 @@ module sobeledge_8d_window #(
     wire [11:0] effective_threshold = ADAPTIVE_THRESHOLD && center_floor > THRESHOLD
                                      ? center_floor : THRESHOLD;
     wire edge_hit = {2'd0, gmax} >= effective_threshold;
-    /* Reference bin_en=0: min(Gmax/2, 255). */
-    wire [7:0] strength = gmax > 10'd510 ? 8'hff : gmax[8:1];
+    /* At threshold zero this is the reference bin_en=0 output.
+       Subtracting the UART threshold restores a useful continuous noise
+       control: weak gradients vanish, stronger gradients fade gradually. */
+    wire [11:0] excess = {2'd0, gmax} > THRESHOLD
+                       ? {2'd0, gmax} - THRESHOLD : 12'd0;
+    wire [7:0] strength = excess > 12'd510 ? 8'hff : excess[8:1];
     wire [7:0] binary = edge_hit == BINARY_OUTPUT ? 8'hff : 8'h00;
-    wire [7:0] pixel = GRAYSCALE_OUTPUT ? strength : binary;
-    wire [23:0] border = (!GRAYSCALE_OUTPUT && !BINARY_OUTPUT) ? 24'hffffff : 24'd0;
+    wire [7:0] pixel = GRAYSCALE_OUTPUT
+                     ? (BINARY_OUTPUT ? strength : ~strength) : binary;
+    wire [23:0] border = !BINARY_OUTPUT ? 24'hffffff : 24'd0;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
