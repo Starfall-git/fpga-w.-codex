@@ -19,6 +19,7 @@
         <efx:design_file name="src/isp/axi_transform_reader.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_window3x3.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_sobel.v" version="default" library="default"/>
+        <efx:design_file name="src/isp/sobeledge_8d_window.v" version="default" library="default"/>
         <efx:design_file name="src/ddr_rw_ctrl.v" version="default" library="default"/>
         <efx:design_file name="src/cmos_i2c/i2c_timing_ctrl_16bit.v" version="default" library="default"/>
         <efx:design_file name="src/cmos_i2c/CMOS_Capture_RAW_Gray.v" version="default" library="default"/>

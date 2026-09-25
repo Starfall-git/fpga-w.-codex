@@ -1,7 +1,7 @@
 
 // Efinity Top-level template
 // Version: 2026.1.132
-// Date: 2026-09-24 23:53
+// Date: 2026-09-25 15:31
 
 // Copyright (C) 2013 - 2026 Efinix Inc. All rights reserved.
 
@@ -11,7 +11,7 @@
 
 // To use this:
 //     #1)  Save this file with a different name to a different directory, where source files are kept.
-//              Example: you may wish to save as C:\Users\francis\Desktop\fpga-w.-codex\Ti60_AR0135.v
+//              Example: you may wish to save as Ti60_AR0135.v
 //     #2)  Add the newly saved file into Efinity project as design file
 //     #3)  Edit the top level entity in Efinity project to:  Ti60_AR0135
 //     #4)  Insert design content.

@@ -1,0 +1,187 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/SteLl1a/Desktop/fpga-w.-codex/tmp/sobeledge_reference_compile
+T_opt
+!s110 1790321017
+VcoUV=Nn1YF20`]N;UVYzn1
+04 19 4 work reference_window_tb fast 0
+=1-e0d55d968318-6ab62178-22b-c0c4
+o-quiet -auto_acc_if_foreign -work work
+Z1 tCvgOpt 0
+n@_opt
+OL;O;10.6e;65
+vreference_window_tb
+Z2 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+!s110 1790321012
+!i10b 1
+!s100 d?AR`fRzh;HbP=NAMEj]b2
+I1Glbz64Mg0cfk>N`;f7d:2
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s105 reference_window_tb_sv_unit
+S1
+R0
+w1790321006
+8reference_window_tb.sv
+Freference_window_tb.sv
+L0 2
+Z4 OL;L;10.6e;65
+r1
+!s85 0
+31
+!s108 1790321012.000000
+!s107 reference_window_tb.sv|
+!s90 -sv|-work|work|reference_window_tb.sv|
+!i113 0
+Z5 o-sv -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vsobeledge_8d_window
+R2
+Z6 !s110 1790320989
+!i10b 1
+!s100 @L4UdC6381E3=@TTdoWe23
+IWj`PYIM[oAen]@^<40V8V3
+R3
+!s105 sobeledge_8d_window_v_unit
+S1
+R0
+w1790320935
+8..\..\src\isp\sobeledge_8d_window.v
+F..\..\src\isp\sobeledge_8d_window.v
+L0 9
+R4
+r1
+!s85 0
+31
+Z7 !s108 1790320988.000000
+Z8 !s107 ..\..\src\isp\video_processing.v|..\..\src\isp\sobeledge_8d_window.v|..\..\src\isp\video_median3x3.v|..\..\src\isp\sort3_8bit.v|..\..\src\isp\video_window3x3.v|..\..\src\isp\video_rgb2gray.v|
+Z9 !s90 -sv|-work|work|..\..\src\isp\video_rgb2gray.v|..\..\src\isp\video_window3x3.v|..\..\src\isp\sort3_8bit.v|..\..\src\isp\video_median3x3.v|..\..\src\isp\sobeledge_8d_window.v|..\..\src\isp\video_processing.v|
+!i113 0
+R5
+R1
+vsort3_8bit
+R2
+R6
+!i10b 1
+!s100 I4AI^>c=VoS6W3ZPEYk:c3
+Ig7cL^h@SzP9FKDOB?C[Zl2
+R3
+!s105 sort3_8bit_v_unit
+S1
+R0
+Z10 w1790320093
+8..\..\src\isp\sort3_8bit.v
+F..\..\src\isp\sort3_8bit.v
+L0 1
+R4
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R5
+R1
+vvideo_median3x3
+R2
+R6
+!i10b 1
+!s100 Je55;QF8j;IUeL[VQIC1M1
+IfMK=UlcHz7V[Rh<gH_>`42
+R3
+!s105 video_median3x3_v_unit
+S1
+R0
+R10
+8..\..\src\isp\video_median3x3.v
+F..\..\src\isp\video_median3x3.v
+L0 1
+R4
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R5
+R1
+vvideo_processing
+R2
+R6
+!i10b 1
+!s100 3CQ0<Pd7=bCfCJUIeL1SC3
+IS2G[D9XFcb5;b2f<1?mDW1
+R3
+!s105 video_processing_v_unit
+S1
+R0
+w1790320952
+8..\..\src\isp\video_processing.v
+F..\..\src\isp\video_processing.v
+L0 9
+R4
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R5
+R1
+vvideo_rgb2gray
+R2
+R6
+!i10b 1
+!s100 1lmCkX@5PbhzfeJh8:8LJ1
+IodSSgob40?VX;TPl^mLK<3
+R3
+!s105 video_rgb2gray_v_unit
+S1
+R0
+R10
+8..\..\src\isp\video_rgb2gray.v
+F..\..\src\isp\video_rgb2gray.v
+L0 8
+R4
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R5
+R1
+vvideo_window3x3
+R2
+R6
+!i10b 1
+!s100 cC75IZf:4I6kZY5Bd3`]O3
+IfL_6;b<^V?0cc?ZE5WKL73
+R3
+!s105 video_window3x3_v_unit
+S1
+R0
+R10
+8..\..\src\isp\video_window3x3.v
+F..\..\src\isp\video_window3x3.v
+L0 10
+R4
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R5
+R1
