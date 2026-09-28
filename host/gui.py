@@ -5,6 +5,9 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import queue
 import time
+import threading
+from .snapshots import FrameStore, snapshot_info, set_frozen, download_snapshot
+from .frame_gallery import Gallery
 import tkinter as tk
 from tkinter import ttk
 from .client import SerialClient, DemoClient, list_ports
@@ -42,6 +45,10 @@ class ImageControlApp:
         self.zoom = tk.StringVar(value='100%')
         self.auto_poll = tk.BooleanVar(value=True)
         self.show_log = tk.BooleanVar(value=False)
+        # V0.14 / 68: capture owns serial transport until a checked frame completes.
+        self.frame_store=FrameStore();self.capture_cancel=threading.Event()
+        self.snapshot_busy=False;self.frame_frozen=False;self.snapshot_available=False
+        self.gallery=None
         self.controls = []
         self._build()
         self.refresh_ports()
@@ -124,6 +131,16 @@ class ImageControlApp:
         row=ttk.Frame(main); row.pack(fill='x')
         ttk.Checkbutton(row,text='通信记录',variable=self.show_log,command=self._toggle_log).pack(side='left')
         ttk.Label(row,textvariable=self.cap_text,foreground='#64748b').pack(side='right')
+        framebar=ttk.Frame(main,padding=(0,8));framebar.pack(fill='x')
+        self.freeze_button=ttk.Button(framebar,text='冻结当前帧并入库',command=self.capture_frame)
+        self.freeze_button.pack(side='left')
+        self.resume_button=ttk.Button(framebar,text='恢复实时',command=self.resume_video)
+        self.resume_button.pack(side='left',padx=6)
+        self.cancel_button=ttk.Button(framebar,text='取消下载',command=self.capture_cancel.set)
+        self.cancel_button.pack(side='left')
+        ttk.Button(framebar,text='冻结帧合集',command=self.open_gallery).pack(side='right')
+        self.capture_progress=ttk.Progressbar(framebar,maximum=100,length=150)
+        self.capture_progress.pack(side='right',padx=10)
         self.log_frame=ttk.Frame(main)
         self.log=tk.Text(self.log_frame,height=6,wrap='word',font=('Consolas',9),background='#142735',foreground='#d7e5ee',state='disabled')
         scroll=ttk.Scrollbar(self.log_frame,command=self.log.yview)
@@ -142,8 +159,35 @@ class ImageControlApp:
         self.connect_button.configure(text='断开' if connected else '连接',state='disabled' if self.busy or self.pending else 'normal')
         # V0.6: edits remain usable while a packet is in flight; latest values are queued.
         for widget,cap in self.controls:
-            widget.configure(state='normal' if connected and not self.resetting and self.caps & cap else 'disabled')
-        self.defaults_button.configure(state='normal' if connected and not self.resetting and self.caps & CAP_DEFAULTS else 'disabled')
+            widget.configure(state='normal' if connected and not self.resetting and not self.frame_frozen and not self.snapshot_busy and self.caps & cap else 'disabled')
+        self.defaults_button.configure(state='normal' if connected and not self.resetting and not self.frame_frozen and not self.snapshot_busy and self.caps & CAP_DEFAULTS else 'disabled')
+
+        self.freeze_button.configure(state='normal' if connected and self.snapshot_available and not self.busy and not self.pending else 'disabled')
+        self.resume_button.configure(state='normal' if connected and self.frame_frozen and not self.busy else 'disabled')
+        self.cancel_button.configure(state='normal' if self.snapshot_busy else 'disabled')
+
+    def open_gallery(self):
+        if self.gallery is not None and self.gallery.win.winfo_exists():
+            self.gallery.refresh();self.gallery.win.lift()
+        else:self.gallery=Gallery(self.root,self.frame_store)
+
+    def capture_frame(self):
+        if not self.client or self.busy:return
+        backend=self.client;self.capture_cancel.clear();self.snapshot_busy=True
+        self.message.set('正在冻结；115200波特率传输整帧约4分钟，可取消下载。')
+        def operation():
+            image=download_snapshot(backend,self.capture_cancel,lambda n,total:self.events.put(('capture_progress',n,total)))
+            return self.frame_store.save(image,simulated=backend.simulated)
+        def saved(path):
+            self.message.set('已保存冻结帧：'+path.name+'；恢复实时后可记录下一帧。')
+            if self.gallery is not None and self.gallery.win.winfo_exists():self.gallery.refresh()
+        self._submit(operation,saved,'capture')
+
+    def resume_video(self):
+        if not self.client or self.busy:return
+        def resumed(_):
+            self.frame_frozen=False;self.message.set('已恢复实时画面，可冻结下一帧。')
+        self._submit(lambda:set_frozen(self.client,False),resumed,'resume')
 
     def _trace(self,direction,raw): self.events.put(('log',f'{direction}  {raw.hex(" ").upper()}'))
 
@@ -167,12 +211,19 @@ class ImageControlApp:
     def _drain(self):
         while not self.events.empty():
             item=self.events.get_nowait()
+            if item[0]=='capture_progress':
+                self.frame_frozen=True;self.capture_progress['value']=100*item[1]/item[2]
+                self.message.set(f'冻结帧下载 {item[1]}/{item[2]} 行；画面已冻结')
+                self._states();continue
             if item[0]=='log': self._log(item[1]); continue
             self.busy=False; self.inflight_kind=None
+            if item[3]=='capture': self.snapshot_busy=False
             try: item[2](item[1].result())
             except Exception as error:
                 self.message.set(str(error)); self._log('错误  '+str(error))
                 if item[3]=='defaults': self.resetting=False
+                # V0.14: a lost freeze ACK must not re-enable image mutations.
+                if item[3]=='capture': self.frame_frozen=True
             self._states()
             if self.pending:
                 kind,(operation,success)=self.pending.popitem(last=False)
@@ -191,6 +242,7 @@ class ImageControlApp:
         if self.client:
             backend=self.client
             def disconnected(_):
+                self.frame_frozen=False;self.snapshot_available=False
                 self.client=None; self.caps=0; self.connection.set('未连接'); self.readback.set('—')
                 self.mode_readback.set('当前模式：—'); self.geometry_readback.set('尚未读取图像设置')
                 self.message.set('已断开。')
@@ -206,9 +258,13 @@ class ImageControlApp:
                 status=backend.get_status()
                 geometry=backend.get_geometry() if status.capabilities & CAP_CROP else None
             except Exception: backend.close(); raise
+            try:backend.snapshot_info=snapshot_info(backend)
+            except (RuntimeError,ValueError,TimeoutError):backend.snapshot_info=None
             return backend,status,geometry
         def connected(result):
             self.client,status,geometry=result
+            self.snapshot_available=self.client.snapshot_info is not None
+            self.frame_frozen=bool(self.client.snapshot_info and self.client.snapshot_info.frozen)
             self.connection.set('模拟 · 未连接硬件' if self.client.simulated else f'已连接 {port}')
             self._status(status); self.threshold.set(str(status.threshold))
             self.sobel.set(status.sobel_enabled); self.inverted.set(status.inverted)
@@ -299,6 +355,7 @@ class ImageControlApp:
 
     def close(self):
         if self.closing: return
+        self.capture_cancel.set()
         self.closing=True; self.pending.clear(); client=self.client
         # V0.6: cancel owned timers before destroying Tcl widgets.
         for timer in (self._drain_id,self._poll_id):

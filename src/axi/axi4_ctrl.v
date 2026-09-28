@@ -1,7 +1,7 @@
 //  by CrazyBird
 module axi4_ctrl #(
 	/* V0.5 / 19: select transform reader; legacy sequential reader retained below. */
-    parameter C_TRANSFORM = 0, IMAGE_WIDTH = 1280, IMAGE_HEIGHT = 720,
+    parameter C_SNAPSHOT = 0, C_TRANSFORM = 0, IMAGE_WIDTH = 1280, IMAGE_HEIGHT = 720,
 	parameter 	C_ID_LEN      = 8, 
 			C_DATA_LEN    = 128, 
 			C_DATA_SIZE   = 4, 	//	C_DATA_LEN=8:0, 16:1, 32:2, 64:3, 128:4, 256:5, 512:6, 1024:7
@@ -74,6 +74,10 @@ module axi4_ctrl #(
     output wire     [C_R_WIDTH-1:0]      rframe_data     ,
     
     /* V0.5 / 20: stable system-domain geometry mailbox and return acknowledgement. */
+    /* V0.14 / 65: asynchronous level request, acknowledged at reader boundary.
+       Writer already excludes rc_rframe_index; holding it pins the DDR frame. */
+    input wire freeze_request_i,
+    output wire frozen_o,
     input wire [97:0] geometry_i,
     input wire geometry_toggle_i,
     output wire geometry_ack_o,
@@ -113,52 +117,15 @@ module axi4_ctrl #(
 	
 	////////////////////////////////////////////////////////////////
 	//	R/W Schedule
-	reg	[1:0] 	rc_wframe_index;
-	reg	[1:0] 	rc_rframe_index;
-
-	//	Use 4 data buffers to simplify control. 
-	wire 	[1:0] 	w_wframe_index_p1 = rc_wframe_index + 1; 
-	wire 	[1:0] 	w_wframe_index_next = (w_wframe_index_p1 == rc_rframe_index) ? rc_wframe_index + 2 : rc_wframe_index + 1; 
-
-	reg 	[1:0] 	r_wframe_index_last = 0; 
-	
-	reg 			r_wframe_inc = 0;
-    /* V0.5: frame ownership advances only after the reader drains old AXI work. */
+    /* V0.14 / 65: scheduler extracted for ownership/freeze regression. */
+    wire [1:0] rc_wframe_index,rc_rframe_index;
+    reg r_wframe_inc=0;
     wire r_rframe_inc;
+    ddr_frame_owner #(.SNAPSHOT_ENABLE(C_SNAPSHOT)) u_frame_owner (
+      .clk(axi_clk),.reset(axi_reset),.write_done(r_wframe_inc),
+      .read_boundary(r_rframe_inc),.freeze_request(freeze_request_i),
+      .write_index(rc_wframe_index),.read_index(rc_rframe_index),.frozen(frozen_o));
 
-	always @(posedge axi_clk) begin
-		if(axi_reset) begin
-			rc_wframe_index <= 2'b0;
-			rc_rframe_index <= 2'd2;
-			r_wframe_index_last <= 0; 
-			
-		end else begin
-			rc_wframe_index <= rc_wframe_index; 
-			rc_rframe_index <= rc_rframe_index; 
-			
-			//	When wfifo_rd_rst_busy_neg, write pointer increments. When rfifo_wr_rst_busy_neg, read pointer increments. 
-			case ({r_rframe_inc, r_wframe_inc})
-				2'b01: begin
-						//	Write increment only. 
-						rc_wframe_index <= w_wframe_index_next; 	//	Use 4 buffers. 
-						r_wframe_index_last <= rc_wframe_index; 
-					end
-				2'b10: begin
-						//	Use r_wframe_index_last. 
-						rc_rframe_index <= r_wframe_index_last; 
-					end
-				2'b11: begin
-						//	Update write & read pointer simutaneously. 
-						rc_wframe_index <= w_wframe_index_next; 	//	Use 4 buffers. 
-						rc_rframe_index <= rc_wframe_index; 		
-					end
-			endcase
-			
-		end
-	end
-	
-	
-	
 	////////////////////////////////////////////////////////////////
 	//	AXI Writter
 

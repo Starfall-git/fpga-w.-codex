@@ -12,6 +12,7 @@
         <efx:design_file name="src/control/uart_tx.v" version="default" library="default"/>
         <efx:design_file name="src/control/key_debounce.v" version="default" library="default"/>
         <efx:design_file name="src/control/threshold_cdc.v" version="default" library="default"/>
+        <efx:design_file name="src/control/snapshot_line.v" version="default" library="default"/>
         <efx:design_file name="src/control/uart_image_control.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_rgb2gray.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_processing.v" version="default" library="default"/>
@@ -38,6 +39,7 @@
         <efx:design_file name="src/cmos_i2c/I2C_AR0135_1280720_Config.v" version="default" library="default"/>
         <efx:design_file name="src/axi/AXI4_AWARMux.v" version="default" library="default"/>
         <efx:design_file name="src/lvds/LCDDual2LVDS.v" version="default" library="default"/>
+        <efx:design_file name="src/axi/ddr_frame_owner.v" version="default" library="default"/>
         <efx:design_file name="src/axi/axi4_ctrl.v" version="default" library="default"/>
         <efx:design_file name="src/hdmi_ip/tmds_channel.v" version="default" library="default"/>
         <efx:design_file name="src/hdmi_ip/rgb2dvi.v" version="default" library="default"/>

@@ -105,6 +105,15 @@
 64. 增加关闭新增处理的基线对照、弱轮廓与强细线保真及平坦场噪声回归；分别记录RTL正确性与尚待上板确认的画质效果。
 ////--------------------2026-09-28-V0.13:保留灰度轮廓的保守降噪与方向修正------------------------------
 */
+/*
+////--------------------2026-09-28-V0.14:DDR冻结帧与图片仓库编辑对比------------------------------
+65. 抽取四帧DDR所有权模块，在读帧边界锁定当前帧；写入器继续使用其他帧，恢复实时后解除锁定。
+66. 新增处理后RGB逐行采集缓存及UART 30能力查询、31冻结恢复、32读行命令，逐行CRC16保护，冻结期间锁定图像配置。
+67. Python增加真实像素下载、进度和取消、PNG原子保存及持久仓库；DDR保留当前冻结帧，多帧历史保存到电脑。
+68. GUI新增冻结帧合集、缩略图编辑、画笔批注、框选裁剪、缩放翻转镜像、另存与下载；多图对比自适应排列。
+69. 增加DDR所有权、UART像素传输和CRC仿真，以及仓库编辑和GUI回归；保留既有ISP处理算法及同步结构。
+////--------------------2026-09-28-V0.14:DDR冻结帧与图片仓库编辑对比------------------------------
+*/
 //`include "ddr3_controller.vh"
 
 
@@ -982,6 +991,8 @@ module example_top #(
     wire [97:0] transform_geometry;
     wire transform_toggle, transform_ack;
     wire [1:0] transform_faults;
+    /* V0.14 / 65: DDR frame pin and boundary acknowledgement. */
+    wire freeze_request,frame_frozen;
 
 
 	assign w_ddr3_awid = 0; 
@@ -994,7 +1005,7 @@ module example_top #(
     /* V0.2：DDR 读取帧长度由 1920x1080x2 恢复为 1280x720x2 字节。 */
 	axi4_ctrl #(
     /* V0.5 / 19: select line-buffer transform reader; legacy branch remains in axi4_ctrl. */
-    .C_TRANSFORM(1), .IMAGE_WIDTH(1280), .IMAGE_HEIGHT(720),
+    .C_SNAPSHOT(1), .C_TRANSFORM(1), .IMAGE_WIDTH(1280), .IMAGE_HEIGHT(720),
     .C_RD_END_ADDR(1280 * 2 * 720), 
     .C_W_WIDTH(16) /* V0.7 / 33: was 8-bit OV5640 byte stream. */,
     .C_R_WIDTH(16), 
@@ -1044,6 +1055,7 @@ module example_top #(
 		.rframe_data    (lcd_data           ),
 
         /* V0.5 / 20: complete configuration, stable until acknowledged after frame setup. */
+        .freeze_request_i(freeze_request), .frozen_o(frame_frozen),
         .geometry_i(transform_geometry), .geometry_toggle_i(transform_toggle),
         .geometry_ack_o(transform_ack), .transform_faults_o(transform_faults),
 		
@@ -1164,6 +1176,7 @@ module example_top #(
     /* V0.4 / 14~16：UART/按键共同控制；输出阈值已经安全进入像素时钟域。
        processed_vs低有效时处于场消隐，处理流水中已没有上一帧有效像素。 */
     uart_image_control #(
+        .SNAPSHOT_ENABLE(1),
         .CLOCK_HZ(CLOCK_MAIN), .BAUD(UART_BAUD),
         .DEBOUNCE_CYCLES(CLOCK_MAIN/50)
     ) u_image_control (
@@ -1174,7 +1187,9 @@ module example_top #(
         .enable_median_o(ENABLE_MEDIAN),
         /* V0.5 / 22: UART now controls DDR source geometry as well as Sobel threshold. */
         .geometry_o(transform_geometry), .geometry_toggle_o(transform_toggle),
-        .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults)
+        .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults),
+        .freeze_request_o(freeze_request), .frozen_i(frame_frozen),
+        .snapshot_rgb_i(processed_rgb), .snapshot_vs_i(processed_vs), .snapshot_de_i(processed_de)
     );
     video_processing #(
         .IMAGE_WIDTH(1280),

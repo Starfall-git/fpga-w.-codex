@@ -11,6 +11,7 @@ status 0成功/1CRC错误/2参数错误/3未实现；能力bit0表示动态阈�
 TRANSFORM_ENABLE=1时能力位为0F。几何配置由DDR读出器帧准备完成后确认。
 */
 module uart_image_control #(
+    parameter SNAPSHOT_ENABLE=0,
     parameter CLOCK_HZ=96000000,
     parameter BAUD=115200,
     parameter DEBOUNCE_CYCLES=1920000,
@@ -30,6 +31,11 @@ module uart_image_control #(
     output reg [97:0] geometry_o,
     output reg geometry_toggle_o,
     input wire geometry_ack_i,
+    /* V0.14 / 66: DDR freeze level + processed display row capture. */
+    output reg freeze_request_o,
+    input wire frozen_i,
+    input wire snapshot_vs_i, snapshot_de_i,
+    input wire [23:0] snapshot_rgb_i,
     input wire [1:0] transform_faults_i
 );
     function [7:0] crc_next;
@@ -42,6 +48,40 @@ module uart_image_control #(
             crc_next=c;
         end
     endfunction
+    /* V0.14 / 66: 30 capability, 31 freeze/resume, 32 row download.
+       Row reply header uses V1 CRC8, followed by WIDTH*3 RGB bytes and
+       CRC16-CCITT (init FFFF), little-endian CRC. Controls blocked while pinned. */
+    function [15:0] crc16_next;
+      input [15:0] check; input [7:0] value;
+      integer b; reg [15:0] c;
+      begin
+        c=check^{value,8'd0};
+        for(b=0;b<8;b=b+1) c=c[15] ? (c<<1)^16'h1021 : c<<1;
+        crc16_next=c;
+      end
+    endfunction
+    reg frozen_meta,frozen_sync,waiting_freeze,waiting_line;
+    reg line_request,line_ack_meta,line_ack_sync;
+    reg [15:0] line_number;
+    wire line_ack;
+    reg [10:0] line_col;
+    wire [23:0] line_pixel;
+    reg [1:0] line_channel;
+    reg streaming;
+    reg [15:0] stream_count,stream_crc;
+    reg [31:0] snapshot_timeout;
+    localparam [15:0] LINE_BYTES=IMAGE_WIDTH*3;
+    wire [7:0] stream_byte=line_channel==0 ? line_pixel[23:16] :
+                            line_channel==1 ? line_pixel[15:8] : line_pixel[7:0];
+    generate if(SNAPSHOT_ENABLE) begin : g_snapshot
+      snapshot_line #(.WIDTH(IMAGE_WIDTH)) u_line(
+        .pixel_clk(pixel_clk),.pixel_rst_n(pixel_rst_n),.vs_i(snapshot_vs_i),
+        .de_i(snapshot_de_i),.rgb_i(snapshot_rgb_i),.request_i(line_request),
+        .row_i(line_number),.ack_o(line_ack),.sys_clk(clk),
+        .read_addr_i(line_col),.read_data_o(line_pixel));
+    end else begin
+      assign line_ack=0; assign line_pixel=0;
+    end endgenerate
     wire [7:0] rx_data;
     wire rx_valid, rx_error, tx_busy;
     reg tx_start;
@@ -124,6 +164,10 @@ module uart_image_control #(
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
+            freeze_request_o<=0; frozen_meta<=0;frozen_sync<=0;
+            waiting_freeze<=0;waiting_line<=0;line_request<=0;line_ack_meta<=0;line_ack_sync<=0;
+            line_number<=0;line_col<=0;line_channel<=0;streaming<=0;stream_count<=0;
+            stream_crc<=16'hffff;snapshot_timeout<=0;
             desired<=128; transfer_value<=128; transfer_request<=0; command_target<=128;
             rx_index<=0; sequence_id<=0; command<=0; payload<=0; crc<=0; rx_timeout<=0;
             waiting_apply<=0; wait_sequence<=0; wait_command<=0;
@@ -133,9 +177,42 @@ module uart_image_control #(
             geometry_ack_meta<=0; geometry_ack_sync<=0; waiting_geometry<=0; fault_meta<=0; fault_sync<=0;
             isp_target<=0; isp_request<=0; waiting_isp<=0; waiting_default<=0;
         end else begin
+            tx_start<=0;
+            frozen_meta<=frozen_i;frozen_sync<=frozen_meta;
+            line_ack_meta<=line_ack;line_ack_sync<=line_ack_meta;
+            if(waiting_freeze || waiting_line) begin
+              snapshot_timeout<=snapshot_timeout+1'b1;
+              if(snapshot_timeout==CLOCK_HZ-1) begin
+                waiting_freeze<=0;waiting_line<=0;
+                reply(wait_sequence,wait_command,5);
+              end else if(waiting_freeze && frozen_sync==freeze_request_o && !transfer_busy && desired==applied) begin
+                waiting_freeze<=0;reply(wait_sequence,wait_command,0);
+              end else if(waiting_line && line_ack_sync==line_request) begin
+                waiting_line<=0;
+                /* V0.14: faults are sticky since boot, not per captured row.
+                   Capture the actual HDMI pixels even after a historical underflow. */
+                begin
+                  reply_body(wait_sequence,wait_command,{16'd0,8'd3,LINE_BYTES,line_number,8'd0});
+                  streaming<=1;stream_count<=0;line_col<=0;line_channel<=0;stream_crc<=16'hffff;
+                end
+              end
+            end
+            /* Raw row data follows the ACK; UART idle supplies BRAM read latency. */
+            if(streaming && !reply_busy && !tx_busy && !tx_start) begin
+              tx_start<=1;
+              if(stream_count<LINE_BYTES) begin
+                tx_data<=stream_byte;stream_crc<=crc16_next(stream_crc,stream_byte);
+                if(line_channel==2) begin
+                  line_channel<=0;
+                  if(line_col<IMAGE_WIDTH-1) line_col<=line_col+1'b1;
+                end else line_channel<=line_channel+1'b1;
+              end else if(stream_count==LINE_BYTES) tx_data<=stream_crc[7:0];
+              else begin tx_data<=stream_crc[15:8];streaming<=0;end
+              stream_count<=stream_count+1'b1;
+            end
             geometry_ack_meta<=geometry_ack_i; geometry_ack_sync<=geometry_ack_meta;
             fault_meta<=transform_faults_i; fault_sync<=fault_meta;
-            transfer_request<=0; tx_start<=0;
+            transfer_request<=0;
             isp_request<=0;
             /* V0.6: default ACK waits for every registered feature; threshold is preserved.
                Future features must add their reset and completion here, not in GUI. */
@@ -147,7 +224,7 @@ module uart_image_control #(
                 waiting_default<=0; reply(wait_sequence,wait_command,0);
             end
             /* 同一寄存器集中写入；范围0..4095，两个键同时按下不修改。 */
-            if (!waiting_apply) begin
+            if (!waiting_apply && !(SNAPSHOT_ENABLE && freeze_request_o)) begin
                 if (key_up && !key_down && desired!=4095) desired<=desired+1'b1;
                 else if (key_down && !key_up && desired!=0) desired<=desired-1'b1;
             end
@@ -180,8 +257,26 @@ module uart_image_control #(
                     12: begin
                         rx_index<=0;
                         /* stop-and-wait：处理或发送应答期间不接受额外命令。 */
-                        if (!waiting_apply && !waiting_geometry && !waiting_isp && !waiting_default && !reply_busy && !tx_busy && !tx_start) begin
+                        if (!waiting_apply && !waiting_geometry && !waiting_isp && !waiting_default && !reply_busy && !tx_busy && !tx_start && !waiting_freeze && !waiting_line && !streaming) begin
                             if (rx_data!=crc) reply(sequence_id,command,1);
+                            else if(SNAPSHOT_ENABLE && command==8'h30) begin
+                                if(payload!=0) reply(sequence_id,command,2);
+                                else reply_body(sequence_id,command,{6'd0,frozen_sync,1'b1,8'd3,DEFAULT_H,DEFAULT_W,8'd1,8'd0});
+                            end else if(SNAPSHOT_ENABLE && command==8'h31) begin
+                                if(payload[63:1]!=0) reply(sequence_id,command,2);
+                                else begin
+                                  freeze_request_o<=payload[0]; waiting_freeze<=1;snapshot_timeout<=0;
+                                  wait_sequence<=sequence_id;wait_command<=command;
+                                end
+                            end else if(SNAPSHOT_ENABLE && command==8'h32) begin
+                                if(payload[63:16]!=0 || payload[15:0]>=IMAGE_HEIGHT) reply(sequence_id,command,2);
+                                else if(!frozen_sync || !freeze_request_o) reply(sequence_id,command,4);
+                                else begin
+                                  line_number<=payload[15:0];line_request<=~line_request;
+                                  waiting_line<=1;snapshot_timeout<=0;wait_sequence<=sequence_id;wait_command<=command;
+                                end
+                            end else if(SNAPSHOT_ENABLE && freeze_request_o && command!=8'h01 && command!=8'h02)
+                                reply(sequence_id,command,4);
                             else if (command==8'h01) begin
                                 if (payload!=0) reply(sequence_id,command,2);
                                 else reply(sequence_id,command,0);

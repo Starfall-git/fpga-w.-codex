@@ -1,5 +1,5 @@
 # vsim -c work.uart_control_tb -do "run -all; quit -f" 
-# Start time: 23:47:04 on Sep 24,2026
+# Start time: 18:19:04 on Sep 28,2026
 # Loading sv_std.std
 # Loading work.uart_control_tb
 # Loading work.video_sobel
@@ -8,9 +8,16 @@
 # Loading work.uart_tx
 # Loading work.key_debounce
 # Loading work.threshold_cdc
+# ** Warning: (vsim-3017) C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(18): [TFMPC] - Too few port connections. Expected 21, found 16.
+#    Time: 0 ps  Iteration: 0  Instance: /uart_control_tb/dut File: C:/Users/francis/Desktop/fpga-w.-codex/src/control/uart_image_control.v
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(18): [TFMPC] - Missing connection for port 'freeze_request_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(18): [TFMPC] - Missing connection for port 'frozen_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(18): [TFMPC] - Missing connection for port 'snapshot_vs_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(18): [TFMPC] - Missing connection for port 'snapshot_de_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(18): [TFMPC] - Missing connection for port 'snapshot_rgb_i'.
 # run -all
 # PASS UART: physical 8N1, CRC, errors, frame-boundary CDC, keys, limits, reset
 # ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/uart_control_tb.sv(141)
 #    Time: 512805 ns  Iteration: 0  Instance: /uart_control_tb
-# End time: 23:47:04 on Sep 24,2026, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
+# End time: 18:19:05 on Sep 28,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 6
