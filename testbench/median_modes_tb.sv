@@ -3,6 +3,12 @@
 module median_modes_tb;
   /* V0.11 / 55: test both gray paths, threshold extremes and polarity. */
   parameter WIDTH=16, GRAY=0, ADAPTIVE=1, THRESHOLD=128, INVERT=0;
+  /* V0.13 / 64: test the baseline without changing production wrapper. */
+  parameter REFINE=1;
+  defparam raw_dut.g_median_sobel.u_median.REFINE_NOISE=REFINE;
+  defparam med_dut.g_median_sobel.u_median.REFINE_NOISE=REFINE;
+  defparam edge_dut.g_median_sobel.u_median.REFINE_NOISE=REFINE;
+  defparam both_dut.g_median_sobel.u_median.REFINE_NOISE=REFINE;
   reg clk=0,rst=0,hs=1,vs=0,de=0;
   reg [23:0] rgb=0;
   wire [23:0] raw,med,edge_rgb,both;

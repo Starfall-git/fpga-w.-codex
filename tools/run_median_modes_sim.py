@@ -2,7 +2,7 @@
 import argparse
 from collections import deque
 from pathlib import Path
-import os, random, shutil, subprocess
+import os, random, shutil, subprocess, math
 
 ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser()
@@ -12,11 +12,12 @@ parser.add_argument('--gray',type=int,choices=(0,1),default=0)
 parser.add_argument('--adaptive',type=int,choices=(0,1),default=1)
 parser.add_argument('--threshold',type=int,default=128)
 parser.add_argument('--invert',type=int,choices=(0,1),default=0)
+parser.add_argument('--refine',type=int,choices=(0,1),default=1)
 args=parser.parse_args()
 assert 0<=args.threshold<=4095
 WIDTH,HEIGHT=args.width,args.height
 assert 16<=WIDTH<=1280 and 12<=HEIGHT<=720
-out=ROOT/f'tools/debug/median_modes_{WIDTH}x{HEIGHT}_g{args.gray}_a{args.adaptive}_t{args.threshold}_i{args.invert}'; out.mkdir(parents=True,exist_ok=True)
+out=ROOT/f'tools/debug/median_modes_{WIDTH}x{HEIGHT}_g{args.gray}_a{args.adaptive}_t{args.threshold}_i{args.invert}_v013_r{args.refine}'; out.mkdir(parents=True,exist_ok=True)
 rng=random.Random(135)
 reset=(1,1,0,0,0,0,0,0)
 pipe=deque([reset]*12)
@@ -27,11 +28,22 @@ def gray(rgb):
  r,g,b=(rgb>>16)&255,(rgb>>8)&255,rgb&255
  return (306*r+601*g+117*b)//1024 if args.gray else g
 
-def modes(image):
+def modes(image, refine=None):
+ if refine is None: refine=args.refine
  h=len(image); w=len(image[0]); g=[[gray(p) for p in row] for row in image]
  med=[[0]*w for _ in range(h)]
  for y in range(2,h):
-  for x in range(2,w): med[y][x]=sorted(g[yy][xx] for yy in range(y-2,y+1) for xx in range(x-2,x+1))[4]
+  for x in range(2,w):
+   a,b,c=g[y-2][x-2:x+1]; d,e,f=g[y-1][x-2:x+1]; p,q,r=g[y][x-2:x+1]
+   median=sorted((a,b,c,d,e,f,p,q,r))[4]
+   supported=any(abs(u-e)<=12 and abs(v-e)<=12 for u,v in
+                 ((b,q),(d,f),(a,r),(c,p)))
+   value=e
+   if refine:
+    neighbors=(a,b,c,d,f,p,q,r)
+    average=(8*e+sum(v if abs(v-e)<=8 else e for v in neighbors)+8)//16
+    value=e+max(-2,min(2,average-e))
+   med[y][x]=median if not supported and abs(e-median)>12 else value
  def sobel(src, first_valid):
   result=[[0xffffff if args.invert else 0]*w for _ in range(h)]
   # V0.10 / 50: Median has an invalid two-pixel border. A Sobel window
@@ -43,8 +55,11 @@ def modes(image):
     # Four signed convolutions from the reference eight-direction kernels.
     mag=max(abs(c+2*f+r-a-2*d-p),abs(p+2*q+r-a-2*b-c),
             abs(f+2*r+q-b-2*a-d),abs(b+2*c+f-d-2*p-q))
-    threshold=max(args.threshold,e,1) if args.adaptive else args.threshold
-    result[y][x]=0xffffff if ((mag>=threshold) != bool(args.invert)) else 0
+    # Reference bin_en=0 strength, with the live UART threshold subtracted.
+    # At threshold zero this is exactly min(Gmax/2, 255).
+    strength=min(max(mag-args.threshold,0)//2,255)
+    if args.invert: strength=255-strength
+    result[y][x]=strength*0x010101
   return result
  direct=sobel(g,8); filtered=sobel(med,8)
  return med,direct,filtered
@@ -59,7 +74,7 @@ with (out/'vectors.txt').open('w',encoding='ascii') as f:
  def blank(n,vs=1):
   for k in range(n): emit(1,1,vs,0,rng.randrange(1<<24))
  for _ in range(4): emit(0,1,0,0,0)
- for kind in range(9):
+ for kind in range(14):
   if kind==0: image=[[0x777777 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==1: image=[[0xffffff if x>=8 else 0 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==2: image=[[0x204080 if (x,y)==(7,6) else 0x505050 for x in range(WIDTH)] for y in range(HEIGHT)]
@@ -68,8 +83,25 @@ with (out/'vectors.txt').open('w',encoding='ascii') as f:
   elif kind==5: image=[[0x505050 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==6: image=[[0 if x==0 or y==0 else 0xa0a0a0 for x in range(WIDTH)] for y in range(HEIGHT)]
   elif kind==7: image=[[0 for x in range(WIDTH)] for y in range(HEIGHT)]
-  else: image=[[(min(255,4*x+7*y))*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
+  elif kind==8: image=[[(min(255,4*x+7*y))*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
+  elif kind==9: image=[[0xffffff if x==WIDTH//2 else 0x505050 for x in range(WIDTH)] for y in range(HEIGHT)]
+  elif kind==10: image=[[(100+rng.randrange(-4,5))*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
+  elif kind==11: image=[[(100+round(4*math.sin(x*math.pi/2)))*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
+  elif kind==12: image=[[(100 if x<WIDTH//2 else 120)*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
+  else: image=[[(100 if x!=WIDTH//2 else 116)*0x010101 for x in range(WIDTH)] for y in range(HEIGHT)]
   med,edge,both=modes(image)
+  oldmed,oldedge,oldboth=modes(image,refine=0)
+  assert edge==oldedge, 'Sobel without Median changed'
+  assert max(abs(v-u) for row,oldrow in zip(med,oldmed) for v,u in zip(row,oldrow))<=2
+  if kind in (9,12,13):
+   assert med==oldmed and both==oldboth, 'supported contour changed'
+  if kind in (10,11) and args.refine:
+   before=sum((oldmed[y][x]-100)**2 for y in range(2,HEIGHT) for x in range(2,WIDTH))
+   after=sum((med[y][x]-100)**2 for y in range(2,HEIGHT) for x in range(2,WIDTH))
+   assert after<before
+   print(f'Pattern {kind} squared error {before} -> {after}; supported contours exact')
+  if kind==2: assert med[7][8]==0x50  # isolated impulse removed
+  if kind==9: assert all(med[y][WIDTH//2+1]==0xff for y in range(2,HEIGHT))
   # V0.10 / 50: uniform bright scenes must not grow artificial white rails.
   if kind in (0,6,7) and (args.adaptive or args.threshold>0):
    assert all(v==(0xffffff if args.invert else 0) for row in edge+both for v in row)
@@ -82,11 +114,11 @@ with (out/'vectors.txt').open('w',encoding='ascii') as f:
 def tool(name):
  path=Path(os.environ.get('MODELSIM_BIN','D:/intelfpga/modelsim_ase/win32aloem'))/(name+'.exe')
  return str(path) if path.exists() else shutil.which(name)
-sources=[ROOT/'src/isp'/s for s in ('video_rgb2gray.v','video_window3x3.v','sort3_8bit.v','video_median3x3.v','video_sobel.v','video_processing.v')]
+sources=[ROOT/'src/isp'/s for s in ('video_rgb2gray.v','video_window3x3.v','sort3_8bit.v','video_median3x3.v','sobeledge_8d_window.v','video_processing.v')]
 sources.append(ROOT/'testbench/median_modes_tb.sv')
 cmds=[[tool('vlib'),'work'],[tool('vlog'),'-sv',*map(str,sources)],
       [tool('vsim'),'-c','work.median_modes_tb',f'-gWIDTH={WIDTH}',f'-gGRAY={args.gray}',f'-gADAPTIVE={args.adaptive}',
-       f'-gTHRESHOLD={args.threshold}',f'-gINVERT={args.invert}',
+       f'-gREFINE={args.refine}',f'-gTHRESHOLD={args.threshold}',f'-gINVERT={args.invert}',
        '+VECTORS=vectors.txt','-do','onerror {quit -code 1}; run -all; quit -code 0']]
 logs=[]
 for cmd in cmds:

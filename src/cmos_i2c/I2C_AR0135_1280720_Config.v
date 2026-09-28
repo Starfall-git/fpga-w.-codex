@@ -59,7 +59,8 @@ begin
     /* V0.10 / 47: board-mounted AR0135 appears upside down with READ_MODE=0000.
        Datasheet 0x3040[15] vert_flip reverses sensor row readout; [14] remains 0.
        Host geometry flip stays available as an additional runtime option. */
-    18 :    LUT_DATA    =   {16'h3040, 16'h8000};
+    /* V0.13 / 62: set horizontal mirror bit14; preserve vertical bit15. */
+    18 :    LUT_DATA    =   {16'h3040, 16'hC000};
     19 :    LUT_DATA    =   {16'h3028, 16'h0010};  //ROW_SPEED
     
     //Manual Gain & Expsoure Parameter
