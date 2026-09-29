@@ -1,0 +1,22 @@
+# vsim -c work.compare_reader_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 22:07:49 on Sep 28,2026
+# Loading sv_std.std
+# Loading work.compare_reader_tb
+# Loading work.axi_transform_reader
+# Loading work.unsigned_divider
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# PASS COMPARE N=1 at 720p line deadline
+# PASS COMPARE N=2 at 720p line deadline
+# PASS COMPARE N=3 at 720p line deadline
+# PASS COMPARE N=4 at 720p line deadline
+# PASS COMPARE N=5 at 720p line deadline
+# PASS COMPARE N=6 at 720p line deadline
+# PASS COMPARE N=7 at 720p line deadline
+# PASS COMPARE N=8 at 720p line deadline
+# PASS COMPARE all pixels=7372800
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/compare_reader_tb.sv(110)
+#    Time: 128154364800 ps  Iteration: 1  Instance: /compare_reader_tb
+# End time: 22:08:52 on Sep 28,2026, Elapsed time: 0:01:03
+# Errors: 0, Warnings: 0

@@ -1,0 +1,20 @@
+# vsim -c work.advanced_isp_tb -do "onerror {quit -code 1}; run -all; quit -code 0" -gINVERT=1 -gPRESERVE=1 
+# Start time: 01:52:06 on Sep 29,2026
+# Loading sv_std.std
+# Loading work.advanced_isp_tb
+# Loading work.video_processing
+# Loading work.video_rgb2gray
+# Loading work.video_window3x3
+# Loading work.video_median3x3
+# Loading work.sort3_8bit
+# Loading work.video_gaussian
+# Loading work.sobeledge_8d_window
+# Loading work.video_scharr_canny
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# PASS ADVANCED: 22768 cycles all pixels and sync
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/advanced_isp_tb.sv(33)
+#    Time: 227726 ns  Iteration: 0  Instance: /advanced_isp_tb
+# End time: 01:52:13 on Sep 29,2026, Elapsed time: 0:00:07
+# Errors: 0, Warnings: 0

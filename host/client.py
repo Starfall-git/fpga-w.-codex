@@ -140,9 +140,10 @@ class SerialClient:
             self.set_crop(0,0,1280,720)
             return self.set_flip(False,False)
 
-    def set_isp(self, enabled, inverted, median=False):
+    def set_isp(self, enabled, inverted, median=False, gaussian=False, scharr=False, canny=False, preserve=False):
         # V0.9 / 45: old boards accept flags 0..3; only advertise Median on new bit.
-        payload = isp_payload(enabled, inverted, median)
+        payload = isp_payload(enabled, inverted, median, gaussian, scharr, canny, preserve)
+        if payload[0]&120 and not self.get_status().advanced_capabilities:raise RuntimeError("旧固件不支持新滤波/边缘模式")
         self._require(CAP_ISP)
         if median: self._require(CAP_MEDIAN)
         result = self.request(Command.SET_ISP, payload)
@@ -169,7 +170,7 @@ class DemoClient(SerialClient):
 
     def __init__(self, trace=None):
         self.trace = trace or (lambda direction, raw: None)
-        self.status = DeviceStatus(0, 128, 1, 255)
+        self.status = DeviceStatus(0, 128, 1, 255, 0, 15)
         self.geometry = Geometry()
         self.lock = threading.RLock()
         self.sequence = 0
@@ -201,7 +202,7 @@ class DemoClient(SerialClient):
             code = 2
         if code == 0:
             self.geometry = candidate
-        body = bytes((code, self.status.threshold & 255, self.status.threshold >> 8, 1, 255, self.status.isp_flags, 0, 0))
+        body = bytes((code, self.status.threshold & 255, self.status.threshold >> 8, 1, 255, self.status.isp_flags, self.status.advanced_capabilities, 0))
         if cmd == Command.GET_CONFIG:
             g = self.geometry
             page = payload[0]

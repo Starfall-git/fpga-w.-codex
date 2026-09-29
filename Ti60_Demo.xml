@@ -7,11 +7,14 @@
     </efx:device_info>
     <efx:design_info def_veri_version="verilog_2k" def_vhdl_version="vhdl_2008" unified_flow="false" partition_interface_allowed_off_perimeter="true">
         <efx:top_module name="example_top"/>
+        <efx:design_file name="src/isp/video_gaussian.v" version="default" library="default"/>
+        <efx:design_file name="src/isp/video_scharr_canny.v" version="default" library="default"/>
         <efx:design_file name="example_top.v" version="default" library="default"/>
         <efx:design_file name="src/control/uart_rx.v" version="default" library="default"/>
         <efx:design_file name="src/control/uart_tx.v" version="default" library="default"/>
         <efx:design_file name="src/control/key_debounce.v" version="default" library="default"/>
         <efx:design_file name="src/control/threshold_cdc.v" version="default" library="default"/>
+        <efx:design_file name="src/axi/ddr_frame_store.v" version="default" library="default"/>
         <efx:design_file name="src/control/uart_image_control.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_rgb2gray.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_processing.v" version="default" library="default"/>
@@ -38,10 +41,15 @@
         <efx:design_file name="src/cmos_i2c/I2C_AR0135_1280720_Config.v" version="default" library="default"/>
         <efx:design_file name="src/axi/AXI4_AWARMux.v" version="default" library="default"/>
         <efx:design_file name="src/lvds/LCDDual2LVDS.v" version="default" library="default"/>
+        <efx:design_file name="src/axi/ddr_frame_owner.v" version="default" library="default"/>
         <efx:design_file name="src/axi/axi4_ctrl.v" version="default" library="default"/>
         <efx:design_file name="src/hdmi_ip/tmds_channel.v" version="default" library="default"/>
         <efx:design_file name="src/hdmi_ip/rgb2dvi.v" version="default" library="default"/>
         <efx:design_file name="src/cmos_i2c/I2C_OV5640_1280720_Config.v" version="default" library="default"/>
+        <efx:design_file name="src/cmos_i2c/ar0135_init.v" version="default" library="default"/>
+        <efx:design_file name="src/cmos_i2c/ar0135_capture.v" version="default" library="default"/>
+        <efx:design_file name="src/isp/sort3_8bit.v" version="default" library="default"/>
+        <efx:design_file name="src/isp/video_median3x3.v" version="default" library="default"/>
         <efx:top_vhdl_arch name=""/>
         <efx:msg_config name=""/>
         <efx:partition_definitions name=""/>

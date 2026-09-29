@@ -1,7 +1,12 @@
 module video_median3x3 #(
     parameter VS_ACTIVE = 1'b0,
     /* Replace isolated spikes while retaining supported one-pixel strokes. */
-    parameter [7:0] SWITCH_DELTA = 8'd12
+    parameter [7:0] SWITCH_DELTA = 8'd12,
+    /* V0.13 / 63: conservative range-weighted refinement, only in Median path.
+       Disable to reproduce the restored selective-median baseline exactly. */
+    parameter REFINE_NOISE = 1,
+    parameter [7:0] NOISE_DELTA = 8'd8,
+    parameter [7:0] MAX_CORRECTION = 8'd2
 )(
     input  wire        clk,
     input  wire        rst_n,
@@ -51,6 +56,19 @@ module video_median3x3 #(
         ((distance(p02,p11) <= SWITCH_DELTA) && (distance(p20,p11) <= SWITCH_DELTA));
     reg [7:0] center_s1, center_s2;
     reg supported_s1, supported_s2;
+    /* V0.13 / 63: neighbors across a contrast > NOISE_DELTA are replaced
+       by center. Fixed divisor16: center weight8, eight neighbors weight1.
+       This does not change the grayscale conversion or Sobel threshold. */
+    function [7:0] similar;
+        input [7:0] neighbor, center;
+        begin similar = distance(neighbor,center)<=NOISE_DELTA ? neighbor : center; end
+    endfunction
+    reg [11:0] refine_sum_s1;
+    wire [11:0] refine_round = refine_sum_s1 + 12'd8;
+    wire [7:0] refine_mean = refine_round[11:4];
+    reg [7:0] refined_s2;
+    wire [7:0] refine_amount = distance(refine_mean,center_s1);
+    wire [7:0] limited_amount = refine_amount > MAX_CORRECTION ? MAX_CORRECTION : refine_amount;
 
 
     /*==========================================================
@@ -221,7 +239,7 @@ module video_median3x3 #(
     );
     wire [7:0] filtered_value = !supported_s2 &&
         (distance(center_s2,median_value) > SWITCH_DELTA)
-        ? median_value : center_s2;
+        ? median_value : REFINE_NOISE ? refined_s2 : center_s2;
 
 
     /*==========================================================
@@ -252,6 +270,7 @@ module video_median3x3 #(
             valid_s1 <= 1'b0;
             center_s1 <= 0;
             supported_s1 <= 0;
+            refine_sum_s1<=0; refined_s2<=0;
 
 
             /*---------------- Stage 2 ----------------*/
@@ -302,6 +321,14 @@ module video_median3x3 #(
             valid_s1 <= window_valid_i;
             center_s1 <= p11;
             supported_s1 <= supported_center;
+            /* V0.13 / 63: explicit 12-bit sum, maximum4080, round maximum4088. */
+            refine_sum_s1 <= {1'b0,p11,3'b0} +
+                {4'b0,similar(p00,p11)} + {4'b0,similar(p01,p11)} +
+                {4'b0,similar(p02,p11)} + {4'b0,similar(p10,p11)} +
+                {4'b0,similar(p12,p11)} + {4'b0,similar(p20,p11)} +
+                {4'b0,similar(p21,p11)} + {4'b0,similar(p22,p11)};
+            refined_s2 <= refine_mean >= center_s1 ? center_s1 + limited_amount
+                                                   : center_s1 - limited_amount;
 
 
             /*==================================================

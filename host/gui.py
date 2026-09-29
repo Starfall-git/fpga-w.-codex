@@ -5,6 +5,10 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import queue
 import time
+from .snapshots import FrameStore
+from .ddr_store import store_status, store_control
+from .hdmi_source import PendingHDMISource, HDMIPreview
+from .frame_gallery import Gallery
 import tkinter as tk
 from tkinter import ttk
 from .client import SerialClient, DemoClient, list_ports
@@ -13,11 +17,12 @@ from .protocol import (CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM, CAP_ISP, CAP
 
 
 class ImageControlApp:
-    def __init__(self, root, demo=False):
+    def __init__(self, root, demo=False, hdmi_source=None):
         self.root = root
         root.title('VF-Ti60 · 实时图像控制台')
-        root.geometry('1000x700')
-        root.minsize(950, 650)
+        # V0.16: reserve the extra algorithm row so DDR controls remain visible.
+        root.geometry('1000x800')
+        root.minsize(950, 770)
         self.executor = ThreadPoolExecutor(max_workers=1)
         self.events = queue.Queue()
         self.pending = OrderedDict()
@@ -42,6 +47,13 @@ class ImageControlApp:
         self.zoom = tk.StringVar(value='100%')
         self.auto_poll = tk.BooleanVar(value=True)
         self.show_log = tk.BooleanVar(value=False)
+        # V0.15 / 73: serial controls DDR IDs; HDMI adapter supplies host pixels.
+        self.frame_store=FrameStore()
+        self.snapshot_busy=False;self.frame_frozen=False;self.snapshot_available=False
+        self.gallery=None
+        self.hdmi_source=hdmi_source or PendingHDMISource();self.ddr_status=None;self.ddr_window=None
+        self.gaussian=tk.BooleanVar();self.scharr=tk.BooleanVar();self.canny=tk.BooleanVar();self.preserve=tk.BooleanVar()
+        self.advanced_controls=[];self.advanced_available=False
         self.controls = []
         self._build()
         self.refresh_ports()
@@ -61,7 +73,8 @@ class ImageControlApp:
         main = ttk.Frame(self.root, padding=20)
         main.pack(fill='both', expand=True)
         ttk.Label(main, text='实时图像控制台', style='Title.TLabel').pack(anchor='w')
-        ttk.Label(main, text='VF-Ti60F225   /   HDMI 720p · 原图、中值滤波、Sobel 与几何变换').pack(anchor='w',pady=(4,12))
+        # V0.16 / 78: expose the new processing choices without a second apply step.
+        ttk.Label(main, text='VF-Ti60F225   /   HDMI 720p · 降噪、Sobel / Scharr / Canny 与几何变换').pack(anchor='w',pady=(4,12))
         connection = ttk.LabelFrame(main,text='连接',padding=10)
         connection.pack(fill='x')
         self.mode_box = ttk.Combobox(connection,textvariable=self.mode,values=('串口硬件','模拟演示'),width=10,state='readonly')
@@ -83,13 +96,18 @@ class ImageControlApp:
         for text, variable, cap in (('Sobel 边缘检测',self.sobel,CAP_ISP),
                                     ('选择性中值滤波',self.median,CAP_MEDIAN),
                                     ('黑白反转',self.inverted,CAP_ISP)):
-            button=ttk.Checkbutton(row,text=text,variable=variable,command=self.apply_isp)
+            button=ttk.Checkbutton(row,text=text,variable=variable,command=lambda v=variable:self.apply_isp("sobel" if v is self.sobel else None))
             button.pack(side='left',padx=(0,20)); self.controls.append((button,cap))
         ttk.Label(row,text='阈值').pack(side='left',padx=(10,6))
         self.threshold_entry=ttk.Entry(row,textvariable=self.threshold,width=9,font=('Consolas',14))
         self.threshold_entry.pack(side='left'); self.controls.append((self.threshold_entry,CAP_THRESHOLD))
         self.threshold_entry.bind('<Return>',lambda _: self.apply_threshold())
         ttk.Label(row,text='0=参考原强度；增大可抑制弱边缘，>1020无边缘 · 回车生效').pack(side='left',padx=10)
+        advanced=ttk.Frame(image);advanced.pack(fill='x',pady=(8,0))
+        for label,var,edge in [('高斯滤波',self.gaussian,None),('保边降噪（需高斯）',self.preserve,None),('Scharr',self.scharr,'scharr'),('Canny（两轮连接）',self.canny,'canny')]:
+            widget=ttk.Checkbutton(advanced,text=label,variable=var,command=lambda e=edge:self.apply_isp(e))
+            widget.pack(side='left',padx=(0,14));self.advanced_controls.append(widget)
+        ttk.Label(image,text='边缘算法互斥；Canny自动启用高斯，高/低阈值=输入值/一半').pack(anchor='w',pady=(3,0))
         ttk.Label(image,textvariable=self.mode_readback,foreground='#137c70').pack(anchor='w',pady=(10,0))
         info=ttk.Frame(image); info.pack(fill='x',pady=(4,0))
         ttk.Label(info,text='设备阈值：').pack(side='left')
@@ -124,6 +142,19 @@ class ImageControlApp:
         row=ttk.Frame(main); row.pack(fill='x')
         ttk.Checkbutton(row,text='通信记录',variable=self.show_log,command=self._toggle_log).pack(side='left')
         ttk.Label(row,textvariable=self.cap_text,foreground='#64748b').pack(side='right')
+        framebar=ttk.Frame(main,padding=(0,8));framebar.pack(fill='x')
+        self.freeze_button=ttk.Button(framebar,text='帧冻结',command=self.capture_frame)
+        self.freeze_button.pack(side='left')
+        self.pause_button=ttk.Button(framebar,text='暂停',command=lambda:self.ddr_action(2))
+        self.pause_button.pack(side='left',padx=5)
+        self.resume_button=ttk.Button(framebar,text='继续',command=self.resume_video)
+        self.resume_button.pack(side='left')
+        self.ddr_button=ttk.Button(framebar,text='DDR冻结帧仓库',command=self.open_ddr_store)
+        self.ddr_button.pack(side='left',padx=5)
+        ttk.Button(framebar,text='本地图片仓库',command=self.open_gallery).pack(side='right')
+        ttk.Button(framebar,text='HDMI预览',command=lambda:HDMIPreview(self.root,self.hdmi_source,self.frame_store)).pack(side='right',padx=5)
+        self.ddr_text=tk.StringVar(value='DDR仓库：未连接 · HDMI采集待接入')
+        ttk.Label(main,textvariable=self.ddr_text).pack(anchor='w')
         self.log_frame=ttk.Frame(main)
         self.log=tk.Text(self.log_frame,height=6,wrap='word',font=('Consolas',9),background='#142735',foreground='#d7e5ee',state='disabled')
         scroll=ttk.Scrollbar(self.log_frame,command=self.log.yview)
@@ -142,8 +173,67 @@ class ImageControlApp:
         self.connect_button.configure(text='断开' if connected else '连接',state='disabled' if self.busy or self.pending else 'normal')
         # V0.6: edits remain usable while a packet is in flight; latest values are queued.
         for widget,cap in self.controls:
-            widget.configure(state='normal' if connected and not self.resetting and self.caps & cap else 'disabled')
-        self.defaults_button.configure(state='normal' if connected and not self.resetting and self.caps & CAP_DEFAULTS else 'disabled')
+            widget.configure(state='normal' if connected and not self.resetting and not (self.ddr_status and self.ddr_status.mode==3 and cap & (CAP_FLIP|CAP_CROP|CAP_ZOOM)) and self.caps & cap else 'disabled')
+        self.defaults_button.configure(state='normal' if connected and not self.resetting and not self.frame_frozen and not self.snapshot_busy and self.caps & CAP_DEFAULTS else 'disabled')
+
+        for widget in self.advanced_controls:
+            widget.configure(state='normal' if connected and self.advanced_available and not self.resetting else 'disabled')
+        enabled=connected and self.snapshot_available and not self.busy and not self.pending
+        for widget in (self.freeze_button,self.pause_button,self.resume_button,self.ddr_button):
+            widget.configure(state='normal' if enabled else 'disabled')
+        if self.ddr_status and self.ddr_status.mode!=0:self.freeze_button.configure(state='disabled')
+
+    def _store_status(self,status):
+        self.ddr_status=status
+        # V0.15: pause/replay do not lock ISP settings; UART carries no pixels.
+        self.frame_frozen=False
+        modes=('实时','暂停','单帧回放','多帧对比')
+        self.ddr_text.set(f'DDR已存 {len(status.saved)}/{status.capacity} 帧 · {modes[status.mode]} · 断电/复位后编号失效')
+        if self.ddr_window is not None and self.ddr_window.winfo_exists():self._refresh_ddr_list()
+
+    def ddr_action(self,action,frame_id=0,selection=()):
+        if not self.client or self.busy:return
+        def done(status):
+            self._store_status(status)
+            self.message.set(('已恢复实时','已保存当前帧，直播继续','显示已暂停，后台采集继续','已回放所选帧','HDMI已切换为多帧对比','DDR仓库已清空')[action])
+        self._submit(lambda:store_control(self.client,action,frame_id,selection),done,'ddr')
+
+    def open_ddr_store(self):
+        if self.ddr_window is not None and self.ddr_window.winfo_exists():self.ddr_window.lift();return
+        self.ddr_window=tk.Toplevel(self.root);self.ddr_window.title('DDR冻结帧仓库 · 按编号回放');self.ddr_window.geometry('600x500')
+        ttk.Label(self.ddr_window,textvariable=self.ddr_text,padding=10).pack(fill='x')
+        ttk.Label(self.ddr_window,text='HDMI采集尚未接入：这里仅显示板上帧编号，没有缩略图。').pack()
+        self.ddr_list=tk.Listbox(self.ddr_window,selectmode='extended',exportselection=False)
+        self.ddr_list.pack(fill='both',expand=True,padx=12,pady=12)
+        bar=ttk.Frame(self.ddr_window);bar.pack(fill='x',padx=12,pady=10)
+        ttk.Button(bar,text='回放选中帧',command=self.replay_selected).pack(side='left')
+        ttk.Button(bar,text='HDMI对比所选',command=self.compare_selected).pack(side='left',padx=5)
+        ttk.Button(bar,text='刷新',command=lambda:self._submit(lambda:store_status(self.client),self._store_status,'store_query') if self.client else None).pack(side='left')
+        ttk.Button(bar,text='清空DDR仓库',command=lambda:self.ddr_action(5)).pack(side='right')
+        self._refresh_ddr_list()
+
+    def _refresh_ddr_list(self):
+        self.ddr_ids=list(self.ddr_status.saved) if self.ddr_status else []
+        self.ddr_list.delete(0,'end')
+        for i in self.ddr_ids:self.ddr_list.insert('end',f'帧 #{i:02d}    · DDR中保留（无预览）')
+
+    def replay_selected(self):
+        selected=self.ddr_list.curselection()
+        if len(selected)!=1:self.message.set('请选择一个DDR帧编号进行回放');return
+        self.ddr_action(3,self.ddr_ids[selected[0]])
+
+    def compare_selected(self):
+        selected=[self.ddr_ids[i] for i in self.ddr_list.curselection()]
+        if not selected:self.message.set('请选择需要对比的DDR帧');return
+        self.ddr_action(4,selection=selected)
+
+    def open_gallery(self):
+        if self.gallery is not None and self.gallery.win.winfo_exists():
+            self.gallery.refresh();self.gallery.win.lift()
+        else:self.gallery=Gallery(self.root,self.frame_store)
+
+    def capture_frame(self):self.ddr_action(1)
+    def resume_video(self):self.ddr_action(0)
 
     def _trace(self,direction,raw): self.events.put(('log',f'{direction}  {raw.hex(" ").upper()}'))
 
@@ -191,6 +281,9 @@ class ImageControlApp:
         if self.client:
             backend=self.client
             def disconnected(_):
+                self.frame_frozen=False;self.snapshot_available=False
+                self.ddr_status=None;self.ddr_text.set('DDR仓库：未连接');
+                if self.ddr_window is not None and self.ddr_window.winfo_exists():self._refresh_ddr_list()
                 self.client=None; self.caps=0; self.connection.set('未连接'); self.readback.set('—')
                 self.mode_readback.set('当前模式：—'); self.geometry_readback.set('尚未读取图像设置')
                 self.message.set('已断开。')
@@ -206,22 +299,33 @@ class ImageControlApp:
                 status=backend.get_status()
                 geometry=backend.get_geometry() if status.capabilities & CAP_CROP else None
             except Exception: backend.close(); raise
+            try:backend.snapshot_info=store_status(backend)
+            except (RuntimeError,ValueError,TimeoutError):backend.snapshot_info=None
             return backend,status,geometry
         def connected(result):
             self.client,status,geometry=result
+            self.snapshot_available=self.client.snapshot_info is not None
+            self.frame_frozen=False
+            if self.client.snapshot_info:self._store_status(self.client.snapshot_info)
             self.connection.set('模拟 · 未连接硬件' if self.client.simulated else f'已连接 {port}')
             self._status(status); self.threshold.set(str(status.threshold))
             self.sobel.set(status.sobel_enabled); self.inverted.set(status.inverted)
             self.median.set(status.median_enabled)
+            self.gaussian.set(bool(status.isp_flags&8));self.scharr.set(bool(status.isp_flags&16))
+            self.canny.set(bool(status.isp_flags&32));self.preserve.set(bool(status.isp_flags&64))
             if geometry: self._geometry(geometry); self._load_geometry_draft(geometry)
         self._submit(connect,connected,'connect')
 
     def _status(self,status,announce=True):
         self.caps=status.capabilities; self.readback.set(str(status.threshold))
+        self.advanced_available=bool(status.advanced_capabilities)
         prefix='模拟' if self.client.simulated else '设备'
         mode=('选择性中值滤波 + ' if status.median_enabled else '') + (
             'Sobel 强度 · '+('反相' if status.inverted else '白边黑底') if status.sobel_enabled else
             ('灰度图像' if status.median_enabled else '原始图像'))
+        if status.isp_flags & 32:mode='Canny（两轮邻域连接）'
+        elif status.isp_flags & 16:mode='Scharr 强度'
+        if status.isp_flags & 8:mode='高斯' + ('保边' if status.isp_flags & 64 else '') + ' + ' + mode
         if status.capabilities & CAP_ISP:
             self.mode_readback.set(f'{prefix}已确认：{mode}；黑白反转'+('开启' if status.inverted else '关闭'))
         else:
@@ -243,12 +347,17 @@ class ImageControlApp:
         self.last_interaction=time.monotonic(); backend=self.client
         self._submit(lambda:backend.set_threshold(value),self._status_action,'threshold')
 
-    def apply_isp(self):
+    def apply_isp(self,edge=None):
+        if edge and getattr(self,edge).get():
+            for name in ('sobel','scharr','canny'):
+                if name!=edge:getattr(self,name).set(False)
+        if self.canny.get():self.gaussian.set(True)
         if not self.client or self.resetting or not self.caps & CAP_ISP: return
         enabled,inverted,median=self.sobel.get(),self.inverted.get(),self.median.get()
         backend=self.client
         self.last_interaction=time.monotonic()
-        self._submit(lambda:backend.set_isp(enabled,inverted,median),self._status_action,'isp')
+        args=(enabled,inverted,median,self.gaussian.get(),self.scharr.get(),self.canny.get(),self.preserve.get())
+        self._submit(lambda:backend.set_isp(*args),self._status_action,'isp')
 
     def apply_feature(self,kind):
         if not self.client or self.resetting: return
@@ -287,9 +396,20 @@ class ImageControlApp:
             status,geometry=result; self.resetting=False; self._status(status)
             self.sobel.set(status.sobel_enabled); self.inverted.set(status.inverted)
             self.median.set(status.median_enabled)
+            self.gaussian.set(bool(status.isp_flags&8));self.scharr.set(bool(status.isp_flags&16))
+            self.canny.set(bool(status.isp_flags&32));self.preserve.set(bool(status.isp_flags&64))
             if geometry: self._geometry(geometry); self._load_geometry_draft(geometry)
             self.message.set('已恢复默认，Sobel阈值保持不变。')
-        self._submit(backend.reset_defaults,updated,'defaults')
+        def reset_operation():
+            result=backend.reset_defaults()
+            if self.snapshot_available:
+                if backend.simulated:store_control(backend,0)
+                backend.snapshot_info=store_status(backend)
+            return result
+        def reset_updated(result):
+            updated(result)
+            if self.snapshot_available:self._store_status(backend.snapshot_info)
+        self._submit(reset_operation,reset_updated,'defaults')
 
     def _poll(self):
         # Only one short status request; geometry is read after commands, not every poll.
@@ -305,6 +425,7 @@ class ImageControlApp:
             self.root.after_cancel(timer)
         def cleanup():
             if client: client.close()
+            self.hdmi_source.close()
             while not self.events.empty():
                 item=self.events.get_nowait()
                 if item[0]=='done':
