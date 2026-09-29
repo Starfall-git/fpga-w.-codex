@@ -1,7 +1,7 @@
 //  by CrazyBird
 module axi4_ctrl #(
 	/* V0.5 / 19: select transform reader; legacy sequential reader retained below. */
-    parameter C_TRANSFORM = 0, IMAGE_WIDTH = 1280, IMAGE_HEIGHT = 720,
+    parameter C_FRAME_STORE = 0, C_SNAPSHOT = 0, C_TRANSFORM = 0, IMAGE_WIDTH = 1280, IMAGE_HEIGHT = 720,
 	parameter 	C_ID_LEN      = 8, 
 			C_DATA_LEN    = 128, 
 			C_DATA_SIZE   = 4, 	//	C_DATA_LEN=8:0, 16:1, 32:2, 64:3, 128:4, 256:5, 512:6, 1024:7
@@ -74,6 +74,18 @@ module axi4_ctrl #(
     output wire     [C_R_WIDTH-1:0]      rframe_data     ,
     
     /* V0.5 / 20: stable system-domain geometry mailbox and return acknowledgement. */
+    /* V0.14 / 65: asynchronous level request, acknowledged at reader boundary.
+       Writer already excludes rc_rframe_index; holding it pins the DDR frame. */
+    /* V0.15 / 70: control-only DDR warehouse mailbox. */
+    input wire store_toggle_i,
+    input wire [31:0] store_command_i,
+    output wire store_ack_o,
+    output wire [7:0] store_result_o,
+    output wire [11:0] store_saved_o,
+    output wire [1:0] store_mode_o,
+    output wire [3:0] store_display_o,
+    input wire freeze_request_i,
+    output wire frozen_o,
     input wire [97:0] geometry_i,
     input wire geometry_toggle_i,
     output wire geometry_ack_o,
@@ -113,52 +125,30 @@ module axi4_ctrl #(
 	
 	////////////////////////////////////////////////////////////////
 	//	R/W Schedule
-	reg	[1:0] 	rc_wframe_index;
-	reg	[1:0] 	rc_rframe_index;
-
-	//	Use 4 data buffers to simplify control. 
-	wire 	[1:0] 	w_wframe_index_p1 = rc_wframe_index + 1; 
-	wire 	[1:0] 	w_wframe_index_next = (w_wframe_index_p1 == rc_rframe_index) ? rc_wframe_index + 2 : rc_wframe_index + 1; 
-
-	reg 	[1:0] 	r_wframe_index_last = 0; 
-	
-	reg 			r_wframe_inc = 0;
-    /* V0.5: frame ownership advances only after the reader drains old AXI work. */
+    /* V0.14 / 65: scheduler extracted for ownership/freeze regression. */
+    localparam FRAME_BITS=C_FRAME_STORE ? 4 : 2;
+    wire [FRAME_BITS-1:0] rc_wframe_index,rc_rframe_index;
+    wire [11:0] compare_mask;
+    reg r_wframe_inc=0;
     wire r_rframe_inc;
+    generate if(C_FRAME_STORE) begin: g_store
+      ddr_frame_store u_store(.clk(axi_clk),.reset(axi_reset),
+       .write_done(r_wframe_inc),.read_boundary(r_rframe_inc),
+       .command_toggle_i(store_toggle_i),.command_i(store_command_i),
+       .command_ack_o(store_ack_o),.result_o(store_result_o),
+       .write_index(rc_wframe_index),.read_index(rc_rframe_index),
+       .saved_o(store_saved_o),.compare_o(compare_mask),.mode_o(store_mode_o));
+      assign store_display_o=rc_rframe_index;
+      assign frozen_o=store_mode_o!=0;
+    end else begin: g_legacy_owner
+      ddr_frame_owner #(.SNAPSHOT_ENABLE(C_SNAPSHOT)) u_frame_owner (
+       .clk(axi_clk),.reset(axi_reset),.write_done(r_wframe_inc),
+       .read_boundary(r_rframe_inc),.freeze_request(freeze_request_i),
+       .write_index(rc_wframe_index),.read_index(rc_rframe_index),.frozen(frozen_o));
+      assign store_ack_o=0;assign store_result_o=0;assign store_saved_o=0;
+      assign store_mode_o=0;assign store_display_o=0;assign compare_mask=0;
+    end endgenerate
 
-	always @(posedge axi_clk) begin
-		if(axi_reset) begin
-			rc_wframe_index <= 2'b0;
-			rc_rframe_index <= 2'd2;
-			r_wframe_index_last <= 0; 
-			
-		end else begin
-			rc_wframe_index <= rc_wframe_index; 
-			rc_rframe_index <= rc_rframe_index; 
-			
-			//	When wfifo_rd_rst_busy_neg, write pointer increments. When rfifo_wr_rst_busy_neg, read pointer increments. 
-			case ({r_rframe_inc, r_wframe_inc})
-				2'b01: begin
-						//	Write increment only. 
-						rc_wframe_index <= w_wframe_index_next; 	//	Use 4 buffers. 
-						r_wframe_index_last <= rc_wframe_index; 
-					end
-				2'b10: begin
-						//	Use r_wframe_index_last. 
-						rc_rframe_index <= r_wframe_index_last; 
-					end
-				2'b11: begin
-						//	Update write & read pointer simutaneously. 
-						rc_wframe_index <= w_wframe_index_next; 	//	Use 4 buffers. 
-						rc_rframe_index <= rc_wframe_index; 		
-					end
-			endcase
-			
-		end
-	end
-	
-	
-	
 	////////////////////////////////////////////////////////////////
 	//	AXI Writter
 
@@ -368,7 +358,8 @@ module axi4_ctrl #(
    The transform branch owns AR/R and keeps the existing writer/frame scheduler. */
 generate if(C_TRANSFORM) begin: Gen_Transform
     axi_transform_reader #(.WIDTH(IMAGE_WIDTH),.HEIGHT(IMAGE_HEIGHT),
-        .BUF_BITS(C_BUF_SIZE),.BASE_ADDR(C_BASE_ADDR)) u_transform (
+        .BUF_BITS(C_BUF_SIZE),.BASE_ADDR(C_BASE_ADDR),.FRAME_BITS(FRAME_BITS),.COMPARE_ENABLE(C_FRAME_STORE)) u_transform (
+        .compare_i(store_mode_o==3),.compare_mask_i(compare_mask),
         .axi_clk(axi_clk),.axi_reset(axi_reset),.frame_index_i(rc_rframe_index),
         .frame_switch_o(r_rframe_inc),.araddr_o(axi_araddr),.arlen_o(axi_arlen),
         .arvalid_o(axi_arvalid),.arready_i(axi_arready),.rdata_i(axi_rdata),

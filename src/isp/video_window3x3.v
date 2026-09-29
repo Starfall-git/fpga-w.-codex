@@ -9,35 +9,37 @@ RAM 不复位，依靠窗口有效标志阻止旧帧/未初始化数据进入结
 */
 module video_window3x3 #(
     parameter IMAGE_WIDTH = 1280,
+    /* V0.16 / 76: generic sample width for Canny magnitude/direction and labels. */
+    parameter DATA_WIDTH = 8,
     parameter VS_ACTIVE = 1'b0,
     /* V0.10 / 50: additional input-side halo for downstream edge filters. */
     parameter MIN_VALID_XY = 2
 )(
     input wire clk,
     input wire rst_n,
-    input wire [7:0] gray_i,
+    input wire [DATA_WIDTH-1:0] gray_i,
     /* V0.10 / 48: each input sample carries validity through both line RAMs.
        Earlier window_valid only checked coordinates, so zero-filled Median borders
        were treated as image pixels by the following Sobel stage. */
     input wire pixel_valid_i,
     input wire hs_i, vs_i, de_i,
-    output reg [71:0] pixels_o,
+    output reg [9*DATA_WIDTH-1:0] pixels_o,
     output reg hs_o, vs_o, de_o,
     output reg window_valid_o
 );
-    reg [7:0] line1 [0:IMAGE_WIDTH-1];
-    reg [7:0] line2 [0:IMAGE_WIDTH-1];
+    reg [DATA_WIDTH-1:0] line1 [0:IMAGE_WIDTH-1];
+    reg [DATA_WIDTH-1:0] line2 [0:IMAGE_WIDTH-1];
     reg line1_valid [0:IMAGE_WIDTH-1];
     reg line2_valid [0:IMAGE_WIDTH-1];
-    reg [7:0] row1_q, row2_q;
+    reg [DATA_WIDTH-1:0] row1_q, row2_q;
     reg row1_valid_q, row2_valid_q;
     reg [11:0] x, y, x_q, y_q;
-    reg [7:0] gray_q;
+    reg [DATA_WIDTH-1:0] gray_q;
     reg gray_valid_q;
     reg hs_q, vs_q, de_q;
-    reg [7:0] top_left2, top_left1;
-    reg [7:0] mid_left2, mid_left1;
-    reg [7:0] bot_left2, bot_left1;
+    reg [DATA_WIDTH-1:0] top_left2, top_left1;
+    reg [DATA_WIDTH-1:0] mid_left2, mid_left1;
+    reg [DATA_WIDTH-1:0] bot_left2, bot_left1;
     reg top_left2_valid, top_left1_valid;
     reg mid_left2_valid, mid_left1_valid;
     reg bot_left2_valid, bot_left1_valid;

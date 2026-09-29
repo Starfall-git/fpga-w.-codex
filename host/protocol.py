@@ -130,11 +130,13 @@ def percent_ratio(text: str) -> tuple[int, int]:
     return ratio.numerator, ratio.denominator
 
 
-def isp_payload(enabled: bool, inverted: bool, median: bool = False) -> bytes:
+def isp_payload(enabled: bool, inverted: bool, median: bool = False, gaussian=False, scharr=False, canny=False, preserve=False) -> bytes:
     # V0.9 / 45: retain the first two bits for older firmware.
-    if any(type(value) is not bool for value in (enabled, inverted, median)):
+    if any(type(value) is not bool for value in (enabled, inverted, median, gaussian, scharr, canny, preserve)):
         raise ValueError("Sobel、反相和中值滤波状态必须为布尔值")
-    return bytes((int(enabled) | (int(inverted)<<1) | (int(median)<<2),))+bytes(7)
+    gaussian=gaussian or canny  # Canny always includes Gaussian pre-smoothing.
+    if sum((enabled,scharr,canny))>1:raise ValueError('Sobel、Scharr、Canny只能选择一个')
+    return bytes((int(enabled)|(int(inverted)<<1)|(int(median)<<2)|(int(gaussian)<<3)|(int(scharr)<<4)|(int(canny)<<5)|(int(preserve)<<6),))+bytes(7)
 
 
 @dataclass(frozen=True)
@@ -144,6 +146,7 @@ class DeviceStatus:
     version: int
     capabilities: int
     isp_flags: int = 0
+    advanced_capabilities: int = 0
 
     @property
     def sobel_enabled(self): return bool(self.isp_flags & 1)
@@ -157,11 +160,11 @@ class DeviceStatus:
     @classmethod
     def from_frame(cls, frame: Frame):
         status = cls(frame.payload[0], int.from_bytes(frame.payload[1:3], "little"),
-                     frame.payload[3], frame.payload[4], frame.payload[5])
+                     frame.payload[3], frame.payload[4], frame.payload[5], frame.payload[6])
         if status.version != PROTOCOL_VERSION:
             raise ValueError(f"协议版本不匹配：设备为 {status.version}")
         # V0.9 / 45: bit2 is valid only when capability bit7 is advertised.
-        if (status.threshold > 4095 or any(frame.payload[6:]) or status.isp_flags>7 or
+        if (status.threshold > 4095 or frame.payload[7] or status.advanced_capabilities not in (0,15) or status.isp_flags>(127 if status.advanced_capabilities else 7) or
                 (status.isp_flags and not status.capabilities & CAP_ISP) or
                 (status.median_enabled and not status.capabilities & CAP_MEDIAN)):
             raise ValueError("设备状态字段不合法")

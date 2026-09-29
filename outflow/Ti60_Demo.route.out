@@ -1,0 +1,175 @@
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Router Setup
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : [Setup Parallel Routing Scheduler]
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Route Circuit with 32 threads
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Beneficial skew enabled! Optimizing clock skews ... 
+INFO     : Non-legalized beneficial skew improved geomean CPD by 1.10% (from 2998ps to 2965ps)
+INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1921ps to 1921ps)
+INFO     : CSS improved CPD of clock core_clk by 0.00% (from 3689ps to 3689ps)
+INFO     : CSS improved CPD of clock tac_clk by 0.00% (from 1838ps to 1838ps)
+INFO     : CSS improved CPD of clock twd_clk by 0.00% (from 1949ps to 1949ps)
+INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 6530ps to 6530ps)
+INFO     : CSS improved CPD of clock clk_pixel by 0.99% (from 5067ps to 5017ps)
+INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 2593ps to 2593ps)
+INFO     : Discretized beneficial skew improved geomean CPD by 0.17% (from 2998ps to 2993ps in 5 iterations and 0.4 sec)
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Overridding delay budgets for 342 synchronizer-related pins
+INFO     : Iter  1: overlap=21247   heapops=2643386    (0%) cpd=381   frr=1.00  msec=1662
+INFO     : [Setup Delay Budgets | 402.3 ms]
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Hold Fixing
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Total min wire delay:   4059061
+INFO     : Hold fix wire delay:         98
+INFO     : Hold fix delay ratio:     0.00%
+INFO     : Pins requiring hold fix:  0.00%
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Iter  2: overlap=9138    heapops=1927396    (35%) cpd=381   frr=1.00  msec=491
+INFO     : Iter  3: overlap=5733    heapops=1482288    (49%) cpd=381   frr=1.00  msec=415
+INFO     : Iter  4: overlap=3508    heapops=1149296    (62%) cpd=381   frr=1.00  msec=349
+INFO     : Iter  5: overlap=1817    heapops=857590     (68%) cpd=381   frr=1.00  msec=304
+INFO     : Iter  6: overlap=846     heapops=500339     (77%) cpd=381   frr=1.00  msec=218
+INFO     : Iter  7: overlap=371     heapops=302106     (82%) cpd=381   frr=1.00  msec=167
+INFO     : [Rebuild Parallel Routing Scheduler]
+INFO     : Iter  8: overlap=108     heapops=164308     (86%) cpd=381   frr=1.00  msec=174
+INFO     : Iter  9: overlap=31      heapops=108053     (88%) cpd=381   frr=1.00  msec=123
+INFO     : Iter 10: overlap=8       heapops=75180      (88%) cpd=381   frr=1.00  msec=107
+INFO     : Iter 11: overlap=1       heapops=83923      (88%) cpd=381   frr=1.00  msec=114
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Beneficial skew enabled! Optimizing clock skews ... 
+INFO     : Non-legalized beneficial skew improved geomean CPD by 0.00% (from 3265ps to 3265ps)
+INFO     : CSS improved CPD of clock tdqss_clk by 0.00% (from 1921ps to 1921ps)
+INFO     : CSS improved CPD of clock core_clk by 0.00% (from 3993ps to 3993ps)
+INFO     : CSS improved CPD of clock tac_clk by 0.00% (from 2021ps to 2021ps)
+INFO     : CSS improved CPD of clock twd_clk by 0.00% (from 1992ps to 1992ps)
+INFO     : CSS improved CPD of clock clk_sys by 0.00% (from 7184ps to 7184ps)
+INFO     : CSS improved CPD of clock clk_pixel by -0.73% (from 6887ps to 6937ps)
+INFO     : CSS improved CPD of clock cmos_pclk by 0.00% (from 2593ps to 2593ps)
+INFO     : Discretized beneficial skew improved geomean CPD by -0.12% (from 3265ps to 3269ps in 1 iterations and 0.4 sec)
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Iter 12: overlap=0       heapops=44230      (88%) cpd=381   frr=1.00  msec=493
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Routing Result
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Routing Succeeded in 5.87 seconds taking 12 iterations! 
+INFO     : 
+INFO     : First iteration critical path delay = 0.381 ns 
+INFO     : Last iteration critical path delay  = 0.381 ns (ratio = 1.00)
+INFO     : Max Routing Heap Size = 19,484
+INFO     : Routing trace written to file 'C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/outflow/Ti60_Demo.troutingtraces' 
+INFO     : ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INFO     : Routing took 13.9165993 seconds [FlowMsg::StageDuration]
+INFO     :     Routing took 34.0625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Routing virtual memory usage: begin = 140.332 MB, end = 304.996 MB, delta = 164.664 MB [FlowMsg::VMUsage]
+INFO     :     Routing peak virtual memory usage = 419.692 MB [FlowMsg::VMUsage::Peak]
+INFO     : Routing resident set memory usage: begin = 159.092 MB, end = 316.564 MB, delta = 157.472 MB [FlowMsg::RSSUsage]
+INFO     :     Routing peak resident set memory usage = 415.972 MB [FlowMsg::RSSUsage::Peak]
+           ***** Beginning stage final timing analysis ... *****
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:3] No valid object(s) found for 'clk_cam_feedback'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:3] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:3] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:26] No valid object(s) found for 'clk_pixel_2x'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:26] No valid pin(s) found for clock
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:26] Unable to run 'create_clock' constraint due to warnings found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:33] set_clock_groups: Defaulting to -exclusive since none of the required option was specified
+WARNING  : No ports matched 'cmos_data[0]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:68] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:68] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'cmos_data[0]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:69] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:69] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'cmos_data[1]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:70] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:70] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'cmos_data[1]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:71] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:71] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:331] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:331] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_hi[0]'
+WARNING  : No ports matched 'i_dqs_n_lo[0]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:332] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:332] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:337] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:337] Unable to run 'set_input_delay' constraint due to warnings found
+WARNING  : No ports matched 'i_dqs_n_hi[1]'
+WARNING  : No ports matched 'i_dqs_n_lo[1]'
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:338] set_input_delay: No valid input port(s) found
+WARNING  : [SDC C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc:338] Unable to run 'set_input_delay' constraint due to warnings found
+INFO     : SDC file 'C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/Ti60_Demo.pt.sdc' parsed successfully.
+Maximum possible analyzed clocks frequency
+ Clock Name  Period (ns)  Frequency (MHz)     Edge
+ tdqss_clk      2.031        492.368         (R-R)
+ core_clk       4.103        243.724         (R-R)
+ tac_clk        2.131        469.263         (R-R)
+ twd_clk        2.102        475.737         (R-R)
+ clk_sys        7.294        137.099         (R-R)
+ clk_pixel      7.047        141.904         (R-R)
+ cmos_pclk      5.406        184.980         (F-R)
+
+Geomean max period: 3.747
+
+Setup (Max) Clock Relationship
+  Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
+   tdqss_clk        tdqss_clk           2.604            0.573           (R-R)
+   tdqss_clk        core_clk            2.604            2.244           (R-R)
+   core_clk         tdqss_clk           2.604            1.244           (R-R)
+   core_clk         core_clk            5.208            1.105           (R-R)
+   core_clk         tac_clk             2.604            2.111           (R-R)
+   core_clk         twd_clk             0.541            0.160           (R-R)
+   tac_clk          core_clk            2.604            2.233           (R-R)
+   tac_clk          tac_clk             2.604            0.473           (R-R)
+   twd_clk          twd_clk             2.604            0.502           (R-R)
+   clk_sys          clk_sys            10.417            3.123           (R-R)
+   clk_pixel        clk_pixel          13.441            6.394           (R-R)
+   cmos_pclk        cmos_pclk          13.468           10.656           (R-R)
+   cmos_pclk        cmos_pclk           6.734            4.031           (F-R)
+
+Hold (Min) Clock Relationship
+  Launch Clock    Capture Clock   Constraint (ns)     Slack (ns)          Edge
+   tdqss_clk        tdqss_clk           0.000           0.094            (R-R)
+   tdqss_clk        core_clk            0.000           0.076            (R-R)
+   core_clk         tdqss_clk           0.000           0.161            (R-R)
+   core_clk         core_clk            0.000           0.031            (R-R)
+   core_clk         tac_clk             0.000           0.157            (R-R)
+   core_clk         twd_clk            -1.883           2.115            (R-R)
+   tac_clk          core_clk            0.000           0.080            (R-R)
+   tac_clk          tac_clk             0.000           0.027            (R-R)
+   twd_clk          twd_clk             0.000           0.052            (R-R)
+   clk_sys          clk_sys             0.000           0.035            (R-R)
+   clk_pixel        clk_pixel           0.000           0.034            (R-R)
+   cmos_pclk        cmos_pclk           0.000           0.097            (R-R)
+   cmos_pclk        cmos_pclk          -6.734           8.092            (F-R)
+
+INFO     : Write Timing Report to "C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/outflow\Ti60_Demo.timing.rpt" ...
+INFO     : final timing analysis took 6.2982668 seconds [FlowMsg::StageDuration]
+INFO     :     final timing analysis took 7 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : final timing analysis virtual memory usage: begin = 293.324 MB, end = 335.004 MB, delta = 41.68 MB [FlowMsg::VMUsage]
+INFO     :     final timing analysis peak virtual memory usage = 419.692 MB [FlowMsg::VMUsage::Peak]
+INFO     : final timing analysis resident set memory usage: begin = 304.076 MB, end = 345.352 MB, delta = 41.276 MB [FlowMsg::RSSUsage]
+INFO     :     final timing analysis peak resident set memory usage = 415.972 MB [FlowMsg::RSSUsage::Peak]
+           ***** Ending stage final timing analysis *****
+           
+           ***** Beginning stage bitstream generation ... *****
+INFO     : Reading core interface constraints file "C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileReading]
+INFO     : Successfully read core interface constraints file "C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/outflow/Ti60_Demo.interface.csv" [DBMsg::CoreInterfaceConstraintsFileLoadSuccess]
+INFO     : Finished writing bitstream file C:/Users/francis/Downloads/fpga-w.-codex-ar0135-sobel-median-host_v5 (1)/fpga-w.-codex-ar0135-sobel-median-host_v5/work_pnr\Ti60_Demo.lbf.
+INFO     : Bitstream generation took 2.4048135 seconds [FlowMsg::StageDuration]
+INFO     :     Bitstream generation took 1.53125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Bitstream generation virtual memory usage: begin = 278.292 MB, end = 376.02 MB, delta = 97.728 MB [FlowMsg::VMUsage]
+INFO     :     Bitstream generation peak virtual memory usage = 419.692 MB [FlowMsg::VMUsage::Peak]
+INFO     : Bitstream generation resident set memory usage: begin = 290.632 MB, end = 390.08 MB, delta = 99.448 MB [FlowMsg::RSSUsage]
+INFO     :     Bitstream generation peak resident set memory usage = 415.972 MB [FlowMsg::RSSUsage::Peak]
+INFO     : The entire flow of EFX_PNR took 55.9014427 seconds [FlowMsg::StageDuration]
+INFO     :     The entire flow of EFX_PNR took 143.109375 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : The entire flow of EFX_PNR virtual memory usage: begin = 20.092 MB, end = 376.02 MB, delta = 355.928 MB [FlowMsg::VMUsage]
+INFO     :     The entire flow of EFX_PNR peak virtual memory usage = 419.692 MB [FlowMsg::VMUsage::Peak]
+INFO     : The entire flow of EFX_PNR resident set memory usage: begin = 22.636 MB, end = 390.12 MB, delta = 367.484 MB [FlowMsg::RSSUsage]
+INFO     :     The entire flow of EFX_PNR peak resident set memory usage = 415.972 MB [FlowMsg::RSSUsage::Peak]

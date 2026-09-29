@@ -1,12 +1,16 @@
 # vsim -c work.transform_reader_tb "+VECTORS=vectors.txt" -do "run -all; quit -f" -gWIDTH=32 -gHEIGHT=16 
-# Start time: 14:37:39 on Sep 22,2026
+# Start time: 22:10:34 on Sep 28,2026
 # Loading sv_std.std
 # Loading work.transform_reader_tb
 # Loading work.axi_transform_reader
 # Loading work.unsigned_divider
+# ** Warning: (vsim-3017) C:/Users/francis/Desktop/fpga-w.-codex/testbench/transform_reader_tb.sv(21): [TFMPC] - Too few port connections. Expected 23, found 21.
+#    Time: 0 ps  Iteration: 0  Instance: /transform_reader_tb/dut File: C:/Users/francis/Desktop/fpga-w.-codex/src/isp/axi_transform_reader.v
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/transform_reader_tb.sv(21): [TFMPC] - Missing connection for port 'compare_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/transform_reader_tb.sv(21): [TFMPC] - Missing connection for port 'compare_mask_i'.
 # run -all
-# PASS TRANSFORM: 62 cases, 31744 pixels, 752 bursts, 65 frames, faults/drain/backpressure
-# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/transform_reader_tb.sv(120)
-#    Time: 2585800 ns  Iteration: 1  Instance: /transform_reader_tb
-# End time: 14:37:40 on Sep 22,2026, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 0
+# PASS TRANSFORM: 70 cases, 35840 pixels, 850 bursts, 73 frames, faults/drain/backpressure
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/transform_reader_tb.sv(124)
+#    Time: 2856860160 ps  Iteration: 1  Instance: /transform_reader_tb
+# End time: 22:10:35 on Sep 28,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 3

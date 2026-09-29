@@ -97,6 +97,41 @@
 55. 新增彩色/黑白、方向梯度、阈值、反相及边界回归，更新工程文件与算法使用说明。
 ////--------------------2026-09-24-V0.11:参考八方向Sobel与独立灰度转换------------------------------
 */
+/*
+////--------------------2026-09-28-V0.13:保留灰度轮廓的保守降噪与方向修正------------------------------
+61. 用户已撤回V0.12：其二值输出和提高灰度门限造成弱边缘丢失；本版基于恢复后的柔和灰度版本，保留video_processing、灰度模块与Sobel源码。
+62. 仅将AR0135的3040从8000改为C000，修正左右方向并保留上下方向；GUI几何翻转不变。
+63. 中值分支新增相似亮度邻域混合，默认邻域差值不超过8、单像素修正不超过2级；原孤立点替换优先，13拍同步不变。
+64. 增加关闭新增处理的基线对照、弱轮廓与强细线保真及平坦场噪声回归；分别记录RTL正确性与尚待上板确认的画质效果。
+////--------------------2026-09-28-V0.13:保留灰度轮廓的保守降噪与方向修正------------------------------
+*/
+/*
+////--------------------2026-09-28-V0.14:DDR冻结帧与图片仓库编辑对比------------------------------
+65. 抽取四帧DDR所有权模块，在读帧边界锁定当前帧；写入器继续使用其他帧，恢复实时后解除锁定。
+66. 新增处理后RGB逐行采集缓存及UART 30能力查询、31冻结恢复、32读行命令，逐行CRC16保护，冻结期间锁定图像配置。
+67. Python增加真实像素下载、进度和取消、PNG原子保存及持久仓库；DDR保留当前冻结帧，多帧历史保存到电脑。
+68. GUI新增冻结帧合集、缩略图编辑、画笔批注、框选裁剪、缩放翻转镜像、另存与下载；多图对比自适应排列。
+69. 增加DDR所有权、UART像素传输和CRC仿真，以及仓库编辑和GUI回归；保留既有ISP处理算法及同步结构。
+////--------------------2026-09-28-V0.14:DDR冻结帧与图片仓库编辑对比------------------------------
+*/
+/*
+////--------------------2026-09-28-V0.15:DDR多帧仓库回放对比与HDMI采集预留------------------------------
+70. 新增12槽DDR帧所有权管理，最多保存8帧；帧冻结保存但直播继续，暂停、继续、编号回放和清空在帧边界确认。
+71. 移除UART像素回传及行缓存，30/31升级为V2仓库状态与控制，32返回未实现；默认命令恢复直播但保留已存帧和阈值。
+72. DDR读出器新增1至8帧自适应等比例拼图，1280x720 HDMI显示；保留既有单帧几何变换及ISP分模块。
+73. GUI新增DDR帧编号列表、容量、暂停继续、回放和HDMI对比；本地图片仓库保留，预留非阻塞HDMI采集源接口。
+74. 编辑器增加拖动和方向键平移、自适应居中及等比例铺满；视图移动与原图坐标编辑分离。
+75. 增加UART仓库/容量/防覆盖和720p多帧逐像素及扫描线时限回归，更新接口及上板验证说明。
+////--------------------2026-09-28-V0.15:DDR多帧仓库回放对比与HDMI采集预留------------------------------
+*/
+/*
+////--------------------2026-09-29-V0.16:高斯保边降噪与Scharr及流式Canny------------------------------
+76. 新增可旁路3x3高斯滤波及可选亮度范围门控保边模式；通用窗口新增DATA_WIDTH参数，默认8位不变。
+77. 新增归一化Scharr强度输出和流式Canny：方向非极大值抑制、双阈值、两轮八邻域连接，明确区别于全帧递归滞后。
+78. ISP模式邮箱扩至7位，串口应答增加扩展能力字段；GUI新增高斯/保边/Scharr/Canny开关，边缘算法互斥，Canny自动高斯。
+79. video_processing继续实例化分模块，所有路径统一24拍；新增独立像素参考、噪声与弱边缘测试，并验证关闭新功能后旧Sobel像素不变。
+////--------------------2026-09-29-V0.16:高斯保边降噪与Scharr及流式Canny------------------------------
+*/
 //`include "ddr3_controller.vh"
 
 
@@ -974,6 +1009,12 @@ module example_top #(
     wire [97:0] transform_geometry;
     wire transform_toggle, transform_ack;
     wire [1:0] transform_faults;
+    /* V0.14 / 65: DDR frame pin and boundary acknowledgement. */
+    wire frame_frozen;
+    /* V0.15 / 70: stable command mailbox and DDR warehouse status. */
+    wire [31:0] store_command;wire store_toggle,store_ack;
+    wire [7:0] store_result;wire [11:0] store_saved;
+    wire [1:0] store_mode;wire [3:0] store_display;
 
 
 	assign w_ddr3_awid = 0; 
@@ -986,7 +1027,7 @@ module example_top #(
     /* V0.2：DDR 读取帧长度由 1920x1080x2 恢复为 1280x720x2 字节。 */
 	axi4_ctrl #(
     /* V0.5 / 19: select line-buffer transform reader; legacy branch remains in axi4_ctrl. */
-    .C_TRANSFORM(1), .IMAGE_WIDTH(1280), .IMAGE_HEIGHT(720),
+    .C_FRAME_STORE(1),.C_SNAPSHOT(0), .C_TRANSFORM(1), .IMAGE_WIDTH(1280), .IMAGE_HEIGHT(720),
     .C_RD_END_ADDR(1280 * 2 * 720), 
     .C_W_WIDTH(16) /* V0.7 / 33: was 8-bit OV5640 byte stream. */,
     .C_R_WIDTH(16), 
@@ -1036,6 +1077,10 @@ module example_top #(
 		.rframe_data    (lcd_data           ),
 
         /* V0.5 / 20: complete configuration, stable until acknowledged after frame setup. */
+        .store_command_i(store_command),.store_toggle_i(store_toggle),
+    .store_ack_o(store_ack),.store_result_o(store_result),.store_saved_o(store_saved),
+    .store_mode_o(store_mode),.store_display_o(store_display),
+    .freeze_request_i(1'b0), .frozen_o(frame_frozen),
         .geometry_i(transform_geometry), .geometry_toggle_i(transform_toggle),
         .geometry_ack_o(transform_ack), .transform_faults_o(transform_faults),
 		
@@ -1152,10 +1197,12 @@ module example_top #(
     /* V0.6 / 25: applied pixel-domain mode outputs, not compile-time parameters. */
     /* V0.9 / 41,44: Median 与 Sobel 分别由像素域配置控制。 */
     wire ENABLE_SOBEL, ENABLE_MEDIAN, BINARY_OUTPUT;
+    wire ENABLE_GAUSSIAN,ENABLE_SCHARR,ENABLE_CANNY,PRESERVE_EDGES;
     wire processed_hs, processed_vs, processed_de;
     /* V0.4 / 14~16：UART/按键共同控制；输出阈值已经安全进入像素时钟域。
        processed_vs低有效时处于场消隐，处理流水中已没有上一帧有效像素。 */
     uart_image_control #(
+        .SNAPSHOT_ENABLE(1),
         .CLOCK_HZ(CLOCK_MAIN), .BAUD(UART_BAUD),
         .DEBOUNCE_CYCLES(CLOCK_MAIN/50)
     ) u_image_control (
@@ -1164,9 +1211,14 @@ module example_top #(
         .frame_blank_i(!processed_vs), .threshold_pixel_o(SOBEL_THRESHOLD),
         .enable_sobel_o(ENABLE_SOBEL), .binary_output_o(BINARY_OUTPUT),
         .enable_median_o(ENABLE_MEDIAN),
+        .enable_gaussian_o(ENABLE_GAUSSIAN),.enable_scharr_o(ENABLE_SCHARR),
+        .enable_canny_o(ENABLE_CANNY),.preserve_edges_o(PRESERVE_EDGES),
         /* V0.5 / 22: UART now controls DDR source geometry as well as Sobel threshold. */
         .geometry_o(transform_geometry), .geometry_toggle_o(transform_toggle),
-        .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults)
+        .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults),
+        .store_command_o(store_command),.store_toggle_o(store_toggle),
+        .store_ack_i(store_ack),.store_result_i(store_result),.store_saved_i(store_saved),
+        .store_mode_i(store_mode),.store_display_i(store_display)
     );
     video_processing #(
         .IMAGE_WIDTH(1280),
@@ -1178,6 +1230,8 @@ module example_top #(
         .clk(clk_pixel), .rst_n(rstn_pixel),
         .SOBEL_THRESHOLD(SOBEL_THRESHOLD),
         .ENABLE_SOBEL(ENABLE_SOBEL), .ENABLE_MEDIAN(ENABLE_MEDIAN),
+        .ENABLE_GAUSSIAN(ENABLE_GAUSSIAN),.ENABLE_SCHARR(ENABLE_SCHARR),
+        .ENABLE_CANNY(ENABLE_CANNY),.PRESERVE_EDGES(PRESERVE_EDGES),
         .BINARY_OUTPUT(BINARY_OUTPUT),
         .rgb_i({lcd_red, lcd_green, lcd_blue}),
         .hs_i(lcd_hs), .vs_i(lcd_vs), .de_i(lcd_de),

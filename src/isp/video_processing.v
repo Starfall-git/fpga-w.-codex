@@ -3,7 +3,8 @@
 2026-09-18 V0.3 新增：DDR 显示数据至 HDMI 之间的图像处理封装。
 接口统一为 clk/rst_n + RGB888/HS/VS/DE；每拍一个像素，没有 ready/反压。
 V0.9：ENABLE_MEDIAN 与 ENABLE_SOBEL 独立选择原图、Median、Sobel、Median+Sobel。
-四条输出路径均延迟 13 拍；控制信号由串口在场消隐边界提交。
+V0.16：所有路径扩至24拍；新增功能关闭时保持原像素结果，仅延迟增加11拍。
+控制信号由串口在场消隐边界提交。
 后续高斯滤波等模块可在本封装中串联，必须同时传递 RGB 和全部同步信号。
 */
 module video_processing #(
@@ -24,6 +25,8 @@ module video_processing #(
     input  wire			rst_n,
     /* V0.9 / 41: 新增独立中值滤波开关，复位默认关闭，由像素域邮箱驱动。 */
     input  wire			ENABLE_SOBEL, ENABLE_MEDIAN, BINARY_OUTPUT,
+    /* V0.16 / 76-78: independently bypassable denoise; exclusive edge selection. */
+    input wire ENABLE_GAUSSIAN, ENABLE_SCHARR, ENABLE_CANNY, PRESERVE_EDGES,
 	/* V0.4 / 13、15：保留用户改为变量的阈值接口；输入须已同步到本clk域。 */
     input  wire [11:0]	SOBEL_THRESHOLD,
 
@@ -53,20 +56,20 @@ module video_processing #(
        原始 RGB 到最终 Sobel 同步相差 13 拍；原图仍保留全部颜色。 */
     reg [7:0] gray_delay [0:4];
     /* V0.11 / 54: 灰度由一拍改为三拍，原图旁路同步扩为13拍。 */
-    reg [23:0] original_delay [0:12];
+    reg [23:0] original_delay [0:23];
     integer delay_index;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             for (delay_index=0; delay_index<5; delay_index=delay_index+1)
                 gray_delay[delay_index] <= 0;
-            for (delay_index=0; delay_index<13; delay_index=delay_index+1)
+            for (delay_index=0; delay_index<24; delay_index=delay_index+1)
                 original_delay[delay_index] <= 0;
         end else begin
             gray_delay[0] <= gray;
             for (delay_index=1; delay_index<5; delay_index=delay_index+1)
                 gray_delay[delay_index] <= gray_delay[delay_index-1];
             original_delay[0] <= de_i ? rgb_i : 24'd0;
-            for (delay_index=1; delay_index<13; delay_index=delay_index+1)
+            for (delay_index=1; delay_index<24; delay_index=delay_index+1)
                 original_delay[delay_index] <= original_delay[delay_index-1];
         end
     end
@@ -198,6 +201,15 @@ module video_processing #(
              * ENABLE_MEDIAN=1 时窗口像素来自 Median；否则来自对齐后的原始灰度。
              *-------------------------------------------------*/
 
+            /* V0.16: Gaussian adds three clocks on enabled and bypass paths.
+               Canny always uses pre-smoothing. Existing Sobel arithmetic is untouched. */
+            wire [7:0] filtered;wire fh,fv,fd,fok;
+            video_gaussian #(.IMAGE_WIDTH(IMAGE_WIDTH),.VS_ACTIVE(VS_ACTIVE)) u_gaussian(
+              .clk(clk),.rst_n(rst_n),.enable_i(ENABLE_GAUSSIAN || ENABLE_CANNY),.preserve_i(PRESERVE_EDGES),
+              .gray_i(ENABLE_MEDIAN ? median_gray : gray_delay[4]),
+              .valid_i(ENABLE_MEDIAN ? median_pixel_valid : median_de),
+              .hs_i(median_hs),.vs_i(median_vs),.de_i(median_de),
+              .gray_o(filtered),.valid_o(fok),.hs_o(fh),.vs_o(fv),.de_o(fd));
             wire [71:0] sobel_window_pixels;
 
             wire sobel_window_hs;
@@ -217,14 +229,14 @@ module video_processing #(
                 .rst_n          (rst_n),
 
                 /* V0.9 / 43: Sobel 前选中值或同拍原始灰度。 */
-                .gray_i         (ENABLE_MEDIAN ? median_gray : gray_delay[4]),
+                .gray_i         (filtered),
                 /* V0.10 / 49: when Median is enabled, suppress all Sobel
                    windows touching its invalid first rows/columns. */
-                .pixel_valid_i  (ENABLE_MEDIAN ? median_pixel_valid : median_de),
+                .pixel_valid_i  (fok),
 
-                .hs_i           (median_hs),
-                .vs_i           (median_vs),
-                .de_i           (median_de),
+                .hs_i           (fh),
+                .vs_i           (fv),
+                .de_i           (fd),
 
                 .pixels_o       (sobel_window_pixels),
 
@@ -274,25 +286,38 @@ module video_processing #(
                 .de_o           (sobel_de)
             );
 
-            /* V0.9 / 42: Median 输出再延迟 5 拍，与 Sobel 末级对齐。
-               原先按模式切换 HS/VS/DE 的组合选择会使 HDMI 同步跳拍，现统一取末级。 */
-            reg [23:0] median_delay [0:4];
-            integer median_index;
+            /* V0.16 / 77: parallel Scharr/streaming Canny. All output paths
+               now share 24-clock timing; disabled new stages preserve old pixels. */
+            wire [23:0] scharr_rgb,canny_rgb;wire ch,cv,cd;
+            video_scharr_canny #(.IMAGE_WIDTH(IMAGE_WIDTH),.VS_ACTIVE(VS_ACTIVE)) u_advanced(
+              .clk(clk),.rst_n(rst_n),.BINARY_OUTPUT(BINARY_OUTPUT),.THRESHOLD(SOBEL_THRESHOLD),
+              .pixels_i(sobel_window_pixels),.window_valid_i(sobel_window_valid),
+              .hs_i(sobel_window_hs),.vs_i(sobel_window_vs),.de_i(sobel_window_de),
+              .scharr_o(scharr_rgb),.canny_o(canny_rgb),.hs_o(ch),.vs_o(cv),.de_o(cd));
+            reg [23:0] edge_delay[0:7];
+            reg [23:0] median_delay[0:15];
+            reg [7:0] filter_delay[0:12];
+            integer j;
             always @(posedge clk or negedge rst_n) begin
-                if (!rst_n)
-                    for (median_index=0; median_index<5; median_index=median_index+1)
-                        median_delay[median_index] <= 0;
-                else begin
-                    median_delay[0] <= median_rgb;
-                    for (median_index=1; median_index<5; median_index=median_index+1)
-                        median_delay[median_index] <= median_delay[median_index-1];
-                end
+              if(!rst_n) begin
+                for(j=0;j<8;j=j+1) edge_delay[j]<=0;
+                for(j=0;j<16;j=j+1) median_delay[j]<=0;
+                for(j=0;j<13;j=j+1) filter_delay[j]<=0;
+              end else begin
+                edge_delay[0]<=ENABLE_SCHARR ? scharr_rgb : sobel_rgb;
+                for(j=1;j<8;j=j+1) edge_delay[j]<=edge_delay[j-1];
+                median_delay[0]<=median_rgb;
+                for(j=1;j<16;j=j+1) median_delay[j]<=median_delay[j-1];
+                filter_delay[0]<=filtered;
+                for(j=1;j<13;j=j+1) filter_delay[j]<=filter_delay[j-1];
+              end
             end
-            assign rgb_o = ENABLE_SOBEL ? sobel_rgb :
-                           ENABLE_MEDIAN ? median_delay[4] : original_delay[12];
-            assign hs_o = sobel_hs;
-            assign vs_o = sobel_vs;
-            assign de_o = sobel_de;
+            assign rgb_o=ENABLE_CANNY ? canny_rgb :
+                (ENABLE_SCHARR || ENABLE_SOBEL) ? edge_delay[7] :
+                ENABLE_GAUSSIAN ? {3{filter_delay[12]}} :
+                ENABLE_MEDIAN ? median_delay[15] : original_delay[23];
+            assign hs_o=ch;assign vs_o=cv;assign de_o=cd;
+
 
 
         end

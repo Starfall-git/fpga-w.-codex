@@ -65,6 +65,7 @@ module uart_control_tb;
         end
     endtask
     integer consumed=0;
+    reg [7:0] expected_flags=0;
     task expect_reply(input [7:0] seq, cmd, status, input [11:0] value);
         integer b;
         reg [7:0] c;
@@ -75,7 +76,7 @@ module uart_control_tb;
                received[consumed+4]!==status ||
                {received[consumed+6],received[consumed+5]}!=={4'd0,value} ||
                received[consumed+7]!==1 || received[consumed+8]!==8'hd1 ||
-               received[consumed+9]!==0 || received[consumed+10]!==0 || received[consumed+11]!==0)
+               received[consumed+9]!==expected_flags || received[consumed+10]!==15 || received[consumed+11]!==0)
                 $fatal(1,"Response mismatch seq=%d status=%d threshold=%d",seq,received[consumed+4],{received[consumed+6],received[consumed+5]});
             c=0;
             for(b=2;b<12;b=b+1) c=crc8(c,received[consumed+b]);
@@ -137,6 +138,14 @@ module uart_control_tb;
         rst=0; #50; rst=1; #500;
         if(threshold!==128) $fatal(1,"Reset");
         send_frame(15,1,0,0); expect_reply(15,1,0,128);
+        // V0.16: flags commit only in blank; Canny implies Gaussian.
+        send_frame(16,8'h11,16,0);#1000;
+        if(count!=consumed)$fatal(1,"mode ACK before blank");
+        blank=1;expected_flags=16;expect_reply(16,8'h11,0,128);
+        send_frame(17,8'h11,32,0);expected_flags=40;expect_reply(17,8'h11,0,128);
+        send_frame(18,8'h11,17,0);expect_reply(18,8'h11,2,128);
+        send_frame(19,8'h11,104,0);expected_flags=104;expect_reply(19,8'h11,0,128);
+        send_frame(20,8'h12,0,0);expected_flags=0;expect_reply(20,8'h12,0,128);
         $display("PASS UART: physical 8N1, CRC, errors, frame-boundary CDC, keys, limits, reset");
         $finish;
     end

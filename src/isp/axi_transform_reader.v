@@ -11,10 +11,13 @@ Source FIFO uses BIG ENDIAN: first RGB565 pixel in an AXI beat is bits127:112.
 Both clocks must reset together. WIDTH must be divisible by 8; AXI is 128 bits.
 */
 module axi_transform_reader #(
-    parameter WIDTH=1280, HEIGHT=720, BUF_BITS=22, BASE_ADDR=0
+    parameter WIDTH=1280, HEIGHT=720, BUF_BITS=22, BASE_ADDR=0, FRAME_BITS=2, COMPARE_ENABLE=0
 )(
     input wire axi_clk, axi_reset,
-    input wire [1:0] frame_index_i,
+    input wire [FRAME_BITS-1:0] frame_index_i,
+    /* V0.15 / 72: DDR contact sheet selected at frame boundary. */
+    input wire compare_i,
+    input wire [11:0] compare_mask_i,
     output reg frame_switch_o,
     output reg [31:0] araddr_o,
     output reg [7:0] arlen_o,
@@ -103,7 +106,7 @@ module axi_transform_reader #(
 
     localparam IDLE=0, FRAME_WAIT=1, FRAME_LATCH=2, PREP0=3, PREP1=4, PREP2=5,
                PREP3=6, PREP4=7, DIV_WAIT=8, ROW_Y=9, ROW_ADDR=10,
-               BURST=11, AR=12, RD=13, RENDER_INIT=14, RENDER=15, DRAIN=16, PUBLISH=17;
+               BURST=11, AR=12, RD=13, RENDER_INIT=14, RENDER=15, DRAIN=16, PUBLISH=17, COMPARE_PREP=18, COMPARE_STEP=19, COMPARE_TILE=20;
     reg [4:0] state, div_return;
     reg div_start;
     reg [31:0] dividend, divisor;
@@ -117,6 +120,30 @@ module axi_transform_reader #(
         input [4:0] next_state;
         begin dividend<=a; divisor<=b; div_start<=1; div_return<=next_state; state<=DIV_WAIT; end
     endtask
+    /* V0.15 / 72: one source row reused per tile; no full-frame BRAM.
+       Up to eight saved slots, 1x1/2x1/2x2/3x2/3x3 aspect-preserving layout.
+       ISP runs after composition; existing single-image geometry stays intact. */
+    reg comparing;
+    reg [3:0] tile_ids[0:7];
+    reg [3:0] tile_count;
+    reg [1:0] tile_col,columns,rows;
+    reg [15:0] cell_w,cell_h,image_w,image_h,inner_x,inner_y,tile_end;
+    integer ci,cn,cc,cr,cw,ch,iw,ih;
+    reg [3:0] packed_ids[0:7];
+    always @* begin
+      cn=0;
+      for(ci=0;ci<8;ci=ci+1) packed_ids[ci]=0;
+      for(ci=0;ci<12;ci=ci+1) if(compare_mask_i[ci]) begin
+        if(cn<8) packed_ids[cn]=ci;
+        cn=cn+1;
+      end
+      cc=cn<=1 ? 1 : cn<=4 ? 2 : 3;
+      cr=cn<=cc ? 1 : cn<=cc*2 ? 2 : 3;
+      cw=cc==1 ? WIDTH : cc==2 ? WIDTH/2 : WIDTH/3;
+      ch=cr==1 ? HEIGHT : cr==2 ? HEIGHT/2 : HEIGHT/3;
+      if(cw*HEIGHT<=ch*WIDTH) begin iw=cw;ih=cw*HEIGHT/WIDTH;end
+      else begin ih=ch;iw=ch*WIDTH/HEIGHT;end
+    end
     reg [97:0] geometry;
     wire [15:0] crop_x=geometry[17:2], crop_y=geometry[33:18];
     wire [15:0] crop_w=geometry[49:34], crop_h=geometry[65:50];
@@ -127,6 +154,10 @@ module axi_transform_reader #(
     reg [15:0] x_initial, rem_initial, x_step, rem_step;
     reg [15:0] source_x_offset, x_remainder;
     reg [11:0] render_x, row_y;
+    wire [1:0] tile_row=row_y>=cell_h*2 ? 2 : row_y>=cell_h ? 1 : 0;
+    wire [3:0] tile_number=tile_row*columns+tile_col;
+    wire [15:0] local_y=row_y-tile_row*cell_h;
+    wire [15:0] mapping_den=comparing ? image_w : zoom_n;
     reg row_black, row_error, axi_error;
     reg [15:0] beat_offset, remaining_beats, burst_beats, beat_count;
     reg [31:0] next_addr;
@@ -135,7 +166,7 @@ module axi_transform_reader #(
     wire [15:0] selected_beats=(capped_beats>page_beats) ? {7'd0,page_beats} : capped_beats;
     wire [16:0] remainder_sum={1'b0,x_remainder}+{1'b0,rem_step};
     wire inside_x=(render_x>=pad_x && render_x<pad_x+visible_w);
-    wire [15:0] mapped_x=geometry[1] ? crop_x+crop_w-1'b1-source_x_offset : crop_x+source_x_offset;
+    wire [15:0] mapped_x=comparing ? source_x_offset : geometry[1] ? crop_x+crop_w-1'b1-source_x_offset : crop_x+source_x_offset;
     reg render_en_d, render_good_d;
     reg [11:0] render_addr_d;
     reg [2:0] lane_d;
@@ -148,6 +179,10 @@ module axi_transform_reader #(
     end
     always @(posedge axi_clk or posedge axi_reset) begin
         if(axi_reset) begin
+            comparing<=0;tile_count<=0;tile_col<=0;columns<=1;rows<=1;
+            cell_w<=WIDTH;cell_h<=HEIGHT;image_w<=WIDTH;image_h<=HEIGHT;
+            inner_x<=0;inner_y<=0;tile_end<=WIDTH-1;
+
             state<=IDLE; frame_switch_o<=0; frame_ack<=0; line_ack<=0; geometry_ack_o<=0;
             frame_meta<=0; frame_sync<=0; line_meta<=0; line_sync<=0; geometry_meta<=0; geometry_sync<=0;
             geometry<=DEFAULT_GEOMETRY; cfg_target<=0; frame_target<=0; line_target<=0;
@@ -173,14 +208,39 @@ module axi_transform_reader #(
                         frame_switch_o<=1; frame_target<=frame_sync; state<=FRAME_WAIT;
                     end else if(line_sync!=line_ack) begin
                         line_target<=line_sync; row_y<=requested_y; render_bank<=requested_y[0];
-                        row_error<=0; state<=ROW_Y;
+                        row_error<=0;tile_col<=0; state<=comparing ? COMPARE_TILE : ROW_Y;
                     end
                 end
                 FRAME_WAIT: state<=FRAME_LATCH;
                 FRAME_LATCH: begin
                     frame_base<=BASE_ADDR+{frame_index_i,{BUF_BITS{1'b0}}};
                     if(geometry_sync!=geometry_ack_o) geometry<=geometry_i;
-                    cfg_target<=geometry_sync; state<=PREP0;
+                    cfg_target<=geometry_sync;
+                    comparing<=COMPARE_ENABLE && compare_i;
+                    if(COMPARE_ENABLE && compare_i) begin
+                      tile_count<=cn;columns<=cc;rows<=cr;cell_w<=cw;cell_h<=ch;
+                      image_w<=iw;image_h<=ih;inner_x<=(cw-iw)/2;inner_y<=(ch-ih)/2;
+                      tile_ids[0]<=packed_ids[0];tile_ids[1]<=packed_ids[1];
+                      tile_ids[2]<=packed_ids[2];tile_ids[3]<=packed_ids[3];
+                      tile_ids[4]<=packed_ids[4];tile_ids[5]<=packed_ids[5];
+                      tile_ids[6]<=packed_ids[6];tile_ids[7]<=packed_ids[7];
+                      state<=COMPARE_PREP;
+                    end else state<=PREP0;
+                end
+                COMPARE_PREP: divide(WIDTH,image_w,COMPARE_STEP);
+                COMPARE_STEP: begin
+                  x_step<=quotient;rem_step<=remainder;x_initial<=0;rem_initial<=0;
+                  frame_ack<=frame_target;geometry_ack_o<=cfg_target;state<=IDLE;
+                end
+                COMPARE_TILE: begin
+                  render_x<=tile_col*cell_w;
+                  tile_end<=tile_col==columns-1 ? WIDTH-1 : (tile_col+1)*cell_w-1;
+                  pad_x<=tile_col*cell_w+inner_x;visible_w<=image_w;
+                  row_black<=tile_number>=tile_count || local_y<inner_y || local_y>=inner_y+image_h;
+                  frame_base<=BASE_ADDR+({28'd0,tile_ids[tile_number[2:0]]}<<BUF_BITS);
+                  if(tile_number<tile_count && local_y>=inner_y && local_y<inner_y+image_h)
+                    divide((local_y-inner_y)*HEIGHT,image_h,ROW_ADDR);
+                  else state<=RENDER_INIT;
                 end
                 PREP0: divide(crop_w*zoom_n,zoom_d,PREP1);
                 PREP1: begin
@@ -208,7 +268,7 @@ module axi_transform_reader #(
                     else state<=RENDER_INIT;
                 end
                 ROW_ADDR: begin
-                    next_addr<=frame_base+(geometry[0] ? crop_y+crop_h-1'b1-quotient : crop_y+quotient)*(WIDTH*2);
+                    next_addr<=frame_base+(comparing ? quotient : geometry[0] ? crop_y+crop_h-1'b1-quotient : crop_y+quotient)*(WIDTH*2);
                     beat_offset<=0; remaining_beats<=ROW_BEATS; state<=BURST;
                 end
                 BURST: begin
@@ -225,15 +285,18 @@ module axi_transform_reader #(
                         else state<=BURST;
                     end
                 end
-                RENDER_INIT: begin render_x<=0; source_x_offset<=x_initial; x_remainder<=rem_initial; state<=RENDER; end
+                RENDER_INIT: begin render_x<=comparing ? tile_col*cell_w : 0; source_x_offset<=x_initial; x_remainder<=rem_initial; state<=RENDER; end
                 RENDER: begin
                     if(inside_x) begin
-                        source_x_offset<=source_x_offset+x_step+(remainder_sum>=zoom_n);
-                        x_remainder<=remainder_sum>=zoom_n ? remainder_sum-zoom_n : remainder_sum;
+                        source_x_offset<=source_x_offset+x_step+(remainder_sum>=mapping_den);
+                        x_remainder<=remainder_sum>=mapping_den ? remainder_sum-mapping_den : remainder_sum;
                     end
-                    if(render_x==WIDTH-1) state<=DRAIN; else render_x<=render_x+1'b1;
+                    if(render_x==(comparing ? tile_end : WIDTH-1)) state<=DRAIN; else render_x<=render_x+1'b1;
                 end
-                DRAIN: state<=PUBLISH;
+                DRAIN: begin
+                  if(comparing && tile_col<columns-1) begin tile_col<=tile_col+1'b1;state<=COMPARE_TILE;end
+                  else state<=PUBLISH;
+                end
                 PUBLISH: begin line_ack<=line_target; state<=IDLE; end
                 default: state<=IDLE;
             endcase

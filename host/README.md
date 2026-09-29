@@ -1,27 +1,26 @@
-# VF-Ti60 图像控制台 V0.11
+# VF-Ti60 图像控制台 V0.16
 
-2026-09-24。配套八方向Sobel与独立灰度模块：`outflow/Ti60_AR0135_v011_sobel8_gray.bit`。GUI协议不变。
-
-在工程根目录运行：
+配套 `outflow/Ti60_AR0135_v016_gaussian_scharr_canny.bit`。串口仅传控制和状态；HDMI采集接口已预留，通路尚待接入。
 
 ```powershell
 python -m pip install -r host/requirements.txt
 python -m host.gui
 ```
 
-也可双击 `host/start_gui.bat`。本机解释器为 `D:/python/python.exe`；无硬件演示用 `python -m host.gui --demo` 后点击连接。
+也可双击 `host/start_gui.bat`。本机Python为 `D:/python/python.exe`；`python -m host.gui --demo` 为模拟控制演示，不连接板卡。
 
-- 默认显示原图；“中值滤波”和“Sobel边缘检测”可独立点击切换，支持四种组合；“黑白反转”只作用于 Sobel。
-- 阈值0～4095，输入后回车。V0.11默认作为自适应门限的下限，实际门限=max(输入值,中心亮度,1)；大于1020时没有有效边缘。
-- 上下/左右翻转点击即提交。
-- 缩放保留预置，也可输入10%～500%后回车，支持两位小数。
-- 裁剪输入源图X/Y/宽/高，回车或点击“裁剪”。
-- “默认”恢复全图、100%、不翻转、中值滤波关闭、Sobel关闭、正常黑白，保留阈值。
-- 连接旧 bit 时中值滤波按钮自动禁用；设备必须在状态能力位 bit7 声明支持。
-- “设备已确认”显示硬件回读；忙碌时保留同类操作的最新值。通信记录默认折叠。
+- 帧冻结：保存当前直播帧到DDR，直播继续，最多8帧。
+- 暂停/继续：暂停显示或回到直播，摄像头后台采集继续。
+- DDR冻结帧仓库：按编号回放，Ctrl/Shift多选后HDMI对比，显示已存/上限，可清空。
+- 本地图片仓库：原有缩略图、编辑、另存、导出、多图对比保留。DDR编号不冒充已下载图片。
+- 编辑器：拖动模式或鼠标中键移动，方向键微调，自适应居中、铺满显示框。
+- HDMI预览：默认待接入，无串口传图；后续适配器实现 `host/hdmi_source.py` 的 `HDMIFrameSource`。
+- 阈值回车、Sobel/中值/反相及单帧几何控制继续保留。默认按钮恢复直播及图像默认设置，保留阈值和已存DDR帧。
 
-串口仍为115200/8N1。RX F10、TX E10是FPGA封装管脚，配置电平1.8V；接线按实际板卡电路核对。串口只传控制，图像仍通过HDMI输出。
+DDR记录断电/复位失效；本地PNG永久保存。多帧对比固定展示完整源图并经过当前ISP。详细接口、限制及上板步骤见 [V0.15说明](../docs/DDR_STORE_V015_GUIDE.md)。
 
-八方向算法与调试方法见 [V0.11 算法说明](../docs/SOBEL8_GRAY_V011_GUIDE.md)。摄像头方向与白线修复见 [V0.10 修复说明](../docs/ORIENTATION_BORDER_V010_GUIDE.md)；中值滤波接口见 [V0.9 中值滤波说明](../docs/MEDIAN_V09_GUIDE.md)。
+测试：`python -m unittest host.test_host host.test_snapshots -v`，`python tools/run_store_sim.py`。
 
-测试：`python -m unittest host.test_host -v`。本版已完成软件/RTL仿真与Efinity编译，实际显示仍需下载到板卡确认。帧冻结、回放和对比尚未加入。
+## V0.16 新增图像处理
+
+新增高斯、保边降噪、Scharr、Canny开关。Sobel/Scharr/Canny互斥，Canny自动开启高斯。保边降噪需高斯开启；Canny是两轮邻域连接的流式变体。新功能默认关闭，旧Sobel像素结果保留。阈值仍回车提交，默认按钮同时关闭新增功能。详细算法、时序、限制及验证见 [V0.16说明](../docs/ADVANCED_ISP_V016_GUIDE.md)。
