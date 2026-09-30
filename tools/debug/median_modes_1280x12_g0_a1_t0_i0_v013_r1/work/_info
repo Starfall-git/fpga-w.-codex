@@ -10,15 +10,15 @@ cModel Technology
 Z0 dC:/Users/francis/Desktop/fpga-w.-codex/tools/debug/median_modes_1280x12_g0_a1_t0_i0_v013_r1
 vmedian_modes_tb
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1790618167
+Z2 !s110 1790756024
 !i10b 1
-!s100 _WeKFMEK2h=RW2?TJa3lO0
-I9FhbcM5lUlC@1Z]KfQ[<43
+!s100 il`HQ:4T8kOmI7cJk?McT3
+I=lJ[2hK:LQNII5OC<6_F`0
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 !s105 median_modes_tb_sv_unit
 S1
 R0
-w1790617751
+w1790755291
 8C:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv
 FC:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv
 L0 3
@@ -26,7 +26,7 @@ Z4 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z5 !s108 1790618167.000000
+Z5 !s108 1790756024.000000
 Z6 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_scharr_canny.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_gaussian.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sobeledge_8d_window.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_rgb2gray.v|
 Z7 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_rgb2gray.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sort3_8bit.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_median3x3.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sobeledge_8d_window.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_gaussian.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_scharr_canny.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\median_modes_tb.sv|
 !i113 1
@@ -42,7 +42,7 @@ R3
 !s105 sobeledge_8d_window_v_unit
 S1
 R0
-Z9 w1790577671
+Z9 w1790577670
 8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\sobeledge_8d_window.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\sobeledge_8d_window.v
 L0 9
@@ -90,7 +90,7 @@ R3
 !s105 video_gaussian_v_unit
 S1
 R0
-Z10 w1790617505
+Z10 w1790617504
 8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_gaussian.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_gaussian.v
 L0 6
@@ -132,16 +132,16 @@ vvideo_processing
 R1
 R2
 !i10b 1
-!s100 Yeh_?cWM^ZzoUS9``EC=;3
-I^LDnnX[CdWQ@fOT7k=_L[3
+!s100 =?cObdX7]L];n_JHD@16U3
+Ig`F;mQZ0XY4kbcG0W9iLg1
 R3
 !s105 video_processing_v_unit
 S1
 R0
-w1790617924
+Z11 w1790755622
 8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_processing.v
-Z11 L0 10
+Z12 L0 10
 R4
 r1
 !s85 0
@@ -180,13 +180,13 @@ vvideo_scharr_canny
 R1
 R2
 !i10b 1
-!s100 T@K4fA_UPKHE1AfRobeIV1
-IO9M38mFJ:>`_YiIT_dg0E3
+!s100 ^Z`m[LAo_J87>n_8lE6oP2
+Ic^<neM`7zN_^TBhF?9Dnb2
 R3
 !s105 video_scharr_canny_v_unit
 S1
 R0
-R10
+R11
 8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_scharr_canny.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_scharr_canny.v
 L0 7
@@ -213,7 +213,7 @@ R0
 R10
 8C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_window3x3.v
-R11
+R12
 R4
 r1
 !s85 0

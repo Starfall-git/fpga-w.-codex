@@ -1,7 +1,7 @@
 
 Elitestek FPGA Placement and Routing.
 Version: 2026.1.132.3.9 
-Date: Tue Sep 29 16:46:58 2026
+Date: Wed Sep 30 19:10:54 2026
 
 Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
  
@@ -98,19 +98,19 @@ Regional Clocks (RBUF): 0 / 32 (0.00%)
 	RBUF: Core: 0 / 16 (0.00%)
 	RBUF: Periphery: 0 / 8 (0.00%)
 	RBUF: Multi-Region: 0 / 8 (0.00%)
-XLRs: 15199 / 60800 (25.00%)
-	XLRs needed for LUT4: 6290 / 60800 (10.35%)
-	XLRs needed for LUT4 + FF: 2887 / 60800 (4.75%)
+XLRs: 18325 / 60800 (30.14%)
+	XLRs needed for LUT4: 7853 / 60800 (12.92%)
+	XLRs needed for LUT4 + FF: 3221 / 60800 (5.30%)
 	XLRs needed for COMB4: 0 / 60800 (0.00%)
 	XLRs needed for COMB4 + FF: 0 / 60800 (0.00%)
-	XLRs needed for Adder: 2531 / 60800 (4.16%)
-	XLRs needed for Adder + FF: 235 / 60800 (0.39%)
-	XLRs needed for SRL8: 664 / 14720 (4.51%)
+	XLRs needed for Adder: 2788 / 60800 (4.59%)
+	XLRs needed for Adder + FF: 223 / 60800 (0.37%)
+	XLRs needed for SRL8: 800 / 14720 (5.43%)
 	XLRs needed for SRL8 + FF: 0 / 14720 (0.00%)
-	XLRs needed for FF: 2592 / 60800 (4.26%)
+	XLRs needed for FF: 3440 / 60800 (5.66%)
 	XLRs needed for Routing: 0 / 60800 (0.00%)
-Memory Blocks: 87 / 256 (33.98%)
-DSP Blocks: 17 / 160 (10.62%)
+Memory Blocks: 109 / 256 (42.58%)
+DSP Blocks: 18 / 160 (11.25%)
 ---------- Resource Summary (end) ----------
 
-Elapsed time for placement: 0 hours 0 minutes 16 seconds
+Elapsed time for placement: 0 hours 0 minutes 18 seconds

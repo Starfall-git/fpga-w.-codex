@@ -15,19 +15,19 @@ module median_modes_tb;
   wire [3:0] h,v,d;
   always #5 clk=~clk;
   video_processing #(.IMAGE_WIDTH(WIDTH),.ENABLE_GRAY(GRAY),.SOBEL_ADAPTIVE(ADAPTIVE)) raw_dut
-    (.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b0),.ENABLE_MEDIAN(1'b0),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
+    (.ISP_TUNING(16'h3200),.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b0),.ENABLE_MEDIAN(1'b0),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
      .rgb_i(rgb),.hs_i(hs),.vs_i(vs),.de_i(de),.rgb_o(raw),.hs_o(h[0]),.vs_o(v[0]),.de_o(d[0]));
   video_processing #(.IMAGE_WIDTH(WIDTH),.ENABLE_GRAY(GRAY),.SOBEL_ADAPTIVE(ADAPTIVE)) med_dut
-    (.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b0),.ENABLE_MEDIAN(1'b1),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
+    (.ISP_TUNING(16'h3200),.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b0),.ENABLE_MEDIAN(1'b1),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
      .rgb_i(rgb),.hs_i(hs),.vs_i(vs),.de_i(de),.rgb_o(med),.hs_o(h[1]),.vs_o(v[1]),.de_o(d[1]));
   video_processing #(.IMAGE_WIDTH(WIDTH),.ENABLE_GRAY(GRAY),.SOBEL_ADAPTIVE(ADAPTIVE)) edge_dut
-    (.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b1),.ENABLE_MEDIAN(1'b0),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
+    (.ISP_TUNING(16'h3200),.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b1),.ENABLE_MEDIAN(1'b0),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
      .rgb_i(rgb),.hs_i(hs),.vs_i(vs),.de_i(de),.rgb_o(edge_rgb),.hs_o(h[2]),.vs_o(v[2]),.de_o(d[2]));
   video_processing #(.IMAGE_WIDTH(WIDTH),.ENABLE_GRAY(GRAY),.SOBEL_ADAPTIVE(ADAPTIVE)) both_dut
-    (.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b1),.ENABLE_MEDIAN(1'b1),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
+    (.ISP_TUNING(16'h3200),.clk(clk),.rst_n(rst),.ENABLE_GAUSSIAN(1'b0),.ENABLE_SCHARR(1'b0),.ENABLE_CANNY(1'b0),.PRESERVE_EDGES(1'b0),.ENABLE_SOBEL(1'b1),.ENABLE_MEDIAN(1'b1),.BINARY_OUTPUT(INVERT==0),.SOBEL_THRESHOLD(12'(THRESHOLD)),
      .rgb_i(rgb),.hs_i(hs),.vs_i(vs),.de_i(de),.rgb_o(both),.hs_o(h[3]),.vs_o(v[3]),.de_o(d[3]));
-  /* V0.16: old oracle remains intact, delay its outputs by added 11 clocks. */
-  reg [98:0] extra[0:10];reg [98:0] incoming;integer delay_i;
+  /* V0.16: old oracle remains intact, delay its outputs by added 26 clocks. */
+  reg [98:0] extra[0:25];reg [98:0] incoming;integer delay_i;
   integer fd,count,n=0;
   reg ri,hi,vi,di,eh,ev,ed;
   reg [23:0] pixel,er,em,ee,eb;
@@ -41,10 +41,10 @@ module median_modes_tb;
         @(negedge clk); rst=ri;hs=hi;vs=vi;de=di;rgb=pixel;
         @(posedge clk); #1;
         incoming={eh,ev,ed,er,em,ee,eb};
-        {eh,ev,ed,er,em,ee,eb}=extra[10];
-        for(delay_i=10;delay_i>0;delay_i=delay_i-1) extra[delay_i]=extra[delay_i-1];
+        {eh,ev,ed,er,em,ee,eb}=extra[25];
+        for(delay_i=25;delay_i>0;delay_i=delay_i-1) extra[delay_i]=extra[delay_i-1];
         extra[0]=incoming;
-        if(n>40) begin
+        if(n>60) begin
           if({h[0],v[0],d[0],raw} !== {eh,ev,ed,er}) $fatal(1,"raw cycle=%0d exp=%h got=%h",n,{eh,ev,ed,er},{h[0],v[0],d[0],raw});
           if({h[1],v[1],d[1],med} !== {eh,ev,ed,em}) $fatal(1,"median cycle=%0d exp=%h got=%h",n,{eh,ev,ed,em},{h[1],v[1],d[1],med});
           if({h[2],v[2],d[2],edge_rgb} !== {eh,ev,ed,ee}) $fatal(1,"sobel cycle=%0d exp=%h got=%h",n,{eh,ev,ed,ee},{h[2],v[2],d[2],edge_rgb});

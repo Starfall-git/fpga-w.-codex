@@ -12,6 +12,7 @@ TRANSFORM_ENABLE=1时能力位为0F。几何配置由DDR读出器帧准备完成
 */
 module uart_image_control #(
     parameter SNAPSHOT_ENABLE=0,
+    parameter CAMERA_ENABLE=0,
     parameter CLOCK_HZ=96000000,
     parameter BAUD=115200,
     parameter DEBOUNCE_CYCLES=1920000,
@@ -28,6 +29,7 @@ module uart_image_control #(
     /* V0.9 / 44: bit2 is the frame-committed Median enable. */
     output wire enable_sobel_o, binary_output_o, enable_median_o,
     /* V0.16 / 78: seven frame-committed flags, status byte6=15 capability. */
+    output wire [15:0] tuning_pixel_o,
     output wire enable_gaussian_o,enable_scharr_o,enable_canny_o,preserve_edges_o,
     /* V0.5 / 20,22: mailbox held stable until DDR reader acknowledges frame commit. */
     output reg [97:0] geometry_o,
@@ -39,8 +41,13 @@ module uart_image_control #(
     input wire store_ack_i,
     input wire [7:0] store_result_i,
     input wire [11:0] store_saved_i,
+    input wire [383:0] store_order_i,
     input wire [1:0] store_mode_i,
     input wire [3:0] store_display_i,
+    /* V0.19 / 88: restricted sensor register command 40, same clk as camera master. */
+    output reg camera_toggle_o, output reg [32:0] camera_command_o,
+    input wire camera_ready_i,camera_ack_i,camera_error_i,
+    input wire [15:0] camera_data_i,
     input wire [1:0] transform_faults_i
 );
     function [7:0] crc_next;
@@ -55,6 +62,28 @@ module uart_image_control #(
     endfunction
     /* V0.15 / 71: 30 status version2; 31 control; 32 is unsupported.
        Return status={result,2,capacity8,count,savedLE16,mode,displayID}. */
+    /* V0.18 / 83: warehouse protocol V3 adds action6 single-slot deletion. */
+    reg waiting_camera;reg [31:0] camera_timeout;
+    /* V0.19 / 88: device-owned DEFAULTS restores sensor controls too. */
+    reg camera_defaults_active;reg [3:0] camera_default_index;
+    reg [7:0] default_error;reg [31:0] camera_default_word;
+    always @* begin
+      case(camera_default_index)
+        0:camera_default_word={16'h3100,16'd0};
+        1:camera_default_word={16'h3012,16'd672};
+        2:camera_default_word={16'h30B0,16'h04A0};
+        3:camera_default_word={16'h305E,16'd32};
+        4:camera_default_word={16'h3102,16'd1280};
+        5:camera_default_word={16'h3110,16'd320};
+        6:camera_default_word={16'h3140,16'd0};
+        7:camera_default_word={16'h3142,16'd0};
+        8:camera_default_word={16'h3144,16'd1280};
+        9:camera_default_word={16'h3146,16'd960};
+        10:camera_default_word={16'h3166,16'd986};
+        11:camera_default_word={16'h3168,16'd419};
+        default:camera_default_word={16'h3100,16'd19};
+      endcase
+    end
     reg store_ack_meta,store_ack_sync,waiting_store;
     reg [31:0] store_timeout;
     integer slot_count,slot;
@@ -111,6 +140,14 @@ module uart_image_control #(
     assign enable_median_o=isp_pixel[2];
     assign enable_gaussian_o=isp_pixel[3];assign enable_scharr_o=isp_pixel[4];
     assign enable_canny_o=isp_pixel[5];assign preserve_edges_o=isp_pixel[6];
+    /* V0.19 / 89-91: 14 tuning mailbox: flags[3:0], low percentage[15:8].
+       Defaults preserve single Gaussian/L1/two-hop, low=50%. ACK at frame blank. */
+    reg [15:0] tuning_target;wire [15:0] tuning_applied;
+    reg tuning_request,waiting_tuning;wire tuning_busy;
+    threshold_cdc #(.WIDTH(16),.RESET_VALUE(16'h3200)) u_tuning_cdc(
+        .src_clk(clk),.src_rst_n(rst_n),.src_request_i(tuning_request),.src_value_i(tuning_target),
+        .busy_o(tuning_busy),.applied_o(tuning_applied),.pixel_clk(pixel_clk),.pixel_rst_n(pixel_rst_n),
+        .frame_blank_i(frame_blank_i),.pixel_value_o(tuning_pixel_o));
     reg [97:0] geometry_applied;
     reg geometry_ack_meta, geometry_ack_sync, waiting_geometry;
     reg [1:0] fault_meta, fault_sync;
@@ -140,12 +177,15 @@ module uart_image_control #(
             /* V0.4 body had capability=01; V0.5 advertises only compiled functions. */
             /* V0.6: D5 contains applied ISP flags; D6/D7 remain zero. */
             /* V0.9 / 44: D5 bit2 reads back the applied Median state. */
-            reply_body(seq,cmd,{8'd0,8'd15,1'd0,isp_applied,CAPABILITIES,8'h01,4'b0,applied[11:8],applied[7:0],status});
+            reply_body(seq,cmd,{8'd0,(CAMERA_ENABLE ? 8'd31 : 8'd15),1'd0,isp_applied,CAPABILITIES,8'h01,4'b0,applied[11:8],applied[7:0],status});
         end
     endtask
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
+            camera_defaults_active<=0;camera_default_index<=0;default_error<=0;
+            tuning_target<=16'h3200;tuning_request<=0;waiting_tuning<=0;
+            waiting_camera<=0;camera_timeout<=0;camera_toggle_o<=0;camera_command_o<=0;
             store_command_o<=0;store_toggle_o<=0;store_ack_meta<=0;store_ack_sync<=0;
             waiting_store<=0;store_timeout<=0;
             desired<=128; transfer_value<=128; transfer_request<=0; command_target<=128;
@@ -158,13 +198,34 @@ module uart_image_control #(
             isp_target<=0; isp_request<=0; waiting_isp<=0; waiting_default<=0;
         end else begin
             tx_start<=0;
+            if(camera_defaults_active && !waiting_camera) begin
+                if(camera_ready_i && camera_ack_i==camera_toggle_o) begin
+                    camera_command_o<={1'b0,camera_default_word};camera_toggle_o<=~camera_toggle_o;
+                    waiting_camera<=1;camera_timeout<=0;
+                end else begin camera_defaults_active<=0;default_error<=5;end
+            end
+            if(waiting_camera) begin
+                camera_timeout<=camera_timeout+1'b1;
+                if(camera_ack_i==camera_toggle_o) begin
+                    waiting_camera<=0;
+                    if(camera_defaults_active) begin
+                        if(camera_error_i) begin default_error<=6;camera_defaults_active<=0;end
+                        else if(camera_default_index==12) camera_defaults_active<=0;
+                        else camera_default_index<=camera_default_index+1'b1;
+                    end else reply_body(wait_sequence,wait_command,{40'd0,camera_data_i,(camera_error_i ? 8'd6 : 8'd0)});
+                end else if(camera_timeout==CLOCK_HZ/2) begin
+                    waiting_camera<=0;
+                    if(camera_defaults_active) begin camera_defaults_active<=0;default_error<=5;end
+                    else reply(wait_sequence,wait_command,5);
+                end
+            end
             store_ack_meta<=store_ack_i;store_ack_sync<=store_ack_meta;
             if(waiting_store) begin
               store_timeout<=store_timeout+1'b1;
               if(store_ack_sync==store_toggle_o) begin
                 waiting_store<=0;
                 if(!waiting_default) reply_body(wait_sequence,wait_command,{4'd0,store_display_i,6'd0,store_mode_i,
-                     4'd0,store_saved_i,slot_count[7:0],8'd8,8'd2,store_result_i});
+                     4'd0,store_saved_i,slot_count[7:0],8'd8,8'd3,store_result_i});
               end else if(store_timeout==CLOCK_HZ-1) begin
                 waiting_store<=0;waiting_default<=0;reply(wait_sequence,wait_command,5);
               end
@@ -172,15 +233,19 @@ module uart_image_control #(
             geometry_ack_meta<=geometry_ack_i; geometry_ack_sync<=geometry_ack_meta;
             fault_meta<=transform_faults_i; fault_sync<=fault_meta;
             transfer_request<=0;
-            isp_request<=0;
+            isp_request<=0;tuning_request<=0;
+            if(waiting_tuning && !tuning_request && !tuning_busy && tuning_applied==tuning_target) begin
+                waiting_tuning<=0;
+                if(!waiting_default) reply_body(wait_sequence,wait_command,{40'd0,tuning_applied,8'd0});
+            end
             /* V0.6: default ACK waits for every registered feature; threshold is preserved.
                Future features must add their reset and completion here, not in GUI. */
             if(waiting_isp && !isp_request && !isp_busy && isp_applied==isp_target) begin
                 waiting_isp<=0;
                 if(!waiting_default) reply(wait_sequence,wait_command,0);
             end
-            if(waiting_default && !waiting_isp && !waiting_geometry && !waiting_store) begin
-                waiting_default<=0; reply(wait_sequence,wait_command,0);
+            if(waiting_default && !camera_defaults_active && !waiting_camera && !waiting_tuning && !waiting_isp && !waiting_geometry && !waiting_store) begin
+                waiting_default<=0; reply(wait_sequence,wait_command,default_error);
             end
             /* 同一寄存器集中写入；范围0..4095，两个键同时按下不修改。 */
             if (!waiting_apply) begin
@@ -216,22 +281,65 @@ module uart_image_control #(
                     12: begin
                         rx_index<=0;
                         /* stop-and-wait：处理或发送应答期间不接受额外命令。 */
-                        if (!waiting_apply && !waiting_geometry && !waiting_isp && !waiting_default && !reply_busy && !tx_busy && !tx_start && !waiting_store) begin
+                        if (!waiting_tuning && !waiting_camera && !waiting_apply && !waiting_geometry && !waiting_isp && !waiting_default && !reply_busy && !tx_busy && !tx_start && !waiting_store) begin
                             if (rx_data!=crc) reply(sequence_id,command,1);
-                            else if(SNAPSHOT_ENABLE && command==8'h30) begin
+                            else if(command==8'h14 || command==8'h15) begin
+                                if(command==8'h15) begin
+                                    if(payload!=0) reply(sequence_id,command,2);
+                                    else reply_body(sequence_id,command,{40'd0,tuning_applied,8'd0});
+                                end else if(payload[63:16]!=0 || payload[7:4]!=0 || payload[15:8]<25 || payload[15:8]>75)
+                                    reply(sequence_id,command,2);
+                                else begin
+                                    tuning_target<=payload[15:0];tuning_request<=1;waiting_tuning<=1;
+                                    wait_sequence<=sequence_id;wait_command<=command;
+                                end
+                            end else if(CAMERA_ENABLE && command==8'h40) begin
+                                /* Read whitelist includes AE readback; writes preserve timing/PLL.
+                                   op0 read, op1 write; addrLE16, valueLE16, three zero bytes. */
+                                if(payload[63:40]!=0 || payload[7:0]>1 ||
+                                   !(payload[23:8]==16'h3012 || payload[23:8]==16'h305E ||
+                                     payload[23:8]==16'h30B0 || payload[23:8]==16'h3100 ||
+                                     payload[23:8]==16'h3102 || payload[23:8]==16'h3110 ||
+                                     payload[23:8]==16'h312A || payload[23:8]==16'h3152 ||
+                                     payload[23:8]==16'h3164 || payload[23:8]==16'h3166 || payload[23:8]==16'h3168 ||
+                                     payload[23:8]==16'h3140 || payload[23:8]==16'h3142 ||
+                                     payload[23:8]==16'h3144 || payload[23:8]==16'h3146) ||
+                                   (payload[7:0]==0 && payload[39:24]!=0) ||
+                                   (payload[7:0]==1 && (
+                                     (payload[23:8]==16'h3012 && (payload[39:24]<1 || payload[39:24]>672)) ||
+                                     (payload[23:8]==16'h305E && (payload[39:24]<32 || payload[39:24]>128)) ||
+                                     (payload[23:8]==16'h30B0 && (payload[39:24]&16'hFFCF)!=16'h0480) ||
+                                     (payload[23:8]==16'h3100 && payload[39:24]!=0 && payload[39:24]!=3 && payload[39:24]!=19) ||
+                                     (payload[23:8]==16'h3102 && (payload[39:24]<256 || payload[39:24]>2048)) ||
+                                     (payload[23:8]==16'h3110 && payload[39:24]!=224 && payload[39:24]!=320) ||
+                                     payload[23:8]==16'h312A || payload[23:8]==16'h3152 ||
+                                     payload[23:8]==16'h3164 || payload[23:8]==16'h3166 || payload[23:8]==16'h3168 ||
+                                     payload[23:8]==16'h3140 || payload[23:8]==16'h3142 ||
+                                     payload[23:8]==16'h3144 || payload[23:8]==16'h3146))) reply(sequence_id,command,2);
+                                else if(!camera_ready_i || camera_ack_i!=camera_toggle_o) reply(sequence_id,command,5);
+                                else begin
+                                    camera_command_o<={payload[7:0]==0,payload[23:8],payload[39:24]};
+                                    camera_toggle_o<=~camera_toggle_o;waiting_camera<=1;camera_timeout<=0;
+                                    wait_sequence<=sequence_id;wait_command<=command;
+                                end
+                            end else if(SNAPSHOT_ENABLE && command==8'h30) begin
                                 if(payload!=0) reply(sequence_id,command,2);
                                 else reply_body(sequence_id,command,{4'd0,store_display_i,6'd0,store_mode_i,
-                                     4'd0,store_saved_i,slot_count[7:0],8'd8,8'd2,8'd0});
+                                     4'd0,store_saved_i,slot_count[7:0],8'd8,8'd3,8'd0});
                             end else if(SNAPSHOT_ENABLE && command==8'h31) begin
-                                if(payload[63:32]!=0 || payload[7:0]>5 ||
+                                if(payload[63:32]!=0 || payload[7:0]>6 ||
                                    ((payload[7:0]<=2 || payload[7:0]==5) && payload[31:8]!=0) ||
-                                   (payload[7:0]==3 && payload[31:16]!=0) ||
+                                   ((payload[7:0]==3 || payload[7:0]==6) && payload[31:16]!=0) ||
                                    (payload[7:0]==4 && payload[15:8]!=0)) reply(sequence_id,command,2);
                                 else begin
                                   store_command_o<=payload[31:0];store_toggle_o<=~store_toggle_o;
                                   waiting_store<=1;store_timeout<=0;
                                   wait_sequence<=sequence_id;wait_command<=command;
                                 end
+                            end else if(SNAPSHOT_ENABLE && command==8'h33) begin
+                                /* V0.18 / 83: query immutable creation ordinal of a retained slot. */
+                                if(payload[63:8]!=0 || payload[7:0]>=12 || !store_saved_i[payload[3:0]]) reply(sequence_id,command,2);
+                                else reply_body(sequence_id,command,{16'd0,store_order_i[payload[3:0]*32+:32],payload[7:0],8'd0});
                             end else if(command==8'h32) reply(sequence_id,command,3);
                             else if (command==8'h01) begin
                                 if (payload!=0) reply(sequence_id,command,2);
@@ -251,7 +359,8 @@ module uart_image_control #(
                                     isp_request<=1; waiting_isp<=1;
                                     wait_sequence<=sequence_id; wait_command<=command;
                                     if(command==8'h12) begin
-                                        waiting_default<=1;
+                                        waiting_default<=1;default_error<=0;camera_default_index<=0;camera_defaults_active<=CAMERA_ENABLE;
+                                        tuning_target<=16'h3200;tuning_request<=1;waiting_tuning<=1;
                                         /* V0.15 / 71: default resumes live without deleting saved frames. */
                                         if(SNAPSHOT_ENABLE) begin
                                           store_command_o<=0;store_toggle_o<=~store_toggle_o;

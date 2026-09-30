@@ -1,5 +1,5 @@
 # vsim -c work.store_uart_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
-# Start time: 01:59:37 on Sep 29,2026
+# Start time: 16:27:38 on Sep 30,2026
 # Loading sv_std.std
 # Loading work.store_uart_tb
 # Loading work.ddr_frame_store
@@ -8,23 +8,30 @@
 # Loading work.uart_tx
 # Loading work.key_debounce
 # Loading work.threshold_cdc
-# ** Warning: (vsim-3017) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Too few port connections. Expected 27, found 17.
+# ** Warning: (vsim-3017) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Too few port connections. Expected 35, found 18.
 #    Time: 0 ps  Iteration: 0  Instance: /store_uart_tb/dut File: C:/Users/francis/Desktop/fpga-w.-codex/src/control/uart_image_control.v
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'threshold_pixel_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'enable_sobel_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'binary_output_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'enable_median_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'enable_gaussian_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'enable_scharr_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'enable_canny_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'preserve_edges_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'geometry_o'.
-# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(19): [TFMPC] - Missing connection for port 'geometry_toggle_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'threshold_pixel_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'enable_sobel_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'binary_output_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'enable_median_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'tuning_pixel_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'enable_gaussian_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'enable_scharr_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'enable_canny_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'preserve_edges_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'geometry_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'geometry_toggle_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'camera_toggle_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'camera_command_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'camera_ready_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'camera_ack_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'camera_error_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(20): [TFMPC] - Missing connection for port 'camera_data_i'.
 # onerror {quit -code 1}
 #  Warning: onerror command for use within macro
 #  run -all
 # PASS DDR STORE UART: 8 saved/live/pause/replay/compare/full/clear/no pixels
-# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(110)
-#    Time: 495405 ns  Iteration: 0  Instance: /store_uart_tb
-# End time: 01:59:38 on Sep 29,2026, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 11
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/store_uart_tb.sv(121)
+#    Time: 601405 ns  Iteration: 0  Instance: /store_uart_tb
+# End time: 16:27:39 on Sep 30,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 18
