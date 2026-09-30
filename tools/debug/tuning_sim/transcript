@@ -1,5 +1,5 @@
 # vsim -c work.tuning_control_tb -do "run -all; quit -f" 
-# Start time: 16:06:10 on Sep 30,2026
+# Start time: 21:23:11 on Sep 30,2026
 # Loading sv_std.std
 # Loading work.tuning_control_tb
 # Loading work.video_sobel
@@ -24,7 +24,7 @@
 # ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_display_i'.
 # run -all
 # PASS TUNING: physical UART, frame CDC, sensor whitelist, read/write, NACK, unavailable, defaults
-# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(124)
-#    Time: 397705 ns  Iteration: 0  Instance: /tuning_control_tb
-# End time: 16:06:11 on Sep 30,2026, Elapsed time: 0:00:01
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(142)
+#    Time: 873045 ns  Iteration: 0  Instance: /tuning_control_tb
+# End time: 21:23:12 on Sep 30,2026, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 13

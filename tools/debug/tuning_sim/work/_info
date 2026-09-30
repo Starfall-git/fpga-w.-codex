@@ -10,7 +10,7 @@ cModel Technology
 Z0 dC:/Users/francis/Desktop/fpga-w.-codex/tools/debug/tuning_sim
 vkey_debounce
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1790755569
+Z2 !s110 1790774591
 !i10b 1
 !s100 YNgI`ni;I;dn=OJfY5D=Z3
 IUeUTRhhMAGZfHziUcBX<l2
@@ -26,7 +26,7 @@ Z5 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z6 !s108 1790755569.000000
+Z6 !s108 1790774591.000000
 Z7 !s107 C:\Users\francis\Desktop\fpga-w.-codex\testbench\tuning_control_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|
 Z8 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex\src\control\key_debounce.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\threshold_cdc.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_rx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_tx.v|C:\Users\francis\Desktop\fpga-w.-codex\src\isp\video_sobel.v|C:\Users\francis\Desktop\fpga-w.-codex\testbench\tuning_control_tb.sv|
 !i113 1
@@ -60,13 +60,13 @@ vtuning_control_tb
 R1
 R2
 !i10b 1
-!s100 937XmoU5i?;li1394CL6e1
-I=20zi[Q5MUH<JAmHO6j1U2
+!s100 64NbBR=QZ6UjAEILBR<@`1
+Ij0Pa>EEzSY1zRKzb]nXgG1
 R3
 !s105 tuning_control_tb_sv_unit
 S1
 R0
-w1790755569
+w1790774590
 8C:\Users\francis\Desktop\fpga-w.-codex\testbench\tuning_control_tb.sv
 FC:\Users\francis\Desktop\fpga-w.-codex\testbench\tuning_control_tb.sv
 L0 3
@@ -84,13 +84,13 @@ vuart_image_control
 R1
 R2
 !i10b 1
-!s100 @a]KG_05j?bFU5RcjdA=Z2
-I4R<7L0e_UY>zzS1CQb;=d3
+!s100 X3d^?R0FETdd;oYDGE`b]2
+IkE`LLWK72LV>YB:LO<SV70
 R3
 !s105 uart_image_control_v_unit
 S1
 R0
-w1790755501
+w1790774437
 8C:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v
 FC:\Users\francis\Desktop\fpga-w.-codex\src\control\uart_image_control.v
 Z10 L0 13

@@ -27,33 +27,59 @@ def camera_read(client):
         return {a:register(client,a) for a in (0x3100,0x3012,0x30b0,0x305e,0x312a,0x3152,0x3164)}
 
 
-def manual(client, rows, analog, digital):
+# V0.20 / 94: restore the known boot configuration, including auto DIGITAL gain.
+# No speculative ROI or AE switching-threshold optimization in the recovery button.
+AUTO_SETTINGS=((0x3012,672),(0x30b0,0x4a0),(0x305e,32),(0x3102,1280),
+               (0x3110,320),(0x3140,0),(0x3142,0),(0x3144,1280),
+               (0x3146,960),(0x3166,986),(0x3168,419))
+
+
+def _camera_update(client, settings, restore_auto=True):
+    """Suspend AE for writes; restore the requested manual or automatic mode.
+    A write/read ACK is not a promise that AE will keep a manual seed value.
+    """
+    with client.lock:
+        original_error=None
+        try:
+            register(client,0x3100,0)
+            for address,value in settings:
+                register(client,address,value)
+                if register(client,address)!=value:
+                    raise RuntimeError(f'寄存器 0x{address:04X} 写入回读不一致')
+        except Exception as error:
+            original_error=error
+        # V0.21: restore the requested mode even after a rejected write or NACK.
+        try:
+            register(client,0x3100,0x13 if restore_auto else 0)
+            if register(client,0x3100)!=(0x13 if restore_auto else 0):
+                raise RuntimeError('曝光模式控制位回读不一致')
+        except Exception as error:
+            detail=f'；原设置错误：{original_error}' if original_error else ''
+            mode='自动调光恢复' if restore_auto else '手动调光保持'
+            raise RuntimeError(f'未能确认{mode}，请检查连接后重试：{error}{detail}') from error
+        if original_error:
+            mode='已恢复自动曝光及自动模拟/数字增益' if restore_auto else '已保持手动调光，自动曝光关闭'
+            raise RuntimeError(f'参数未全部写入，但{mode}：{original_error}') from original_error
+        return camera_read(client)
+
+
+def manual(client, rows, analog, digital, restore_auto=None):
     if not 1<=rows<=672 or analog not in range(4) or not 32<=digital<=128:
         raise ValueError('曝光或增益超出范围')
+    # /* V0.21 / 97: slider writes preserve confirmed sensor mode; explicit
+    # manual button holds AE/AG/DG off until the auto button is used. */
     with client.lock:
-        for a,v in ((0x3100,0),(0x3012,rows),(0x30b0,0x480|(analog<<4)),(0x305e,digital)):
-            register(client,a,v)
-            if register(client,a)!=v:raise RuntimeError('摄像头写入后回读不一致，停止后续设置')
-        return camera_read(client)
+        if restore_auto is None:restore_auto=bool(register(client,0x3100)&1)
+        return _camera_update(client,((0x3012,rows),(0x30b0,0x480|(analog<<4)),(0x305e,digital)),restore_auto)
 
 
 def auto_adjust(client):
-    # Sensor AE optimizes brightness, not an edge-sharpness objective. Keep digital
-    # gain at unity to avoid amplifying noise; permit AE exposure/analog adjustment.
-    with client.lock:
-        for a,v in ((0x3100,0),(0x305e,32),(0x3102,1280),(0x3110,320),
-                    (0x3140,0),(0x3142,0),(0x3144,1280),(0x3146,720),
-                    (0x3166,600),(0x3168,400),(0x3100,3)):
-            register(client,a,v)
-        return camera_read(client)
+    return _camera_update(client,AUTO_SETTINGS)
 
 
 def camera_defaults(client):
     with client.lock:
-        for a,v in ((0x3100,0),(0x3012,672),(0x30b0,0x4a0),(0x305e,32),
-                    (0x3102,1280),(0x3110,320),(0x3140,0),(0x3142,0),(0x3144,1280),
-                    (0x3146,960),(0x3166,986),(0x3168,419),(0x3100,19)):
-            register(client,a,v)
+        auto_adjust(client)
         tuning(client,0,50)
 
 
@@ -71,24 +97,28 @@ def tuning(client, flags=None, percentage=50):
 
 class ControlPanel:
     def __init__(self,app):
-        self.app=app;self.client=app.client;self.auto_tracking=False;self.dragging=False;self.refresh_id=None
+        self.app=app;self.client=app.client;self.auto_tracking=False;self.dragging=False;self.refresh_id=None;self.key_id=None;self.edit_revision=0
         self.window=tk.Toplevel(app.root);self.window.title('曝光与算法调节');self.window.geometry('760x690')
         main=ttk.Frame(self.window,padding=18);main.pack(fill='both',expand=True)
-        camera=ttk.LabelFrame(main,text='摄像头 · 拖动后松开生效，并进入手动模式',padding=12);camera.pack(fill='x')
+        camera=ttk.LabelFrame(main,text='摄像头 · 手动 / 自动调光',padding=12);camera.pack(fill='x')
         self.rows=tk.DoubleVar(value=672);self.analog=tk.DoubleVar(value=2);self.digital=tk.DoubleVar(value=32)
         self.values=tk.StringVar();self.status=tk.StringVar(value='正在读取摄像头…')
         self.widgets=[]
         for label,var,lo,hi in [('曝光',self.rows,1,672),('模拟增益',self.analog,0,3),('数字增益',self.digital,32,128)]:
             row=ttk.Frame(camera);row.pack(fill='x',pady=4)
             ttk.Label(row,text=label,width=12).pack(side='left')
-            slider=ttk.Scale(row,variable=var,from_=lo,to=hi,command=lambda _:self.display_values())
+            slider=ttk.Scale(row,variable=var,from_=lo,to=hi,takefocus=True,command=lambda _:self.display_values())
             slider.pack(side='left',fill='x',expand=True);slider.bind('<ButtonPress-1>',self.begin_manual);slider.bind('<ButtonRelease-1>',self.submit_manual)
-            slider.bind('<KeyRelease>',self.submit_manual);self.widgets.append(slider)
+            # V0.20 / 95: explicit integer steps; return break prevents Tk double-stepping.
+            slider.bind('<Left>',lambda e,v=var,l=lo,h=hi:self.key_step(e,v,l,h,-1))
+            slider.bind('<Right>',lambda e,v=var,l=lo,h=hi:self.key_step(e,v,l,h,1))
+            self.widgets.append(slider)
         ttk.Label(camera,textvariable=self.values).pack(anchor='w',pady=6)
         row=ttk.Frame(camera);row.pack(fill='x')
+        ttk.Button(row,text='手动调光',command=self.submit_manual_mode).pack(side='left',padx=(0,8))
         ttk.Button(row,text='自动调光',command=self.submit_auto).pack(side='left')
         ttk.Button(row,text='回读当前曝光',command=self.read).pack(side='left',padx=8)
-        ttk.Label(camera,text='弱光优先增加曝光，再加模拟增益；数字增益也会放大噪声。\n自动调光立即启动，通常需若干帧稳定；运动物体不宜长曝光。',wraplength=680).pack(anchor='w',pady=8)
+        ttk.Label(camera,text='鼠标拖动松开提交；点击滑块后可用 ← / → 微调。\n手动调光：保持滑块设置；自动调光：立即重新调整，并持续适应环境。',wraplength=680).pack(anchor='w',pady=8)
         ttk.Label(camera,textvariable=self.status,wraplength=680).pack(anchor='w')
         alg=ttk.LabelFrame(main,text='算法选项 · 点击即生效',padding=12);alg.pack(fill='x',pady=14)
         self.flags=[tk.BooleanVar() for _ in range(4)];self.percent=tk.IntVar(value=50)
@@ -118,18 +148,37 @@ class ControlPanel:
         r,t=result
         is_auto=bool(r[0x3100]&1)
         actual_rows=r[0x3164] if is_auto else r[0x3012]
-        actual_gain=r[0x312a] if is_auto else (((r[0x30b0]>>4)&3)<<8)|r[0x305e]
+        actual_analog=(r[0x312a]>>8)&3 if is_auto and r[0x3100]&2 else (r[0x30b0]>>4)&3
+        actual_digital=r[0x312a]&255 if is_auto and r[0x3100]&16 else r[0x305e]&255
+        actual_gain=(actual_analog<<8)|actual_digital
         self.rows.set(max(1,min(672,actual_rows)))
         self.analog.set((actual_gain>>8)&3);self.digital.set(max(32,min(128,actual_gain&255)))
         for bit,var in enumerate(self.flags):var.set(bool(t[0]&(1<<bit)))
         self.percent.set(t[1]);self.display_values()
-        mode='自动（当前曝光/增益可能继续变化）' if r[0x3100]&1 else '手动'
-        self.status.set(f'已回读：{mode}；曝光 {actual_rows} 行；模拟 {1<<((actual_gain>>8)&3)}×；数字 {(actual_gain&255)/32:.2f}×')
+        mode='自动曝光' if r[0x3100]&1 else '手动调光（保持设置）'
+        self.status.set(f'已回读：{mode}；自动模拟增益{"开" if r[0x3100]&2 else "关"} / 自动数字增益{"开" if r[0x3100]&16 else "关"}；曝光 {actual_rows} 行；模拟 {1<<((actual_gain>>8)&3)}×；数字 {(actual_gain&255)/32:.2f}×')
         self.auto_tracking=is_auto
         if self.refresh_id is None:self.refresh_id=self.window.after(1000,self.refresh_auto)
 
     def begin_manual(self,event=None):
+        if event is not None:event.widget.focus_set()
+        if self.key_id is not None:self.window.after_cancel(self.key_id);self.key_id=None
+        self.edit_revision+=1
         self.dragging=True;self.auto_tracking=False
+
+    def key_step(self,event,var,low,high,direction):
+        if not self.active():return 'break'
+        self.begin_manual(event)
+        var.set(max(low,min(high,round(var.get())+direction)))
+        self.display_values()
+        self.key_id=self.window.after(180,self.submit_manual)
+        return 'break'
+
+    def camera_submit(self,operation,kind):
+        revision=self.edit_revision
+        def confirmed(result):
+            if revision==self.edit_revision:self.show(result)
+        self.app._submit(operation,confirmed,kind)
 
     def refresh_auto(self):
         self.refresh_id=None
@@ -138,20 +187,33 @@ class ControlPanel:
         if self.refresh_id is None:self.refresh_id=self.window.after(1000,self.refresh_auto)
 
     def close(self):
-        if self.refresh_id is not None:self.window.after_cancel(self.refresh_id);self.refresh_id=None
+        if self.key_id is not None:self.window.after_cancel(self.key_id);self.key_id=None
+        if self.refresh_id is not None:self.window.after_cancel(self.refresh_id);self.refresh_id=None;self.key_id=None;self.edit_revision=0
         self.window.destroy()
 
     def submit_manual(self,event=None):
+        if self.key_id is not None:self.window.after_cancel(self.key_id);self.key_id=None
         self.dragging=False;self.auto_tracking=False
         if not self.active():return
         args=(round(self.rows.get()),round(self.analog.get()),round(self.digital.get()))
-        self.app._submit(lambda:(manual(self.client,*args),tuning(self.client)),self.show,'camera')
+        self.camera_submit(lambda:(manual(self.client,*args),tuning(self.client)),'camera')
+
+    def submit_manual_mode(self):
+        # /* V0.21 / 98: cancel delayed keys and stale reads before changing mode. */
+        if not self.active():return
+        if self.key_id is not None:self.window.after_cancel(self.key_id);self.key_id=None
+        self.dragging=False;self.auto_tracking=False;self.edit_revision+=1
+        args=(round(self.rows.get()),round(self.analog.get()),round(self.digital.get()))
+        self.camera_submit(lambda:(manual(self.client,*args,restore_auto=False),tuning(self.client)),'camera')
 
     def submit_auto(self):
-        if self.active():self.app._submit(lambda:(auto_adjust(self.client),tuning(self.client)),self.show,'camera')
+        if self.active():
+            if self.key_id is not None:self.window.after_cancel(self.key_id);self.key_id=None
+            self.dragging=False;self.edit_revision+=1
+            self.camera_submit(lambda:(auto_adjust(self.client),tuning(self.client)),'camera')
 
     def read(self):
-        if self.active():self.app._submit(lambda:(camera_read(self.client),tuning(self.client)),self.show,'camera_read')
+        if self.active():self.camera_submit(lambda:(camera_read(self.client),tuning(self.client)),'camera_read')
 
     def submit_tuning(self):
         if not self.active():return

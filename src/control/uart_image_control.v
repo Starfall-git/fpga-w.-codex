@@ -312,10 +312,16 @@ module uart_image_control #(
                                      (payload[23:8]==16'h3100 && payload[39:24]!=0 && payload[39:24]!=3 && payload[39:24]!=19) ||
                                      (payload[23:8]==16'h3102 && (payload[39:24]<256 || payload[39:24]>2048)) ||
                                      (payload[23:8]==16'h3110 && payload[39:24]!=224 && payload[39:24]!=320) ||
-                                     payload[23:8]==16'h312A || payload[23:8]==16'h3152 ||
-                                     payload[23:8]==16'h3164 || payload[23:8]==16'h3166 || payload[23:8]==16'h3168 ||
-                                     payload[23:8]==16'h3140 || payload[23:8]==16'h3142 ||
-                                     payload[23:8]==16'h3144 || payload[23:8]==16'h3146))) reply(sequence_id,command,2);
+                                     /* V0.20 / 93: ROI/gain-switch registers are writable with
+                                        bounded values, not read-only. V0.19 incorrectly rejected
+                                        the first ROI write after GUI had disabled AE. */
+                                     (payload[23:8]==16'h3140 && payload[39:24]!=0) ||
+                                     (payload[23:8]==16'h3142 && payload[39:24]!=0) ||
+                                     (payload[23:8]==16'h3144 && payload[39:24]!=1280) ||
+                                     (payload[23:8]==16'h3146 && payload[39:24]!=720 && payload[39:24]!=960) ||
+                                     (payload[23:8]==16'h3166 && payload[39:24]!=600 && payload[39:24]!=986) ||
+                                     (payload[23:8]==16'h3168 && payload[39:24]!=400 && payload[39:24]!=419) ||
+                                     payload[23:8]==16'h312A || payload[23:8]==16'h3152 || payload[23:8]==16'h3164))) reply(sequence_id,command,2);
                                 else if(!camera_ready_i || camera_ack_i!=camera_toggle_o) reply(sequence_id,command,5);
                                 else begin
                                     camera_command_o<={payload[7:0]==0,payload[23:8],payload[39:24]};

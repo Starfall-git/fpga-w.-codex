@@ -93,7 +93,7 @@ module tuning_control_tb;
     task key_press(input [1:0] value);
         begin keys=value; #300; keys=3; #300; end
     endtask
-    integer before_default;
+    integer before_default,vector_file,scanned,vector_seq;reg [15:0] vector_addr,vector_value;
     initial begin
         #43;rst=1;#200;
         send_frame(1,8'h15,0,0);check(1,8'h15,0,16'h3200);
@@ -120,6 +120,24 @@ module tuning_control_tb;
         send_frame(14,8'h12,0,0);check(14,8'h12,0,0);
         if(camera_commands-before_default!=13 || last_camera_command!={1'b0,16'h3100,16'd19} || tuning_value!=16'h3200)
             $fatal(1,"defaults did not restore all sensor/tuning controls");
+        /* V0.20 / 96: host AUTO_SETTINGS generated into a shared register vector file. */
+        vector_seq=30;vector_file=$fopen("camera_auto_vectors.txt","r");
+        if(!vector_file)$fatal(1,"camera vectors missing");
+        while(!$feof(vector_file)) begin
+          scanned=$fscanf(vector_file,"%h %h\n",vector_addr,vector_value);
+          if(scanned==2) begin
+            send_frame(vector_seq,8'h40,{24'd0,vector_value,vector_addr,8'd1},0);
+            check(vector_seq,8'h40,0,vector_value);
+            if(last_camera_command!={1'b0,vector_addr,vector_value})$fatal(1,"auto register mapping");
+            vector_seq=vector_seq+1;
+          end
+        end
+        $fclose(vector_file);
+        send_frame(70,8'h40,{24'd0,16'd720,16'h3146,8'd1},0);check(70,8'h40,0,720);
+        send_frame(71,8'h40,{24'd0,16'd600,16'h3166,8'd1},0);check(71,8'h40,0,600);
+        send_frame(72,8'h40,{24'd0,16'd400,16'h3168,8'd1},0);check(72,8'h40,0,400);
+        send_frame(73,8'h40,{24'd0,16'd0,16'h3144,8'd1},0);check(73,8'h40,2,0);
+        send_frame(74,8'h40,{24'd0,16'd999,16'h3166,8'd1},0);check(74,8'h40,2,0);
         camera_error=1;send_frame(15,8'h12,0,0);check(15,8'h12,6,0);
         $display("PASS TUNING: physical UART, frame CDC, sensor whitelist, read/write, NACK, unavailable, defaults");$finish;
     end
