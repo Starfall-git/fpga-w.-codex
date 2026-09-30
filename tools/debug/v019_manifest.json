@@ -1,0 +1,12 @@
+{
+  "example_top.v": "67b1bb8ce5166850efaab5b35edee1798c9bd27066c298dc5831f7f4603e239e",
+  "Ti60_AR0135.xml": "09e28d05266ef1b4237060e39e71a13ed4532ecb1de54605a678b36faf76dffe",
+  "src/cmos_i2c/ar0135_init.v": "1d06bd9381792a60022d64cb8d1e3a332aeb5f0574583a83337ae7c73c58e14c",
+  "src/control/uart_image_control.v": "1968bc9c03c5d11fb47374ea379b8b6e0802b23b638a9a5b76adca95c603b614",
+  "src/isp/video_processing.v": "f436e7072222a6134d72db2124e6eae945dee31670f31c2f508b8aea8a378a5f",
+  "src/isp/video_scharr_canny.v": "f1bbfb0de956cfa435695b72afb6637e9df4b448221fcd81c5db39264e36a688",
+  "host/gui.py": "30814d11d90f31e5b71faeeab4326261d5e9370a820d419f18d67a55484b0892",
+  "host/protocol.py": "c2c315ac5616766d9c6e6e9612c94efbf31aa833ede519e9aee70478732f5556",
+  "host/camera_controls.py": "345cce6660a6db3e59c68d05f7838c7bbbbdca514946331c9a8367aca9c9ff32",
+  "outflow/Ti60_AR0135_v019_exposure_isp_tuning.bit": "5a0fa733212396f4f10c13ce8f6c75d4eba6a8eb40f19f85d4e093658a7faa42"
+}

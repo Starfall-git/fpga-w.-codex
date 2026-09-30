@@ -17,7 +17,13 @@ module ar0135_init #(
     input wire sda_i,
     output reg done, output reg error,
     output reg [15:0] model_id,
-    output reg [7:0] config_index
+    output reg [7:0] config_index,
+    /* V0.19 / 88: same-clock runtime mailbox; init and runtime share one I2C master.
+       bit32=read, [31:16]=register, [15:0]=data. ACK only after STOP/retries. */
+    input wire runtime_toggle_i,
+    input wire [32:0] runtime_command_i,
+    output reg runtime_ack_o, runtime_error_o,
+    output reg [15:0] runtime_data_o
 );
     localparam QUARTER = (CLK_FREQ + 4*I2C_FREQ-1)/(4*I2C_FREQ);
     localparam MS_CYCLES = CLK_FREQ/1000;
@@ -31,15 +37,17 @@ module ar0135_init #(
     reg [7:0] retries;
     reg drive_low, nack;
     reg [15:0] rx_word;
-    wire [31:0] lut;
+    wire [31:0] init_lut;
+    reg runtime; reg [32:0] runtime_command;
+    wire [31:0] lut=runtime ? runtime_command[31:0] : init_lut;
     wire [7:0] lut_size;
-    wire reading = (config_index == 0);
+    wire reading = runtime ? runtime_command[32] : (config_index == 0);
     wire receiving = reading && byte_index >= 4;
     reg [7:0] tx_byte;
     reg [1:0] sda_sync;
     assign sda_o = 1'b0;
     assign sda_oe = drive_low;
-    I2C_AR0135_1280720_Config table_i(config_index, lut, lut_size);
+    I2C_AR0135_1280720_Config table_i(config_index, init_lut, lut_size);
     always @(posedge clk or negedge rst_n)
         if (!rst_n) sda_sync <= 2'b11;
         else sda_sync <= {sda_sync[0],sda_i};
@@ -54,18 +62,23 @@ module ar0135_init #(
     end
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
+            runtime<=0;runtime_command<=0;runtime_ack_o<=0;runtime_error_o<=0;runtime_data_o<=0;
             state<=WAIT; phase<=0; divider<=0;
             wait_cycles<=STARTUP_MS*MS_CYCLES;
             scl<=1; drive_low<=0; done<=0; error<=0;
             model_id<=0; config_index<=0; retries<=0;
             byte_index<=0; bit_index<=7; nack<=0; rx_word<=0;
+        end else if (state==HALT && done && runtime_toggle_i!=runtime_ack_o) begin
+            runtime<=1;runtime_command<=runtime_command_i;runtime_error_o<=0;
+            retries<=0;divider<=0;state<=LOAD;
         end else if (state==WAIT) begin
             divider<=0;
             if (wait_cycles!=0) wait_cycles<=wait_cycles-1'b1;
             else state<=LOAD;
         end else if (state==LOAD) begin
             divider<=0; phase<=0;
-            if (config_index==lut_size) begin done<=1; state<=HALT; end
+            if (runtime) begin byte_index<=0;bit_index<=7;nack<=0;rx_word<=0;state<=START;end
+            else if (config_index==lut_size) begin done<=1; state<=HALT; end
             else if (lut[31:16]==0) begin
                 /* V0.7: low word is milliseconds, not a bus transaction. */
                 wait_cycles<=lut[15:0]*MS_CYCLES;
@@ -134,11 +147,20 @@ module ar0135_init #(
                 end
                 FINISH: begin
                     if(nack) begin
-                        if(retries==MAX_RETRIES) begin error<=1; state<=HALT; end
+                        if(retries==MAX_RETRIES) begin
+                            if(runtime) begin runtime_error_o<=1;runtime_ack_o<=runtime_toggle_i;runtime<=0;end
+                            else error<=1;
+                            state<=HALT;
+                        end
                         else begin retries<=retries+1'b1; wait_cycles<=MS_CYCLES; state<=WAIT; end
                     end else begin
-                        if(reading) model_id<=rx_word;
-                        retries<=0; config_index<=config_index+1'b1; state<=LOAD;
+                        if(runtime) begin
+                            runtime_data_o<=reading ? rx_word : runtime_command[15:0];
+                            runtime_ack_o<=runtime_toggle_i;runtime<=0;state<=HALT;
+                        end else begin
+                            if(reading) model_id<=rx_word;
+                            retries<=0; config_index<=config_index+1'b1; state<=LOAD;
+                        end
                     end
                 end
                 default: begin scl<=1; drive_low<=0; end

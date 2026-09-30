@@ -132,10 +132,52 @@
 79. video_processing继续实例化分模块，所有路径统一24拍；新增独立像素参考、噪声与弱边缘测试，并验证关闭新功能后旧Sobel像素不变。
 ////--------------------2026-09-29-V0.16:高斯保边降噪与Scharr及流式Canny------------------------------
 */
+/*
+////--------------------2026-09-29-V0.17:USB采集卡HDMI实时预览与本地保存------------------------------
+80. 上位机接入USB视频采集卡，按DirectShow设备名称选择，后台采集只保留最新帧，不占用串口图传。
+81. HDMI预览新增开始/停止、分辨率帧率请求、实际帧率显示及单窗口管理，关闭后释放设备。
+82. 新增原分辨率当前帧另存为自定义路径，保留保存到帧仓库和后续编辑对比；本版无RTL逻辑变化，继续使用V0.16比特流。
+////--------------------2026-09-29-V0.17:USB采集卡HDMI实时预览与本地保存------------------------------
+*/
+/*
+////--------------------2026-09-29-V0.18:帧仓库交互与批注编辑及多帧对比欠载修复------------------------------
+83. DDR仓库增加按记录顺序的显示编号、唯一编号修改、HDMI回放缩略图和单帧删除；UART仓库协议V3新增操作6及33创建序号查询，关闭仓库自动恢复实时。
+84. 对比读取改为源行AXI接收与缩放绘制重叠执行，防止五帧起三列串行读取超出行时间；新增50%总线等待压力下1至8帧全像素回归。
+85. 主界面按钮改名为记录帧、帧冻结、实时显示；编辑器改为右键拖动，裁剪一次后返回画笔，增加图形、箭头、曲线与可修改文本。
+86. 批注采用独立对象层，支持可调橡皮和整对象擦除并保护原图/文字；撤销覆盖全部图像编辑，复原清除修改，保存覆盖并持久化可编辑对象。
+87. 本地对比删除打开/批注按钮，双击图片进入同一编辑器；保存覆盖并刷新对比；评估扩容路径，当前保留8帧上限及4个直播保留槽。
+////--------------------2026-09-29-V0.18:帧仓库交互与批注编辑及多帧对比欠载修复------------------------------
+
+////--------------------2026-09-30-V0.19:运行时曝光增益与可选降噪轮廓增强------------------------------
+88. AR0135初始化主机扩展运行时读写，UART40受限寄存器控制；新增曝光、模拟/数字增益滑块及自动调光，默认命令恢复传感器配置。
+89. 新增可选双级高斯，对应5x5二项式平滑；所有通路延迟统一39拍，新增选项关闭时保持原Sobel算术与像素结果。
+90. Scharr新增max+3min/8近似L2幅度选项，降低L1对斜向梯度的偏重；保留原L1以供比较。
+91. Canny低阈值比例25%-75%可调，连接由两轮可选扩为六轮，增加孤立候选抑制；仍为有限邻域连接而非整帧递归滞后。
+92. 新增UART14/15帧边界算法配置与回读、曝光及算法调节面板、传感器/协议/逐像素与原功能回归，记录效果和上板验证限制。
+////--------------------2026-09-30-V0.19:运行时曝光增益与可选降噪轮廓增强------------------------------
+
+
+////--------------------2026-09-30-V0.20:自动曝光恢复与滑块键盘交互修复------------------------------
+93. 修复UART40写入白名单误将测光ROI和增益切换寄存器当作只读，避免自动调光序列在关闭AE后中断。
+94. 自动调光恢复已验证的上电AE配置及模拟/数字自动增益；手动调参作为临时初值，成功或异常后均尝试恢复0x3100=0x0013并回读确认。
+95. 曝光和增益滑块支持点击获焦、左右键整数步进及合并提交；区分手动初值与自动实际值，阻止旧回读覆盖正在编辑的数值。
+96. 新增完整自动调光寄存器写序列RTL回归、错误恢复和键盘交互测试；说明曝光/模拟/数字增益及自动接管的行为。
+////--------------------2026-09-30-V0.20:自动曝光恢复与滑块键盘交互修复------------------------------
+
+*/
 //`include "ddr3_controller.vh"
 
 
 /* V0.2：新增两个调试参数；默认值保持摄像头图像输出。 */
+
+/*
+////--------------------2026-09-30-V0.21:手动与自动调光模式切换------------------------------
+97. 上位机新增手动调光按钮，关闭自动曝光及自动模拟/数字增益，滑块调参保持已确认模式。
+98. 自动调光按钮重新启动传感器自动调整并持续运行；切换时取消延迟按键提交，防止旧回读覆盖。
+99. 新增手动保持、自动恢复及失败时模式保持测试；沿用V0.20比特流，RTL功能不变。
+////--------------------2026-09-30-V0.21:手动与自动调光模式切换------------------------------
+*/
+
 module example_top #(
     parameter DEBUG_LEDS = 1,
     parameter HDMI_TEST_PATTERN = 0,
@@ -824,6 +866,9 @@ module example_top #(
     /* V0.7 / 30: replaced OV5640 controller/LUT (wire address78,
        16-bit register + 8-bit data) with AR0135 (20/21, 16+16).
        Prior implementation is backed up in tools/debug/before-v07/example_top.v. */
+    /* V0.19 / 88: runtime controls use clk_sys; never reset capture/DDR to change exposure. */
+    wire camera_toggle,camera_ack,camera_error;
+    wire [32:0] camera_command;wire [15:0] camera_data;
     wire camera_config_done, camera_config_error;
     wire [15:0] camera_model_id;
     wire [7:0] camera_config_index;
@@ -832,7 +877,9 @@ module example_top #(
         .scl(cmos_sclk), .sda_o(cmos_sdat_OUT),
         .sda_oe(cmos_sdat_OE), .sda_i(cmos_sdat_IN),
         .done(camera_config_done), .error(camera_config_error),
-        .model_id(camera_model_id), .config_index(camera_config_index)
+        .model_id(camera_model_id), .config_index(camera_config_index),
+        .runtime_toggle_i(camera_toggle),.runtime_command_i(camera_command),
+        .runtime_ack_o(camera_ack),.runtime_error_o(camera_error),.runtime_data_o(camera_data)
     );
     /* Hardware connector: cmos_data[7:0] = AR0135 DOUT[11:4].
        CTRL0/RESET_BAR has module RC pull-up, not an FPGA port on this board. */
@@ -1013,7 +1060,7 @@ module example_top #(
     wire frame_frozen;
     /* V0.15 / 70: stable command mailbox and DDR warehouse status. */
     wire [31:0] store_command;wire store_toggle,store_ack;
-    wire [7:0] store_result;wire [11:0] store_saved;
+    wire [7:0] store_result;wire [11:0] store_saved;wire [383:0] store_order;
     wire [1:0] store_mode;wire [3:0] store_display;
 
 
@@ -1078,7 +1125,7 @@ module example_top #(
 
         /* V0.5 / 20: complete configuration, stable until acknowledged after frame setup. */
         .store_command_i(store_command),.store_toggle_i(store_toggle),
-    .store_ack_o(store_ack),.store_result_o(store_result),.store_saved_o(store_saved),
+    .store_ack_o(store_ack),.store_result_o(store_result),.store_saved_o(store_saved),.store_order_o(store_order),
     .store_mode_o(store_mode),.store_display_o(store_display),
     .freeze_request_i(1'b0), .frozen_o(frame_frozen),
         .geometry_i(transform_geometry), .geometry_toggle_i(transform_toggle),
@@ -1197,12 +1244,13 @@ module example_top #(
     /* V0.6 / 25: applied pixel-domain mode outputs, not compile-time parameters. */
     /* V0.9 / 41,44: Median 与 Sobel 分别由像素域配置控制。 */
     wire ENABLE_SOBEL, ENABLE_MEDIAN, BINARY_OUTPUT;
+    wire [15:0] ISP_TUNING;
     wire ENABLE_GAUSSIAN,ENABLE_SCHARR,ENABLE_CANNY,PRESERVE_EDGES;
     wire processed_hs, processed_vs, processed_de;
     /* V0.4 / 14~16：UART/按键共同控制；输出阈值已经安全进入像素时钟域。
        processed_vs低有效时处于场消隐，处理流水中已没有上一帧有效像素。 */
     uart_image_control #(
-        .SNAPSHOT_ENABLE(1),
+        .SNAPSHOT_ENABLE(1),.CAMERA_ENABLE(1),
         .CLOCK_HZ(CLOCK_MAIN), .BAUD(UART_BAUD),
         .DEBOUNCE_CYCLES(CLOCK_MAIN/50)
     ) u_image_control (
@@ -1211,14 +1259,17 @@ module example_top #(
         .frame_blank_i(!processed_vs), .threshold_pixel_o(SOBEL_THRESHOLD),
         .enable_sobel_o(ENABLE_SOBEL), .binary_output_o(BINARY_OUTPUT),
         .enable_median_o(ENABLE_MEDIAN),
-        .enable_gaussian_o(ENABLE_GAUSSIAN),.enable_scharr_o(ENABLE_SCHARR),
+        .tuning_pixel_o(ISP_TUNING),.enable_gaussian_o(ENABLE_GAUSSIAN),.enable_scharr_o(ENABLE_SCHARR),
         .enable_canny_o(ENABLE_CANNY),.preserve_edges_o(PRESERVE_EDGES),
         /* V0.5 / 22: UART now controls DDR source geometry as well as Sobel threshold. */
         .geometry_o(transform_geometry), .geometry_toggle_o(transform_toggle),
         .geometry_ack_i(transform_ack), .transform_faults_i(transform_faults),
         .store_command_o(store_command),.store_toggle_o(store_toggle),
-        .store_ack_i(store_ack),.store_result_i(store_result),.store_saved_i(store_saved),
-        .store_mode_i(store_mode),.store_display_i(store_display)
+        .store_ack_i(store_ack),.store_result_i(store_result),.store_saved_i(store_saved),.store_order_i(store_order),
+        .store_mode_i(store_mode),.store_display_i(store_display),
+        .camera_toggle_o(camera_toggle),.camera_command_o(camera_command),
+        .camera_ready_i(camera_config_done),.camera_ack_i(camera_ack),
+        .camera_error_i(camera_error),.camera_data_i(camera_data)
     );
     video_processing #(
         .IMAGE_WIDTH(1280),
@@ -1230,7 +1281,7 @@ module example_top #(
         .clk(clk_pixel), .rst_n(rstn_pixel),
         .SOBEL_THRESHOLD(SOBEL_THRESHOLD),
         .ENABLE_SOBEL(ENABLE_SOBEL), .ENABLE_MEDIAN(ENABLE_MEDIAN),
-        .ENABLE_GAUSSIAN(ENABLE_GAUSSIAN),.ENABLE_SCHARR(ENABLE_SCHARR),
+        .ISP_TUNING(ISP_TUNING),.ENABLE_GAUSSIAN(ENABLE_GAUSSIAN),.ENABLE_SCHARR(ENABLE_SCHARR),
         .ENABLE_CANNY(ENABLE_CANNY),.PRESERVE_EDGES(PRESERVE_EDGES),
         .BINARY_OUTPUT(BINARY_OUTPUT),
         .rgb_i({lcd_red, lcd_green, lcd_blue}),

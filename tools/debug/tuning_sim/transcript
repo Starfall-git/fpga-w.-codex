@@ -1,0 +1,30 @@
+# vsim -c work.tuning_control_tb -do "run -all; quit -f" 
+# Start time: 21:23:11 on Sep 30,2026
+# Loading sv_std.std
+# Loading work.tuning_control_tb
+# Loading work.video_sobel
+# Loading work.uart_image_control
+# Loading work.uart_rx
+# Loading work.uart_tx
+# Loading work.key_debounce
+# Loading work.threshold_cdc
+# ** Warning: (vsim-3017) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Too few port connections. Expected 35, found 23.
+#    Time: 0 ps  Iteration: 0  Instance: /tuning_control_tb/dut File: C:/Users/francis/Desktop/fpga-w.-codex/src/control/uart_image_control.v
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'enable_gaussian_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'enable_scharr_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'enable_canny_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'preserve_edges_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_command_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_toggle_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_ack_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_result_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_saved_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_order_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_mode_i'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(27): [TFMPC] - Missing connection for port 'store_display_i'.
+# run -all
+# PASS TUNING: physical UART, frame CDC, sensor whitelist, read/write, NACK, unavailable, defaults
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/tuning_control_tb.sv(142)
+#    Time: 873045 ns  Iteration: 0  Instance: /tuning_control_tb
+# End time: 21:23:12 on Sep 30,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 13

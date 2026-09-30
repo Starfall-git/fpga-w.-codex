@@ -12,10 +12,13 @@ module ddr_frame_store(
  output reg [7:0] result_o,
  output reg [3:0] write_index,read_index,
  output reg [11:0] saved_o,compare_o,
+ /* V0.18 / 83: stable capture ordinals survive host reconnects. */
+ output reg [383:0] order_o,
  output reg [1:0] mode_o
 );
  reg request_meta,request_sync,have_written,have_read;
  reg [3:0] latest;
+ reg [31:0] capture_ordinal;
  integer k,j,candidate,count;
  reg [3:0] next_write;
  reg found;
@@ -35,7 +38,7 @@ module ddr_frame_store(
   if(reset) begin
    write_index<=0;read_index<=2;latest<=0;have_written<=0;have_read<=0;
    request_meta<=0;request_sync<=0;command_ack_o<=0;result_o<=0;
-   saved_o<=0;compare_o<=0;mode_o<=0;
+   saved_o<=0;compare_o<=0;mode_o<=0;order_o<=0;capture_ordinal<=0;
   end else begin
    request_meta<=command_toggle_i;request_sync<=request_meta;
    if(write_done) begin latest<=write_index;write_index<=next_write;have_written<=1;end
@@ -51,7 +54,7 @@ module ddr_frame_store(
        if(!have_read || mode_o!=0) result_o<=4;
        else if(saved_o[read_index]) result_o<=4;
        else if(count>=8) result_o<=7;
-       else saved_o[read_index]<=1;
+       else begin saved_o[read_index]<=1;capture_ordinal<=capture_ordinal+1'b1;order_o[read_index*32+:32]<=capture_ordinal+1'b1;end
       end
       2:begin
        if(!have_read) result_o<=4;
@@ -66,6 +69,12 @@ module ddr_frame_store(
        else begin mode_o<=3;compare_o<=command_i[27:16];end
       end
       5:begin saved_o<=0;compare_o<=0;mode_o<=0;end
+      /* V0.18 / 83: delete one retained slot at the drained frame boundary.
+         Resume live before freeing it; writer still excludes current reader. */
+      6:begin
+       if(command_i[15:8]>=12 || !saved_o[command_i[11:8]]) result_o<=2;
+       else begin saved_o[command_i[11:8]]<=0;compare_o<=0;mode_o<=0;end
+      end
       default:result_o<=2;
      endcase
     end

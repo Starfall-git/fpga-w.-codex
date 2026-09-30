@@ -11,12 +11,14 @@ module ar0135_tb;
     assign sda=slave_low?1'b0:1'bz;
     wire [15:0] id;
     wire [7:0] index;
+    reg rt_toggle=0,rt_nack=0;reg [32:0] rt_command=0;
+    wire rt_ack,rt_error;wire [15:0] rt_data;
     ar0135_init #(.CLK_FREQ(100000),.I2C_FREQ(2500)) init_i
-        (clk,rst,scl,sda_o,sda_oe,sda,done,error,id,index);
+        (clk,rst,scl,sda_o,sda_oe,sda,done,error,id,index,rt_toggle,rt_command,rt_ack,rt_error,rt_data);
     wire absent_scl,absent_o,absent_oe,absent_done,absent_error;
     wire [15:0] absent_id; wire [7:0] absent_index;
     ar0135_init #(.CLK_FREQ(100000),.I2C_FREQ(2500)) absent_i
-        (clk,rst,absent_scl,absent_o,absent_oe,1'b1,absent_done,absent_error,absent_id,absent_index);
+        (clk,rst,absent_scl,absent_o,absent_oe,1'b1,absent_done,absent_error,absent_id,absent_index,1'b0,33'd0,,,);
     reg configured=0, fv=0,lv=0;
     reg [7:0] raw=0;
     wire frame_valid,pixel_valid; wire [15:0] rgb;
@@ -61,12 +63,13 @@ module ar0135_tb;
         wait(rst);
         forever begin
             start_bus(); start_time=$time;
-            receive_byte(b0,1); if(b0!=8'h20) $fatal(1,"Bad sensor address %h",b0);
+            receive_byte(b0,!rt_nack); if(rt_nack) begin stop_bus();end else begin
+            if(b0!=8'h20) $fatal(1,"Bad sensor address %h",b0);
             receive_byte(b1,1); receive_byte(b2,1); addr={b1,b2};
-            if(addr==16'h3000) begin
+            if(addr==16'h3000 || (done && rt_command[32])) begin
                 start_bus();
                 receive_byte(b0,1); if(b0!=8'h21) $fatal(1,"Bad read address");
-                send_byte(8'h05,1); send_byte(8'h54,0); stop_bus();
+                send_byte(addr==16'h3000 ? 8'h05 : regs[addr][15:8],1); send_byte(addr==16'h3000 ? 8'h54 : regs[addr][7:0],0); stop_bus();
             end else begin
                 /* NACK data high byte once: index must stay and full write retry. */
                 if(addr==16'h302C && !injected) begin
@@ -86,6 +89,14 @@ module ar0135_tb;
             end
         end
     end
+    end
+    task runtime_transfer(input bit rd,input [15:0] address,data,input bit expect_error);
+      begin
+        @(negedge clk);rt_command={rd,address,data};rt_toggle=~rt_toggle;
+        wait(rt_ack==rt_toggle);#1;
+        if(rt_error!==expect_error || !done || error)$fatal(1,"Runtime status");
+      end
+    endtask
     task tick(input bit f,input bit l,input reg[7:0] d);
         begin @(negedge clk);fv=f;lv=l;raw=d; @(posedge clk); #1; end
     endtask
@@ -126,6 +137,14 @@ module ar0135_tb;
            /* V0.10 / 47: sensor vertical readout corrects board orientation. */
            regs['h3040]!=16'hC000 || regs['h3028]!=16'h10 || regs['h3030]!=44)
             $fatal(1,"Mode/PLL/AE mismatch");
+        runtime_transfer(0,16'h3012,16'd120,0);
+        if(regs['h3012]!=120)$fatal(1,"Runtime exposure write");
+        runtime_transfer(1,16'h3012,0,0);
+        if(rt_data!=120)$fatal(1,"Runtime readback");
+        rt_nack=1;runtime_transfer(0,16'h305E,16'd64,1);rt_nack=0;
+        runtime_transfer(0,16'h305E,16'd64,0);
+        runtime_transfer(1,16'h305E,0,0);
+        if(rt_data!=64)$fatal(1,"Runtime recovery");
         $display("PASS AR0135: ACK/retry/missing-device/ID/delays/ROI/AE, 2 full720p frames (%0d pixels)",seen);
         $finish;
     end

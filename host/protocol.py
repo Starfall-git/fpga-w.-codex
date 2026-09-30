@@ -164,7 +164,7 @@ class DeviceStatus:
         if status.version != PROTOCOL_VERSION:
             raise ValueError(f"协议版本不匹配：设备为 {status.version}")
         # V0.9 / 45: bit2 is valid only when capability bit7 is advertised.
-        if (status.threshold > 4095 or frame.payload[7] or status.advanced_capabilities not in (0,15) or status.isp_flags>(127 if status.advanced_capabilities else 7) or
+        if (status.threshold > 4095 or frame.payload[7] or status.advanced_capabilities not in (0,15,31) or status.isp_flags>(127 if status.advanced_capabilities else 7) or
                 (status.isp_flags and not status.capabilities & CAP_ISP) or
                 (status.median_enabled and not status.capabilities & CAP_MEDIAN)):
             raise ValueError("设备状态字段不合法")

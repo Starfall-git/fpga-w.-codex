@@ -6,11 +6,13 @@ from datetime import datetime
 import queue
 import time
 from .snapshots import FrameStore
-from .ddr_store import store_status, store_control
-from .hdmi_source import PendingHDMISource, HDMIPreview
+from .ddr_store import store_status, store_control, FrameCatalog
+from .hdmi_source import USBCaptureSource, HDMIPreview
 from .frame_gallery import Gallery
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, simpledialog
+from PIL import ImageTk
+import threading
 from .client import SerialClient, DemoClient, list_ports
 from .protocol import (CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM, CAP_ISP, CAP_MEDIAN,
                        CAP_DEFAULTS, threshold_payload, crop_payload, percent_ratio)
@@ -51,7 +53,8 @@ class ImageControlApp:
         self.frame_store=FrameStore()
         self.snapshot_busy=False;self.frame_frozen=False;self.snapshot_available=False
         self.gallery=None
-        self.hdmi_source=hdmi_source or PendingHDMISource();self.ddr_status=None;self.ddr_window=None
+        self.ddr_catalog=FrameCatalog();self.ddr_selected={};self.ddr_thumb_cancel=threading.Event()
+        self.hdmi_source=hdmi_source or USBCaptureSource();self.ddr_status=None;self.ddr_window=None
         self.gaussian=tk.BooleanVar();self.scharr=tk.BooleanVar();self.canny=tk.BooleanVar();self.preserve=tk.BooleanVar()
         self.advanced_controls=[];self.advanced_available=False
         self.controls = []
@@ -104,10 +107,13 @@ class ImageControlApp:
         self.threshold_entry.bind('<Return>',lambda _: self.apply_threshold())
         ttk.Label(row,text='0=参考原强度；增大可抑制弱边缘，>1020无边缘 · 回车生效').pack(side='left',padx=10)
         advanced=ttk.Frame(image);advanced.pack(fill='x',pady=(8,0))
-        for label,var,edge in [('高斯滤波',self.gaussian,None),('保边降噪（需高斯）',self.preserve,None),('Scharr',self.scharr,'scharr'),('Canny（两轮连接）',self.canny,'canny')]:
+        for label,var,edge in [('高斯滤波',self.gaussian,None),('保边降噪（需高斯）',self.preserve,None),('Scharr',self.scharr,'scharr'),('Canny',self.canny,'canny')]:
             widget=ttk.Checkbutton(advanced,text=label,variable=var,command=lambda e=edge:self.apply_isp(e))
             widget.pack(side='left',padx=(0,14));self.advanced_controls.append(widget)
-        ttk.Label(image,text='边缘算法互斥；Canny自动启用高斯，高/低阈值=输入值/一半').pack(anchor='w',pady=(3,0))
+        # V0.19 / 88-91: secondary panel keeps main controls compact.
+        self.tuning_button=ttk.Button(advanced,text='曝光 / 算法调节',command=self.open_tuning)
+        self.tuning_button.pack(side='right')
+        ttk.Label(image,text='边缘算法互斥；Canny自动启用高斯。曝光和滤波强度可在右侧调节。').pack(anchor='w',pady=(3,0))
         ttk.Label(image,textvariable=self.mode_readback,foreground='#137c70').pack(anchor='w',pady=(10,0))
         info=ttk.Frame(image); info.pack(fill='x',pady=(4,0))
         ttk.Label(info,text='设备阈值：').pack(side='left')
@@ -136,30 +142,36 @@ class ImageControlApp:
         crop_button.pack(side='left'); self.controls.append((crop_button,CAP_CROP))
         self.defaults_button=ttk.Button(row,text='默认',command=self.reset_defaults)
         self.defaults_button.pack(side='right')
-        ttk.Label(transform,text='居中显示：缩小补黑，放大截取。黑白反转只作用于 Sobel；“默认”保留阈值。',foreground='#64748b').pack(anchor='w')
+        ttk.Label(transform,text='居中显示：缩小补黑，放大截取。黑白反转作用于边缘检测；“默认”保留阈值。',foreground='#64748b').pack(anchor='w')
         ttk.Label(transform,textvariable=self.geometry_readback,wraplength=880,foreground='#137c70').pack(fill='x',pady=(8,0))
         ttk.Label(main,textvariable=self.message,wraplength=900).pack(fill='x',pady=12)
         row=ttk.Frame(main); row.pack(fill='x')
         ttk.Checkbutton(row,text='通信记录',variable=self.show_log,command=self._toggle_log).pack(side='left')
         ttk.Label(row,textvariable=self.cap_text,foreground='#64748b').pack(side='right')
         framebar=ttk.Frame(main,padding=(0,8));framebar.pack(fill='x')
-        self.freeze_button=ttk.Button(framebar,text='帧冻结',command=self.capture_frame)
+        self.freeze_button=ttk.Button(framebar,text='记录帧',command=self.capture_frame)
         self.freeze_button.pack(side='left')
-        self.pause_button=ttk.Button(framebar,text='暂停',command=lambda:self.ddr_action(2))
+        self.pause_button=ttk.Button(framebar,text='帧冻结',command=lambda:self.ddr_action(2))
         self.pause_button.pack(side='left',padx=5)
-        self.resume_button=ttk.Button(framebar,text='继续',command=self.resume_video)
+        self.resume_button=ttk.Button(framebar,text='实时显示',command=self.resume_video)
         self.resume_button.pack(side='left')
         self.ddr_button=ttk.Button(framebar,text='DDR冻结帧仓库',command=self.open_ddr_store)
         self.ddr_button.pack(side='left',padx=5)
         ttk.Button(framebar,text='本地图片仓库',command=self.open_gallery).pack(side='right')
-        ttk.Button(framebar,text='HDMI预览',command=lambda:HDMIPreview(self.root,self.hdmi_source,self.frame_store)).pack(side='right',padx=5)
-        self.ddr_text=tk.StringVar(value='DDR仓库：未连接 · HDMI采集待接入')
+        ttk.Button(framebar,text='HDMI预览',command=self.open_hdmi_preview).pack(side='right',padx=5)
+        self.ddr_text=tk.StringVar(value='DDR仓库：未连接')
         ttk.Label(main,textvariable=self.ddr_text).pack(anchor='w')
         self.log_frame=ttk.Frame(main)
         self.log=tk.Text(self.log_frame,height=6,wrap='word',font=('Consolas',9),background='#142735',foreground='#d7e5ee',state='disabled')
         scroll=ttk.Scrollbar(self.log_frame,command=self.log.yview)
         self.log.configure(yscrollcommand=scroll.set)
         scroll.pack(side='right',fill='y'); self.log.pack(fill='both',expand=True)
+
+    def open_tuning(self):
+        from .camera_controls import ControlPanel
+        if getattr(self,'tuning_panel',None) and self.tuning_panel.window.winfo_exists():
+            self.tuning_panel.window.lift();return
+        self.tuning_panel=ControlPanel(self)
 
     def _toggle_log(self):
         if self.show_log.get(): self.log_frame.pack(fill='both',expand=True,pady=(6,0))
@@ -178,54 +190,138 @@ class ImageControlApp:
 
         for widget in self.advanced_controls:
             widget.configure(state='normal' if connected and self.advanced_available and not self.resetting else 'disabled')
+        self.tuning_button.configure(state='normal' if connected and (self.client.simulated or (self.client.status and self.client.status.advanced_capabilities & 16)) and not self.resetting else 'disabled')
         enabled=connected and self.snapshot_available and not self.busy and not self.pending
         for widget in (self.freeze_button,self.pause_button,self.resume_button,self.ddr_button):
             widget.configure(state='normal' if enabled else 'disabled')
         if self.ddr_status and self.ddr_status.mode!=0:self.freeze_button.configure(state='disabled')
 
     def _store_status(self,status):
+        previous=set(self.ddr_catalog.entries)
+        self.ddr_catalog.sync(status.saved,status.orders)
+        if getattr(self,'_record_pending',False):
+            for slot in set(status.saved)-previous:self.ddr_catalog.entries[slot]['time']=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            self._record_pending=False
         self.ddr_status=status
         # V0.15: pause/replay do not lock ISP settings; UART carries no pixels.
         self.frame_frozen=False
-        modes=('实时','暂停','单帧回放','多帧对比')
+        modes=('实时显示','帧冻结','单帧回放','多帧对比')
         self.ddr_text.set(f'DDR已存 {len(status.saved)}/{status.capacity} 帧 · {modes[status.mode]} · 断电/复位后编号失效')
         if self.ddr_window is not None and self.ddr_window.winfo_exists():self._refresh_ddr_list()
 
     def ddr_action(self,action,frame_id=0,selection=()):
-        if not self.client or self.busy:return
+        if not self.client:return
+        backend=self.client
         def done(status):
+            self._record_pending=action==1
             self._store_status(status)
-            self.message.set(('已恢复实时','已保存当前帧，直播继续','显示已暂停，后台采集继续','已回放所选帧','HDMI已切换为多帧对比','DDR仓库已清空')[action])
-        self._submit(lambda:store_control(self.client,action,frame_id,selection),done,'ddr')
+            self.message.set(('已恢复实时显示','已记录当前帧，直播继续','当前画面已冻结，后台采集继续','已回放所选帧','HDMI已切换为多帧对比','DDR仓库已清空','已删除选中帧并恢复实时')[action])
+        self._submit(lambda:store_control(backend,action,frame_id,selection),done,f'ddr_delete_{frame_id}' if action==6 else 'ddr')
 
     def open_ddr_store(self):
         if self.ddr_window is not None and self.ddr_window.winfo_exists():self.ddr_window.lift();return
-        self.ddr_window=tk.Toplevel(self.root);self.ddr_window.title('DDR冻结帧仓库 · 按编号回放');self.ddr_window.geometry('600x500')
+        self.ddr_window=tk.Toplevel(self.root);self.ddr_window.title('DDR冻结帧仓库');self.ddr_window.geometry('1000x750')
+        self.ddr_window.protocol('WM_DELETE_WINDOW',self.close_ddr_store)
         ttk.Label(self.ddr_window,textvariable=self.ddr_text,padding=10).pack(fill='x')
-        ttk.Label(self.ddr_window,text='HDMI采集尚未接入：这里仅显示板上帧编号，没有缩略图。').pack()
-        self.ddr_list=tk.Listbox(self.ddr_window,selectmode='extended',exportselection=False)
-        self.ddr_list.pack(fill='both',expand=True,padx=12,pady=12)
+        ttk.Label(self.ddr_window,text='按记录顺序排列；勾选图片，右上角×删除；编号可修改但不能重复。').pack()
+        self.ddr_hint=tk.StringVar(value='缩略图需回放到HDMI后读取；更新时会短暂切换显示，完成后恢复实时。')
+        ttk.Label(self.ddr_window,textvariable=self.ddr_hint,wraplength=950).pack(fill='x',padx=12,pady=5)
         bar=ttk.Frame(self.ddr_window);bar.pack(fill='x',padx=12,pady=10)
-        ttk.Button(bar,text='回放选中帧',command=self.replay_selected).pack(side='left')
-        ttk.Button(bar,text='HDMI对比所选',command=self.compare_selected).pack(side='left',padx=5)
-        ttk.Button(bar,text='刷新',command=lambda:self._submit(lambda:store_status(self.client),self._store_status,'store_query') if self.client else None).pack(side='left')
+        for text,command in [('回放选中帧',self.replay_selected),('HDMI对比所选',self.compare_selected),('读取缩略图',self.read_ddr_thumbnails),('修改编号',self.rename_ddr)]:
+            ttk.Button(bar,text=text,command=command).pack(side='left',padx=4)
         ttk.Button(bar,text='清空DDR仓库',command=lambda:self.ddr_action(5)).pack(side='right')
+        self.ddr_canvas=tk.Canvas(self.ddr_window,highlightthickness=0)
+        scroll=ttk.Scrollbar(self.ddr_window,command=self.ddr_canvas.yview);scroll.pack(side='right',fill='y')
+        self.ddr_canvas.configure(yscrollcommand=scroll.set);self.ddr_canvas.pack(fill='both',expand=True)
+        self.ddr_inner=ttk.Frame(self.ddr_canvas);self.ddr_canvas.create_window(0,0,window=self.ddr_inner,anchor='nw')
+        self.ddr_inner.bind('<Configure>',lambda _:self.ddr_canvas.configure(scrollregion=self.ddr_canvas.bbox('all')))
         self._refresh_ddr_list()
+        if self.ddr_catalog.entries:self.read_ddr_thumbnails()
+
+    def close_ddr_store(self):
+        self.ddr_thumb_cancel.set();self.pending.pop('ddr_thumbnails',None);self.pending.pop('ddr',None)
+        self.ddr_window.destroy();self.ddr_window=None
+        self.ddr_action(0)
 
     def _refresh_ddr_list(self):
-        self.ddr_ids=list(self.ddr_status.saved) if self.ddr_status else []
-        self.ddr_list.delete(0,'end')
-        for i in self.ddr_ids:self.ddr_list.insert('end',f'帧 #{i:02d}    · DDR中保留（无预览）')
+        selected={s for s,v in self.ddr_selected.items() if v.get()}
+        self.ddr_selected={};self.ddr_photos=[]
+        for child in self.ddr_inner.winfo_children():child.destroy()
+        for index,slot in enumerate(self.ddr_catalog.ordered()):
+            item=self.ddr_catalog.entries[slot]
+            cell=ttk.Frame(self.ddr_inner,padding=10);cell.grid(row=index//3,column=index%3,sticky='nsew')
+            area=ttk.Frame(cell,width=290,height=164);area.pack();area.pack_propagate(False)
+            thumb=item['thumbnail']
+            if thumb is not None:
+                image=thumb.copy();image.thumbnail((290,164));photo=ImageTk.PhotoImage(image,master=self.ddr_window);self.ddr_photos.append(photo)
+                label=ttk.Label(area,image=photo,anchor='center')
+            else:label=ttk.Label(area,text='尚未读取缩略图',anchor='center')
+            label.pack(fill='both',expand=True)
+            var=tk.BooleanVar(value=slot in selected);self.ddr_selected[slot]=var
+            delete=ttk.Button(area,text='×',width=2,command=lambda s=slot:self.ddr_action(6,s))
+            def choose(v=var,d=delete):
+                if v.get():d.place(relx=1,x=-2,y=2,anchor='ne')
+                else:d.place_forget()
+            if var.get():choose()
+            label.bind('<Button-1>',lambda _,v=var,c=choose:(v.set(not v.get()),c()))
+            ttk.Checkbutton(cell,text=f"编号 {item['number']}",variable=var,command=choose).pack()
+            ttk.Label(cell,text=item['time'] or '连接前已存在 · 时间未知').pack()
+
+    def rename_ddr(self):
+        slots=[s for s,v in self.ddr_selected.items() if v.get()]
+        if len(slots)!=1:self.message.set('请选中一张图片修改编号');return
+        slot=slots[0];number=simpledialog.askinteger('修改编号','输入不重复的正整数编号：',initialvalue=self.ddr_catalog.entries[slot]['number'],minvalue=1,parent=self.ddr_window)
+        if number is not None:
+            try:self.ddr_catalog.rename(slot,number);self._refresh_ddr_list()
+            except ValueError as e:self.ddr_hint.set(str(e))
 
     def replay_selected(self):
-        selected=self.ddr_list.curselection()
-        if len(selected)!=1:self.message.set('请选择一个DDR帧编号进行回放');return
-        self.ddr_action(3,self.ddr_ids[selected[0]])
+        selected=[s for s,v in self.ddr_selected.items() if v.get()]
+        if len(selected)!=1:self.message.set('请选择一张DDR帧进行回放');return
+        self.ddr_action(3,selected[0])
 
     def compare_selected(self):
-        selected=[self.ddr_ids[i] for i in self.ddr_list.curselection()]
+        selected=[s for s,v in self.ddr_selected.items() if v.get()]
         if not selected:self.message.set('请选择需要对比的DDR帧');return
         self.ddr_action(4,selection=selected)
+
+    def read_ddr_thumbnails(self):
+        if not self.client or not self.ddr_window:return
+        if self.busy:self.ddr_hint.set('当前命令尚未完成，请稍后读取缩略图。');return
+        slots=self.ddr_catalog.ordered()
+        if not slots:return
+        backend=self.client;source=self.hdmi_source;self.ddr_thumb_cancel=threading.Event();cancel=self.ddr_thumb_cancel
+        self.ddr_hint.set('正在依次回放读取缩略图…完成后自动恢复实时显示。')
+        def operation():
+            images={}
+            if backend.simulated:raise RuntimeError('模拟DDR编号没有真实像素，不生成伪缩略图')
+            if not source.available and not getattr(source,'running',False):
+                devices=source.devices() if hasattr(source,'devices') else []
+                index=next((i for i,n in devices if 'hagibis' in n.lower()),None)
+                if index is None:raise RuntimeError('请在HDMI预览中选择采集卡并开始采集')
+                source.start(index)
+            try:
+                for slot in slots:
+                    if cancel.is_set():break
+                    store_control(backend,3,slot)
+                    # HDMI/UVC has no DDR-ID tag. Wait out the capture pipeline,
+                    # then select a newly received frame from the static replay.
+                    ready=time.monotonic()+1.0;deadline=ready+4
+                    while not cancel.is_set():
+                        frame=source.latest()
+                        if frame is not None and frame.timestamp>=ready:
+                            image=frame.image.copy();image.thumbnail((580,328));images[slot]=image;break
+                        if time.monotonic()>deadline:raise RuntimeError('读取缩略图超时，请检查HDMI预览通路')
+                        cancel.wait(.03)
+            finally:store_control(backend,0)
+            return images,store_status(backend)
+        def done(result):
+            images,status=result
+            for slot,image in images.items():
+                if slot in self.ddr_catalog.entries:self.ddr_catalog.entries[slot]['thumbnail']=image
+            self._store_status(status)
+            if self.ddr_window:self.ddr_hint.set(f'已读取 {len(images)} 张缩略图，并恢复实时显示。')
+        self._submit(operation,done,'ddr_thumbnails')
 
     def open_gallery(self):
         if self.gallery is not None and self.gallery.win.winfo_exists():
@@ -262,6 +358,7 @@ class ImageControlApp:
             try: item[2](item[1].result())
             except Exception as error:
                 self.message.set(str(error)); self._log('错误  '+str(error))
+                if self.ddr_window is not None and self.ddr_window.winfo_exists():self.ddr_hint.set(str(error))
                 if item[3]=='defaults': self.resetting=False
             self._states()
             if self.pending:
@@ -282,7 +379,7 @@ class ImageControlApp:
             backend=self.client
             def disconnected(_):
                 self.frame_frozen=False;self.snapshot_available=False
-                self.ddr_status=None;self.ddr_text.set('DDR仓库：未连接');
+                self.ddr_status=None;self.ddr_catalog=FrameCatalog();self.ddr_text.set('DDR仓库：未连接');
                 if self.ddr_window is not None and self.ddr_window.winfo_exists():self._refresh_ddr_list()
                 self.client=None; self.caps=0; self.connection.set('未连接'); self.readback.set('—')
                 self.mode_readback.set('当前模式：—'); self.geometry_readback.set('尚未读取图像设置')
@@ -323,7 +420,7 @@ class ImageControlApp:
         mode=('选择性中值滤波 + ' if status.median_enabled else '') + (
             'Sobel 强度 · '+('反相' if status.inverted else '白边黑底') if status.sobel_enabled else
             ('灰度图像' if status.median_enabled else '原始图像'))
-        if status.isp_flags & 32:mode='Canny（两轮邻域连接）'
+        if status.isp_flags & 32:mode='Canny（连接范围在算法调节中设置）'
         elif status.isp_flags & 16:mode='Scharr 强度'
         if status.isp_flags & 8:mode='高斯' + ('保边' if status.isp_flags & 64 else '') + ' + ' + mode
         if status.capabilities & CAP_ISP:
@@ -402,6 +499,9 @@ class ImageControlApp:
             self.message.set('已恢复默认，Sobel阈值保持不变。')
         def reset_operation():
             result=backend.reset_defaults()
+            if backend.simulated:
+                from .camera_controls import camera_defaults
+                camera_defaults(backend)
             if self.snapshot_available:
                 if backend.simulated:store_control(backend,0)
                 backend.snapshot_info=store_status(backend)
@@ -417,9 +517,16 @@ class ImageControlApp:
             self._submit(self.client.get_status,lambda status:self._status(status,False),'poll')
         if not self.closing: self._poll_id=self.root.after(1500,self._poll)
 
+    # V0.17 / 81: one preview owner per capture device.
+    def open_hdmi_preview(self):
+        preview=getattr(self,'hdmi_preview',None)
+        if preview is not None and preview.win.winfo_exists():
+            preview.win.lift();return
+        self.hdmi_preview=HDMIPreview(self.root,self.hdmi_source,self.frame_store)
+
     def close(self):
         if self.closing: return
-        self.closing=True; self.pending.clear(); client=self.client
+        self.closing=True; self.ddr_thumb_cancel.set(); self.pending.clear(); client=self.client
         # V0.6: cancel owned timers before destroying Tcl widgets.
         for timer in (self._drain_id,self._poll_id):
             self.root.after_cancel(timer)

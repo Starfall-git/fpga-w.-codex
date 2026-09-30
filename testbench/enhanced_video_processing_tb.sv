@@ -11,17 +11,17 @@ module enhanced_video_processing_tb;
     wire [23:0] binary_rgb, strength_rgb, zero_rgb, max_rgb, bypass_rgb, high_rgb;
     wire bh, bv, bd, sh, sv, sd, zh, zv, zd, mh, mv, md, ph, pv, pd, hh, hv, hd;
     video_processing #(.IMAGE_WIDTH(WIDTH)) binary_dut
-        (clk,rst_n,1'b1,1'b1,12'd128,rgb,hs,vs,de,binary_rgb,bh,bv,bd);
+        (.ISP_TUNING(16'h3200),clk,rst_n,1'b1,1'b1,12'd128,rgb,hs,vs,de,binary_rgb,bh,bv,bd);
     video_processing #(.IMAGE_WIDTH(WIDTH),.GRAYSCALE_OUTPUT(1)) strength_dut
-        (clk,rst_n,1'b1,1'b1,12'd128,rgb,hs,vs,de,strength_rgb,sh,sv,sd);
+        (.ISP_TUNING(16'h3200),clk,rst_n,1'b1,1'b1,12'd128,rgb,hs,vs,de,strength_rgb,sh,sv,sd);
     video_processing #(.IMAGE_WIDTH(WIDTH)) zero_dut
-        (clk,rst_n,1'b1,1'b1,12'd0,rgb,hs,vs,de,zero_rgb,zh,zv,zd);
+        (.ISP_TUNING(16'h3200),clk,rst_n,1'b1,1'b1,12'd0,rgb,hs,vs,de,zero_rgb,zh,zv,zd);
     video_processing #(.IMAGE_WIDTH(WIDTH)) max_dut
-        (clk,rst_n,1'b1,1'b1,12'd2047,rgb,hs,vs,de,max_rgb,mh,mv,md);
+        (.ISP_TUNING(16'h3200),clk,rst_n,1'b1,1'b1,12'd2047,rgb,hs,vs,de,max_rgb,mh,mv,md);
     video_processing #(.IMAGE_WIDTH(WIDTH)) bypass_dut
-        (clk,rst_n,1'b0,1'b1,12'd128,rgb,hs,vs,de,bypass_rgb,ph,pv,pd);
+        (.ISP_TUNING(16'h3200),clk,rst_n,1'b0,1'b1,12'd128,rgb,hs,vs,de,bypass_rgb,ph,pv,pd);
     video_processing #(.IMAGE_WIDTH(WIDTH),.VS_ACTIVE(1'b1)) high_dut
-        (clk,rst_n,1'b1,1'b1,12'd128,rgb,hs,~vs,de,high_rgb,hh,hv,hd);
+        (.ISP_TUNING(16'h3200),clk,rst_n,1'b1,1'b1,12'd128,rgb,hs,~vs,de,high_rgb,hh,hv,hd);
 
     /* V0.6 / 29: aligned bypass, inverted active borders, runtime mode switching. */
     wire [23:0] inverted_rgb, dynamic_rgb;
@@ -30,9 +30,9 @@ module enhanced_video_processing_tb;
     reg [23:0] original_delay[0:14];
     integer j;
     video_processing #(.IMAGE_WIDTH(WIDTH)) inverted_dut
-        (clk,rst_n,1'b1,1'b0,12'd128,rgb,hs,vs,de,inverted_rgb,ih,iv,id);
+        (.ISP_TUNING(16'h3200),clk,rst_n,1'b1,1'b0,12'd128,rgb,hs,vs,de,inverted_rgb,ih,iv,id);
     video_processing #(.IMAGE_WIDTH(WIDTH)) dynamic_dut
-        (clk,rst_n,enable_live,!invert_live,12'd128,rgb,hs,vs,de,dynamic_rgb,dh,dv,dd);
+        (.ISP_TUNING(16'h3200),clk,rst_n,enable_live,!invert_live,12'd128,rgb,hs,vs,de,dynamic_rgb,dh,dv,dd);
     integer fd, count, n = 0;
     reg ri, hi, vi, di, eh, ev, ed;
     reg [23:0] pixel, eb, es, ez;
