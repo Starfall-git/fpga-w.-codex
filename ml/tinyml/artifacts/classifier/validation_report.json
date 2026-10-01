@@ -1,0 +1,263 @@
+{
+  "version": "v1.3",
+  "epochs": 5,
+  "warm_start": "C:\\Users\\francis\\Desktop\\fpga-w.-codex-cnn\\ml\\gesture\\artifacts\\best.keras",
+  "model_sha256": "a9631519de69d7ece95025271f610836cc95434a1be70656ee124f49fd70f99e",
+  "tflite_sha256": "6da37335b4883c2a7d741df91a6740a2267302fac367324e0d987b789a7ccf56",
+  "validation": {
+    "accuracy": 0.9136986301369863,
+    "macro_f1": 0.8962317245869419,
+    "recall": {
+      "fist": 0.8888888888888888,
+      "peace": 0.9444444444444444,
+      "palm": 0.9305555555555556,
+      "ok": 0.8333333333333334,
+      "like": 0.9305555555555556,
+      "no_gesture": 0.9216216216216216
+    },
+    "confusion": [
+      [
+        64,
+        0,
+        0,
+        3,
+        0,
+        5
+      ],
+      [
+        0,
+        68,
+        1,
+        2,
+        1,
+        0
+      ],
+      [
+        0,
+        2,
+        67,
+        2,
+        0,
+        1
+      ],
+      [
+        1,
+        6,
+        1,
+        60,
+        0,
+        4
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        67,
+        4
+      ],
+      [
+        2,
+        6,
+        4,
+        5,
+        12,
+        341
+      ]
+    ]
+  },
+  "threshold_candidates": [
+    {
+      "threshold": 0,
+      "accepted": 375,
+      "precision": 0.8693333333333333,
+      "target_recall": 0.9055555555555556
+    },
+    {
+      "threshold": 0.5,
+      "accepted": 333,
+      "precision": 0.9159159159159159,
+      "target_recall": 0.8472222222222222
+    },
+    {
+      "threshold": 1,
+      "accepted": 313,
+      "precision": 0.9456869009584664,
+      "target_recall": 0.8222222222222222
+    },
+    {
+      "threshold": 1.5,
+      "accepted": 274,
+      "precision": 0.9562043795620438,
+      "target_recall": 0.7277777777777777
+    },
+    {
+      "threshold": 2,
+      "accepted": 241,
+      "precision": 0.970954356846473,
+      "target_recall": 0.65
+    },
+    {
+      "threshold": 2.5,
+      "accepted": 214,
+      "precision": 0.9813084112149533,
+      "target_recall": 0.5833333333333334
+    },
+    {
+      "threshold": 3,
+      "accepted": 186,
+      "precision": 0.9838709677419355,
+      "target_recall": 0.5083333333333333
+    },
+    {
+      "threshold": 4,
+      "accepted": 117,
+      "precision": 1.0,
+      "target_recall": 0.325
+    },
+    {
+      "threshold": 5,
+      "accepted": 71,
+      "precision": 1.0,
+      "target_recall": 0.19722222222222222
+    },
+    {
+      "threshold": 6,
+      "accepted": 52,
+      "precision": 1.0,
+      "target_recall": 0.14444444444444443
+    }
+  ],
+  "selected": {
+    "threshold": 1.5,
+    "accepted": 274,
+    "precision": 0.9562043795620438,
+    "target_recall": 0.7277777777777777
+  },
+  "float_test": {
+    "accuracy": 0.9404081632653061,
+    "macro_f1": 0.9223223518687552,
+    "recall": {
+      "fist": 0.975,
+      "peace": 0.9166666666666666,
+      "palm": 0.9083333333333333,
+      "ok": 0.85,
+      "like": 0.9083333333333333,
+      "no_gesture": 0.968
+    },
+    "confusion": [
+      [
+        117,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        110,
+        0,
+        6,
+        0,
+        4
+      ],
+      [
+        0,
+        1,
+        109,
+        6,
+        0,
+        4
+      ],
+      [
+        0,
+        8,
+        5,
+        102,
+        0,
+        5
+      ],
+      [
+        0,
+        1,
+        1,
+        2,
+        109,
+        7
+      ],
+      [
+        3,
+        6,
+        0,
+        5,
+        6,
+        605
+      ]
+    ]
+  },
+  "int8_test": {
+    "accuracy": 0.9379591836734694,
+    "macro_f1": 0.9181372618676701,
+    "recall": {
+      "fist": 0.975,
+      "peace": 0.925,
+      "palm": 0.9083333333333333,
+      "ok": 0.825,
+      "like": 0.9083333333333333,
+      "no_gesture": 0.9664
+    },
+    "confusion": [
+      [
+        117,
+        1,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        111,
+        0,
+        5,
+        0,
+        4
+      ],
+      [
+        0,
+        1,
+        109,
+        7,
+        0,
+        3
+      ],
+      [
+        0,
+        10,
+        6,
+        99,
+        0,
+        5
+      ],
+      [
+        0,
+        1,
+        1,
+        2,
+        109,
+        7
+      ],
+      [
+        3,
+        6,
+        1,
+        5,
+        6,
+        604
+      ]
+    ]
+  },
+  "argmax_agreement": 0.9951020408163266,
+  "hardware_verified": false
+}

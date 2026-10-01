@@ -1,0 +1,65 @@
+{
+  "version": "v1.3",
+  "model_sha256": "6da37335b4883c2a7d741df91a6740a2267302fac367324e0d987b789a7ccf56",
+  "parallel": 1,
+  "models_sha256": {
+    "gesture_classifier_int8.tflite": "6da37335b4883c2a7d741df91a6740a2267302fac367324e0d987b789a7ccf56",
+    "hand_detector_int8.tflite": "27e969f1614a9875d6d95ebfb4664422ba8de80f6c1f44afec0ea33938d21019"
+  },
+  "parameters": {
+    "SYSTEM": true,
+    "AXI_DW": "128",
+    "CONV_DEPTHW_MODE": "LITE",
+    "CONV_DEPTHW_STD_IN_PARALLEL": 4,
+    "CONV_DEPTHW_STD_OUT_PARALLEL": 4,
+    "CONV_DEPTHW_STD_OUT_CH_FIFO_A": 32,
+    "CONV_DEPTHW_STD_FILTER_FIFO_A": 100,
+    "CONV_DEPTHW_STD_CNT_DTH": 256,
+    "CONV_DEPTHW_LITE_PARALLEL": 1,
+    "CONV_DEPTHW_LITE_AW": 7,
+    "ADD_MODE": "DISABLE",
+    "FC_MODE": "LITE",
+    "FC_MAX_IN_NODE": 512,
+    "FC_MAX_OUT_NODE": 6,
+    "MUL_MODE": "DISABLE",
+    "MIN_MAX_MODE": "DISABLE",
+    "TINYML_CACHE": "DISABLE",
+    "CACHE_DEPTH": "512"
+  },
+  "columns": [
+    "module",
+    "LUT",
+    "FF",
+    "ADD",
+    "RAM10",
+    "DSP"
+  ],
+  "accelerator_only_estimate": [
+    [
+      "CONV_DEPTHW",
+      "600",
+      "600",
+      "800",
+      "4",
+      "11"
+    ],
+    [
+      "FC",
+      "417",
+      "506",
+      "305",
+      "4",
+      "8"
+    ],
+    [
+      "TINYML_ACCELERATOR",
+      "1017",
+      "1106",
+      "1105",
+      "8",
+      "19"
+    ]
+  ],
+  "synthesized": false,
+  "installed_in_top_level": false
+}

@@ -18,137 +18,143 @@ def comparison_columns(sizes, width, height):
 
 
 class Editor:
-    """V0.18 / 85-87: object annotations; right-drag view; overwrite and restore."""
-    TOOLS={'画笔批注':'pen','直线':'line','曲线（自由绘制）':'curve','矩形':'rectangle','圆形 / 椭圆':'ellipse',
-           '三角形':'triangle','多边形':'polygon','菱形':'diamond','带箭头直线':'arrow','插入 / 修改文本':'text',
-           '橡皮擦':'erase','擦除整个批注对象':'erase_object'}
-    def __init__(self,parent,store,path,saved=None):
-        self.store,self.path,self.saved=store,Path(path),saved
-        self.doc=store.document(path)
-        self.win=tk.Toplevel(parent);self.win.title('图片编辑 · '+self.path.stem);self.win.geometry('1150x800')
-        self.tool=tk.StringVar(value='pen');self.tool_label=tk.StringVar(value='画笔批注');self.color='#ff4545'
-        self.width=tk.IntVar(value=4);self.eraser_size=tk.IntVar(value=24);self.text_size=tk.IntVar(value=28)
-        self.percent=tk.StringVar(value='100');self.scale=1.;self.pan_x=0.;self.pan_y=0.;self.origin=(0.,0.)
-        self.pan_start=None;self.points=[];self.start=None;self.rectangle=None;self.polygon=[]
+    def __init__(self, parent, store, path, saved=None):
+        self.store, self.path, self.saved = store, Path(path), saved
+        self.doc = ImageDocument(store.load(path))
+        self.win = tk.Toplevel(parent); self.win.title('冻结帧编辑 · ' + self.path.stem)
+        self.win.geometry('1100x800')
+        self.tool = tk.StringVar(value='pen'); self.color='#ff4545'
+        self.width=tk.IntVar(value=4); self.percent=tk.StringVar(value='100')
+        self.scale=1.; self.pan_x=0.;self.pan_y=0.;self.origin=(0.,0.);self.pan_start=None; self.points=[]; self.start=None; self.rectangle=None
         bar=ttk.Frame(self.win,padding=8);bar.pack(fill='x')
-        menu=ttk.Menubutton(bar,textvariable=self.tool_label);menu.pack(side='left')
-        choices=tk.Menu(menu,tearoff=False)
-        for name,tool in self.TOOLS.items():choices.add_command(label=name,command=lambda n=name,t=tool:self.set_tool(t,n))
-        menu['menu']=choices
-        ttk.Button(bar,text='鼠标框选裁剪',command=lambda:self.set_tool('crop','鼠标框选裁剪')).pack(side='left',padx=4)
+        for label,value in [('画笔批注','pen'),('鼠标框选裁剪','crop'),('拖动图像','pan')]:
+            ttk.Radiobutton(bar,text=label,value=value,variable=self.tool).pack(side='left')
         ttk.Button(bar,text='颜色',command=self.pick_color).pack(side='left')
-        for label,var,limit in [('线宽',self.width,100),('橡皮大小',self.eraser_size,200),('字号',self.text_size,200)]:
-            ttk.Label(bar,text=label).pack(side='left',padx=(8,2));ttk.Spinbox(bar,from_=1,to=limit,width=4,textvariable=var).pack(side='left')
+        ttk.Spinbox(bar,from_=1,to=30,width=3,textvariable=self.width).pack(side='left',padx=5)
+        for label,call in [('撤销',self.undo),('上下翻转',lambda:self.flip(False)),('左右镜像',lambda:self.flip(True))]:
+            ttk.Button(bar,text=label,command=call).pack(side='left',padx=3)
         bar2=ttk.Frame(self.win,padding=8);bar2.pack(fill='x')
-        for label,call in [('撤销',self.undo),('复原',self.restore),('上下翻转',lambda:self.flip(False)),('左右镜像',lambda:self.flip(True))]:
-            ttk.Button(bar2,text=label,command=call).pack(side='left',padx=2)
-        ttk.Label(bar2,text='尺寸 %').pack(side='left');entry=ttk.Entry(bar2,textvariable=self.percent,width=5);entry.pack(side='left');entry.bind('<Return>',lambda _:self.resize())
-        for label,call in [('缩放',self.resize),('查看 −',lambda:self.zoom(.8)),('查看 +',lambda:self.zoom(1.25)),('自适应',self.fit)]:
-            ttk.Button(bar2,text=label,command=call).pack(side='left',padx=2)
-        bar3=ttk.Frame(self.win,padding=(8,0));bar3.pack(fill='x')
-        for label,call in [('保存',self.save),('另存到仓库',self.save_copy),('下载图片',self.export)]:ttk.Button(bar3,text=label,command=call).pack(side='right',padx=4)
-        self.info=tk.StringVar(value='右键按住拖动图像；多边形逐点点击、双击结束；点击已有文字可修改；橡皮不擦文字和原图。')
-        ttk.Label(self.win,textvariable=self.info,wraplength=1080).pack(fill='x',padx=8,pady=5)
-        self.canvas=tk.Canvas(self.win,bg='#17222d',highlightthickness=0);self.canvas.pack(fill='both',expand=True)
-        for event,call in [('<ButtonPress-1>',self.press),('<B1-Motion>',self.drag),('<ButtonRelease-1>',self.release),
-                           ('<Double-1>',self.double),('<ButtonPress-3>',self.pan_press),('<B3-Motion>',self.pan_drag)]:self.canvas.bind(event,call)
-        self.canvas.bind('<ButtonRelease-3>',lambda _:setattr(self,'pan_start',None))
-        self.canvas.bind('<Configure>',lambda _:self.render());self.win.bind('<Control-z>',lambda _:self.undo())
-        self._fit_timer=self.win.after(80,self.fit)
+        ttk.Label(bar2,text='修改图片尺寸 %').pack(side='left')
+        entry=ttk.Entry(bar2,textvariable=self.percent,width=6);entry.pack(side='left')
+        entry.bind('<Return>',lambda _:self.resize())
+        ttk.Button(bar2,text='应用缩放',command=self.resize).pack(side='left')
+        ttk.Button(bar2,text='查看 −',command=lambda:self.zoom(.8)).pack(side='left',padx=3)
+        ttk.Button(bar2,text='查看 +',command=lambda:self.zoom(1.25)).pack(side='left',padx=3)
+        ttk.Button(bar2,text='适应窗口',command=self.fit).pack(side='left')
+        ttk.Button(bar2,text='另存到仓库',command=self.save).pack(side='right')
+        ttk.Button(bar2,text='下载图片',command=self.export).pack(side='right',padx=5)
+        # V0.15 / 74: view translation is independent of full-resolution edits.
+        movement=ttk.Frame(self.win,padding=(8,0));movement.pack(fill='x')
+        for label,dx,dy in [('←',-20,0),('→',20,0),('↑',0,-20),('↓',0,20)]:
+            ttk.Button(movement,text=label,width=4,command=lambda x=dx,y=dy:self.move(x,y)).pack(side='left')
+        ttk.Button(movement,text='自适应居中',command=self.fit).pack(side='left',padx=6)
+        ttk.Button(movement,text='铺满显示框',command=self.fill).pack(side='left')
+        ttk.Label(movement,text='拖动模式/鼠标中键移动，方向键微调；铺满保持比例，超出部分可拖动查看。').pack(side='left',padx=6)
+        self.info=tk.StringVar(value='拖动画笔批注；裁剪模式下拖动框选，松开后裁剪。查看缩放不改变图片尺寸。')
+        ttk.Label(self.win,textvariable=self.info).pack(fill='x',padx=8)
+        area=ttk.Frame(self.win);area.pack(fill='both',expand=True)
+        self.canvas=tk.Canvas(area,bg='#17222d',highlightthickness=0)
+        sx=ttk.Scrollbar(area,orient='horizontal',command=self.canvas.xview)
+        sy=ttk.Scrollbar(area,command=self.canvas.yview)
+        self.canvas.configure(xscrollcommand=sx.set,yscrollcommand=sy.set)
+        area.rowconfigure(0,weight=1);area.columnconfigure(0,weight=1)
+        self.canvas.grid(row=0,column=0,sticky='nsew');sy.grid(row=0,column=1,sticky='ns');sx.grid(row=1,column=0,sticky='ew')
+        self.canvas.bind('<ButtonPress-1>',self.press);self.canvas.bind('<B1-Motion>',self.drag);self.canvas.bind('<ButtonRelease-1>',self.release)
+        self.canvas.bind('<ButtonPress-2>',self.pan_press)
+        self.canvas.bind('<B2-Motion>',self.pan_drag)
+        self.canvas.bind('<ButtonRelease-2>',lambda _:setattr(self,'pan_start',None))
+        for key,dx,dy in [('Left',-10,0),('Right',10,0),('Up',0,-10),('Down',0,10)]:
+            self.canvas.bind('<'+key+'>',lambda _,x=dx,y=dy:self.move(x,y))
+        self.canvas.bind('<Configure>',lambda _:self.render())
+        self.win.after(80,self.fit)
 
-    def set_tool(self,tool,label):
-        self.tool.set(tool);self.tool_label.set(label);self.start=None;self.polygon=[];self.render()
     def render(self):
-        image=self.doc.image;w,h=image.size;size=(max(1,round(w*self.scale)),max(1,round(h*self.scale)))
-        self.photo=ImageTk.PhotoImage(image.resize(size,Image.Resampling.LANCZOS),master=self.win)
+        w,h=self.doc.image.size
+        size=(max(1,round(w*self.scale)),max(1,round(h*self.scale)))
+        self.photo=ImageTk.PhotoImage(self.doc.image.resize(size,Image.Resampling.LANCZOS),master=self.win)
         self.origin=((self.canvas.winfo_width()-size[0])/2+self.pan_x,(self.canvas.winfo_height()-size[1])/2+self.pan_y)
-        self.canvas.delete('all');self.canvas.create_image(*self.origin,image=self.photo,anchor='nw');self.rectangle=None
+        self.canvas.delete('all');self.canvas.create_image(*self.origin,image=self.photo,anchor='nw')
+        self.canvas.configure(scrollregion=(0,0,self.canvas.winfo_width(),self.canvas.winfo_height()));self.rectangle=None
+
     def fit(self):
-        self.pan_x=self.pan_y=0;w,h=self.doc.base.size
-        self.scale=min(max(1,self.canvas.winfo_width())/w,max(1,self.canvas.winfo_height())/h,(8_000_000/(w*h))**.5);self.render()
-    def fill(self):self.fit()  # compatibility for existing callers; no fill button
-    def move(self,dx,dy):self.pan_x+=dx;self.pan_y+=dy;self.render()
-    def pan_press(self,event):self.canvas.focus_set();self.pan_start=(event.x,event.y,self.pan_x,self.pan_y)
+        self.pan_x=self.pan_y=0
+        self.scale=min(max(1,self.canvas.winfo_width())/self.doc.image.width,max(1,self.canvas.winfo_height())/self.doc.image.height)
+        self.render()
+
+    def fill(self):
+        self.pan_x=self.pan_y=0
+        self.scale=min((8_000_000/(self.doc.image.width*self.doc.image.height))**.5,max(max(1,self.canvas.winfo_width())/self.doc.image.width,max(1,self.canvas.winfo_height())/self.doc.image.height))
+        self.render()
+
+    def move(self,dx,dy):
+        self.pan_x+=dx;self.pan_y+=dy;self.render()
+
+    def pan_press(self,event):
+        self.canvas.focus_set();self.pan_start=(event.x,event.y,self.pan_x,self.pan_y)
+
     def pan_drag(self,event):
         if self.pan_start:
             x,y,px,py=self.pan_start;self.pan_x=px+event.x-x;self.pan_y=py+event.y-y;self.render()
+
     def zoom(self,factor):
-        w,h=self.doc.base.size;self.scale=max(.01,min(8,self.scale*factor,(8_000_000/(w*h))**.5));self.render()
+        self.scale=max(.05,min(4,self.scale*factor,(8_000_000/(self.doc.image.width*self.doc.image.height))**.5));self.render()
+
     def point(self,event):
-        margin=0 if self.tool.get()=='crop' else 1
-        return (max(0,min(self.doc.base.width-margin,(event.x-self.origin[0])/self.scale)),max(0,min(self.doc.base.height-margin,(event.y-self.origin[1])/self.scale)))
-    def screen(self,p):return self.origin[0]+p[0]*self.scale,self.origin[1]+p[1]*self.scale
-    @staticmethod
-    def number(var,default,limit):
-        try:return max(1,min(limit,int(var.get())))
-        except (ValueError,tk.TclError):return default
+        # Crop coordinates denote pixel boundaries; permit the full right/bottom edge.
+        margin = 0 if self.tool.get() == 'crop' else 1
+        return (max(0,min(self.doc.image.width-margin,(self.canvas.canvasx(event.x)-self.origin[0])/self.scale)),
+                max(0,min(self.doc.image.height-margin,(self.canvas.canvasy(event.y)-self.origin[1])/self.scale)))
+
     def press(self,event):
-        self.canvas.focus_set();p=self.point(event);tool=self.tool.get()
-        text=self.doc.text_at(p)
-        if tool=='text' or (text is not None and tool not in ('crop','erase','erase_object')):
-            self.start=None;self.text_dialog(p,text);return
-        if tool=='polygon':
-            self.polygon.append(p)
-            if len(self.polygon)>1:self.canvas.create_line(*self.screen(self.polygon[-2]),*self.screen(p),fill=self.color,width=2)
-            return
-        self.start=p;self.points=[p]
+        self.canvas.focus_set()
+        if self.tool.get()=='pan':self.pan_press(event);return
+        self.start=self.point(event);self.points=[self.start]
+        if self.tool.get()=='pen':
+            try: self.pen_width=max(1,min(30,self.width.get()))
+            except (ValueError,tk.TclError): self.pen_width=4
+            self.doc.checkpoint()
+
     def drag(self,event):
+        if self.tool.get()=='pan':self.pan_drag(event);return
         if self.start is None:return
-        p=self.point(event);tool=self.tool.get()
-        if tool in ('pen','curve','erase','erase_object'):
+        p=self.point(event)
+        if self.tool.get()=='pen':
             last=self.points[-1];self.points.append(p)
-            width=self.number(self.eraser_size,24,200) if tool.startswith('erase') else self.number(self.width,4,100)
-            self.canvas.create_line(*self.screen(last),*self.screen(p),fill='#b6c9d7' if tool.startswith('erase') else self.color,width=max(1,width*self.scale),capstyle='round')
+            self.canvas.create_line(self.origin[0]+last[0]*self.scale,self.origin[1]+last[1]*self.scale,self.origin[0]+p[0]*self.scale,self.origin[1]+p[1]*self.scale,
+                                    fill=self.color,width=max(1,self.pen_width*self.scale),capstyle='round')
         else:
             if self.rectangle:self.canvas.delete(self.rectangle)
-            fn=self.canvas.create_line if tool in ('line','arrow') else self.canvas.create_oval if tool=='ellipse' else self.canvas.create_rectangle
-            options={'fill':self.color} if tool in ('line','arrow') else {'outline':'#44dcff'}
-            self.rectangle=fn(*self.screen(self.start),*self.screen(p),width=2,**options)
+            self.rectangle=self.canvas.create_rectangle(*(v*self.scale+self.origin[i%2] for i,v in enumerate((*self.start,*p))),outline='#44dcff',width=2)
+
     def release(self,event):
+        if self.tool.get()=='pan':self.pan_start=None;return
         if self.start is None:return
-        p=self.point(event);tool=self.tool.get()
+        p=self.point(event)
         try:
-            if tool=='crop':self.doc.crop((*self.start,*p));self.set_tool('pen','画笔批注');self.fit()
-            elif tool in ('erase','erase_object'):self.doc.erase([*self.points,p],self.number(self.eraser_size,24,200),tool=='erase_object')
-            else:self.doc.add(tool,[*self.points,p] if tool in ('pen','curve') else [self.start,p],self.color,self.number(self.width,4,100))
+            if self.tool.get()=='pen':self.doc.stroke([*self.points,p],self.color,self.pen_width)
+            else:
+                self.doc.crop((*self.start,*p));self.fit()
             self.render()
         except ValueError as e:self.info.set(str(e))
         self.start=None
-    def double(self,event):
-        if self.tool.get()=='polygon' and len(self.polygon)>=3:
-            self.doc.add('polygon',self.polygon,self.color,self.number(self.width,4,100));self.polygon=[];self.render()
-        return 'break'
-    def text_dialog(self,point,index):
-        win=tk.Toplevel(self.win);win.title('修改文本' if index is not None else '插入文本');win.transient(self.win)
-        entry=tk.Text(win,width=40,height=5);entry.pack(padx=12,pady=12)
-        if index is not None:entry.insert('1.0',self.doc.objects[index]['text'])
-        def apply():
-            text=entry.get('1.0','end-1c')
-            if index is None:
-                if text:self.doc.add('text',[point],self.color,self.number(self.text_size,28,200),text)
-            else:self.doc.edit_text(index,text)
-            win.destroy();self.render()
-        ttk.Button(win,text='确定',command=apply).pack(pady=8);win.grab_set();entry.focus_set()
+
     def pick_color(self):
-        color=colorchooser.askcolor(self.color,parent=self.win)[1]
-        if color:self.color=color
-    def undo(self):self.doc.undo();self.fit()
-    def restore(self):self.doc.reset();self.fit();self.info.set('已清除全部图像修改和批注；点击保存后覆盖文件。')
+        result=colorchooser.askcolor(self.color,parent=self.win)[1]
+        if result:self.color=result
+
+    def undo(self):self.doc.undo();self.render()
     def flip(self,horizontal):self.doc.flip(horizontal);self.render()
     def resize(self):
         try:self.doc.resize(self.percent.get());self.fit()
         except ValueError as e:self.info.set(str(e))
+
     def save(self):
         try:
-            self.store.replace_document(self.path,self.doc);self.info.set('已覆盖保存：'+self.path.name)
+            path=self.store.save(self.doc.image,parent=self.path.name)
+            self.info.set('已另存到仓库：'+path.name)
             if self.saved:self.saved()
         except OSError as e:messagebox.showerror('保存失败',str(e),parent=self.win)
-    def save_copy(self):
-        try:
-            path=self.store.save(self.doc.image,parent=self.path.name);self.store.replace_document(path,self.doc)
-            self.info.set('已另存：'+path.name)
-            if self.saved:self.saved()
-        except OSError as e:messagebox.showerror('保存失败',str(e),parent=self.win)
+
     def export(self):
         path=filedialog.asksaveasfilename(parent=self.win,initialfile=self.path.stem+'-edited.png',defaultextension='.png',filetypes=[('PNG','*.png'),('JPEG','*.jpg')])
         if path:
@@ -160,7 +166,7 @@ class Comparison:
     def __init__(self,parent,store,paths,saved):
         self.store,self.paths,self.saved=store,paths,saved
         self.win=tk.Toplevel(parent);self.win.title(f'冻结帧对比 · {len(paths)} 张');self.win.geometry('1250x800')
-        ttk.Label(self.win,text='双击图片即可编辑批注；保存后覆盖原文件，并刷新对比画面。',padding=8).pack(fill='x')
+        ttk.Label(self.win,text='每张图片可独立打开批注；保存后生成仓库新副本，原图保留。',padding=8).pack(fill='x')
         self.area=ttk.Frame(self.win);self.area.pack(fill='both',expand=True)
         # Keep only bounded previews in the comparison; editor loads original.
         self.images=[]
@@ -169,13 +175,6 @@ class Comparison:
         self.timer=None;self.previous=(0,0);self.photos=[];self.cells=[]
         self.area.bind('<Configure>',self.configure)
         self.win.bind('<Destroy>',self.destroyed)
-
-    def refresh(self):
-        self.images=[]
-        for p in self.paths:
-            im=self.store.load(p);im.thumbnail((1280,720));self.images.append(im)
-        self.render()
-        if self.saved:self.saved()
 
     def destroyed(self,event):
         if event.widget==self.win and self.timer:
@@ -196,9 +195,9 @@ class Comparison:
             cell=ttk.Frame(self.area,padding=4);cell.place(relx=(index%cols)/cols,rely=(index//cols)/rows,relwidth=1/cols,relheight=1/rows)
             preview=im.copy();preview.thumbnail((max(1,int(w/cols)-12),max(1,int(h/rows)-44)))
             photo=ImageTk.PhotoImage(preview,master=self.win);self.photos.append(photo)
-            ttk.Label(cell,text=f'{index+1} · {path.stem[:22]}').pack()
+            ttk.Button(cell,text=f'{index+1} · 打开 / 批注',command=lambda p=path:Editor(self.win,self.store,p,self.saved)).pack()
             label=ttk.Label(cell,image=photo);label.pack(expand=True)
-            label.bind('<Double-1>',lambda _,p=path:Editor(self.win,self.store,p,self.refresh));self.cells.append(cell)
+            label.bind('<Double-1>',lambda _,p=path:Editor(self.win,self.store,p,self.saved));self.cells.append(cell)
 
 
 class Gallery:

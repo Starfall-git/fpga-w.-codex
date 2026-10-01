@@ -1,0 +1,13 @@
+# vsim -c work.gesture_roi_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 17:39:01 on Sep 29,2026
+# Loading sv_std.std
+# Loading work.gesture_roi_tb
+# Loading work.gesture_roi
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# PASS GESTURE ROI: 4x4096 pixels, immutable ownership, partial/disable/restart
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/gesture_roi_tb.sv(53)
+#    Time: 24636250 ns  Iteration: 1  Instance: /gesture_roi_tb
+# End time: 17:39:13 on Sep 29,2026, Elapsed time: 0:00:12
+# Errors: 0, Warnings: 0

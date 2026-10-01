@@ -1,0 +1,45 @@
+{
+  "version": "v1.3",
+  "sha256": "6da37335b4883c2a7d741df91a6740a2267302fac367324e0d987b789a7ccf56",
+  "bytes": 20408,
+  "inputs": [
+    {
+      "name": "gray",
+      "shape": [
+        1,
+        64,
+        64,
+        1
+      ],
+      "dtype": "int8",
+      "scale": 0.0078125,
+      "zero_point": 0
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Identity",
+      "shape": [
+        1,
+        6
+      ],
+      "dtype": "int8",
+      "scale": 0.12102930247783661,
+      "zero_point": 1
+    }
+  ],
+  "ops": [
+    "CONV_2D",
+    "CONV_2D",
+    "CONV_2D",
+    "CONV_2D",
+    "RESHAPE",
+    "FULLY_CONNECTED"
+  ],
+  "calibration_count": 480,
+  "calibration_split": "train",
+  "full_int8": true,
+  "target_micro_invoke_verified": false,
+  "hardware_verified": false,
+  "vendor_analyzer_returncode": 0
+}

@@ -1,0 +1,25 @@
+{
+  "version": "v1.1",
+  "board_connected": false,
+  "hardware_tested": false,
+  "python_host_tests_passed": 25,
+  "sha256": {
+    "ml/gesture/data/manifest.json": "37b37438137736af30efcd3490275d33f0ce7926a2cfd6c272995f860b6184ad",
+    "ml/gesture/data/excluded_cross_split.json": "054a4155026a9f95c6f0723723beeb841c8eca48e66c6c9aaafb5e673e155b46",
+    "ml/gesture/artifacts/best.keras": "414351ecbe34f9c700d5b29b760404d8459b7b8c2bf2f1874567e6882fafce3b",
+    "ml/gesture/artifacts/model_int8.json": "f04b40986caf72337365f869980a0eaf0ca6de345c6e178c8b3f0ddc89815573",
+    "ml/gesture/artifacts/training_report.json": "71b0340a23350aca7750fa8699e22b161e1b3592c29e7c68cbefa4c925e93292",
+    "ml/gesture/artifacts/validation_report.json": "a790c70d828b89e57412c46ebdb597a5bbfaf9eca918438dfe4edc47bda0ef54",
+    "ml/gesture/artifacts/data_integrity.json": "609c0a16f5f33afbd6c078000fc1fef2a55d3e7dc0851c19fa9122da1b8f070c",
+    "ml/gesture/train_v1_1.py": "69644391858bc3a85fc96326fdceb5926f6a43bdb53338d753bcf8d67b3ba888",
+    "ml/gesture/export_v1_1.py": "bcba0d73acec32e6eecd133df2e4c9f88446fb6d8d0eb488ed17070956979cf9",
+    "ml/gesture/prepare_hagrid.py": "c7f2a56f804af6412330c8f93e4321d5745a74b73c46ddac0b0d2761fab39d8a",
+    "ml/gesture/requirements-lock.txt": "91f3d6a88b900e4503490977ab23e40af183e59094680386dd56787217547ace",
+    "outflow_v1_1/build_manifest.json": "3dc8229530bb12b23654cb6d0998935d32669d1234ddda441e99a951c78cc725",
+    "outflow_v1_1/Ti60_AR0135.bit": "d2376a300f49482ffc295fef7516a7eb7392dc8ee38ca9b577e786a612933700",
+    "tmp/gesture_cnn/simulation.log": "c5f657c0e0a9e45f04c357a4dba4dff74fa3070e241a8d6285a6c48f18011717",
+    "tmp/gesture_integration/simulation.log": "95cfe807d81d88e17a4d0892c4e5ec56d9af28e39c5217a1f7fddfbb27a97949",
+    "tmp/gesture_pipeline/simulation.log": "8f08026afcc4b8ef91ab89c766f3ae9bf90a293c835aad6e013d3fe43dd50cef",
+    "docs/NEURAL_NETWORK_V1_1_IMPLEMENTATION.md": "d0aec09340b219430189194e422b3a4821735af3ac781bc4977861f1dcd3be4d"
+  }
+}

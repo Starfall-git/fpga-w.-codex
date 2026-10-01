@@ -1,0 +1,21 @@
+{
+  "version": "v1.2",
+  "images": 4797,
+  "manifest_sha256": "9e59121d572ffadeb37b4c0e8e5d4e3af6476689082be521b22f88b22e0670f3",
+  "split_images": {
+    "train": 3647,
+    "val": 432,
+    "test": 718
+  },
+  "annotation_labels": {
+    "like": 800,
+    "no_gesture": 1925,
+    "palm": 800,
+    "fist": 800,
+    "ok": 800,
+    "peace": 800
+  },
+  "source_hash_match": true,
+  "subject_and_source_disjoint": true,
+  "decoded_dimensions_verified": true
+}

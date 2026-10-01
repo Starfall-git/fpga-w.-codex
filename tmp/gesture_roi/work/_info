@@ -1,0 +1,106 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/francis/Desktop/fpga-w.-codex-cnn/tmp/gesture_roi
+vgesture_cnn
+Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z2 !s110 1790674740
+!i10b 1
+!s100 0JANGXz[Im?HcP@F_d_aG1
+ICDb[TLRf8=O[V^C[2@1G;1
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s105 gesture_cnn_v_unit
+S1
+R0
+Z4 w1790674423
+8C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_cnn.v
+FC:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_cnn.v
+L0 8
+Z5 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z6 !s108 1790674740.000000
+Z7 !s107 C:\Users\francis\Desktop\fpga-w.-codex-cnn\testbench\gesture_roi_tb.sv|C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_roi.v|C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_pipeline.v|C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_cnn.v|
+Z8 !s90 -sv|C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_cnn.v|C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_pipeline.v|C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_roi.v|C:\Users\francis\Desktop\fpga-w.-codex-cnn\testbench\gesture_roi_tb.sv|
+!i113 1
+o-sv
+Z9 tCvgOpt 0
+vgesture_pipeline
+R1
+R2
+!i10b 1
+!s100 QH0WS;=THU[i2jZY`W0mW0
+IJdHgP<5jRRUZZL`TfidJf3
+R3
+!s105 gesture_pipeline_v_unit
+S1
+R0
+w1790674582
+8C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_pipeline.v
+FC:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_pipeline.v
+L0 7
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+o-sv
+R9
+vgesture_roi
+R1
+R2
+!i10b 1
+!s100 QR0=z8ZNbmNabUFME[lH42
+IkH]mKWYLUCKAR6e9Hcmec3
+R3
+!s105 gesture_roi_v_unit
+S1
+R0
+R4
+8C:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_roi.v
+FC:\Users\francis\Desktop\fpga-w.-codex-cnn\src\cnn\gesture_roi.v
+L0 7
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+o-sv
+R9
+vgesture_roi_tb
+R1
+R2
+!i10b 1
+!s100 e7f_84XFjlY5;EXVR;z:l1
+IONWPBNVMz3gEJV;@b`]Ya1
+R3
+!s105 gesture_roi_tb_sv_unit
+S1
+R0
+w1790674739
+8C:\Users\francis\Desktop\fpga-w.-codex-cnn\testbench\gesture_roi_tb.sv
+FC:\Users\francis\Desktop\fpga-w.-codex-cnn\testbench\gesture_roi_tb.sv
+L0 3
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 1
+o-sv
+R9

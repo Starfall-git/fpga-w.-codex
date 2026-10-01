@@ -1,0 +1,445 @@
+{
+  "version": "v1.0",
+  "root": "C:\\Users\\francis\\Desktop\\fpga-w.-codex-cnn",
+  "existing_video": {
+    "path": "outflow/Ti60_AR0135.place.rpt",
+    "sha256": "7402515aed7ab495c00f1bc5481753d412433db56cc1afa430e30f2d7ee53680",
+    "provenance": "inherited historical report, not rebuilt in CNN workspace",
+    "resources": {
+      "XLRs": {
+        "used": 15199,
+        "total": 60800,
+        "remaining": 45601
+      },
+      "Memory Blocks": {
+        "used": 87,
+        "total": 256,
+        "remaining": 169
+      },
+      "DSP Blocks": {
+        "used": 17,
+        "total": 160,
+        "remaining": 143
+      }
+    }
+  },
+  "standalone_example": {
+    "path": "tinyml-main/tinyml_hello_world/Ti60F225_tinyml_helloworld/outflow/Ti60F225_tinyml_helloworld.place.rpt",
+    "sha256": "f6ddd170e73ad1846aaeb2a6e4b3e74e6c99ffc61308f6451d66398b26547398",
+    "provenance": "inherited historical report, not rebuilt in CNN workspace",
+    "resources": {
+      "XLRs": {
+        "used": 44027,
+        "total": 60800,
+        "remaining": 16773
+      },
+      "Memory Blocks": {
+        "used": 145,
+        "total": 256,
+        "remaining": 111
+      },
+      "DSP Blocks": {
+        "used": 47,
+        "total": 160,
+        "remaining": 113
+      }
+    }
+  },
+  "candidates": [
+    {
+      "version": "v1.0",
+      "input": [
+        1,
+        64,
+        64,
+        1
+      ],
+      "classes": 4,
+      "variant": "depthwise",
+      "layers": [
+        {
+          "name": "stem",
+          "op": "conv",
+          "output": [
+            32,
+            32,
+            8
+          ],
+          "weights": 72,
+          "biases": 8,
+          "macs": 73728,
+          "output_int8_bytes": 8192,
+          "adjacent_io_int8_bytes": 12288
+        },
+        {
+          "name": "dw1",
+          "op": "depthwise",
+          "output": [
+            16,
+            16,
+            8
+          ],
+          "weights": 72,
+          "biases": 8,
+          "macs": 18432,
+          "output_int8_bytes": 2048,
+          "adjacent_io_int8_bytes": 10240
+        },
+        {
+          "name": "pw1",
+          "op": "conv",
+          "output": [
+            16,
+            16,
+            16
+          ],
+          "weights": 128,
+          "biases": 16,
+          "macs": 32768,
+          "output_int8_bytes": 4096,
+          "adjacent_io_int8_bytes": 6144
+        },
+        {
+          "name": "dw2",
+          "op": "depthwise",
+          "output": [
+            8,
+            8,
+            16
+          ],
+          "weights": 144,
+          "biases": 16,
+          "macs": 9216,
+          "output_int8_bytes": 1024,
+          "adjacent_io_int8_bytes": 5120
+        },
+        {
+          "name": "pw2",
+          "op": "conv",
+          "output": [
+            8,
+            8,
+            32
+          ],
+          "weights": 512,
+          "biases": 32,
+          "macs": 32768,
+          "output_int8_bytes": 2048,
+          "adjacent_io_int8_bytes": 3072
+        },
+        {
+          "name": "dw3",
+          "op": "depthwise",
+          "output": [
+            4,
+            4,
+            32
+          ],
+          "weights": 288,
+          "biases": 32,
+          "macs": 4608,
+          "output_int8_bytes": 512,
+          "adjacent_io_int8_bytes": 2560
+        },
+        {
+          "name": "pw3",
+          "op": "conv",
+          "output": [
+            4,
+            4,
+            48
+          ],
+          "weights": 1536,
+          "biases": 48,
+          "macs": 24576,
+          "output_int8_bytes": 768,
+          "adjacent_io_int8_bytes": 1280
+        },
+        {
+          "name": "pool",
+          "op": "pool",
+          "output": [
+            1,
+            1,
+            48
+          ],
+          "weights": 0,
+          "biases": 0,
+          "macs": 0,
+          "output_int8_bytes": 48,
+          "adjacent_io_int8_bytes": 816
+        },
+        {
+          "name": "logits",
+          "op": "dense",
+          "output": [
+            1,
+            1,
+            4
+          ],
+          "weights": 192,
+          "biases": 4,
+          "macs": 192,
+          "output_int8_bytes": 4,
+          "adjacent_io_int8_bytes": 52
+        }
+      ],
+      "macs": 196288,
+      "trainable_parameters": 3108,
+      "int8_weights_int32_bias_bytes": 3600,
+      "max_adjacent_io_bytes": 12288,
+      "caveat": "Not TFLite file size, tensor arena size, FPGA area or measured latency"
+    },
+    {
+      "version": "v1.0",
+      "input": [
+        1,
+        96,
+        96,
+        1
+      ],
+      "classes": 4,
+      "variant": "depthwise",
+      "layers": [
+        {
+          "name": "stem",
+          "op": "conv",
+          "output": [
+            48,
+            48,
+            8
+          ],
+          "weights": 72,
+          "biases": 8,
+          "macs": 165888,
+          "output_int8_bytes": 18432,
+          "adjacent_io_int8_bytes": 27648
+        },
+        {
+          "name": "dw1",
+          "op": "depthwise",
+          "output": [
+            24,
+            24,
+            8
+          ],
+          "weights": 72,
+          "biases": 8,
+          "macs": 41472,
+          "output_int8_bytes": 4608,
+          "adjacent_io_int8_bytes": 23040
+        },
+        {
+          "name": "pw1",
+          "op": "conv",
+          "output": [
+            24,
+            24,
+            16
+          ],
+          "weights": 128,
+          "biases": 16,
+          "macs": 73728,
+          "output_int8_bytes": 9216,
+          "adjacent_io_int8_bytes": 13824
+        },
+        {
+          "name": "dw2",
+          "op": "depthwise",
+          "output": [
+            12,
+            12,
+            16
+          ],
+          "weights": 144,
+          "biases": 16,
+          "macs": 20736,
+          "output_int8_bytes": 2304,
+          "adjacent_io_int8_bytes": 11520
+        },
+        {
+          "name": "pw2",
+          "op": "conv",
+          "output": [
+            12,
+            12,
+            32
+          ],
+          "weights": 512,
+          "biases": 32,
+          "macs": 73728,
+          "output_int8_bytes": 4608,
+          "adjacent_io_int8_bytes": 6912
+        },
+        {
+          "name": "dw3",
+          "op": "depthwise",
+          "output": [
+            6,
+            6,
+            32
+          ],
+          "weights": 288,
+          "biases": 32,
+          "macs": 10368,
+          "output_int8_bytes": 1152,
+          "adjacent_io_int8_bytes": 5760
+        },
+        {
+          "name": "pw3",
+          "op": "conv",
+          "output": [
+            6,
+            6,
+            48
+          ],
+          "weights": 1536,
+          "biases": 48,
+          "macs": 55296,
+          "output_int8_bytes": 1728,
+          "adjacent_io_int8_bytes": 2880
+        },
+        {
+          "name": "pool",
+          "op": "pool",
+          "output": [
+            1,
+            1,
+            48
+          ],
+          "weights": 0,
+          "biases": 0,
+          "macs": 0,
+          "output_int8_bytes": 48,
+          "adjacent_io_int8_bytes": 1776
+        },
+        {
+          "name": "logits",
+          "op": "dense",
+          "output": [
+            1,
+            1,
+            4
+          ],
+          "weights": 192,
+          "biases": 4,
+          "macs": 192,
+          "output_int8_bytes": 4,
+          "adjacent_io_int8_bytes": 52
+        }
+      ],
+      "macs": 441408,
+      "trainable_parameters": 3108,
+      "int8_weights_int32_bias_bytes": 3600,
+      "max_adjacent_io_bytes": 27648,
+      "caveat": "Not TFLite file size, tensor arena size, FPGA area or measured latency"
+    },
+    {
+      "version": "v1.0",
+      "input": [
+        1,
+        64,
+        64,
+        1
+      ],
+      "classes": 4,
+      "variant": "regular",
+      "layers": [
+        {
+          "name": "stem",
+          "op": "conv",
+          "output": [
+            32,
+            32,
+            8
+          ],
+          "weights": 72,
+          "biases": 8,
+          "macs": 73728,
+          "output_int8_bytes": 8192,
+          "adjacent_io_int8_bytes": 12288
+        },
+        {
+          "name": "conv1",
+          "op": "conv",
+          "output": [
+            16,
+            16,
+            16
+          ],
+          "weights": 1152,
+          "biases": 16,
+          "macs": 294912,
+          "output_int8_bytes": 4096,
+          "adjacent_io_int8_bytes": 12288
+        },
+        {
+          "name": "conv2",
+          "op": "conv",
+          "output": [
+            8,
+            8,
+            32
+          ],
+          "weights": 4608,
+          "biases": 32,
+          "macs": 294912,
+          "output_int8_bytes": 2048,
+          "adjacent_io_int8_bytes": 6144
+        },
+        {
+          "name": "conv3",
+          "op": "conv",
+          "output": [
+            4,
+            4,
+            48
+          ],
+          "weights": 13824,
+          "biases": 48,
+          "macs": 221184,
+          "output_int8_bytes": 768,
+          "adjacent_io_int8_bytes": 2816
+        },
+        {
+          "name": "pool",
+          "op": "pool",
+          "output": [
+            1,
+            1,
+            48
+          ],
+          "weights": 0,
+          "biases": 0,
+          "macs": 0,
+          "output_int8_bytes": 48,
+          "adjacent_io_int8_bytes": 816
+        },
+        {
+          "name": "logits",
+          "op": "dense",
+          "output": [
+            1,
+            1,
+            4
+          ],
+          "weights": 192,
+          "biases": 4,
+          "macs": 192,
+          "output_int8_bytes": 4,
+          "adjacent_io_int8_bytes": 52
+        }
+      ],
+      "macs": 884928,
+      "trainable_parameters": 19956,
+      "int8_weights_int32_bias_bytes": 20280,
+      "max_adjacent_io_bytes": 12288,
+      "caveat": "Not TFLite file size, tensor arena size, FPGA area or measured latency"
+    }
+  ],
+  "notes": [
+    "Do not add whole standalone and video designs as an integration estimate.",
+    "No accuracy, FPS, arena usage or post-route resources measured.",
+    "Four classes are a provisional planning assumption."
+  ]
+}

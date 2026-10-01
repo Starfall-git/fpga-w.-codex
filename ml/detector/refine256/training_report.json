@@ -1,0 +1,12 @@
+{
+  "version": "v1.2",
+  "dataset_sha256": "b83ab6e25b8b2e3ce53464b21146006b89ac95bef86580dead47479a29168c33",
+  "initial_model": "ml\\detector\\warmup256\\best.keras",
+  "seed": 1202,
+  "epochs": 96,
+  "train": 4200,
+  "validation": 471,
+  "best_val_loss": 1.2535889148712158,
+  "tensorflow": "2.16.2",
+  "model_sha256": "6d2ddf3a118bf214269022678f643272ad7e333f59fcfef8ebbea2d0e25e9d4e"
+}

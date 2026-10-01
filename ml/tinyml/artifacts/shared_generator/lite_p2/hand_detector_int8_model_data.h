@@ -1,0 +1,5 @@
+#ifndef _HAND_DETECTOR_INT8_MODEL_DATA_H
+#define _HAND_DETECTOR_INT8_MODEL_DATA_H
+extern const unsigned int hand_detector_int8_model_data_len;
+extern const unsigned char hand_detector_int8_model_data[];
+#endif

@@ -1,0 +1,21 @@
+# vsim -c work.gesture_cnn_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 01:26:47 on Sep 30,2026
+# Loading sv_std.std
+# Loading work.gesture_cnn_tb
+# Loading work.gesture_cnn
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# VECTOR 0 PASS cycles=1462290
+# VECTOR 1 PASS cycles=1462290
+# VECTOR 2 PASS cycles=1462290
+# VECTOR 3 PASS cycles=1462290
+# VECTOR 4 PASS cycles=1462290
+# VECTOR 5 PASS cycles=1462290
+# VECTOR 6 PASS cycles=1462290
+# VECTOR 7 PASS cycles=1462290
+# PASS GESTURE CNN: 114688 hidden activations, 48 logits
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/gesture_cnn_tb.sv(39)
+#    Time: 116983410 ns  Iteration: 1  Instance: /gesture_cnn_tb
+# End time: 01:27:32 on Sep 30,2026, Elapsed time: 0:00:45
+# Errors: 0, Warnings: 0

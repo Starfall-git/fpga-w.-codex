@@ -1,0 +1,28 @@
+# vsim -c work.detector_compat_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 16:06:22 on Sep 30,2026
+# Loading sv_std.std
+# Loading work.detector_compat_tb
+# Loading work.gesture_shared_cnn
+# ** Warning: (vsim-3017) C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_compat_tb.sv(13): [TFMPC] - Too few port connections. Expected 15, found 10.
+#    Time: 0 ps  Iteration: 0  Instance: /detector_compat_tb/dut File: C:/Users/francis/Desktop/fpga-w.-codex-cnn/src/cnn/gesture_shared_cnn.v
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_compat_tb.sv(13): [TFMPC] - Missing connection for port 'detect_valid_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_compat_tb.sv(13): [TFMPC] - Missing connection for port 'detect_x_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_compat_tb.sv(13): [TFMPC] - Missing connection for port 'detect_y_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_compat_tb.sv(13): [TFMPC] - Missing connection for port 'detect_channel_o'.
+# ** Warning: (vsim-3722) C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_compat_tb.sv(13): [TFMPC] - Missing connection for port 'detect_value_o'.
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# VECTOR 0 PASS cycles=1450003
+# VECTOR 1 PASS cycles=1450003
+# VECTOR 2 PASS cycles=1450003
+# VECTOR 3 PASS cycles=1450003
+# VECTOR 4 PASS cycles=1450003
+# VECTOR 5 PASS cycles=1450003
+# VECTOR 6 PASS cycles=1450003
+# VECTOR 7 PASS cycles=1450003
+# PASS DETECTOR COMPAT: 114688 hidden activations, 48 logits
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_compat_tb.sv(39)
+#    Time: 116000450 ns  Iteration: 1  Instance: /detector_compat_tb
+# End time: 16:07:17 on Sep 30,2026, Elapsed time: 0:00:55
+# Errors: 0, Warnings: 6

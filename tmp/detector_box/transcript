@@ -1,0 +1,13 @@
+# vsim -c work.detector_box_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 16:24:44 on Sep 30,2026
+# Loading sv_std.std
+# Loading work.detector_box_tb
+# Loading work.gesture_box_decoder
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# PASS DETECTOR BOX: corner clipping, scaling, invalid boxes, threshold and reset
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_box_tb.sv(36)
+#    Time: 430 ns  Iteration: 1  Instance: /detector_box_tb
+# End time: 16:24:45 on Sep 30,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

@@ -1,0 +1,83 @@
+{
+  "version": "v1.3",
+  "split": "val",
+  "detector_sha256": "27e969f1614a9875d6d95ebfb4664422ba8de80f6c1f44afec0ea33938d21019",
+  "classifier_sha256": "6da37335b4883c2a7d741df91a6740a2267302fac367324e0d987b789a7ccf56",
+  "class_margin": 1.5,
+  "results": [
+    {
+      "detector_threshold_q8": -512,
+      "frames": 432,
+      "accepted": 129,
+      "correct_class": 109,
+      "correct_class_and_iou50": 95,
+      "strict_precision": 0.7364341085271318,
+      "strict_frame_recall": 0.2199074074074074
+    },
+    {
+      "detector_threshold_q8": -384,
+      "frames": 432,
+      "accepted": 129,
+      "correct_class": 109,
+      "correct_class_and_iou50": 95,
+      "strict_precision": 0.7364341085271318,
+      "strict_frame_recall": 0.2199074074074074
+    },
+    {
+      "detector_threshold_q8": -256,
+      "frames": 432,
+      "accepted": 129,
+      "correct_class": 109,
+      "correct_class_and_iou50": 95,
+      "strict_precision": 0.7364341085271318,
+      "strict_frame_recall": 0.2199074074074074
+    },
+    {
+      "detector_threshold_q8": -128,
+      "frames": 432,
+      "accepted": 117,
+      "correct_class": 100,
+      "correct_class_and_iou50": 88,
+      "strict_precision": 0.7521367521367521,
+      "strict_frame_recall": 0.2037037037037037
+    },
+    {
+      "detector_threshold_q8": 0,
+      "frames": 432,
+      "accepted": 90,
+      "correct_class": 79,
+      "correct_class_and_iou50": 71,
+      "strict_precision": 0.7888888888888889,
+      "strict_frame_recall": 0.16435185185185186
+    },
+    {
+      "detector_threshold_q8": 128,
+      "frames": 432,
+      "accepted": 62,
+      "correct_class": 55,
+      "correct_class_and_iou50": 52,
+      "strict_precision": 0.8387096774193549,
+      "strict_frame_recall": 0.12037037037037036
+    },
+    {
+      "detector_threshold_q8": 256,
+      "frames": 432,
+      "accepted": 27,
+      "correct_class": 24,
+      "correct_class_and_iou50": 22,
+      "strict_precision": 0.8148148148148148,
+      "strict_frame_recall": 0.05092592592592592
+    },
+    {
+      "detector_threshold_q8": 512,
+      "frames": 432,
+      "accepted": 3,
+      "correct_class": 3,
+      "correct_class_and_iou50": 3,
+      "strict_precision": 1.0,
+      "strict_frame_recall": 0.006944444444444444
+    }
+  ],
+  "hardware_verified": false,
+  "note": "Real single frames; no empty-scene full-frame set, temporal confirmation or board timing."
+}

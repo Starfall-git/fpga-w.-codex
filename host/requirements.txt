@@ -1,4 +1,2 @@
 pyserial==3.5
 Pillow>=10,<13
-opencv-python>=4.10,<5
-cv2-enumerate-cameras>=1.1,<2

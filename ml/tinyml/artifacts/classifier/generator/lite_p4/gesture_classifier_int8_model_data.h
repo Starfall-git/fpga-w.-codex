@@ -1,0 +1,5 @@
+#ifndef _GESTURE_CLASSIFIER_INT8_MODEL_DATA_H
+#define _GESTURE_CLASSIFIER_INT8_MODEL_DATA_H
+extern const unsigned int gesture_classifier_int8_model_data_len;
+extern const unsigned char gesture_classifier_int8_model_data[];
+#endif

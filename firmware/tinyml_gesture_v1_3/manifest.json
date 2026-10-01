@@ -1,0 +1,39 @@
+{
+  "version": "v1.3",
+  "purpose": "fixed-input target validation, not live firmware",
+  "profile": "LITE P2, FC LITE, cache disabled",
+  "target_compiled": false,
+  "target_executed": false,
+  "model_sha256": "6da37335b4883c2a7d741df91a6740a2267302fac367324e0d987b789a7ccf56",
+  "golden_cases": 8,
+  "input_quantization": [
+    0.0078125,
+    0
+  ],
+  "output_quantization": [
+    0.12102930247783661,
+    1
+  ],
+  "files_sha256": {
+    "defines.v": "3d5a9012dfbd88adb7daadb92d63ce30c4e6ad9890882422862acb0f376b7aeb",
+    "README.md": "e8042b6866f1db457f3a06b1a90bf301a8804fc26b97e3f4d676ded8d383069f",
+    "src/main.cc": "050712f1a4f3b0dd9b3de332fd9dde874988a9f76df158c91f746d80da61e305",
+    "src/model/define.cc": "db6441ea4e2b172dcf43a6d77e82aa9fe813318634f5a9a56c8ec0b461cba82c",
+    "src/model/define.h": "240811927e514bcdb835b3c14d15380f0e8ca92fc5b43fd1257131103594fc20",
+    "src/model/gesture_classifier_int8_model_data.cc": "faeaa14cde597637f3a703a61e5002fe6ae4286af33b009209e6c39a4dd49088",
+    "src/model/gesture_classifier_int8_model_data.h": "a2b2e5101ceeb6d0e8b0da0d06ae0ef661a534c32ed9d1b68ef54916d0d32806",
+    "src/model/gesture_golden.h": "96df73166c5fe8ea7b607724ff6688201cdc5822dc78a26487e6b8b72937602a",
+    "vendor_overlay/provenance.json": "645a0686b99eebe2faf8a544f00372cf8177f2d7f9e5791d7a63dbf1ace7cd4d",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/add.h": "552b4d831c0b8962ff622fbd96d6acdbf8da2c28bd330b92af5e113d85e34ba3",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/conv.h": "aa2eed2f300a6f299c93884726df1fbe1f82ca85c9391427b25cda801077b28e",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/depthwise_conv.h": "37cc0b425bc35747d6e3074b38853906e5b66cd9f7731b4ff6a391da3e323eba",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/fully_connected.h": "f1c8556b3b5d7c738f38871f9c28323581423f6af5dad2bdcd21abf5978cdcfc",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/l2normalization.h": "190bd11e2010ac7eec2935d8e4f6a80a59f53a57f35d1f6ba1d826f6f5196866",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/logistic.h": "930f14ad0f1a5852ad6a8575e1c107df19b72cc5f3b7ea8855d0c6e3925b15b7",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/mean.h": "059a9ee94ad23b0cd7c23e2d2c1e819d9fd68e54fda2337cb1afead67185aa93",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/mul.h": "32cf01004b82688720bfa9220895b3024f1ac3c961ed4b370bbd548dd9df0008",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/pooling.h": "ff21ce2dec56c6256ad5151885b60549781bc3c0b06a7c8f5decf7c2c4613ca5",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/tanh.h": "a15532c40646b3dc9d40d0eae70c9e4ff460fa1c90718e90971cd85deed70e65",
+    "vendor_overlay/tensorflow/lite/kernels/internal/reference/integer_ops/transpose_conv.h": "7c5901785b012ac227779171786a6359ae3e53a366987c680c264c8d60230a6b"
+  }
+}

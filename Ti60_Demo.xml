@@ -7,6 +7,15 @@
     </efx:device_info>
     <efx:design_info def_veri_version="verilog_2k" def_vhdl_version="vhdl_2008" unified_flow="false" partition_interface_allowed_off_perimeter="true">
         <efx:top_module name="example_top"/>
+        <!-- v1.2 / 10: spatial detector, adaptive ROI and shared CNN compute. -->
+        <efx:design_file name="src/cnn/gesture_shared_cnn.v" version="default" library="default"/>
+        <efx:design_file name="src/cnn/gesture_capture.v" version="default" library="default"/>
+        <efx:design_file name="src/cnn/gesture_box_decoder.v" version="default" library="default"/>
+        <efx:design_file name="src/cnn/gesture_auto_pipeline.v" version="default" library="default"/>
+        <!-- v1.1 / 10: shared-MAC gesture CNN with immutable camera ROI. -->
+        <efx:design_file name="src/cnn/gesture_cnn.v" version="default" library="default"/>
+        <efx:design_file name="src/cnn/gesture_roi.v" version="default" library="default"/>
+        <efx:design_file name="src/cnn/gesture_pipeline.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_gaussian.v" version="default" library="default"/>
         <efx:design_file name="src/isp/video_scharr_canny.v" version="default" library="default"/>
         <efx:design_file name="example_top.v" version="default" library="default"/>

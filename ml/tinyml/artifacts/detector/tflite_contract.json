@@ -1,0 +1,69 @@
+{
+  "version": "v1.3",
+  "sha256": "98d072ef0fb673b3647fce234c559e92a3045e4fca09abcf281acccbbfaffc5f",
+  "bytes": 48024,
+  "inputs": [
+    {
+      "name": "gray",
+      "shape": [
+        1,
+        144,
+        256,
+        1
+      ],
+      "dtype": "int8",
+      "scale": 0.0078125,
+      "zero_point": 0
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Identity",
+      "shape": [
+        1,
+        18,
+        32,
+        1
+      ],
+      "dtype": "int8",
+      "scale": 0.023937897756695747,
+      "zero_point": 127
+    },
+    {
+      "name": "Identity_1",
+      "shape": [
+        1,
+        18,
+        32,
+        4
+      ],
+      "dtype": "int8",
+      "scale": 0.004706344101577997,
+      "zero_point": -77
+    }
+  ],
+  "ops": [
+    "CONV_2D",
+    "DEPTHWISE_CONV_2D",
+    "CONV_2D",
+    "PAD",
+    "DEPTHWISE_CONV_2D",
+    "CONV_2D",
+    "DEPTHWISE_CONV_2D",
+    "CONV_2D",
+    "PAD",
+    "DEPTHWISE_CONV_2D",
+    "CONV_2D",
+    "DEPTHWISE_CONV_2D",
+    "CONV_2D",
+    "CONV_2D",
+    "CONV_2D",
+    "CONV_2D"
+  ],
+  "calibration_count": 480,
+  "calibration_split": "train",
+  "full_int8": true,
+  "target_micro_invoke_verified": false,
+  "hardware_verified": false,
+  "vendor_analyzer_returncode": 0
+}

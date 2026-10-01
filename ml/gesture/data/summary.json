@@ -1,0 +1,34 @@
+{
+  "counts": {
+    "train": {
+      "fist": 608,
+      "peace": 608,
+      "palm": 608,
+      "ok": 608,
+      "like": 608,
+      "no_gesture": 3110
+    },
+    "val": {
+      "fist": 72,
+      "peace": 72,
+      "palm": 72,
+      "ok": 72,
+      "like": 72,
+      "no_gesture": 370
+    },
+    "test": {
+      "fist": 120,
+      "peace": 120,
+      "palm": 120,
+      "ok": 120,
+      "like": 120,
+      "no_gesture": 625
+    }
+  },
+  "subjects": {
+    "train": 2347,
+    "val": 210,
+    "test": 450
+  },
+  "failures": 0
+}
