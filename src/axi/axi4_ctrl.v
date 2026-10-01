@@ -82,8 +82,6 @@ module axi4_ctrl #(
     output wire store_ack_o,
     output wire [7:0] store_result_o,
     output wire [11:0] store_saved_o,
-    /* V0.18: creation ordinals for chronological host gallery. */
-    output wire [383:0] store_order_o,
     output wire [1:0] store_mode_o,
     output wire [3:0] store_display_o,
     input wire freeze_request_i,
@@ -139,7 +137,7 @@ module axi4_ctrl #(
        .command_toggle_i(store_toggle_i),.command_i(store_command_i),
        .command_ack_o(store_ack_o),.result_o(store_result_o),
        .write_index(rc_wframe_index),.read_index(rc_rframe_index),
-       .saved_o(store_saved_o),.order_o(store_order_o),.compare_o(compare_mask),.mode_o(store_mode_o));
+       .saved_o(store_saved_o),.compare_o(compare_mask),.mode_o(store_mode_o));
       assign store_display_o=rc_rframe_index;
       assign frozen_o=store_mode_o!=0;
     end else begin: g_legacy_owner
@@ -147,7 +145,7 @@ module axi4_ctrl #(
        .clk(axi_clk),.reset(axi_reset),.write_done(r_wframe_inc),
        .read_boundary(r_rframe_inc),.freeze_request(freeze_request_i),
        .write_index(rc_wframe_index),.read_index(rc_rframe_index),.frozen(frozen_o));
-      assign store_ack_o=0;assign store_result_o=0;assign store_saved_o=0;assign store_order_o=0;
+      assign store_ack_o=0;assign store_result_o=0;assign store_saved_o=0;
       assign store_mode_o=0;assign store_display_o=0;assign compare_mask=0;
     end endgenerate
 

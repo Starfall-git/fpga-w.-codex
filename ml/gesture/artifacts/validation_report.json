@@ -1,0 +1,200 @@
+{
+  "version": "v1.1",
+  "float_test": {
+    "accuracy": 0.8922448979591837,
+    "macro_f1": 0.8767674085827758,
+    "recall": {
+      "fist": 0.9666666666666667,
+      "peace": 0.9583333333333334,
+      "palm": 0.9333333333333333,
+      "ok": 0.8333333333333334,
+      "like": 0.9166666666666666,
+      "no_gesture": 0.864
+    },
+    "confusion": [
+      [
+        116,
+        2,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        115,
+        0,
+        4,
+        0,
+        1
+      ],
+      [
+        0,
+        2,
+        112,
+        4,
+        0,
+        2
+      ],
+      [
+        0,
+        11,
+        7,
+        100,
+        0,
+        2
+      ],
+      [
+        0,
+        1,
+        3,
+        3,
+        110,
+        3
+      ],
+      [
+        7,
+        21,
+        8,
+        25,
+        24,
+        540
+      ]
+    ]
+  },
+  "int8_test": {
+    "accuracy": 0.889795918367347,
+    "macro_f1": 0.8759309519067314,
+    "recall": {
+      "fist": 0.9666666666666667,
+      "peace": 0.95,
+      "palm": 0.9416666666666667,
+      "ok": 0.8416666666666667,
+      "like": 0.9166666666666666,
+      "no_gesture": 0.8576
+    },
+    "confusion": [
+      [
+        116,
+        2,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        114,
+        0,
+        4,
+        0,
+        2
+      ],
+      [
+        0,
+        2,
+        113,
+        3,
+        0,
+        2
+      ],
+      [
+        0,
+        10,
+        6,
+        101,
+        0,
+        3
+      ],
+      [
+        0,
+        1,
+        2,
+        5,
+        110,
+        2
+      ],
+      [
+        7,
+        21,
+        8,
+        27,
+        26,
+        536
+      ]
+    ]
+  },
+  "float_int8_agreement": 0.9812244897959184,
+  "test_samples": 1225,
+  "threshold_q8": 768,
+  "threshold_selection": [
+    {
+      "threshold": 64,
+      "accepted": 408,
+      "correct": 326,
+      "wrong": 82
+    },
+    {
+      "threshold": 128,
+      "accepted": 382,
+      "correct": 318,
+      "wrong": 64
+    },
+    {
+      "threshold": 192,
+      "accepted": 364,
+      "correct": 316,
+      "wrong": 48
+    },
+    {
+      "threshold": 256,
+      "accepted": 346,
+      "correct": 307,
+      "wrong": 39
+    },
+    {
+      "threshold": 384,
+      "accepted": 312,
+      "correct": 289,
+      "wrong": 23
+    },
+    {
+      "threshold": 512,
+      "accepted": 284,
+      "correct": 268,
+      "wrong": 16
+    },
+    {
+      "threshold": 768,
+      "accepted": 220,
+      "correct": 212,
+      "wrong": 8
+    },
+    {
+      "threshold": 1024,
+      "accepted": 151,
+      "correct": 149,
+      "wrong": 2
+    }
+  ],
+  "accepted_test_count": 375,
+  "accepted_test_correct": 375,
+  "test_unknown_false_accept": 0,
+  "weight_bytes": 14664,
+  "bias_bytes": 344,
+  "weight_offsets": [
+    0,
+    72,
+    1224,
+    4680,
+    11592
+  ],
+  "bias_offsets": [
+    0,
+    8,
+    24,
+    48,
+    80
+  ],
+  "model_sha256": "f04b40986caf72337365f869980a0eaf0ca6de345c6e178c8b3f0ddc89815573"
+}

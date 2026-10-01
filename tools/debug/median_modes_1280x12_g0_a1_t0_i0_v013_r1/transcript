@@ -1,5 +1,5 @@
 # vsim -c work.median_modes_tb "+VECTORS=vectors.txt" -do "onerror {quit -code 1}; run -all; quit -code 0" -gINVERT=0 -gWIDTH=1280 -gTHRESHOLD=0 -gREFINE=1 -gADAPTIVE=1 -gGRAY=0 
-# Start time: 16:13:44 on Sep 30,2026
+# Start time: 01:56:08 on Sep 29,2026
 # Loading sv_std.std
 # Loading work.median_modes_tb
 # Loading work.video_processing
@@ -16,5 +16,5 @@
 # PASS MEDIAN MODES: 216556 cycles
 # ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex/testbench/median_modes_tb.sv(56)
 #    Time: 2165566 ns  Iteration: 0  Instance: /median_modes_tb
-# End time: 16:16:11 on Sep 30,2026, Elapsed time: 0:02:27
+# End time: 01:57:31 on Sep 29,2026, Elapsed time: 0:01:23
 # Errors: 0, Warnings: 0

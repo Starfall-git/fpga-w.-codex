@@ -187,6 +187,9 @@ class DemoClient(SerialClient):
         elif cmd == Command.SET_ISP:
             self.status = replace(self.status, code=0, isp_flags=payload[0])
         elif cmd == Command.DEFAULTS:
+            # v1.1 / 18: mirror hardware defaults, without inventing a prediction.
+            from .gesture import GestureStatus
+            self.gesture_state = GestureStatus()
             self.status = replace(self.status, code=0, isp_flags=0)
             candidate = Geometry()
         elif cmd == Command.SET_FLIP:

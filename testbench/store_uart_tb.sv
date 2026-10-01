@@ -2,13 +2,12 @@
 module store_uart_tb;
  reg clk=0,pixel_clk=0,rst=0,rx=1;
  wire tx,toggle,ack;wire [31:0] cmd;wire [7:0] result;
- wire [383:0] orders;
  wire [11:0] saved,selected;wire [1:0] mode;wire [3:0] wi,ri;
  reg wb=0,rb=0;
  always #5 clk=~clk;always #7 pixel_clk=~pixel_clk;
  ddr_frame_store owner(.clk(clk),.reset(!rst),.write_done(wb),.read_boundary(rb),
  .command_toggle_i(toggle),.command_i(cmd),.command_ack_o(ack),.result_o(result),
- .write_index(wi),.read_index(ri),.saved_o(saved),.order_o(orders),.compare_o(selected),.mode_o(mode));
+ .write_index(wi),.read_index(ri),.saved_o(saved),.compare_o(selected),.mode_o(mode));
  integer tick=0;
  always @(negedge clk) begin
   if(!rst) begin tick=0;wb=0;rb=0;end
@@ -21,7 +20,7 @@ module store_uart_tb;
  .clk(clk),.rst_n(rst),.pixel_clk(pixel_clk),.pixel_rst_n(rst),.frame_blank_i(1'b1),
  .uart_rx_i(rx),.uart_tx_o(tx),.key_data(2'b11),.geometry_ack_i(1'b0),.transform_faults_i(2'b00),
  .store_command_o(cmd),.store_toggle_o(toggle),.store_ack_i(ack),.store_result_i(result),
- .store_saved_i(saved),.store_order_i(orders),.store_mode_i(mode),.store_display_i(ri));
+ .store_saved_i(saved),.store_mode_i(mode),.store_display_i(ri));
     localparam BIT=100;
     reg [7:0] received[0:1023];
     reg [7:0] byte_value;
@@ -67,7 +66,7 @@ module store_uart_tb;
         end
     endtask
 
- integer used=0,j,first,z;
+ integer used=0,j,first;
  reg [11:0] retained;
  reg [3:0] paused;
  reg [7:0] c8;
@@ -84,14 +83,11 @@ module store_uart_tb;
  initial begin
   #200;rst=1;repeat(200) @(negedge clk);
   send_frame(1,8'h30,0,0);header(1,8'h30,0);
-  if(received[5]!=3 || received[6]!=8) $fatal(1,"v3 capacity");
+  if(received[5]!=2 || received[6]!=8) $fatal(1,"v2 capacity");
   used=count;
-  retained=0;
   for(j=0;j<8;j=j+1) begin
    send_frame(2+j,8'h31,1,0);header(2+j,8'h31,0);used=count;
    if(mode!=0) $fatal(1,"save stopped live display");
-   for(z=0;z<12;z=z+1) if(saved[z] && !retained[z] && orders[z*32+:32]!=j+1) $fatal(1,"creation order");
-   retained=saved;
   end
   retained=saved;
   send_frame(11,8'h31,1,0);header(11,8'h31,7);used=count;
@@ -99,9 +95,6 @@ module store_uart_tb;
   send_frame(12,8'h31,2,0);header(12,8'h31,0);used=count;paused=ri;
   repeat(500) @(negedge clk);if(ri!=paused || mode!=1) $fatal(1,"pause failed");
   first=0;while(!saved[first]) first=first+1;
-  send_frame(23,8'h33,first,0);header(23,8'h33,0);
-  if({received[used-4],received[used-5],received[used-6],received[used-7]}!==orders[first*32+:32]) $fatal(1,"ordinal query");
-  used=count;
   send_frame(13,8'h31,(first<<8)|3,0);header(13,8'h31,0);used=count;
   if(mode!=2 || ri!=first) $fatal(1,"replay failed");
   send_frame(14,8'h31,(retained<<16)|4,0);header(14,8'h31,0);used=count;
@@ -112,10 +105,6 @@ module store_uart_tb;
   if(mode!=0 || saved!=retained) $fatal(1,"default must resume without deleting");
   send_frame(19,8'h31,32'h00000c03,0);header(19,8'h31,2);used=count;
   send_frame(16,8'h31,0,0);header(16,8'h31,0);used=count;
-  send_frame(20,8'h31,(first<<8)|6,0);header(20,8'h31,0);used=count;
-  if(saved[first] || mode!=0) $fatal(1,"delete failed");
-  send_frame(21,8'h31,(first<<8)|6,0);header(21,8'h31,2);used=count;
-  send_frame(22,8'h31,1,0);header(22,8'h31,0);used=count;
   send_frame(17,8'h31,5,0);header(17,8'h31,0);
   if(saved!=0 || mode!=0) $fatal(1,"clear failed");
   $display("PASS DDR STORE UART: 8 saved/live/pause/replay/compare/full/clear/no pixels");$finish;

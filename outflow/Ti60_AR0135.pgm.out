@@ -2,13 +2,14 @@ INFO     : Elitestek FPGA Bitstream Generator.
 INFO     : Version: 2026.1.132.3.9 
 INFO     : Copyright (C) 2013 - 2026 Efinix, Inc. All rights reserved.
 INFO     : Compiled: May 29 2026.
-INFO     : Using source file "C:/Users/francis/Desktop/fpga-w.-codex/work_pnr/Ti60_AR0135.lbf"
+INFO     : Using source file "C:\Users\francis\Desktop\fpga-w.-codex\work_pnr\Ti60_AR0135.lbf"
 INFO     : Generating HEX programming file for device "Ti60F225", family "Titanium"
-WARNING  : Warning at file , line 0, char 0: unable to open primary document entity 'C:/Users/francis/Desktop/fpga-w.-codex/outflow/lpf.xsd'
-INFO     : Using periphery source file "C:/Users/francis/Desktop/fpga-w.-codex/outflow/Ti60_AR0135.lpf"
-INFO     : Generating bit file: "C:/Users/francis/Desktop/fpga-w.-codex/outflow/Ti60_AR0135.bit"
+WARNING  : Warning at file , line 0, char 0: unable to open primary document entity 'C:\Users\francis\Desktop\fpga-w.-codex/outflow\lpf.xsd'
+INFO     : Using periphery source file "outflow\Ti60_AR0135.lpf"
+INFO     : Generating bit file: "outflow\Ti60_AR0135.bit"
 INFO     : HEX Generation Options Summary:
 INFO     : 	Listing options specified to bitstream generation:
+INFO     : 	enable_crc_check                         = on
 INFO     : 	bitstream_compression                    = on
 INFO     : 	oscillator_clock_divider                 = DIV4
 INFO     : 	enable_external_master_clock             = off
@@ -21,10 +22,10 @@ INFO     : 	seu_mode                                 = automatic
 INFO     : 	seu_wait_interval                        = 0xFFFFFF
 INFO     : 	jtag_usercode                            = 0xFFFFFFFF
 INFO     : 	io_weak_pullup                           = on
-INFO     : Finished generating "C:/Users/francis/Desktop/fpga-w.-codex/outflow/Ti60_AR0135.hex"
-INFO     : Elitestek Bitstream Generator took 1.0737427 seconds [FlowMsg::StageDuration]
-INFO     :     Elitestek Bitstream Generator took 0.953125 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
-INFO     : Elitestek Bitstream Generator virtual memory usage: begin = 2.62 MB, end = 11.364 MB, delta = 8.744 MB [FlowMsg::VMUsage]
-INFO     :     Elitestek Bitstream Generator peak virtual memory usage = 152.528 MB [FlowMsg::VMUsage::Peak]
-INFO     : Elitestek Bitstream Generator resident set memory usage: begin = 9.448 MB, end = 21.876 MB, delta = 12.428 MB [FlowMsg::RSSUsage]
-INFO     :     Elitestek Bitstream Generator peak resident set memory usage = 159.048 MB [FlowMsg::RSSUsage::Peak]
+INFO     : Finished generating "outflow\Ti60_AR0135.hex"
+INFO     : Elitestek Bitstream Generator took 1.7901197 seconds [FlowMsg::StageDuration]
+INFO     :     Elitestek Bitstream Generator took 1.515625 seconds (approximately) in total CPU time [FlowMsg::StageDuration::CPUTime]
+INFO     : Elitestek Bitstream Generator virtual memory usage: begin = 2.64 MB, end = 11.208 MB, delta = 8.568 MB [FlowMsg::VMUsage]
+INFO     :     Elitestek Bitstream Generator peak virtual memory usage = 152.22 MB [FlowMsg::VMUsage::Peak]
+INFO     : Elitestek Bitstream Generator resident set memory usage: begin = 9.468 MB, end = 21.704 MB, delta = 12.236 MB [FlowMsg::RSSUsage]
+INFO     :     Elitestek Bitstream Generator peak resident set memory usage = 158.648 MB [FlowMsg::RSSUsage::Peak]

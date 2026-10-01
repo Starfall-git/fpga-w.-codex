@@ -1,0 +1,1120 @@
+ITEM 868
+可以，而且这条路线和你们现在的 Ti60 工程其实衔接得很好。我已经按你指定的 GitHub 仓库 `Starfall-git/fpga-w.-codex` 读取了当前 `main` 的目录、`example_top.v`、`src/`、`docs/IMAGE_PROCESSING_GUIDE.md`，并结合项目里上传的 Ti60、TinyML、Custom Instruction、DSP、OV5640 等资料分析了一遍。
+
+先给出一个关键结论：
+
+> **不要把神经网络像 Sobel 一样，直接串在 `lcd_driver -> rgb2dvi` 的逐像素 HDMI 流水线上。**
+>
+> 你们现在的 Sobel/中值滤波属于“1 pixel/clk 的流式图像处理”；TinyML 神经网络属于“以一帧/一个 Tensor 为单位的推理”。正确架构应该是利用你们现有的 **摄像头 + DDR3 帧缓存**，从 DDR 或摄像头支路取一份低分辨率图像给神经网络，推理结果再送回显示链路做框、标签、坐标等叠加。
+
+这也是把现有 FPGA 图像工程升级成真正“边缘 AI SoC”的关键一步。
+
+---
+
+# 一、先确认你们现在到底有什么
+
+我检查了当前 GitHub `main`。现在 `src/` 里已经有：
+
+`DDR3/AXI + 摄像头采集 + 图像裁剪/缩放 + RGB/灰度 + Median + Sobel + HDMI + UART 控制`
+
+其中当前图像处理链在仓库文档里已经被明确写成：
+
+```text
+Camera
+  ↓
+摄像头采集 / Crop
+  ↓
+AXI Write
+  ↓
+DDR3 Frame Buffer
+  ↓
+AXI Read
+  ↓
+RGB565 → RGB888
+  ↓
+lcd_driver
+  ↓
+video_processing
+ ├─ Gray
+ ├─ Median
+ └─ Sobel
+  ↓
+rgb2dvi
+  ↓
+HDMI
+```
+
+仓库里的 [`docs/IMAGE_PROCESSING_GUIDE.md`](https://github.com/Starfall-git/fpga-w.-codex/blob/main/docs/IMAGE_PROCESSING_GUIDE.md) 就是按这个结构描述的；当前 `video_processing` 仍然要求 **RGB、HS、VS、DE 同时逐拍前进，不支持 ready/backpressure**。
+
+这点非常重要，因为它说明：
+
+**这里适合 Sobel，不适合直接塞 TFLite。**
+
+另外有一个你要特别注意的版本问题：当前 `main` 的 `example_top.v` 从 V0.7 开始已经从 **OV5640 切到了 AR0135**，后续 V0.8～V0.11 的 Sobel/Median 增强是在 AR0135 路线上继续做的；原来的 OV5640 工程仍保存在：
+
+```text
+02-1_Ti60_OV5640_LCD-HDMI_1080P60/
+```
+
+所以如果比赛最终目标是：
+
+- 人脸；
+- 手势；
+- 多种物品；
+- 彩色场景分类；
+
+我更倾向于后续 AI 版本重新以 **OV5640 彩色图像链** 为输入基础，而不是只围绕目前的 AR0135 灰度链继续扩展。
+
+板卡本身已经提供 CMOS 摄像头接口，包括 `PCLK / VSYNC / HREF / D[7:0] / SCLK / SDAT` 等信号。fileciteturn0file1L583-L600 OV5640 本身支持 RAW RGB、RGB565、YUV422 等输出以及 DVP 并行接口，也支持缩放、裁剪等功能。fileciteturn0file3L40-L70
+
+---
+
+# 二、神经网络加入以后，整个系统应该变成什么样
+
+我建议把你们最终系统理解为下面这个架构：
+
+```text
+                         ┌──────────── HDMI显示支路 ──────────────┐
+                         │                                       │
+Camera → Capture → DDR3 Frame Buffer → Display Read → ISP → Overlay → HDMI
+                    │
+                    │
+                    └──── AI支路 ────────────────────────────────┐
+                                                                │
+                         Crop / Resize / RGB→Gray / Normalize    │
+                                      ↓                         │
+                                 NN Input Tensor                 │
+                                      ↓                         │
+                               Sapphire RISC-V                   │
+                                      ↓                         │
+                              TensorFlow Lite                    │
+                                      ↓                         │
+                           TinyML Accelerator                    │
+                       Conv / DWConv / Add / Mul / FC            │
+                                      ↓                         │
+                                  NN Output                      │
+                                      ↓                         │
+                  Detection / Classification / Landmark          │
+                                      ↓                         │
+                         bbox / class / score / XY               │
+                                      └────────────→ Overlay ────┘
+```
+
+这和易灵思官方 Edge Vision SoC 的思路基本一致：它本身就是 **RISC-V + DMA + 外部存储 + Pre-Processor + Post-Processor + Hardware Accelerator + TinyML Accelerator** 的软硬件协同系统。fileciteturn0file8L65-L111
+
+官方参考设计也是先对视频做分辨率、格式、灰度等预处理，再通过 DMA 放入外部存储；显示方向则从存储器读出，然后进行 Post-Processing。fileciteturn0file8L114-L173
+
+因此它和你们现在的工程不是两种完全不同的架构，而是：
+
+> **你们已经把 Edge Vision SoC 的“视频骨架”搭出了一部分，现在缺的是 RISC-V + TinyML 推理这一层。**
+
+---
+
+# 三、你们现在最需要增加的不是“一个 CNN Verilog 模块”
+
+这是一个非常容易走偏的地方。
+
+如果直接说：
+
+```text
+OV5640
+↓
+CNN.v
+↓
+HDMI
+```
+
+会产生大量问题。
+
+CNN 并不是 Sobel。
+
+Sobel 可以：
+
+```text
+pixel0
+pixel1
+pixel2
+...
+每拍一个像素
+```
+
+经过固定流水线连续输出。
+
+而 CNN 一般需要：
+
+```text
+整块 Feature Map
+↓
+Conv
+↓
+Feature Map
+↓
+Activation
+↓
+Depthwise/Conv
+↓
+...
+↓
+Classification / Detection
+```
+
+中间还需要：
+
+- 权重；
+- bias；
+- 中间 feature map；
+- quantization scale / zero point；
+- 网络层调度；
+- Tensor Arena；
+- 多层存储管理；
+- 后处理。
+
+这就是为什么 TinyML 文档采用：
+
+```text
+TensorFlow Lite
+        ↓
+RISC-V
+        ↓
+Custom Instruction
+        ↓
+TinyML Accelerator
+        ↓
+External Memory
+```
+
+而不是写一个单独的 `cnn.v`。
+
+TinyML Accelerator 本质上是把软件中耗时最大的运算变成硬件 OP，目前资料明确列出的加速操作包括：
+
+```text
+Convolution / Depthwise
+ADD
+MAXIMUM
+MULT
+Fully Connected
+```
+
+fileciteturn0file8L280-L291
+
+官方介绍也把典型加速算子概括为 Conv2D、Depthwise、Add/Mul、FullyConnected、ReLU/LeakyReLU。fileciteturn0file4L39-L43
+
+---
+
+# 四、TinyML 到底是什么
+
+这里需要把几个概念拆开。
+
+**TinyML ≠ 一个神经网络。**
+
+你们资料里的 TinyML 是一套：
+
+```text
+模型
++
+TensorFlow Lite 推理运行时
++
+RISC-V CPU
++
+FPGA AI Accelerator
++
+模型转换/参数生成工具
++
+存储/视频系统
+```
+
+构成的完整边缘 AI 平台。
+
+官方资料给出的基本架构是：
+
+```text
+TensorFlow Lite
+       ↓
+RISC-V Software
+       ↓
+Custom Instruction
+       ↓
+Efinix TinyML Accelerator
+       ↓
+FPGA RTL
+```
+
+主要面向 **INT8 量化模型**，并允许用户配置加速模块资源、甚至定义自己的加速算子。fileciteturn0file4L23-L28
+
+---
+
+# 五、它为什么一定要 INT8
+
+CNN 最核心的计算其实就是 MAC：
+
+\[
+y=\sum_i w_i x_i+b
+\]
+
+如果全部使用 FP32：
+
+\[
+32\text{-bit floating point}
+\]
+
+FPGA 上面积、带宽和功耗都会很高。
+
+TinyML 的主要方案是：
+
+\[
+FP32 \rightarrow INT8
+\]
+
+例如：
+
+\[
+x_{float}
+\approx
+s(x_{int8}-z)
+\]
+
+其中：
+
+- \(s\)：scale；
+- \(z\)：zero point。
+
+CNN 中：
+
+\[
+w_{int8}\times x_{int8}
+\]
+
+产生的结果一般先在更宽的整数累加器中累积，例如 INT32，再 requantize 回 INT8。
+
+这使卷积变成 FPGA 非常喜欢的：
+
+```text
+8bit × 8bit
++
+accumulate
+```
+
+而 Ti60 本身正好具有大量 DSP。
+
+Ti60 数据手册给出的器件资源为：
+
+- 60,800 LE；
+- 2.6 Mbit Embedded Memory；
+- 256 个 10-Kbit RAM block；
+- 160 个 DSP block。fileciteturn0file2L101-L136
+
+DSP 自身支持乘法、加减、累加，并具有多种整数并行模式。fileciteturn0file2L298-L317
+
+因此：
+
+> **INT8 TinyML + Ti60 DSP 是天然匹配的计算模式。**
+
+---
+
+# 六、TinyML 加速到底是怎么发生的
+
+这里是这套系统最值得你们比赛展示的部分。
+
+假设 TFLite 要计算：
+
+\[
+y=a+b
+\]
+
+纯 RISC-V 软件可能需要：
+
+```text
+load a
+load b
+scale
+shift
+add
+requantize
+clip
+store
+```
+
+大量指令串行执行。
+
+TinyML 可以让 CPU 发出一条：
+
+```text
+CUSTOM ADD
+```
+
+然后 FPGA 内部的专用硬件一次完成这一系列运算。
+
+你们上传的 Custom Instruction 文档里明确描述了这个接口：
+
+```text
+CPU
+ │
+ ├ cmd_valid
+ ├ cmd_ready
+ ├ function_id
+ ├ input_0
+ └ input_1
+       ↓
+   Custom ALU
+       ↓
+ ├ rsp_valid
+ ├ rsp_ready
+ └ output
+```
+
+也就是一个典型的 `valid/ready` 请求—响应通道。fileciteturn0file5L16-L31
+
+不同运算通过 `function_id` 区分，RTL 侧执行计算后通过 response 通道返回结果。fileciteturn0file5L35-L47
+
+所以完整关系实际上是：
+
+```text
+main.cc
+   ↓
+TFLite Micro
+   ↓
+Conv2D()
+   ↓
+Efinix optimized kernel
+   ↓
+Custom Instruction
+   ↓
+TinyML Accelerator RTL
+   ↓
+DSP / BRAM / AXI
+```
+
+而不是：
+
+```text
+C程序自己一项项算整个CNN
+```
+
+---
+
+# 七、TensorFlow Lite 在这里干什么
+
+TensorFlow Lite 负责的是“网络执行逻辑”。
+
+例如一个网络：
+
+```text
+Conv
+↓
+ReLU
+↓
+Depthwise
+↓
+Conv
+↓
+Add
+↓
+FC
+```
+
+TFLite Interpreter 会逐层执行。
+
+TinyML 则把其中最耗时间的：
+
+```text
+Conv
+Depthwise
+Add
+Mul
+FC
+```
+
+替换成 FPGA 加速实现。
+
+因此 RISC-V 仍然非常重要，它负责：
+
+```text
+模型初始化
+Tensor 管理
+Layer 调度
+DMA
+硬件控制
+结果解析
+后处理
+系统控制
+```
+
+而 FPGA Accelerator 负责：
+
+```text
+大量重复数值计算
+```
+
+这是典型的：
+
+\[
+\boxed{\text{Software control + Hardware acceleration}}
+\]
+
+---
+
+# 八、你们实际从训练到上板的完整流程
+
+官方资料把流程概括得很清楚：
+
+\[
+\boxed{\text{模型开发}\rightarrow\text{模型量化}\rightarrow\text{数据导出}\rightarrow\text{硬件部署}}
+\]
+
+fileciteturn0file4L46-L50
+
+结合你们项目，我建议实际做成下面 8 个阶段：
+
+1. **PC 上训练模型**。Python + TensorFlow/Keras，先只关心精度，不碰 FPGA。
+
+2. **控制模型结构**。优先使用 TinyML 已知支持良好的算子，如 `Conv2D / DepthwiseConv2D / Add / Mul / FullyConnected / ReLU`，尽量避免非常复杂或不受支持的层。
+
+3. **Post-Training Quantization**，把 FP32 模型量化成 INT8 `.tflite`。
+
+4. **TinyML Generator 解析模型**。官方工具会自动分析加速算子、配置 Accelerator 参数、估算资源并导出工程数据。fileciteturn0file4L53-L57
+
+5. **生成软硬件两套配置**。软件侧需要模型数据和参数；RTL 侧需要相应 accelerator 参数。这里必须保证两边启用的算子完全对应。
+
+6. **Efinity 中搭建 Sapphire SoC + TinyML Accelerator + DDR3/AXI**。
+
+7. **RISC-V 中运行 TFLite**，输入 Tensor → `Invoke()` → 输出 Tensor → post-processing。
+
+8. **把结果叠加回 HDMI**，例如：
+
+```text
+Person 92%
+Face
+Gesture: OK
+Bottle 86%
+```
+
+或者直接画：
+
+```text
+bounding box
+landmark
+OCR字符
+```
+
+---
+
+# 九、人脸、手势、物品、文字四种功能不能用同一种思路
+
+这是后续选题非常重要的一点。
+
+| 功能 | 实际 AI 任务 | 第一版建议 |
+|---|---|---|
+| 人脸 | detection / landmark / identity recognition | 先 Face Landmark / Face Detection |
+| 手势 | image classification / hand detection | 静态手势分类 |
+| 物品 | classification / object detection | 先分类，再检测 |
+| 文字 | character classification / OCR | 先数字/字母识别 |
+| 完整 OCR | detection + recognition + sequence decoding | 后期再考虑 |
+
+TinyML 官方资料已经提供了一些非常有价值的参考模型：
+
+| 示例 | 输入 |
+|---|---:|
+| YOLO Person Detection | 96×96×3 |
+| MobileNetV1 Person Detection | 96×96×1 |
+| ResNet Image Classification | 32×32×3 |
+| MediaPipe Face Landmark | 192×192×3 |
+
+fileciteturn0file4L68-L79
+
+这张表其实给你们指出了模型规模的大概量级。
+
+---
+
+# 十、人脸识别怎么做
+
+首先最好把“人脸识别”拆成三个概念：
+
+```text
+Face Detection
+找到哪里有人脸
+
+Face Landmark
+找到眼睛、鼻子、嘴等关键点
+
+Face Recognition
+判断这个人是谁
+```
+
+你们提供的 TinyML Demo 是 **Face Landmark**，不是身份证式的“这个人是谁”。用户手册里列出的现成应用也包含 `face_landmark`，同时还有 YOLO Person、ResNet 分类等。fileciteturn0file8L263-L278
+
+第一版非常适合做：
+
+```text
+Camera
+↓
+192×192 RGB
+↓
+Face Landmark
+↓
+468 landmarks
+↓
+HDMI画关键点
+```
+
+视觉效果会非常明显。
+
+之后如果要真正做 identity：
+
+```text
+Face Detection
+↓
+Crop Face
+↓
+Embedding CNN
+↓
+128D/256D vector
+↓
+Cosine similarity
+↓
+Andrew / Alice / Unknown
+```
+
+这个复杂度明显更高，不建议作为第一个 TinyML milestone。
+
+---
+
+# 十一、手势识别
+
+如果你们做：
+
+```text
+✊
+✋
+👌
+👍
+✌
+```
+
+这种静态手势，最简单。
+
+例如：
+
+```text
+Camera
+↓
+ROI
+↓
+96×96
+↓
+MobileNet-small / 自定义CNN
+↓
+5-class Softmax
+```
+
+输出：
+
+```text
+Open hand 0.93
+Fist      0.04
+OK        0.02
+...
+```
+
+这类问题本质是 **Image Classification**，非常适合 TinyML。
+
+如果做：
+
+```text
+挥手
+左滑
+右滑
+旋转
+```
+
+则变成时间序列：
+
+\[
+I_{t-3},I_{t-2},I_{t-1},I_t
+\]
+
+需要多帧模型或特征缓存，工程复杂度会上一个台阶。
+
+所以比赛第一阶段我建议：
+
+> **静态手势，而不是动态手势。**
+
+---
+
+# 十二、物品识别
+
+也分两种。
+
+简单版：
+
+```text
+整幅图片
+↓
+CNN
+↓
+apple / bottle / phone / cup
+```
+
+叫 Image Classification。
+
+高级版：
+
+```text
+图片
+↓
+YOLO
+↓
+[x,y,w,h,class,score]
+```
+
+叫 Object Detection。
+
+你们官方 TinyML 示例里已经有 96×96×3 的 YOLO Person Detection，所以检测路线原则上是存在的。fileciteturn0file4L68-L75
+
+但是第一版建议先做 classification，因为：
+
+```text
+Classification
+        ↓
+模型小
+后处理简单
+验证容易
+```
+
+而 Detection 还需要：
+
+```text
+Bounding box decode
+confidence
+NMS
+coordinate scaling
+overlay
+```
+
+工程复杂度大很多。
+
+---
+
+# 十三、OCR 最好不要一开始做“任意文字识别”
+
+完整 OCR 实际是：
+
+```text
+文字区域检测
+↓
+透视/旋转校正
+↓
+字符/文本行识别
+↓
+CTC / sequence decoding
+```
+
+这对于 Ti60 第一版 TinyML 非常重。
+
+更适合 FPGA 比赛的方案是：
+
+```text
+Camera
+↓
+灰度
+↓
+threshold / Sobel
+↓
+字符区域分割
+↓
+32×32 CNN
+↓
+0~9 / A~Z
+```
+
+这里恰好可以把你们已经实现的：
+
+```text
+Median
+Sobel
+threshold
+```
+
+变成真正有用的 AI 前处理模块。
+
+于是整个系统不是“旧工程作废换神经网络”，而是：
+
+```text
+传统 FPGA ISP
+        +
+TinyML CNN
+```
+
+例如：
+
+```text
+Median
+↓
+Sobel
+↓
+ROI segmentation
+↓
+CNN classifier
+```
+
+这个作为比赛展示其实非常漂亮。
+
+---
+
+# 十四、最适合你们现在工程的 AI 数据支路
+
+我建议增加一个：
+
+```text
+ai_preprocessor
+```
+
+不要破坏当前 HDMI 主链。
+
+例如：
+
+```text
+                    DDR3
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+ Display Reader               AI Reader
+       │                           │
+ lcd_driver                  crop/resize
+       │                           │
+ Median/Sobel                 RGB→INT8
+       │                           │
+ HDMI                    TinyML Accelerator
+                                   │
+                              result FIFO
+                                   │
+                              bbox/class
+                                   │
+                          HDMI Overlay
+```
+
+这样显示可以一直保持：
+
+\[
+1280\times720@60
+\]
+
+而 AI 可以只处理：
+
+\[
+96\times96
+\]
+
+甚至只推理：
+
+\[
+5\sim15\text{ FPS}
+\]
+
+完全没有必要让 CNN 跑 60 FPS。
+
+这会大幅降低：
+
+- DDR 带宽；
+- RISC-V 压力；
+- TinyML Accelerator 压力；
+- 功耗；
+- 资源。
+
+---
+
+# 十五、甚至可以不让 AI 读取完整 720p DDR 帧
+
+还有一个很值得考虑的优化。
+
+现在摄像头流：
+
+```text
+1280x720
+```
+
+进入 DDR 前，可以额外分一路：
+
+```text
+Camera pixel
+      ├─→ 原来的1280×720 DDR
+      │
+      └─→ DownSampler
+                ↓
+             96×96
+                ↓
+            AI Buffer
+```
+
+例如每隔若干像素采样一次。
+
+这样：
+
+\[
+1280\times720\times3
+\]
+
+约 2.76 MB/frame，
+
+而：
+
+\[
+96\times96\times3
+=
+27648\text{ bytes}
+\]
+
+只有约 **27 KB**。
+
+内存流量一下缩小约两个数量级。
+
+我比较推荐后面走这个方案：
+
+```text
+Camera
+ ├────────────→ DDR/HDMI
+ │
+ └→ NN Preprocessor → AI Buffer → TinyML
+```
+
+这样 TinyML 和显示系统解耦得最干净。
+
+---
+
+# 十六、你们当前硬件很适合走这个方向
+
+Ti60 F225 有：
+
+\[
+160\ DSP
+\]
+
+和：
+
+\[
+256\times10\text{ Kbit RAM}
+\]
+
+fileciteturn0file2L120-L136
+
+你们现在仓库里的 Sobel 版本，文档记录整工程只使用了约 50 个 EFX_RAM10，因此目前图像处理版本本身并没有吃光 RAM。
+
+不过官方 EVSOC 参考设计给出的完整设计资源已经到了：
+
+```text
+28265 LUT
+211 M10K
+```
+
+其中 Sapphire RISC-V 自身也占用了约：
+
+```text
+7301 LUT
+59 M10K
+4 DSP
+```
+
+fileciteturn0file8L174-L182
+
+所以这也是我不建议直接把完整 EVSOC 示例一股脑和你们当前所有模块合并的原因。
+
+必须做 **资源规划**。
+
+---
+
+# 十七、TinyML 和你们现有 DDR3 反而有一个很不错的契合点
+
+TinyML 官方参考架构经常以 HyperRAM 作为外部内存；用户手册中 TinyML Accelerator 的 AXI 一侧连接外部存储。fileciteturn0file8L280-L286
+
+你们现在则已经有：
+
+```text
+DDR3
++
+AXI
++
+Frame Buffer
+```
+
+当前 `example_top.v` 的 DDR user-side data bus 是：
+
+```verilog
+wire [127:0] w_ddr3_wdata;
+wire [127:0] w_ddr3_rdata;
+```
+
+也就是 **128-bit AXI 数据路径**。
+
+TinyML 配置工具的参考配置恰好也是围绕较宽 AXI 数据访问设计的。
+
+所以真正移植时，我并不建议再照官方参考板额外做一个 HyperRAM 子系统，而是：
+
+> **保留现有 DDR3 controller，把 TinyML Accelerator 的 memory master 接入现有 AXI/DDR3 架构。**
+
+这会是后续 RTL 架构改造的核心工作之一。
+
+不过官方 TinyML User Guide 本身是 Draft，里面有些地方写 HyperRAM，有些 DMA 段落又写外部 DDR DRAM，所以这部分不要机械照抄；你们最终工程应以实际板卡上的 DDR3 为准。
+
+---
+
+# 十八、这个仓库现在还缺什么
+
+这是我检查 GitHub 后得到的一个很明确的结论：
+
+当前 `main/src/` 中**没有 TinyML Accelerator / Sapphire SoC / TensorFlow Lite RISC-V 软件工程**。
+
+现在主要是：
+
+```text
+src/
+├─ axi/
+├─ cmos_i2c/
+├─ control/
+├─ hdmi_ip/
+├─ isp/
+├─ ddr_rw_ctrl.v
+├─ lcd_driver.v
+...
+```
+
+TinyML 相关目前主要存在于：
+
+```text
+docs/resources/
+├─ 1、TinyML介绍.pdf
+├─ 2、RISCV Custom Instruction.pdf
+├─ 3、钛金FPGA DSP原语介绍.pdf
+├─ 4、TinyML 框架介绍.pdf
+└─ 1_3_EVSOC_tinyml用户手册_0416.pdf
+```
+
+因此后面不是简单：
+
+```verilog
+tinyml u_tinyml(...);
+```
+
+就结束。
+
+你们还需要真正引入：
+
+```text
+Sapphire SoC
+TensorFlow Lite Micro
+TinyML accelerator RTL
+TinyML driver
+model generator
+RISC-V firmware project
+```
+
+官方框架的核心就是 TensorFlow Lite + INT8 + RISC-V + 可配置硬件 Accelerator。fileciteturn0file4L23-L28
+
+---
+
+# 十九、我建议你们按这个迭代顺序做
+
+这是我认为目前风险最低的实施路线：
+
+1. **Milestone 0：保持现在工程不动。** 确保 Camera → DDR3 → HDMI 和现有 Sobel/Median 仍然稳定，TinyML 另开分支开发。
+
+2. **Milestone 1：TinyML 独立跑通。** 暂时完全不要接摄像头。使用官方现成 `.tflite` 和固定测试图片，先让 `Sapphire + TFLite + TinyML Accelerator` 在 Ti60 上完成一次 inference。
+
+3. **Milestone 2：接自己的模型。** 建议先做最简单的 32×32 或 64×64 图像分类，例如 3～5 类物品或静态手势，完成 `train → INT8 → tflite → generator → board inference` 全链路。
+
+4. **Milestone 3：AI 输入连接摄像头。** 从 DDR3 或 camera branch 取得 96×96/128×128 图像，并形成 TFLite input tensor。
+
+5. **Milestone 4：HDMI 显示识别结果。** 先不要画 bbox，只在画面角落显示 `Class ID + confidence`；之后再增加框和 landmark。
+
+6. **Milestone 5：Face Landmark / Person Detection。** 这时再上官方已经验证过的网络类型。
+
+7. **Milestone 6：多个 AI 模型。** 通过 UART/按键选择 `Face / Gesture / Object / Character`，而不是同时运行四个网络。
+
+8. **Milestone 7：优化。** 根据 profiler 看 Conv/Depthwise/FC 的耗时，再调 TinyML accelerator 的并行度、DSP 和 RAM 配置。
+
+---
+
+# 二十、比赛最后的系统可以长成这样
+
+我认为你们这个项目最终很有潜力变成：
+
+```text
+                   Ti60F225 Edge Vision AI
+┌─────────────────────────────────────────────────────┐
+│                                                     │
+│  OV5640                                             │
+│    │                                                │
+│    ▼                                                │
+│ Camera Capture                                      │
+│    │                                                │
+│    ├───────────────► DDR3 ─────► HDMI Pipeline      │
+│    │                                  │              │
+│    │                           Median / Sobel         │
+│    │                                  │              │
+│    │                              AI Overlay          │
+│    │                                  │              │
+│    │                                HDMI             │
+│    │                                                │
+│    └──► AI Preprocessor                             │
+│           │                                         │
+│       Crop/Resize                                   │
+│       RGB/Gray                                      │
+│       Quantize INT8                                 │
+│           │                                         │
+│           ▼                                         │
+│       AI Frame Buffer                               │
+│           │                                         │
+│           ▼                                         │
+│      Sapphire RISC-V                                │
+│           │                                         │
+│       TensorFlow Lite                               │
+│           │                                         │
+│      Custom Instruction                             │
+│           │                                         │
+│           ▼                                         │
+│       TinyML Accelerator                            │
+│     Conv / Depthwise / FC                           │
+│           │                                         │
+│           ▼                                         │
+│  Class / bbox / landmark / score                    │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+这是非常典型的 **FPGA + RISC-V + TinyML + ISP + DDR + HDMI 的软硬件协同 Edge AI 系统**。
+
+而且它和你们目前的 Sobel 项目不是两个项目——现有工程完全可以作为 **Video/ISP subsystem** 保留下来。
+
+---
+
+## 最值得先做的第一个 AI Demo
+
+从工程难度、成功率和后续扩展能力来看，我建议你们的第一个 TinyML 网络不要直接上“完整人脸识别”或“OCR”，而是：
+
+\[
+\boxed{\text{Camera → 96×96 → INT8 CNN → 静态手势/物品分类 → HDMI显示结果}}
+\]
+
+先把下面这条链真正跑通：
+
+```text
+自己训练
+   ↓
+quantization
+   ↓
+.tflite
+   ↓
+TinyML Generator
+   ↓
+RISC-V + Accelerator
+   ↓
+真实摄像头输入
+   ↓
+真实 Ti60 推理
+   ↓
+HDMI显示分类结果
+```
+
+**这一步一旦成功，后面人脸、YOLO、字符识别主要就是“换模型 + 换预后处理”，而不是重新搭系统。**
+
+然后第二个 Demo 再做官方资料已经给出参考的 **MediaPipe Face Landmark**，因为官方 TinyML 示例本身已经包含 face landmark、person detection、image classification 等方向。fileciteturn0file8L263-L278
+
+下一步我建议就直接进入真正的工程设计：**我可以基于你们当前 `fpga-w.-codex` 的 `example_top.v + DDR3 AXI + video_processing`，给你画出“TinyML V0.1”的模块级架构，明确应该新增哪些 `.v/.sv/.cc`、每个模块的输入输出，以及 TinyML Accelerator 应该具体插在现有工程哪里。** memcite

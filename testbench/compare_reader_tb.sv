@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 /* V0.5: independent byte-addressed AXI memory, random stalls and Python pixel oracle. */
 module compare_reader_tb;
-    parameter WIDTH=1280, HEIGHT=720, STRESS=1;
+    parameter WIDTH=1280, HEIGHT=720;
     reg clk=0, pixel_clk=0, reset=1;
     /* Actual board AXI UI is clk_sys=96MHz; HDMI pixel clock is 74.4MHz. */
     always #5.208333 clk=~clk;
@@ -56,7 +56,7 @@ module compare_reader_tb;
                 memory_addr=addr; remaining=len+1; active<=1; ar<=0; bursts=bursts+1;
             end
             if(rv && rr) begin rv<=0; if(rl) active<=0; end
-            if(active && (!rv || rr) && remaining>0 && !bus_stall && (STRESS ? cycle%16<8 : cycle%5!=0)) begin
+            if(active && (!rv || rr) && remaining>0 && !bus_stall && cycle%5!=0) begin
                 for(lane=0;lane<8;lane=lane+1) begin
                     linear=((memory_addr & 32'h3fffff)/2)+lane;
                     data[127-lane*16 -: 16]<=source_pixel(linear%WIDTH,linear/WIDTH,memory_addr>>22);

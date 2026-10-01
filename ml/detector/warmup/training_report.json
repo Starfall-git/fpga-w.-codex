@@ -1,0 +1,12 @@
+{
+  "version": "v1.2",
+  "dataset_sha256": "0094d11567edbba25d840b811ea5a9829db799ac540c7f953f4477bc52f38f8e",
+  "initial_model": null,
+  "seed": 1202,
+  "epochs": 40,
+  "train": 3875,
+  "validation": 421,
+  "best_val_loss": 1.0583714246749878,
+  "tensorflow": "2.16.2",
+  "model_sha256": "391e4100b9539a43893319568a1785e807d298e1ed9ce2fdcec0d5fa1e44c14d"
+}

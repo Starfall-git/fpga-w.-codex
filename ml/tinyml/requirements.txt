@@ -1,0 +1,10 @@
+# v1.3: validated project environment, Python 3.12 / Windows CPU TensorFlow.
+tensorflow==2.16.2
+keras==3.15.1
+numpy==1.26.4
+Pillow==12.3.0
+nbformat==5.11.1
+nbclient==0.11.0
+ipykernel==7.4.0
+notebook==7.6.3
+PyQt6==6.11.0

@@ -106,7 +106,7 @@ module axi_transform_reader #(
 
     localparam IDLE=0, FRAME_WAIT=1, FRAME_LATCH=2, PREP0=3, PREP1=4, PREP2=5,
                PREP3=6, PREP4=7, DIV_WAIT=8, ROW_Y=9, ROW_ADDR=10,
-               BURST=11, AR=12, RD=13, RENDER_INIT=14, RENDER=15, DRAIN=16, PUBLISH=17, COMPARE_PREP=18, COMPARE_STEP=19, COMPARE_TILE=20, COMPARE_WAIT=21;
+               BURST=11, AR=12, RD=13, RENDER_INIT=14, RENDER=15, DRAIN=16, PUBLISH=17, COMPARE_PREP=18, COMPARE_STEP=19, COMPARE_TILE=20;
     reg [4:0] state, div_return;
     reg div_start;
     reg [31:0] dividend, divisor;
@@ -167,13 +167,6 @@ module axi_transform_reader #(
     wire [16:0] remainder_sum={1'b0,x_remainder}+{1'b0,rem_step};
     wire inside_x=(render_x>=pad_x && render_x<pad_x+visible_w);
     wire [15:0] mapped_x=comparing ? source_x_offset : geometry[1] ? crop_x+crop_w-1'b1-source_x_offset : crop_x+source_x_offset;
-    /* V0.18 / 84: overlap DDR fetch and rendering for comparison tiles.
-       Only read a source beat after its write has committed. No added AXI
-       outstanding transactions; normal live/crop path is unchanged. */
-    reg compare_rendering, compare_render_done;
-    wire overlap_issue=compare_rendering &&
-        (!inside_x || beat_offset>{1'b0,mapped_x[15:3]});
-    wire render_issue=(state==RENDER) || overlap_issue;
     reg render_en_d, render_good_d;
     reg [11:0] render_addr_d;
     reg [2:0] lane_d;
@@ -181,12 +174,11 @@ module axi_transform_reader #(
     assign faults_o={axi_error,underflow};
     always @(posedge axi_clk) begin
         if(state==RD && rvalid_i && rready_o) source_ram[beat_offset]<=rdata_i;
-        if(render_issue) source_q<=source_ram[inside_x && !row_black ? mapped_x[15:3] : 0];
+        if(state==RENDER) source_q<=source_ram[inside_x && !row_black ? mapped_x[15:3] : 0];
         if(render_en_d) display_ram[render_addr_d]<=render_good_d ? source_q[127-lane_d*16 -: 16] : 16'd0;
     end
     always @(posedge axi_clk or posedge axi_reset) begin
         if(axi_reset) begin
-            compare_rendering<=0;compare_render_done<=0;
             comparing<=0;tile_count<=0;tile_col<=0;columns<=1;rows<=1;
             cell_w<=WIDTH;cell_h<=HEIGHT;image_w<=WIDTH;image_h<=HEIGHT;
             inner_x<=0;inner_y<=0;tile_end<=WIDTH-1;
@@ -206,15 +198,7 @@ module axi_transform_reader #(
             frame_meta<=frame_req; frame_sync<=frame_meta; line_meta<=line_req; line_sync<=line_meta;
             geometry_meta<=geometry_toggle_i; geometry_sync<=geometry_meta;
             div_start<=0; frame_switch_o<=0;
-            render_en_d<=render_issue;
-            if(overlap_issue) begin
-                if(inside_x) begin
-                    source_x_offset<=source_x_offset+x_step+(remainder_sum>=mapping_den);
-                    x_remainder<=remainder_sum>=mapping_den ? remainder_sum-mapping_den : remainder_sum;
-                end
-                if(render_x==tile_end) begin compare_rendering<=0;compare_render_done<=1;end
-                else render_x<=render_x+1'b1;
-            end
+            render_en_d<=state==RENDER;
             render_good_d<=inside_x && !row_black && !row_error;
             render_addr_d<=(render_bank ? WIDTH : 0)+render_x;
             lane_d<=mapped_x[2:0];
@@ -286,10 +270,6 @@ module axi_transform_reader #(
                 ROW_ADDR: begin
                     next_addr<=frame_base+(comparing ? quotient : geometry[0] ? crop_y+crop_h-1'b1-quotient : crop_y+quotient)*(WIDTH*2);
                     beat_offset<=0; remaining_beats<=ROW_BEATS; state<=BURST;
-                    if(comparing) begin
-                        compare_rendering<=1;compare_render_done<=0;
-                        source_x_offset<=0;x_remainder<=0;
-                    end
                 end
                 BURST: begin
                     araddr_o<=next_addr; arlen_o<=selected_beats-1'b1; burst_beats<=selected_beats;
@@ -301,17 +281,9 @@ module axi_transform_reader #(
                     if(rresp_i!=0 || (rlast_i!=(beat_count==burst_beats-1'b1))) begin row_error<=1; axi_error<=1; end
                     if(rlast_i) begin
                         remaining_beats<=remaining_beats-burst_beats; next_addr<=next_addr+burst_beats*16;
-                        if(remaining_beats==burst_beats || beat_count!=burst_beats-1'b1) begin
-                            if(comparing) state<=COMPARE_WAIT;else state<=RENDER_INIT;
-                        end
+                        if(remaining_beats==burst_beats || beat_count!=burst_beats-1'b1) state<=RENDER_INIT;
                         else state<=BURST;
                     end
-                end
-                COMPARE_WAIT: begin
-                    /* AXI errors replace the affected tile, including pixels
-                       rendered before the failed response. Early RLAST cannot hang. */
-                    if(row_error) begin compare_rendering<=0;state<=RENDER_INIT;end
-                    else if(compare_render_done) state<=DRAIN;
                 end
                 RENDER_INIT: begin render_x<=comparing ? tile_col*cell_w : 0; source_x_offset<=x_initial; x_remainder<=rem_initial; state<=RENDER; end
                 RENDER: begin

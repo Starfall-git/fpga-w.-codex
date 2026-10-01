@@ -1,0 +1,13 @@
+# vsim -c work.detector_capture_tb -do "onerror {quit -code 1}; run -all; quit -code 0" 
+# Start time: 16:23:40 on Sep 30,2026
+# Loading sv_std.std
+# Loading work.detector_capture_tb
+# Loading work.gesture_capture
+# onerror {quit -code 1}
+#  Warning: onerror command for use within macro
+#  run -all
+# PASS DETECTOR CAPTURE: 61440 exact averages, full frame/corners/scales/ownership/disable
+# ** Note: $finish    : C:/Users/francis/Desktop/fpga-w.-codex-cnn/testbench/detector_capture_tb.sv(56)
+#    Time: 118240178 ns  Iteration: 1  Instance: /detector_capture_tb
+# End time: 16:24:33 on Sep 30,2026, Elapsed time: 0:00:53
+# Errors: 0, Warnings: 0

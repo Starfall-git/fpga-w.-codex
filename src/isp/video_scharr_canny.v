@@ -2,13 +2,10 @@
 /* V0.16 / 77: normalized Scharr L1 magnitude, quantized gradient direction,
    NMS, high/low=THRESHOLD/max(THRESHOLD/2,1), two local hysteresis rounds.
    Finite (two-hop) streaming hysteresis is not global recursive Canny.
-   V0.19: Scharr RGB latency=3 clocks; Canny RGB=23 clocks from window input.
+   Scharr RGB latency=3 clocks; Canny RGB=11 clocks from window input.
    Valid bits exclude incomplete windows; magnitude carries 12 bits. */
 module video_scharr_canny #(parameter IMAGE_WIDTH=1280,VS_ACTIVE=0)(
  input wire clk,rst_n,BINARY_OUTPUT,
- /* V0.19 / 90-91: approximate L2 improves angular uniformity; selectable
-    six-hop hysteresis and isolated-seed rejection. Not global Canny. */
- input wire [15:0] tuning_i,
  input wire [11:0] THRESHOLD,
  input wire [71:0] pixels_i,
  input wire hs_i,vs_i,de_i,window_valid_i,
@@ -20,8 +17,6 @@ module video_scharr_canny #(parameter IMAGE_WIDTH=1280,VS_ACTIVE=0)(
  reg signed [12:0] gx,gy;
  wire [12:0] ax=gx[12] ? -gx : gx, ay=gy[12] ? -gy : gy;
  wire [13:0] total={1'b0,ax}+{1'b0,ay};
- wire [12:0] hi=ax>ay ? ax : ay, lo=ax>ay ? ay : ax;
- wire [16:0] norm={4'd0,hi}+(({4'd0,lo}*3)>>3);
  reg [13:0] magnitude_dir;
  reg [1:0] hp,vp,dp,validp;
  wire [11:0] magnitude=magnitude_dir[13:2];
@@ -37,7 +32,7 @@ module video_scharr_canny #(parameter IMAGE_WIDTH=1280,VS_ACTIVE=0)(
   else begin
    gx<=3*(c-a)+10*(f-d)+3*(i-g);
    gy<=3*(g-a)+10*(h-b)+3*(i-c);
-   magnitude_dir[13:2]<=tuning_i[1] ? norm>>2 : total>>2;
+   magnitude_dir[13:2]<=total>>2;
    /* tan(22.5deg) ~= 106/256, preserving four normal directions. */
    if(ay*256<=ax*106) magnitude_dir[1:0]<=0;
    else if(ax*256<=ay*106) magnitude_dir[1:0]<=2;
@@ -61,13 +56,7 @@ module video_scharr_canny #(parameter IMAGE_WIDTH=1280,VS_ACTIVE=0)(
   endcase
  end
  wire [11:0] high_t=THRESHOLD==0 ? 12'd1 : THRESHOLD;
- /* V0.19: pipeline configuration arithmetic during blanking to keep the
-    percentage multiplier/divider off the gradient/NMS critical path. */
- reg [19:0] low_product;reg [11:0] low_t;
- always @(posedge clk or negedge rst_n) begin
-  if(!rst_n) begin low_product<=0;low_t<=1;end
-  else begin low_product<=high_t*tuning_i[15:8];low_t<=low_product<100 ? 12'd1 : low_product/100;end
- end
+ wire [11:0] low_t=high_t<2 ? 12'd1 : high_t>>1;
  reg [1:0] label;reg nh,nv,nd,nvalid;
  always @(posedge clk or negedge rst_n) begin
   if(!rst_n) begin label<=0;nh<=1;nv<=VS_ACTIVE;nd<=0;nvalid<=0;end
@@ -78,39 +67,28 @@ module video_scharr_canny #(parameter IMAGE_WIDTH=1280,VS_ACTIVE=0)(
    else label<=0;
   end
  end
- wire [1:0] stage_label[0:6];wire [6:0] sh,sv,sd,sk;
+ wire [1:0] stage_label[0:2];wire [2:0] sh,sv,sd,sk;
  assign stage_label[0]=label;assign sh[0]=nh;assign sv[0]=nv;assign sd[0]=nd;assign sk[0]=nvalid;
  genvar stage;
- generate for(stage=0;stage<6;stage=stage+1) begin: g_link
+ generate for(stage=0;stage<2;stage=stage+1) begin: g_link
   wire [17:0] labels;wire lh,lv,ld,lk;
   video_window3x3 #(.IMAGE_WIDTH(IMAGE_WIDTH),.DATA_WIDTH(2),.VS_ACTIVE(VS_ACTIVE)) label_window(
    .clk(clk),.rst_n(rst_n),.gray_i(stage_label[stage]),.pixel_valid_i(sk[stage]),
    .hs_i(sh[stage]),.vs_i(sv[stage]),.de_i(sd[stage]),.pixels_o(labels),
    .hs_o(lh),.vs_o(lv),.de_o(ld),.window_valid_o(lk));
-  integer j;reg nearby,support;reg [1:0] promoted;reg ph,pv,pd,pk;
-  always @* begin
-   nearby=0;support=0;
-   for(j=0;j<9;j=j+1) if(j!=4) begin
-    if(labels[j*2+:2]==2) nearby=1;
-    if(labels[j*2+:2]!=0) support=1;
-   end
-  end
+  integer j;reg nearby;reg [1:0] promoted;reg ph,pv,pd,pk;
+  always @* begin nearby=0;for(j=0;j<9;j=j+1) if(labels[j*2+:2]==2) nearby=1;end
   always @(posedge clk or negedge rst_n) begin
    if(!rst_n) begin promoted<=0;ph<=1;pv<=VS_ACTIVE;pd<=0;pk<=0;end
    else begin
-    /* V0.19: never invent zero-gradient pixels to bridge a gap. Extended
-       stages carry center labels when disabled, keeping fixed output timing. */
-    if(!lk) promoted<=0;
-    else if(stage==0 && tuning_i[3] && !support) promoted<=0;
-    else if(stage>=2 && !tuning_i[2]) promoted<=labels[9:8];
-    else promoted<=labels[9:8]==2 || (labels[9:8]==1 && nearby) ? 2 : labels[9:8];
+    promoted<=lk ? (labels[9:8]==2 || (labels[9:8]==1 && nearby) ? 2 : labels[9:8]) : 0;
     ph<=lh;pv<=lv;pd<=ld;pk<=lk;
    end
   end
   assign stage_label[stage+1]=promoted;assign sh[stage+1]=ph;assign sv[stage+1]=pv;
   assign sd[stage+1]=pd;assign sk[stage+1]=pk;
  end endgenerate
- wire hit=sk[6] && stage_label[6]==2;
- assign canny_o=sd[6] ? ((hit==BINARY_OUTPUT) ? 24'hffffff : 24'd0) : 0;
- assign hs_o=sh[6];assign vs_o=sv[6];assign de_o=sd[6];
+ wire hit=sk[2] && stage_label[2]==2;
+ assign canny_o=sd[2] ? ((hit==BINARY_OUTPUT) ? 24'hffffff : 24'd0) : 0;
+ assign hs_o=sh[2];assign vs_o=sv[2];assign de_o=sd[2];
 endmodule

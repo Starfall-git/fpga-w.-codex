@@ -1,0 +1,15 @@
+{
+  "user_id": {
+    "unique": 3007,
+    "cross_split": 0
+  },
+  "source_id": {
+    "unique": 4797,
+    "cross_split": 0
+  },
+  "source_sha256": {
+    "unique": 4795,
+    "cross_split": 0
+  },
+  "excluded_cross_split_crops": 8
+}

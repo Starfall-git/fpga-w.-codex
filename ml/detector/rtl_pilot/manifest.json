@@ -1,0 +1,19 @@
+{
+  "version": "v1.2",
+  "experimental": true,
+  "deployment_approved": false,
+  "hardware_tested": false,
+  "threshold_note": "Permissive -256 for functional verification, not a selected deployment threshold",
+  "quantized_sha256": "6fccb7c9e1c3b90f5faac3d8cec24564cef554bc4d1ba20c669bbf5acd621007",
+  "fixture": {
+    "source_id": "13ccaf6d-bbda-4518-8b1d-59e0d905931b",
+    "split": "val",
+    "roi": [
+      181,
+      12,
+      256
+    ],
+    "class_id": 2,
+    "synthetic_upsampling": "256x144 replicated5x5; functional fixture only"
+  }
+}

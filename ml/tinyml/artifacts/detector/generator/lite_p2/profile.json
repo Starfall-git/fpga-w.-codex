@@ -1,0 +1,53 @@
+{
+  "version": "v1.3",
+  "model_sha256": "98d072ef0fb673b3647fce234c559e92a3045e4fca09abcf281acccbbfaffc5f",
+  "parallel": 2,
+  "parameters": {
+    "SYSTEM": true,
+    "AXI_DW": "128",
+    "CONV_DEPTHW_MODE": "LITE",
+    "CONV_DEPTHW_STD_IN_PARALLEL": 4,
+    "CONV_DEPTHW_STD_OUT_PARALLEL": 4,
+    "CONV_DEPTHW_STD_OUT_CH_FIFO_A": 64,
+    "CONV_DEPTHW_STD_FILTER_FIFO_A": 144,
+    "CONV_DEPTHW_STD_CNT_DTH": 256,
+    "CONV_DEPTHW_LITE_PARALLEL": 2,
+    "CONV_DEPTHW_LITE_AW": 7,
+    "ADD_MODE": "DISABLE",
+    "FC_MODE": "DISABLE",
+    "FC_MAX_IN_NODE": 0,
+    "FC_MAX_OUT_NODE": 0,
+    "MUL_MODE": "DISABLE",
+    "MIN_MAX_MODE": "DISABLE",
+    "TINYML_CACHE": "DISABLE",
+    "CACHE_DEPTH": "512"
+  },
+  "columns": [
+    "module",
+    "LUT",
+    "FF",
+    "ADD",
+    "RAM10",
+    "DSP"
+  ],
+  "accelerator_only_estimate": [
+    [
+      "CONV_DEPTHW",
+      "1200",
+      "1200",
+      "1600",
+      "8",
+      "19"
+    ],
+    [
+      "TINYML_ACCELERATOR",
+      "1200",
+      "1200",
+      "1600",
+      "8",
+      "19"
+    ]
+  ],
+  "synthesized": false,
+  "installed_in_top_level": false
+}

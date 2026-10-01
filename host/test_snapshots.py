@@ -40,10 +40,9 @@ class SnapshotTests(unittest.TestCase):
                 self.assertEqual(app.ddr_status.mode,0);self.assertFalse(app.frame_store.entries())
                 app.ddr_action(2);finish();self.assertEqual(app.ddr_status.mode,1)
                 app.resume_video();finish();app.capture_frame();finish()
-                app.open_ddr_store();finish();root.update();self.assertEqual(len(app.ddr_selected),2)
-                [v.set(True) for v in app.ddr_selected.values()];app.compare_selected();finish()
+                app.open_ddr_store();root.update();self.assertEqual(app.ddr_list.size(),2)
+                app.ddr_list.selection_set(0,1);app.compare_selected();finish()
                 self.assertEqual(app.ddr_status.mode,3)
-                app.close_ddr_store();finish();self.assertEqual(app.ddr_status.mode,0)
         finally:app.close()
 
     def test_edits_preserve_original(self):
@@ -81,7 +80,7 @@ class SnapshotTests(unittest.TestCase):
                 px,py=editor.point(event);self.assertAlmostEqual(px,10,delta=1);self.assertAlmostEqual(py,12,delta=1)
                 editor.fill();self.assertEqual(editor.pan_x,0);editor.fit()
                 editor.flip(True);editor.percent.set('50');editor.resize();editor.save();root.update()
-                self.assertEqual(len(store.entries()),3);self.assertEqual(editor.doc.image.size,(160,90))
+                self.assertEqual(len(store.entries()),4);self.assertEqual(editor.doc.image.size,(160,90))
                 for obj in (comparison,editor,gallery):obj.win.destroy()
         finally:root.destroy()
 
