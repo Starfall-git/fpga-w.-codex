@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+# Local CNN cross-build dependencies and binaries
+/artifacts/
 __pycache__/
 *.py[codz]
 *$py.class
