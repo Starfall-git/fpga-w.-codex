@@ -17,6 +17,7 @@
 | 0x18 | RW | bit0 valid；bit[2:1] class：0纸、1石头、2剪刀 |
 | 0x1c | R | 接收次数，32位自然回卷；不是显示次数 |
 | 0x20 | W/R0 | 写bit0=1清除拒绝标志；读0 |
+| 0x24 | R | bit0 CPU域允许启动新推理；bit1 AI在线 |
 
 软件先读 ready，再写帧号、坐标、类别，最后 fence 后写 commit。仅 hart0 一个生产者可使用此接口；多线程/中断调用需自行串行化。复位过程中不得发布，复位后重新读 ABI/ready。返回1表示入队，0表示忙，-1表示参数错误。未配置真实基址，因此 `firmware/evsoc_gesture/gesture_result.h` 要求调用者传入最终 BSP/地址解码器确认的基址。
 
@@ -35,3 +36,5 @@ ROI右下边界为开区间，必须先完成摄像头到最终显示画面的�
 运行 `python tools/run_cnn_result_apb_sim.py`。ModelSim 使用真实 `cnn_result_mailbox` 和异步14/10ns时钟，检查 APB setup无副作用、提交原子性、忙时拒绝、帧边界接收、影子写不撕裂、连续结果、错误地址/写值、valid=0失效及复位。
 
 同一脚本用官方 RISC-V g++、实际 io.h/soc.h 编译调用方（RV32IM + Zicsr/Zifencei，-Wall -Werror），保存命令、日志和哈希于 `artifacts/cnn-result-apb-sim/report.json`。这些证明模块数字仿真及接口可编译；不是软件在板上运行、物理CDC收敛或HDMI验收。
+
+组合接入模块见 [UART 与视频端点](CNN_UART_ENDPOINT.md)，连接 APB、真实结果邮箱、Overlay 和双开关状态同步；物理 example_top 与 Sapphire IP 实例化仍未完成。

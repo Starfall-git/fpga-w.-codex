@@ -8,6 +8,7 @@ module cnn_result_apb(
     input wire [31:0] PWDATA,
     output wire PREADY, PSLVERROR,
     output reg [31:0] PRDATA,
+    input wire [1:0] control_status, // CPU-domain {online, inference_enable}
     input wire result_ready,
     output wire result_send,
     output wire result_valid,
@@ -33,6 +34,7 @@ module cnn_result_apb(
             16'h0014: write_ok=1; // write 1: publish; reads return zero
             16'h0018: begin PRDATA=meta; write_ok=1; end
             16'h001c: PRDATA=accepted_count;
+            16'h0024: PRDATA={30'd0,control_status};
             16'h0020: write_ok=1; // write 1: clear rejected latch
             default: address_ok=0;
         endcase

@@ -16,7 +16,7 @@ module cnn_result_apb_tb;
  integer commits=0;
  cnn_result_apb dut(.PCLK(clk),.PRESETn(rst),.PADDR(addr),.PSEL(sel),
  .PENABLE(en),.PWRITE(wr),.PWDATA(wdata),.PREADY(ready),.PSLVERROR(err),
- .PRDATA(rdata),.result_ready(mail_ready),.result_send(send),.result_valid(valid),
+ .PRDATA(rdata),.control_status(2'b00),.result_ready(mail_ready),.result_send(send),.result_valid(valid),
  .result_class(cls),.roi_x0(x0),.roi_y0(y0),.roi_x1(x1),.roi_y1(y1),.source_frame(frame));
  cnn_result_mailbox mb(.src_clk(clk),.src_rst_n(rst),.src_valid(send),
  .src_data({frame,valid,cls,x0,y0,x1,y1}),.src_ready(mail_ready),

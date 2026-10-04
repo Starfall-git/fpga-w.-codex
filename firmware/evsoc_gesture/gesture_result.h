@@ -20,5 +20,10 @@ static inline int gesture_publish_result(uintptr_t base, uint32_t frame,
     write_u32(1u, base + 0x14);
     return 1; /* queued, not proof that HDMI displayed it */
 }
+/* Stop starting new Invoke calls when disabled; an in-flight call may finish. */
+static inline int gesture_inference_enabled(uintptr_t base)
+{
+    return (read_u32(base + 0x24) & 1u) != 0;
+}
 #endif
 

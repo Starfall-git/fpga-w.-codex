@@ -15,6 +15,7 @@ module cnn_overlay_bridge #(
     input wire hs_i,vs_i,de_i,
     output wire [23:0] rgb_o,
     output wire hs_o,vs_o,de_o,
+    output wire overlay_enabled,
     output wire [31:0] displayed_source_frame
 );
     wire frame_boundary,commit;
@@ -34,5 +35,5 @@ module cnn_overlay_bridge #(
         .overlay_enable_i(pixel_overlay_enable),.result_commit_i(commit),.result_valid_i(valid),
         .result_class_i(cls),.x0_i(x0),.y0_i(y0),.x1_i(x1),.y1_i(y1),.source_frame_i(frame),
         .rgb_o(rgb_o),.hs_o(hs_o),.vs_o(vs_o),.de_o(de_o),.frame_boundary_o(frame_boundary),
-        .displayed_source_frame_o(displayed_source_frame));
+        .overlay_enabled_o(overlay_enabled),.displayed_source_frame_o(displayed_source_frame));
 endmodule

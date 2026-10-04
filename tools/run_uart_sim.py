@@ -4,7 +4,7 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-out = ROOT / "tools/debug/uart_sim"
+out = ROOT / "artifacts/uart-sim"
 out.mkdir(parents=True, exist_ok=True)
 bin_dir = Path(os.environ.get("MODELSIM_BIN", "D:/intelfpga/modelsim_ase/win32aloem"))
 

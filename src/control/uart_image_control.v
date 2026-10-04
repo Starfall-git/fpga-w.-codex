@@ -13,6 +13,7 @@ TRANSFORM_ENABLE=1时能力位为0F。几何配置由DDR读出器帧准备完成
 module uart_image_control #(
     parameter SNAPSHOT_ENABLE=0,
     parameter CAMERA_ENABLE=0,
+    parameter CNN_ENABLE=0,
     parameter CLOCK_HZ=96000000,
     parameter BAUD=115200,
     parameter DEBOUNCE_CYCLES=1920000,
@@ -48,6 +49,11 @@ module uart_image_control #(
     output reg camera_toggle_o, output reg [32:0] camera_command_o,
     input wire camera_ready_i,camera_ack_i,camera_error_i,
     input wire [15:0] camera_data_i,
+    // Source-domain contract: hold requested until the downstream applied ACK.
+    // bit0 permits new inference; bit1 permits overlay independently.
+    output reg [1:0] cnn_requested_o,
+    input wire [1:0] cnn_applied_i,
+    input wire cnn_available_i,
     input wire [1:0] transform_faults_i
 );
     function [7:0] crc_next;
@@ -63,6 +69,7 @@ module uart_image_control #(
     /* V0.15 / 71: 30 status version2; 31 control; 32 is unsupported.
        Return status={result,2,capacity8,count,savedLE16,mode,displayID}. */
     /* V0.18 / 83: warehouse protocol V3 adds action6 single-slot deletion. */
+    reg waiting_cnn; reg [31:0] cnn_timeout;
     reg waiting_camera;reg [31:0] camera_timeout;
     /* V0.19 / 88: device-owned DEFAULTS restores sensor controls too. */
     reg camera_defaults_active;reg [3:0] camera_default_index;
@@ -177,12 +184,22 @@ module uart_image_control #(
             /* V0.4 body had capability=01; V0.5 advertises only compiled functions. */
             /* V0.6: D5 contains applied ISP flags; D6/D7 remain zero. */
             /* V0.9 / 44: D5 bit2 reads back the applied Median state. */
-            reply_body(seq,cmd,{8'd0,(CAMERA_ENABLE ? 8'd31 : 8'd15),1'd0,isp_applied,CAPABILITIES,8'h01,4'b0,applied[11:8],applied[7:0],status});
+            reply_body(seq,cmd,{8'd0,((CAMERA_ENABLE ? 8'd31 : 8'd15) | (CNN_ENABLE ? 8'd32 : 8'd0)),1'd0,isp_applied,CAPABILITIES,8'h01,4'b0,applied[11:8],applied[7:0],status});
+        end
+    endtask
+
+    // AI replies: status, applied, requested, available, ABI=1, 0, 0, 0.
+    task reply_cnn;
+        input [7:0] seq,cmd,status;
+        begin
+            reply_body(seq,cmd,{24'd0,8'd1,7'd0,cnn_available_i,
+                6'd0,cnn_requested_o,6'd0,cnn_applied_i,status});
         end
     endtask
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
+            waiting_cnn<=0;cnn_timeout<=0;cnn_requested_o<=0;
             camera_defaults_active<=0;camera_default_index<=0;default_error<=0;
             tuning_target<=16'h3200;tuning_request<=0;waiting_tuning<=0;
             waiting_camera<=0;camera_timeout<=0;camera_toggle_o<=0;camera_command_o<=0;
@@ -198,6 +215,17 @@ module uart_image_control #(
             isp_target<=0; isp_request<=0; waiting_isp<=0; waiting_default<=0;
         end else begin
             tx_start<=0;
+            if(waiting_cnn) begin
+                cnn_timeout<=cnn_timeout+1'b1;
+                if(cnn_applied_i==cnn_requested_o) begin
+                    waiting_cnn<=0;
+                    if(!waiting_default) reply_cnn(wait_sequence,wait_command,0);
+                end else if(cnn_timeout==CLOCK_HZ/2-1) begin
+                    waiting_cnn<=0;
+                    if(waiting_default) default_error<=5;
+                    else reply_cnn(wait_sequence,wait_command,5);
+                end
+            end
             if(camera_defaults_active && !waiting_camera) begin
                 if(camera_ready_i && camera_ack_i==camera_toggle_o) begin
                     camera_command_o<={1'b0,camera_default_word};camera_toggle_o<=~camera_toggle_o;
@@ -244,7 +272,7 @@ module uart_image_control #(
                 waiting_isp<=0;
                 if(!waiting_default) reply(wait_sequence,wait_command,0);
             end
-            if(waiting_default && !camera_defaults_active && !waiting_camera && !waiting_tuning && !waiting_isp && !waiting_geometry && !waiting_store) begin
+            if(waiting_default && !waiting_cnn && !camera_defaults_active && !waiting_camera && !waiting_tuning && !waiting_isp && !waiting_geometry && !waiting_store) begin
                 waiting_default<=0; reply(wait_sequence,wait_command,default_error);
             end
             /* 同一寄存器集中写入；范围0..4095，两个键同时按下不修改。 */
@@ -281,9 +309,21 @@ module uart_image_control #(
                     12: begin
                         rx_index<=0;
                         /* stop-and-wait：处理或发送应答期间不接受额外命令。 */
-                        if (!waiting_tuning && !waiting_camera && !waiting_apply && !waiting_geometry && !waiting_isp && !waiting_default && !reply_busy && !tx_busy && !tx_start && !waiting_store) begin
-                            if (rx_data!=crc) reply(sequence_id,command,1);
-                            else if(command==8'h14 || command==8'h15) begin
+                        if (!waiting_cnn && !waiting_tuning && !waiting_camera && !waiting_apply && !waiting_geometry && !waiting_isp && !waiting_default && !reply_busy && !tx_busy && !tx_start && !waiting_store) begin
+                            if (rx_data!=crc) begin
+                                if(CNN_ENABLE && (command==8'h50 || command==8'h51)) reply_cnn(sequence_id,command,1);
+                                else reply(sequence_id,command,1);
+                            end
+                            else if(CNN_ENABLE && (command==8'h50 || command==8'h51)) begin
+                                if((command==8'h50 && payload!=0) || (command==8'h51 && payload[63:2]!=0))
+                                    reply_cnn(sequence_id,command,2);
+                                else if(command==8'h50) reply_cnn(sequence_id,command,0);
+                                else if(!cnn_available_i && payload[0]) reply_cnn(sequence_id,command,3);
+                                else begin
+                                    cnn_requested_o<=payload[1:0];waiting_cnn<=1;cnn_timeout<=0;
+                                    wait_sequence<=sequence_id;wait_command<=command;
+                                end
+                            end else if(command==8'h14 || command==8'h15) begin
                                 if(command==8'h15) begin
                                     if(payload!=0) reply(sequence_id,command,2);
                                     else reply_body(sequence_id,command,{40'd0,tuning_applied,8'd0});
@@ -365,6 +405,7 @@ module uart_image_control #(
                                     isp_request<=1; waiting_isp<=1;
                                     wait_sequence<=sequence_id; wait_command<=command;
                                     if(command==8'h12) begin
+                                        if(CNN_ENABLE) begin cnn_requested_o<=0;waiting_cnn<=1;cnn_timeout<=0;end
                                         waiting_default<=1;default_error<=0;camera_default_index<=0;camera_defaults_active<=CAMERA_ENABLE;
                                         tuning_target<=16'h3200;tuning_request<=1;waiting_tuning<=1;
                                         /* V0.15 / 71: default resumes live without deleting saved frames. */

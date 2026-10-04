@@ -16,9 +16,11 @@ module cnn_video_overlay #(
     output reg [23:0] rgb_o,
     output reg hs_o, vs_o, de_o,
     output wire frame_boundary_o,
+    output wire overlay_enabled_o,
     output reg [31:0] displayed_source_frame_o
 );
     reg prev_vs, prev_de, enabled, valid;
+    assign overlay_enabled_o=enabled;
     reg [11:0] x,y,x0,y0,x1,y1;
     reg [1:0] class_id;
     reg [31:0] age;

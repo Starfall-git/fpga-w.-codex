@@ -24,6 +24,8 @@ class Command(IntEnum):
     SET_FLIP = 0x20
     SET_CROP = 0x21
     SET_ZOOM = 0x22
+    GET_CNN = 0x50
+    SET_CNN = 0x51
 
 
 def crc8(data: bytes) -> int:
@@ -164,7 +166,7 @@ class DeviceStatus:
         if status.version != PROTOCOL_VERSION:
             raise ValueError(f"协议版本不匹配：设备为 {status.version}")
         # V0.9 / 45: bit2 is valid only when capability bit7 is advertised.
-        if (status.threshold > 4095 or frame.payload[7] or status.advanced_capabilities not in (0,15,31) or status.isp_flags>(127 if status.advanced_capabilities else 7) or
+        if (status.threshold > 4095 or frame.payload[7] or status.advanced_capabilities not in (0,15,31,47,63) or status.isp_flags>(127 if status.advanced_capabilities else 7) or
                 (status.isp_flags and not status.capabilities & CAP_ISP) or
                 (status.median_enabled and not status.capabilities & CAP_MEDIAN)):
             raise ValueError("设备状态字段不合法")
@@ -211,3 +213,35 @@ class Geometry:
         if w*n < d or h*n < d:
             raise ValueError("缩放后图像尺寸不足一个像素")
         return cls(bool(flags & 1),bool(flags & 2),x,y,w,h,n,d,faults)
+
+
+# Advanced capability byte bit5; separate from the original capability byte.
+CAP_ADV_CNN = 32
+
+
+def cnn_payload(inference: bool, overlay: bool) -> bytes:
+    if type(inference) is not bool or type(overlay) is not bool:
+        raise ValueError("Inference and overlay flags must be boolean")
+    return bytes((int(inference) | (int(overlay) << 1),)) + bytes(7)
+
+
+@dataclass(frozen=True)
+class CnnStatus:
+    code: int
+    applied: int
+    requested: int
+    available: bool
+
+    @classmethod
+    def from_frame(cls, frame: Frame):
+        p = frame.payload
+        if (frame.command not in (0xd0, 0xd1) or len(p) != 8 or p[0] not in (0, 1, 2, 3, 5)
+                or p[1] > 3 or p[2] > 3 or p[3] > 1 or p[4] != 1 or any(p[5:])):
+            raise ValueError("Invalid CNN response or unsupported ABI")
+        return cls(p[0], p[1], p[2], bool(p[3]))
+
+
+class CnnError(RuntimeError):
+    def __init__(self, status: CnnStatus):
+        self.status = status
+        super().__init__(f"CNN command failed: code={status.code}, applied={status.applied}, requested={status.requested}")

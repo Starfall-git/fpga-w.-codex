@@ -5,7 +5,8 @@ from dataclasses import replace
 from .protocol import (Command, DeviceStatus, DeviceError, Frame, FrameDecoder,
                        CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM,
                        threshold_payload, flip_payload, crop_payload, zoom_payload, Geometry,
-                       CAP_ISP, CAP_DEFAULTS, CAP_WIDE_ZOOM, CAP_MEDIAN, isp_payload)
+                       CAP_ISP, CAP_DEFAULTS, CAP_WIDE_ZOOM, CAP_MEDIAN, isp_payload,
+                       CAP_ADV_CNN, CnnStatus, CnnError, cnn_payload)
 
 
 def list_ports():
@@ -74,6 +75,26 @@ class SerialClient:
 
     def get_status(self):
         return self.request(Command.GET_STATUS)
+
+    def _cnn_exchange(self, command, payload=bytes(8)):
+        with self.lock:
+            status = self.get_status() if self.status is None else self.status
+            if not status.advanced_capabilities & CAP_ADV_CNN:
+                raise RuntimeError("Device does not advertise CNN control")
+            result = CnnStatus.from_frame(self._exchange(command, payload))
+            if result.code:
+                raise CnnError(result)
+            return result
+
+    def get_cnn(self):
+        return self._cnn_exchange(Command.GET_CNN)
+
+    def set_cnn(self, inference: bool, overlay: bool):
+        payload = cnn_payload(inference, overlay)
+        result = self._cnn_exchange(Command.SET_CNN, payload)
+        if result.applied != payload[0] or result.requested != payload[0]:
+            raise RuntimeError("CNN acknowledgment does not match requested state")
+        return result
 
     def _require(self, capability):
         if self.status is None:
