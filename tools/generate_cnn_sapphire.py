@@ -23,7 +23,8 @@ if not valid:
     raise RuntimeError(f"IP parameter validation failed: {diagnostics}")
 if design.generate_ip("SapphireSoc") != ResultCode.SUCCESS:
     raise RuntimeError("IP generation failed")
-xml = ProjectXML(project_xml_path=project / "cnn_static.xml", is_verbose=True)
+project_file = Path(sys.argv[2]).name if len(sys.argv) > 2 else "cnn_static.xml"
+xml = ProjectXML(project_xml_path=project / project_file, is_verbose=True)
 if not xml.is_ip_exists(module_name="SapphireSoc"):
     xml.add_ip(module_name="SapphireSoc")
     xml.save()
