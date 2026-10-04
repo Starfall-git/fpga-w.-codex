@@ -1,0 +1,24 @@
+#ifndef GESTURE_RESULT_H
+#define GESTURE_RESULT_H
+#include <stdint.h>
+#include "io.h"
+/* Base must come from the final generated BSP/address decoder, not a guessed
+ * address. Single writer on hart 0. Coordinates are display pixels, x1/y1
+ * exclusive, after geometry mapping. This API does not perform that mapping. */
+static inline int gesture_publish_result(uintptr_t base, uint32_t frame,
+    uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1,
+    unsigned valid, unsigned cls)
+{
+    if (valid > 1 || cls > 2 || x0 > 4095 || y0 > 4095 ||
+        x1 > 4095 || y1 > 4095 || (valid && (x0 >= x1 || y0 >= y1))) return -1;
+    if (!(read_u32(base + 0x04) & 1u)) return 0;
+    write_u32(frame, base + 0x08);
+    write_u32((uint32_t)x0 | ((uint32_t)y0 << 16), base + 0x0c);
+    write_u32((uint32_t)x1 | ((uint32_t)y1 << 16), base + 0x10);
+    write_u32(valid | (cls << 1), base + 0x18);
+    __asm__ volatile ("fence iorw, iorw" ::: "memory");
+    write_u32(1u, base + 0x14);
+    return 1; /* queued, not proof that HDMI displayed it */
+}
+#endif
+

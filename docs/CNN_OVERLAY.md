@@ -1,6 +1,6 @@
 # CNN 结果邮箱与视频 Overlay
 
-阶段 5 的待集成模块，尚未写入 example_top.v、Efinity 项目或下载板卡。
+阶段 6 的待集成模块，尚未写入 example_top.v、Efinity 项目或下载板卡。
 
 `src/cnn/cnn_overlay_bridge.v` 将 CPU 结果域接到像素域：`cnn_result_mailbox.v` 用一个稳定数据槽及请求/应答翻转握手，`cnn_video_overlay.v` 在现有 ISP 后叠加 ROI 边框和 P/R/S 字符。数据顺序是 frame_id(32)、valid(1)、class(2)、x0/y0/x1/y1(各12)，合计 83 位，右/下边界为开区间。
 
