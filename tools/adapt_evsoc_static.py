@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def adapt(project, bundle):
     project, bundle = project.resolve(), bundle.resolve()
     project.relative_to((ROOT / "artifacts").resolve())
-    app = project / "embedded_sw/SapphireSoc/software/standalone/evsoc_tinyml_ypd"
+    app = project / "embedded_sw/SapphireSoc/software/standalone/evsoc_tinyml_gesture"
     original = project / "reference_original/main.cc"
     target = app / "src/main.cc"
     integration = json.loads((project / "integration_manifest.json").read_text())

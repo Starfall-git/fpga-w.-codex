@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+from rename_evsoc_application import rename
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -37,9 +38,10 @@ def prepare(source, generated, out):
     for rel in required:
         shutil.copy2(source / rel, provenance / rel.name)
     shutil.copy2(ROOT / "example_top.v", provenance / "example_top.v")
+    app = rename(out)
     generated_files = generated / "output/gesture_int8_core0"
     shutil.copy2(generated_files / "tinyml_core0_define.v", out / "source/tinyml/tinyml_core0_define.v")
-    model_dest = out / app_rel / "src/model"
+    model_dest = app / "src/model"
     for suffix in ("cc", "h"):
         shutil.copy2(generated_files / f"gesture_int8_model_data.{suffix}", model_dest)
     # Do not pretend the unmodified YOLO postprocessor can consume class logits.
@@ -50,7 +52,7 @@ def prepare(source, generated, out):
         "replace CSI/HyperRAM/DSI with the isolated AR0135/DDR3/HDMI connections; generate matching Sapphire BSP; "
         "verify memory ownership, CDC, video priority, UART controls and frame-boundary overlay.\n",
         encoding="utf-8")
-    manifest = {"source": str(source), "application_workspace": str(out / app_rel),
+    manifest = {"source": str(source), "application_workspace": str(app), "application_name": "evsoc_tinyml_gesture",
                 "bsp_root": str(out / "embedded_sw/SapphireSoc"),
                 "source_sha256": {str(p): digest(source / p) for p in required},
                 "video_top_sha256": digest(ROOT / "example_top.v"),

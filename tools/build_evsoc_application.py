@@ -16,7 +16,7 @@ def sha(path):
 def build(project, sdk):
     project, sdk = project.resolve(), sdk.resolve()
     project.relative_to((ROOT / "artifacts").resolve())
-    app = project / "embedded_sw/SapphireSoc/software/standalone/evsoc_tinyml_ypd"
+    app = project / "embedded_sw/SapphireSoc/software/standalone/evsoc_tinyml_gesture"
     bsp = project / "embedded_sw/SapphireSoc/bsp/efinix/EfxSapphireSoc"
     make = sdk / "build_tools/bin/make.exe"
     toolchain = sdk / "toolchain/bin"
@@ -26,7 +26,7 @@ def build(project, sdk):
     result = subprocess.run(command, cwd=app, env=env, capture_output=True, text=True, errors="replace")
     (project / "official-make.log").write_text(result.stdout + result.stderr, encoding="utf-8")
     result.check_returncode()
-    elf = app / "build/evsoc_tinyml_ypd.elf"
+    elf = app / "build/evsoc_tinyml_gesture.elf"
     size = subprocess.check_output([str(toolchain / "riscv-none-elf-size.exe"), str(elf)], text=True)
     readelf = subprocess.check_output([str(toolchain / "riscv-none-elf-readelf.exe"), "-A", str(elf)], text=True)
     report = {"command": command, "application": str(app), "make_return_code": result.returncode,
