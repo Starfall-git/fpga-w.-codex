@@ -172,7 +172,9 @@ module cnn_soc_subsystem #(parameter IMAGE_WIDTH=1280, IMAGE_HEIGHT=720)(
         .io_apbSlave_1_PSLVERROR(PSLVERROR),
         .io_apbSlave_1_PWDATA(PWDATA),
         .io_apbSlave_1_PWRITE(PWRITE),
-        .io_asyncReset(ai_reset),
+        // Keep the official debug domain reachable before AI memory admission.
+        // uart_rst_n is the top-level global rstn_sys; ai_reset still gates DDR.
+        .io_asyncReset(!uart_rst_n),
         .io_memoryClk(clk_96),
         .io_systemReset(system_reset),
         .system_uart_0_io_txd(system_uart_0_io_txd),

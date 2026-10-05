@@ -30,16 +30,20 @@ module cnn_axi_window #(
  reg [7:0] id;
  reg [8:0] remaining;
  wire [32:0] byte_count=({25'd0,s_len}+33'd1)<<4;
- wire [32:0] end_address={1'b0,s_addr}+byte_count;
+ // Official Sapphire BmbToAxi4Bridge fixes AxSIZE=4, but retains the
+ // byte address on masked CPU stores. Normalize the DDR beat address;
+ // WDATA/WSTRB already identify the correct byte lanes and stay unchanged.
+ wire [31:0] beat_address={s_addr[31:4],4'b0000};
+ wire [32:0] end_address={1'b0,beat_address}+byte_count;
  wire [32:0] physical_end={1'b0,PHYSICAL_BASE}+{1'b0,WINDOW_BYTES};
  wire legal=LOGICAL_BASE[11:0]==0 && PHYSICAL_BASE[11:0]==0 &&
-   WINDOW_BYTES[11:0]==0 && WINDOW_BYTES!=0 && s_size==4 && s_burst==1 && !s_lock && s_addr[3:0]==0 &&
+   WINDOW_BYTES[11:0]==0 && WINDOW_BYTES!=0 && s_size==4 && s_burst==1 && !s_lock &&
    s_addr>=LOGICAL_BASE && end_address<=({1'b0,LOGICAL_BASE}+{1'b0,WINDOW_BYTES}) &&
    !end_address[32] && physical_end<=33'h100000000 &&
-   ({1'b0,s_addr[11:0]}+byte_count)<=4096;
+   ({1'b0,beat_address[11:0]}+byte_count)<=4096;
  assign m_avalid=rst_n && state==IDLE && s_avalid && legal;
  assign s_aready=rst_n && state==IDLE && (legal ? m_aready : 1'b1);
- assign m_addr=s_addr-LOGICAL_BASE+PHYSICAL_BASE;
+ assign m_addr=beat_address-LOGICAL_BASE+PHYSICAL_BASE;
  assign m_id=s_id;assign m_len=s_len;assign m_size=s_size;
  assign m_burst=s_burst;assign m_write=s_write;assign m_lock=s_lock;
  assign m_wvalid=rst_n && state==WRITE && s_wvalid;

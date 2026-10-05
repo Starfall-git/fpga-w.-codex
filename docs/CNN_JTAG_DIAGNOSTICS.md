@@ -53,3 +53,8 @@ OpenOCD 的 `riscv set_command_timeout_sec` 仅改变命令等待时限，不修
 生成RTL的DebugModule中`io_ctrl_cmd_ready=1`，`0x10`写更新dmactive，并通过系统时钟寄存响应；debugCd复位会清空响应valid。该寄存器操作不依赖模型、固件执行或DDR数据读写。DTM端pending只在收到响应或hard reset时清除。这使下一检查点明确为：外部ai_reset、debugCd复位、系统时钟、命令/响应Toggle跨域通路。DDR校准信号仍可能通过ai_reset门控间接影响它，不可将“无需DDR数据访问”误读成“DDR就绪门控无关”。
 
 当前尚未测到内部复位值，不能宣称已找到硬件根因或归因于时序负裕量。已请求用户提供LED0～3物理状态，以核实现有校准门控。若校准条件满足而DMI仍Busy，下一硬件诊断版应提供AI外部复位、SoC复位输出和握手观察点，而非先删除复位隔离。现有GUI的available受firmware_ready影响，不可用作替代观测。
+
+
+## 2026-10-05 后续已定位
+
+r2将Sapphire外部复位接全局后CPU调试恢复；r3修复CPU带字节使能的DDR地址后ELF五段回读一致。启动前reset halt后，现有ELF完成三组静态推理，严格数值比较1/3通过，其余各差1。当前不是DMI连通故障，详见 [板上实测及复现](CNN_ELF_RUN_R3.md)。

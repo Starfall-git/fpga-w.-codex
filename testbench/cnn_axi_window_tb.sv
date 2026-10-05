@@ -58,7 +58,7 @@ reg  m_rlast=0;
  begin
  @(negedge clk);s_addr=a;s_len=n;s_id=8'hb7;s_write=write_op;s_avalid=1;
  #1;if(m_avalid!==ok || !s_aready)$fatal(1,"address gate %h",a);
- if(ok && m_addr!==a+32'h03fff000)$fatal(1,"translation %h",m_addr);
+ if(ok && m_addr!=={a[31:4],4'b0}+32'h03fff000)$fatal(1,"translation %h",m_addr);
  @(negedge clk);s_avalid=0;
  end endtask
  task error_read(input [31:0] a,input [7:0] n);
@@ -97,7 +97,21 @@ reg  m_rlast=0;
  error_read(32'h04000ff0,1); // burst crosses end, even though start is legal
  error_read(32'hffffffff,255); // address overflow
  error_read(32'h00001ff0,1); // AXI 4KiB boundary
- error_read(32'h00001001,0); // unaligned
+ // Official CPU store pattern: four 32-bit lanes in one 128-bit beat.
+ for(k=0;k<4;k=k+1) begin
+ address(32'h1000+k*4,0,1,1);
+ s_wvalid=1;s_wlast=1;s_wdata=128'hddeeff0099aabbcc5566778811223344;
+ s_wstrb=16'h000f << (k*4);m_wready=1;
+ #1;if(!m_wvalid || m_wstrb!==s_wstrb || m_wdata!==s_wdata)$fatal(1,"CPU lane store");
+ @(negedge clk);s_wvalid=0;s_wlast=0;m_bvalid=1;m_bresp=0;s_bready=1;
+ @(negedge clk);m_bvalid=0;s_bready=0;
+ end
+ // The final byte of a page/window belongs to its last aligned beat.
+ address(32'h04000fff,0,0,1);
+ m_rvalid=1;m_rlast=1;s_rready=1;
+ @(negedge clk);m_rvalid=0;m_rlast=0;s_rready=0;
+ error_read(32'h00001ffc,1); // unaligned burst still crosses 4KiB
+ error_read(32'h04000ffc,1); // unaligned burst still crosses window
  s_size=2;error_read(32'h1000,0);s_size=4;
  s_burst=0;error_read(32'h1000,0);s_burst=1;
  s_lock=1;error_read(32'h1000,0);s_lock=0;
