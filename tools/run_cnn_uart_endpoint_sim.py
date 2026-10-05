@@ -26,3 +26,6 @@ sources = sorted((ROOT / "src/control").glob("*.v")) + sorted((ROOT / "src/cnn")
 run("vlog", "-sv", *sources, ROOT / "testbench/cnn_uart_endpoint_tb.sv")
 if "PASS CNN UART endpoint:" not in run("vsim", "-c", "work.cnn_uart_endpoint_tb", "-do", "run -all; quit -f"):
     raise SystemExit("Overlay simulation did not finish successfully")
+run("vlog", "-sv", "+define+CNN_LIVE_ENDPOINT", *sources, ROOT / "testbench/cnn_uart_endpoint_tb.sv")
+if "PASS CNN UART endpoint:" not in run("vsim", "-c", "work.cnn_uart_endpoint_tb", "-do", "run -all; quit -f"):
+    raise SystemExit("Live wrapper disturbed the existing UART/video contract")

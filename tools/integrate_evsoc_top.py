@@ -60,6 +60,8 @@ c = {'clk_96':'w_ddr3_ui_clk','ai_reset':'cnn_ai_reset','ai_online':'cnn_hardwar
      'applied':'cnn_applied','available':'cnn_available','inference_enable':'cnn_inference_enable',
      'system_reset':'cnn_system_reset','memory_reset':'cnn_memory_reset',
      'peripheral_reset':'cnn_peripheral_reset','pixel_clk':'clk_pixel','pixel_rst_n':'rstn_pixel',
+     'cam_clk':'w_cmos_pclk','cam_rst_n':'rstn_sys','cam_frame_valid':'cmos_frame_vsync',
+     'cam_pixel_valid':'cmos_frame_href','cam_gray':'cnn_raw_gray8',
      'rgb_i':'processed_rgb','hs_i':'processed_hs','vs_i':'processed_vs','de_i':'processed_de',
      'rgb_o':'cnn_display_rgb','hs_o':'cnn_display_hs','vs_o':'cnn_display_vs',
      'de_o':'cnn_display_de','displayed_source_frame':'cnn_display_frame','idle_o':'cnn_fabric_idle'}

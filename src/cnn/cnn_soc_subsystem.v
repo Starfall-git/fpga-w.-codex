@@ -10,6 +10,8 @@ module cnn_soc_subsystem #(parameter IMAGE_WIDTH=1280, IMAGE_HEIGHT=720)(
     output wire available,inference_enable,
     output wire system_reset,memory_reset,peripheral_reset,
     input wire pixel_clk,pixel_rst_n,
+    input wire cam_clk,cam_rst_n,cam_frame_valid,cam_pixel_valid,
+    input wire [7:0] cam_gray,
     input wire [23:0] rgb_i,
     input wire hs_i,vs_i,de_i,
     output wire [23:0] rgb_o,
@@ -231,7 +233,8 @@ module cnn_soc_subsystem #(parameter IMAGE_WIDTH=1280, IMAGE_HEIGHT=720)(
         .m_axi_rlast(tiny_rlast),
         .m_axi_rresp(tiny_rresp)
     );
-    cnn_video_endpoint #(.IMAGE_WIDTH(IMAGE_WIDTH),.IMAGE_HEIGHT(IMAGE_HEIGHT),.REQUIRE_FIRMWARE_READY(1)) u_video_endpoint(
+    cnn_live_endpoint #(.IMAGE_WIDTH(IMAGE_WIDTH),.IMAGE_HEIGHT(IMAGE_HEIGHT),.REQUIRE_FIRMWARE_READY(1)) u_video_endpoint(
+        .cam_clk(cam_clk),.cam_rst_n(cam_rst_n),.cam_frame_valid(cam_frame_valid),.cam_pixel_valid(cam_pixel_valid),.cam_gray(cam_gray),
         .uart_clk(uart_clk),.uart_rst_n(uart_rst_n),.requested(requested),.applied(applied),.available(available),
         .cpu_clk(clk_96),.cpu_rst_n(!peripheral_reset),.ai_online(ai_online && !system_reset),.inference_enable(inference_enable),
         .PADDR(PADDR),.PSEL(PSEL),.PENABLE(PENABLE),.PWRITE(PWRITE),.PWDATA(PWDATA),

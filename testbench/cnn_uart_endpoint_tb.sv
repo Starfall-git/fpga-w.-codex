@@ -25,7 +25,12 @@ module cnn_uart_endpoint_tb;
  .store_order_i(384'd0),.store_mode_i(2'd0),.store_display_i(4'd0),
  .camera_toggle_o(),.camera_command_o(),.camera_ready_i(1'b0),.camera_ack_i(1'b0),.camera_error_i(1'b0),.camera_data_i(16'd0),
  .cnn_requested_o(requested),.cnn_applied_i(applied),.cnn_available_i(available));
+`ifdef CNN_LIVE_ENDPOINT
+ cnn_live_endpoint #(.IMAGE_WIDTH(16),.IMAGE_HEIGHT(12),.REQUIRE_FIRMWARE_READY(1)) endpoint(
+ .cam_clk(pixel_clk),.cam_rst_n(rst),.cam_frame_valid(1'b0),.cam_pixel_valid(1'b0),.cam_gray(8'd0),
+`else
  cnn_video_endpoint #(.IMAGE_WIDTH(16),.IMAGE_HEIGHT(12),.REQUIRE_FIRMWARE_READY(1)) endpoint(
+`endif
  .uart_clk(clk),.uart_rst_n(rst),.requested(requested),.applied(applied),.available(available),
  .cpu_clk(cpu_clk),.cpu_rst_n(cpu_rst),.ai_online(online),.inference_enable(infer),
  .PADDR(paddr),.PSEL(psel),.PENABLE(penable),.PWRITE(pwrite),.PWDATA(pwdata),
