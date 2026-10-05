@@ -1019,11 +1019,14 @@ module example_top #(
     wire cmos_frame_vsync;
     wire cmos_frame_href;
     wire [15:0] cmos_frame_Gray;
+    // Stage 5 preparation: lossless RAW8 tap in w_cmos_pclk domain.
+    // No consumer yet; synthesis may remove this net until ROI ingress exists.
+    wire [7:0] cnn_raw_gray8;
     ar0135_capture #(.WIDTH(1280), .HEIGHT(720), .EMBEDDED_ROWS(2)) u_camera_capture (
         .pclk(w_cmos_pclk), .rst_n(rstn_sys), .configured(camera_config_done),
         .fv(cmos_vsync), .lv(cmos_href), .raw(cmos_data),
         .frame_valid(cmos_frame_vsync), .pixel_valid(cmos_frame_href),
-        .rgb565(cmos_frame_Gray)
+        .rgb565(cmos_frame_Gray), .gray8(cnn_raw_gray8)
     );
 
 

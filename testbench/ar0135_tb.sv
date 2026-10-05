@@ -21,9 +21,9 @@ module ar0135_tb;
         (clk,rst,absent_scl,absent_o,absent_oe,1'b1,absent_done,absent_error,absent_id,absent_index,1'b0,33'd0,,,);
     reg configured=0, fv=0,lv=0;
     reg [7:0] raw=0;
-    wire frame_valid,pixel_valid; wire [15:0] rgb;
+    wire frame_valid,pixel_valid; wire [15:0] rgb; wire [7:0] gray8;
     localparam W=1280,H=720;
-    ar0135_capture capture_i(clk,rst,configured,fv,lv,raw,frame_valid,pixel_valid,rgb);
+    ar0135_capture capture_i(clk,rst,configured,fv,lv,raw,frame_valid,pixel_valid,rgb,gray8);
     integer writes=0, attempts=0, seen=0, frames=0;
     reg injected=0;
     reg [15:0] regs[0:65535];
@@ -107,6 +107,8 @@ module ar0135_tb;
         expected_gray=((seen%W)+3*((seen/W)%H))%256;
         if(rgb!=={expected_gray[7:3],expected_gray[7:2],expected_gray[7:3]})
             $fatal(1,"Pixel %0d RGB mismatch: got%h gray%h",seen,rgb,expected_gray);
+        if(gray8!==expected_gray)
+            $fatal(1,"Pixel %0d RAW8 mismatch: got%h expected%h",seen,gray8,expected_gray);
         if(!frame_valid) $fatal(1,"Pixel outside frame");
         seen=seen+1;
     end
@@ -145,7 +147,7 @@ module ar0135_tb;
         runtime_transfer(0,16'h305E,16'd64,0);
         runtime_transfer(1,16'h305E,0,0);
         if(rt_data!=64)$fatal(1,"Runtime recovery");
-        $display("PASS AR0135: ACK/retry/missing-device/ID/delays/ROI/AE, 2 full720p frames (%0d pixels)",seen);
+        $display("PASS AR0135: ACK/retry/missing-device/ID/delays/ROI/AE, RAW8+RGB565 aligned, 2 full720p frames (%0d pixels)",seen);
         $finish;
     end
     initial begin #30000000; $fatal(1,"Timeout"); end

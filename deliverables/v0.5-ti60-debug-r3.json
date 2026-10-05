@@ -1,0 +1,14 @@
+{
+  "version": "v0.5-ti60-debug-r3",
+  "archive_sha256": "7a1771566cbd52d13bb3fff9b4a210b20f65dd62b602afeec288a675a06f8163",
+  "archive_bytes": 4908038,
+  "bit_sha256": "f7aace567e2df1ef6ceec1996093295ef4196f5c8804e6412a3297a785cc45fb",
+  "elf_sha256": "694ff2a91c8a9f9811fb32af5479da1799ad969c633c587e5c9d4fba0132ff47",
+  "payload_count": 53,
+  "archive_verified": true,
+  "elf_execution_verified": true,
+  "int8_exact_match_verified": false,
+  "completed": 3,
+  "passed": 1,
+  "timing_signed_off": false
+}

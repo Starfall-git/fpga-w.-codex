@@ -9,7 +9,10 @@ module ar0135_capture #(
 ) (
     input wire pclk, input wire rst_n, input wire configured,
     input wire fv, input wire lv, input wire [7:0] raw,
-    output reg frame_valid, output reg pixel_valid, output reg [15:0] rgb565
+    output reg frame_valid, output reg pixel_valid, output reg [15:0] rgb565,
+    // CNN ingress: all eight sampled bits, aligned with pixel_valid/RGB565.
+    // This is a tap only; ROI, resize, buffering and inference are downstream.
+    output reg [7:0] gray8
 );
     reg [1:0] reset_sync, config_sync;
     /* Match the reference capture's registered FV/LV/data sampling before
@@ -30,10 +33,10 @@ module ar0135_capture #(
     always @(posedge pclk or negedge rst_n) begin
         if(!rst_n) begin
             armed<=0; active<=0; fv_d<=0; lv_d<=0; x<=0; y<=0;
-            frame_valid<=0; pixel_valid<=0; rgb565<=0;
+            frame_valid<=0; pixel_valid<=0; rgb565<=0; gray8<=0;
         end else if (!reset_sync[1] || !config_sync[1]) begin
             armed<=0; active<=0; fv_d<=fv_s; lv_d<=lv_s; x<=0; y<=0;
-            frame_valid<=0; pixel_valid<=0; rgb565<=0;
+            frame_valid<=0; pixel_valid<=0; rgb565<=0; gray8<=0;
         end else begin
             fv_d<=fv_s; lv_d<=lv_s;
             if(!fv_s) begin armed<=1; active<=0; x<=0; y<=0; end
@@ -49,6 +52,7 @@ module ar0135_capture #(
             pixel_valid<=active && fv_s && lv_s && x<WIDTH &&
                          y>=EMBEDDED_ROWS && y<EMBEDDED_ROWS+HEIGHT;
             rgb565<={raw_s[7:3],raw_s[7:2],raw_s[7:3]};
+            gray8<=raw_s;
         end
     end
 endmodule

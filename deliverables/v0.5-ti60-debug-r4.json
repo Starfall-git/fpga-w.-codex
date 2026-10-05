@@ -1,0 +1,13 @@
+{
+  "version": "v0.5-ti60-debug-r4",
+  "archive_sha256": "a69b2c9e71b76ed2871ef127f71ddf4e889073c9bfc1bb0f29284b2c4b7dd187",
+  "archive_bytes": 4928112,
+  "bit_sha256": "828fc3ec402ee481f4000670ed6ae44402f229526c5ba8d5dc48941e7d2695e1",
+  "elf_sha256": "c68c53488bd0eca63a314551d9602e155d8035a05f381003264abbd1f296e74f",
+  "archive_verified": true,
+  "exact_match_verified": true,
+  "payload_count": 58,
+  "backend": "TensorFlow 2.15.1 BUILTIN_REF",
+  "live_camera_verified": false,
+  "timing_signed_off": false
+}

@@ -113,6 +113,8 @@ class ImageControlApp:
         # V0.19 / 88-91: secondary panel keeps main controls compact.
         self.tuning_button=ttk.Button(advanced,text='曝光 / 算法调节',command=self.open_tuning)
         self.tuning_button.pack(side='right')
+        self.cnn_button=ttk.Button(advanced,text='TinyML 手势',command=self.open_cnn)
+        self.cnn_button.pack(side='right',padx=6)
         ttk.Label(image,text='边缘算法互斥；Canny自动启用高斯。曝光和滤波强度可在右侧调节。').pack(anchor='w',pady=(3,0))
         ttk.Label(image,textvariable=self.mode_readback,foreground='#137c70').pack(anchor='w',pady=(10,0))
         info=ttk.Frame(image); info.pack(fill='x',pady=(4,0))
@@ -167,6 +169,14 @@ class ImageControlApp:
         self.log.configure(yscrollcommand=scroll.set)
         scroll.pack(side='right',fill='y'); self.log.pack(fill='both',expand=True)
 
+    def open_cnn(self):
+        from .cnn_controls import CnnPanel
+        panel=getattr(self,'cnn_panel',None)
+        if panel and panel.window.winfo_exists():
+            panel.window.lift();panel.refresh()
+        else:
+            self.cnn_panel=CnnPanel(self)
+
     def open_tuning(self):
         from .camera_controls import ControlPanel
         if getattr(self,'tuning_panel',None) and self.tuning_panel.window.winfo_exists():
@@ -195,6 +205,7 @@ class ImageControlApp:
         for widget in (self.freeze_button,self.pause_button,self.resume_button,self.ddr_button):
             widget.configure(state='normal' if enabled else 'disabled')
         if self.ddr_status and self.ddr_status.mode!=0:self.freeze_button.configure(state='disabled')
+        if getattr(self,'cnn_panel',None):self.cnn_panel.sync()
 
     def _store_status(self,status):
         previous=set(self.ddr_catalog.entries)
@@ -360,6 +371,7 @@ class ImageControlApp:
                 self.message.set(str(error)); self._log('错误  '+str(error))
                 if self.ddr_window is not None and self.ddr_window.winfo_exists():self.ddr_hint.set(str(error))
                 if item[3]=='defaults': self.resetting=False
+                if item[3].startswith('cnn_') and getattr(self,'cnn_panel',None):self.cnn_panel.fail(error)
             self._states()
             if self.pending:
                 kind,(operation,success)=self.pending.popitem(last=False)
@@ -370,7 +382,12 @@ class ImageControlApp:
         try:
             ports=list_ports(); self.port_box.configure(values=[p[0] for p in ports])
             if ports and self.port.get() not in [p[0] for p in ports]: self.port.set(ports[0][0])
-            if not ports: self.port.set('')
+            if not ports:
+                self.port.set('')
+                if self.mode.get()=='串口硬件':
+                    self.message.set('未发现 COM 串口；请连接 USB-UART 后刷新。JTAG 下载器不一定提供 COM 口。')
+            elif self.mode.get()=='串口硬件':
+                self.message.set('可用串口：'+'；'.join(f'{port} · {description}' for port,description in ports))
         except ImportError: self.message.set('请安装串口依赖：python -m pip install -r host/requirements.txt')
 
     def toggle_connection(self):
@@ -388,13 +405,19 @@ class ImageControlApp:
         try:
             mode,port,baud=self.mode.get(),self.port.get(),int(self.baud.get())
             if not 1200<=baud<=1000000: raise ValueError('波特率无效')
-            if mode=='串口硬件' and not port: raise ValueError('请选择串口')
+            if mode=='串口硬件' and not port: raise ValueError('未选择可用 COM 串口；请连接 USB-UART 后点击刷新。')
         except ValueError as error: self.message.set(str(error)); return
         def connect():
-            backend=DemoClient(self._trace) if mode=='模拟演示' else SerialClient(port,baud,trace=self._trace)
+            try:
+                backend=DemoClient(self._trace) if mode=='模拟演示' else SerialClient(port,baud,trace=self._trace)
+            except OSError as error:
+                raise OSError(f'无法打开 {port}：{error}。请检查端口是否仍存在，以及是否被其他终端占用。') from error
             try:
                 status=backend.get_status()
                 geometry=backend.get_geometry() if status.capabilities & CAP_CROP else None
+            except TimeoutError as error:
+                backend.close()
+                raise TimeoutError(f'{port} 已打开，但 FPGA 协议握手超时；请确认业务 .bit 已运行（不是 Flash 编程桥）、115200 波特率及 UART 接线。') from error
             except Exception: backend.close(); raise
             try:backend.snapshot_info=store_status(backend)
             except (RuntimeError,ValueError,TimeoutError):backend.snapshot_info=None
@@ -411,6 +434,7 @@ class ImageControlApp:
             self.gaussian.set(bool(status.isp_flags&8));self.scharr.set(bool(status.isp_flags&16))
             self.canny.set(bool(status.isp_flags&32));self.preserve.set(bool(status.isp_flags&64))
             if geometry: self._geometry(geometry); self._load_geometry_draft(geometry)
+            if getattr(self,'cnn_panel',None) and self.cnn_panel.window.winfo_exists():self.cnn_panel.refresh()
         self._submit(connect,connected,'connect')
 
     def _status(self,status,announce=True):
@@ -509,6 +533,7 @@ class ImageControlApp:
         def reset_updated(result):
             updated(result)
             if self.snapshot_available:self._store_status(backend.snapshot_info)
+            if getattr(self,'cnn_panel',None) and self.cnn_panel.window.winfo_exists():self.cnn_panel.refresh()
         self._submit(reset_operation,reset_updated,'defaults')
 
     def _poll(self):

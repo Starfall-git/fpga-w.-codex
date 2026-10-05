@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from host.protocol import Frame, Command, threshold_payload, crop_payload, zoom_payload, flip_payload
 
-out=ROOT/'tools/debug/uart_geometry_sim'
+out=ROOT/'artifacts/uart-geometry-sim'
 out.mkdir(parents=True,exist_ok=True)
 packets=[]
 threshold=128
@@ -25,7 +25,7 @@ def exchange(cmd,payload=bytes(8),code=0,page_body=None,bad_crc=False):
     request=Frame(seq,cmd,payload).encode()
     if bad_crc: request=request[:-1]+bytes((request[-1]^1,))
     # V0.9 / 46: capability bit7 and applied mode bit2 expose Median.
-    body=bytes((code,threshold&255,threshold>>8,1,255,isp,0,0)) if page_body is None else page_body
+    body=bytes((code,threshold&255,threshold>>8,1,255,isp,15,0)) if page_body is None else page_body
     reply=Frame(seq,cmd|128,body).encode()
     packets.append((int.from_bytes(request,'little'),int.from_bytes(reply,'little')))
 
@@ -62,7 +62,8 @@ exchange(0x7f,code=3)
 # V0.6: mode toggle, reverse while bypassed, bad bits, defaults preserve threshold.
 for isp in (1,3,2,0,1,5,4,6,7,0):
     exchange(17,bytes((isp,))+bytes(7)); exchange(1)
-exchange(17,b'\x08'+bytes(7),code=2)
+# V0.16 uses bits 0..6; bit7 remains reserved.
+exchange(17,b'\x80'+bytes(7),code=2)
 flags=3; exchange(32,flip_payload(True,True))
 zoom=(5,1); exchange(34,zoom_payload(*zoom))
 isp=0; flags=0; crop=(0,0,1280,720); zoom=(1,1)

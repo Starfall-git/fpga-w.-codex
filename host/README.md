@@ -1,5 +1,24 @@
 # VF-Ti60 图像控制台 V0.21
 
+## TinyML 集成调试版（2026-10-05）
+
+独立副本新增 **图像 → TinyML 手势** 按钮，在“曝光 / 算法调节”旁边。
+关闭旧窗口后重新运行 `host/start_gui.bat` 才会加载更新。新面板提供独立的
+“启用推理”“叠加识别结果”“应用设置”“读取实际状态”，显示请求值和实际回读。
+旧 bit 未声明 CNN 能力时禁用控制；静态自检 ELF 不声明实时推理就绪，面板会显示
+“推理固件未就绪”，此时不能启用推理。叠加开关也不会生成不存在的识别结果。
+模拟演示明确标注模拟，不代表板上运行结果。
+
+连接失败现在区分“COM 口无法打开”和“COM 已打开但 FPGA 协议握手超时”。
+后者无需先运行 RISC-V ELF 才能解决：原控制 UART 由 FPGA 逻辑直接处理。
+若 Programmer 刚使用 `SPI Active using JTAG Bridge`，须等待 Flash 操作完成，
+再确认业务设计已重新配置。首次调试请选择 **JTAG + 本候选的 `.bit`**，不能把
+Flash 编程桥成功加载当作业务电路已运行。UART 为 USB-UART（目前枚举 COM8）
+115200/8N1；FT232H JTAG 下载器与这个 COM 口是不同设备。
+
+对应候选工程：`artifacts/evsoc-system-r1/Ti60_AR0135.xml`。
+下面 V0.21 及更早版本说明继续适用于原视频功能；其中旧 bit 文件不用于 TinyML 调试。
+
 配套 `outflow/Ti60_AR0135_v020_auto_exposure_fix.bit`。串口仅传控制和状态；HDMI实时预览已接入USB采集卡。
 
 ```powershell

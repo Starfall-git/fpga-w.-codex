@@ -5,7 +5,8 @@ from dataclasses import replace
 from .protocol import (Command, DeviceStatus, DeviceError, Frame, FrameDecoder,
                        CAP_THRESHOLD, CAP_FLIP, CAP_CROP, CAP_ZOOM,
                        threshold_payload, flip_payload, crop_payload, zoom_payload, Geometry,
-                       CAP_ISP, CAP_DEFAULTS, CAP_WIDE_ZOOM, CAP_MEDIAN, isp_payload)
+                       CAP_ISP, CAP_DEFAULTS, CAP_WIDE_ZOOM, CAP_MEDIAN, isp_payload,
+                       CAP_ADV_CNN, CnnStatus, CnnError, cnn_payload)
 
 
 def list_ports():
@@ -74,6 +75,26 @@ class SerialClient:
 
     def get_status(self):
         return self.request(Command.GET_STATUS)
+
+    def _cnn_exchange(self, command, payload=bytes(8)):
+        with self.lock:
+            status = self.get_status() if self.status is None else self.status
+            if not status.advanced_capabilities & CAP_ADV_CNN:
+                raise RuntimeError("Device does not advertise CNN control")
+            result = CnnStatus.from_frame(self._exchange(command, payload))
+            if result.code:
+                raise CnnError(result)
+            return result
+
+    def get_cnn(self):
+        return self._cnn_exchange(Command.GET_CNN)
+
+    def set_cnn(self, inference: bool, overlay: bool):
+        payload = cnn_payload(inference, overlay)
+        result = self._cnn_exchange(Command.SET_CNN, payload)
+        if result.applied != payload[0] or result.requested != payload[0]:
+            raise RuntimeError("CNN acknowledgment does not match requested state")
+        return result
 
     def _require(self, capability):
         if self.status is None:
@@ -170,7 +191,9 @@ class DemoClient(SerialClient):
 
     def __init__(self, trace=None):
         self.trace = trace or (lambda direction, raw: None)
-        self.status = DeviceStatus(0, 128, 1, 255, 0, 15)
+        self.status = DeviceStatus(0, 128, 1, 255, 0, 15 | CAP_ADV_CNN)
+        self.cnn_applied = 0
+        self.cnn_available = True  # Explicit simulation only, never hardware proof.
         self.geometry = Geometry()
         self.lock = threading.RLock()
         self.sequence = 0
@@ -179,6 +202,16 @@ class DemoClient(SerialClient):
     def _exchange(self, cmd, payload=bytes(8)):
         request = Frame(self.sequence, cmd, payload)
         self.trace("模拟TX", request.encode())
+        if cmd in (Command.GET_CNN, Command.SET_CNN):
+            requested = payload[0] if cmd == Command.SET_CNN else self.cnn_applied
+            code = 3 if cmd == Command.SET_CNN and requested & 1 and not self.cnn_available else 0
+            if not code:
+                self.cnn_applied = requested
+            body = bytes((code, self.cnn_applied, requested, int(self.cnn_available), 1, 0, 0, 0))
+            response = Frame(self.sequence, cmd | 0x80, body)
+            self.trace("模拟RX", response.encode())
+            self.sequence = (self.sequence + 1) & 255
+            return response
         code = 0
         candidate = self.geometry
         if cmd == Command.SET_THRESHOLD:
@@ -187,6 +220,7 @@ class DemoClient(SerialClient):
         elif cmd == Command.SET_ISP:
             self.status = replace(self.status, code=0, isp_flags=payload[0])
         elif cmd == Command.DEFAULTS:
+            self.cnn_applied = 0
             self.status = replace(self.status, code=0, isp_flags=0)
             candidate = Geometry()
         elif cmd == Command.SET_FLIP:

@@ -1,0 +1,12 @@
+{
+  "version": "v0.5-ti60-live-r5",
+  "live_camera_input_reference_match": true,
+  "uart_controls_verified": true,
+  "hdmi_visual_verified": false,
+  "timing_signed_off": false,
+  "stage6_complete": false,
+  "archive_sha256": "ded069004d906486331e620de13de6183d41f1981525172fb79ad9586500a716",
+  "bit_sha256": "4767267295155302c3f2500c403a7ef2afbf9df44235f05f85b3c90355ede042",
+  "elf_sha256": "600764d655a5eb68028935256d04ecf95f745f7b96e5e89b68d1fe34ea4f8048",
+  "payload_count": 54
+}

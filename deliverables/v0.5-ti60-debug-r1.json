@@ -1,0 +1,12 @@
+{
+  "version": "v0.5-ti60-debug-r1",
+  "archive": "C:\\Users\\SteLl1a\\Desktop\\CNN-Tutorial-FPGA\\deliverables\\v0.5-ti60-debug-r1.zip",
+  "archive_bytes": 6011586,
+  "archive_sha256": "d17cc94eba8775868df7a28540894ec781c42075533f0a2f66dd87dffa3c09c3",
+  "bit_sha256": "0d759875437e2d77a0b292ac1d09b80353cac530fe706f2c90f7bfebd834f162",
+  "elf_sha256": "694ff2a91c8a9f9811fb32af5479da1799ad969c633c587e5c9d4fba0132ff47",
+  "payload_count": 48,
+  "archive_verified": true,
+  "timing_signed_off": false,
+  "target_run_verified": false
+}

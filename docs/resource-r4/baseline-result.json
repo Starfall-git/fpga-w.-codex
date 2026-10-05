@@ -1,0 +1,61 @@
+{
+  "bit_sha256": "f7aace567e2df1ef6ceec1996093295ef4196f5c8804e6412a3297a785cc45fb",
+  "elf_sha256": "694ff2a91c8a9f9811fb32af5479da1799ad969c633c587e5c9d4fba0132ff47",
+  "programmed_in_this_run": false,
+  "magic": 1195655729,
+  "stage": 255,
+  "error": 5,
+  "completed": 3,
+  "passed": 1,
+  "vectors": [
+    [
+      0,
+      11,
+      0,
+      -2,
+      0,
+      16671094
+    ],
+    [
+      1,
+      -1,
+      78,
+      -60,
+      0,
+      16666959
+    ],
+    [
+      2,
+      1,
+      -74,
+      63,
+      0,
+      16670242
+    ]
+  ],
+  "expected": [
+    [
+      11,
+      0,
+      -2
+    ],
+    [
+      -1,
+      79,
+      -60
+    ],
+    [
+      1,
+      -75,
+      63
+    ]
+  ],
+  "invoke_ms": [
+    173.65722916666667,
+    173.61415625,
+    173.64835416666668
+  ],
+  "execution_verified": true,
+  "exact_match_verified": false,
+  "live_camera_verified": false
+}
