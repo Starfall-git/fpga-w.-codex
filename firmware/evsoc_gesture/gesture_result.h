@@ -25,5 +25,12 @@ static inline int gesture_inference_enabled(uintptr_t base)
 {
     return (read_u32(base + 0x24) & 1u) != 0;
 }
+/* Call only after model allocation, accelerator and input pipeline are ready.
+ * Reset clears this handshake; clearing it disables admission of new inference. */
+static inline void gesture_set_ready(uintptr_t base, int ready)
+{
+    __asm__ volatile ("fence iorw, iorw" ::: "memory");
+    write_u32(ready ? 0x47535452u : 0u, base + 0x28);
+}
 #endif
 

@@ -73,7 +73,7 @@ module cnn_soc_subsystem #(parameter IMAGE_WIDTH=1280, IMAGE_HEIGHT=720)(
         .rsp_valid(custom_rsp_valid),.rsp_ready(custom_rsp_ready),.rsp_outputs_0(custom_output),
 '''+',\n'.join(tc)+'''
     );
-    cnn_video_endpoint #(.IMAGE_WIDTH(IMAGE_WIDTH),.IMAGE_HEIGHT(IMAGE_HEIGHT)) u_video_endpoint(
+    cnn_video_endpoint #(.IMAGE_WIDTH(IMAGE_WIDTH),.IMAGE_HEIGHT(IMAGE_HEIGHT),.REQUIRE_FIRMWARE_READY(1)) u_video_endpoint(
         .uart_clk(uart_clk),.uart_rst_n(uart_rst_n),.requested(requested),.applied(applied),.available(available),
         .cpu_clk(clk_96),.cpu_rst_n(!peripheral_reset),.ai_online(ai_online && !system_reset),.inference_enable(inference_enable),
         .PADDR(PADDR),.PSEL(PSEL),.PENABLE(PENABLE),.PWRITE(PWRITE),.PWDATA(PWDATA),

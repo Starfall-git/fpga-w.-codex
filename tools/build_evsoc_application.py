@@ -36,7 +36,8 @@ def build(project, sdk):
               "tinyml_library_sha256": sha(app.parent / "common/tinyml_lib.a"),
               "model_array_sha256": sha(app / "src/model/gesture_int8_model_data.cc"),
               "size_output": size, "elf_attributes": readelf,
-              "bsp_source": "copied official EVSoC HyperRAM demo; not final integrated DDR3 BSP",
+              "bsp_source": ("generated 96MHz DDR3 system candidate" if (project / "software_preparation.json").exists()
+                             else "copied official EVSoC HyperRAM demo; not final integrated DDR3 BSP"),
               "tensor_arena_ceiling": 262144, "application_scratch_capacity": 500000,
               "arena_used_bytes": None, "hardware_verified": False, "target_run_verified": False,
               "note": "ELF validates official make/runtime compatibility only; do not download to existing video bitstream"}

@@ -6,7 +6,7 @@ module cnn_result_apb_tb;
  reg [15:0] addr=0;
  reg sel=0,en=0,wr=0;
  reg [31:0] wdata=0;
- wire ready,err,send,valid,mail_ready;
+ wire ready,err,send,valid,mail_ready,firmware_ready;
  wire [31:0] rdata,frame;
  wire [1:0] cls;
  wire [11:0] x0,y0,x1,y1;
@@ -16,7 +16,7 @@ module cnn_result_apb_tb;
  integer commits=0;
  cnn_result_apb dut(.PCLK(clk),.PRESETn(rst),.PADDR(addr),.PSEL(sel),
  .PENABLE(en),.PWRITE(wr),.PWDATA(wdata),.PREADY(ready),.PSLVERROR(err),
- .PRDATA(rdata),.control_status(2'b00),.result_ready(mail_ready),.result_send(send),.result_valid(valid),
+ .PRDATA(rdata),.firmware_ready(firmware_ready),.control_status(2'b00),.result_ready(mail_ready),.result_send(send),.result_valid(valid),
  .result_class(cls),.roi_x0(x0),.roi_y0(y0),.roi_x1(x1),.roi_y1(y1),.source_frame(frame));
  cnn_result_mailbox mb(.src_clk(clk),.src_rst_n(rst),.src_valid(send),
  .src_data({frame,valid,cls,x0,y0,x1,y1}),.src_ready(mail_ready),
@@ -49,6 +49,11 @@ module cnn_result_apb_tb;
  repeat(4) @(negedge clk); rst=1; prst=1;
  repeat(5) @(negedge clk);
  check_read(0,32'h47535431); check_read(4,1);
+ check_read(16'h28,0);bus(1,16'h28,1,1);check_read(16'h28,0);
+ bus(1,16'h28,32'h47535452,0);check_read(16'h28,1);
+ if(!firmware_ready)$fatal(1,"firmware handshake missing");
+ bus(1,16'h28,0,0);check_read(16'h28,0);
+ bus(1,16'h28,32'h47535452,0);
  bus(1,8,42,0); bus(1,12,32'h00030002,0);
  bus(1,16,32'h000b000e,0); bus(1,24,5,0);
  bus(1,20,1,0); check_read(28,1);
@@ -72,7 +77,7 @@ module cnn_result_apb_tb;
  @(negedge clk); rst=0;
  repeat(3) @(negedge clk); rst=1;
  repeat(5) @(negedge clk);
- check_read(28,0); check_read(8,0); check_read(4,1);
+ check_read(28,0); check_read(8,0); check_read(4,1); check_read(16'h28,0);
  $display("PASS CNN result APB: atomic frames, busy, errors, invalidate, reset");
  $finish;
  end

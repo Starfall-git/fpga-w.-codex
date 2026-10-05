@@ -25,7 +25,7 @@ module cnn_uart_endpoint_tb;
  .store_order_i(384'd0),.store_mode_i(2'd0),.store_display_i(4'd0),
  .camera_toggle_o(),.camera_command_o(),.camera_ready_i(1'b0),.camera_ack_i(1'b0),.camera_error_i(1'b0),.camera_data_i(16'd0),
  .cnn_requested_o(requested),.cnn_applied_i(applied),.cnn_available_i(available));
- cnn_video_endpoint #(.IMAGE_WIDTH(16),.IMAGE_HEIGHT(12)) endpoint(
+ cnn_video_endpoint #(.IMAGE_WIDTH(16),.IMAGE_HEIGHT(12),.REQUIRE_FIRMWARE_READY(1)) endpoint(
  .uart_clk(clk),.uart_rst_n(rst),.requested(requested),.applied(applied),.available(available),
  .cpu_clk(cpu_clk),.cpu_rst_n(cpu_rst),.ai_online(online),.inference_enable(infer),
  .PADDR(paddr),.PSEL(psel),.PENABLE(penable),.PWRITE(pwrite),.PWDATA(pwdata),
@@ -98,10 +98,19 @@ module cnn_uart_endpoint_tb;
  if(c!==received[consumed+12])$fatal(1,"AI response CRC");
  consumed=consumed+13;#(BIT*2);
  end endtask
+ task set_ready(input bit yes);
+ begin
+ @(negedge cpu_clk);paddr=16'h28;psel=1;penable=0;pwrite=1;pwdata=yes?32'h47535452:0;
+ @(negedge cpu_clk);penable=1;#1;if(perr || !pready)$fatal(1,"ready APB write");
+ @(negedge cpu_clk);psel=0;penable=0;pwrite=0;#300;
+ end endtask
  task frame_edge;
  begin @(negedge pixel_clk);blank=1;input_de=0;repeat(8)@(negedge pixel_clk);end endtask
  initial begin
  #43;rst=1;cpu_rst=1;#300;
+ send_frame(30,8'h50,0,0);response(30,8'h50,0,0,0,0);
+ send_frame(31,8'h51,1,0);response(31,8'h51,3,0,0,0);
+ set_ready(1);
  send_frame(1,8'h50,0,0);response(1,8'h50,0,0,0,1);
  send_frame(2,8'h51,1,0);response(2,8'h51,0,1,1,1);
  // CPU reads the actual inference gate through the same APB window.
@@ -139,6 +148,8 @@ module cnn_uart_endpoint_tb;
  cpu_rst=0;#300;
  send_frame(11,8'h50,0,0);response(11,8'h50,0,0,0,0);
  cpu_rst=1;#300;
+ send_frame(32,8'h50,0,0);response(32,8'h50,0,0,0,0);
+ set_ready(1);
  // DEFAULTS must wait for AI disable along with the original ISP defaults.
  send_frame(12,8'h51,3,0);#1000;frame_edge();response(12,8'h51,0,3,3,1);
  @(negedge pixel_clk);blank=0;input_de=1;
@@ -149,6 +160,8 @@ module cnn_uart_endpoint_tb;
  requested!==0 || applied!==0)$fatal(1,"defaults incomplete");
  consumed=consumed+13;#(BIT*2);
  send_frame(14,8'h50,0,0);response(14,8'h50,0,0,0,1);
+ set_ready(0);
+ send_frame(33,8'h50,0,0);response(33,8'h50,0,0,0,0);
  $display("PASS CNN UART endpoint: independent enables, applied ACK, timeout, unavailable, video isolation");
  $finish;
  end
