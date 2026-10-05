@@ -1,0 +1,39 @@
+{
+  "generator": "C:\\Users\\SteLl1a\\Desktop\\CNN-Tutorial\\refs\\TinyML\\upstream-2026.1\\tools\\tinyml_generator\\tinyml_generator.py",
+  "model": "C:\\Users\\SteLl1a\\Desktop\\CNN-Tutorial\\artifacts\\v0.3-int8\\gesture_int8.tflite",
+  "generator_sha256": "193da2ed90cc17bf337fd898d501710f0a63be2e9703b41364e95393f14fc9ff",
+  "analyzer_sha256": "055955ef1fd77c5f2411de0027f25faad19b4d8f9dec2ea7617ab6f94cf254a8",
+  "model_sha256": "7891518a9b70ec6b3be8649123651780ce87ede1e69a9a49c394c17d203a0baa",
+  "model_array_byte_exact": true,
+  "parameters": {
+    "CPU CONFIG": "SINGLE CORE",
+    "CPU ID": "0",
+    "SYSTEM": true,
+    "AXI_DW": "128",
+    "CONV_DEPTHW_MODE": "STANDARD",
+    "CONV_DEPTHW_STD_IN_PARALLEL": 4,
+    "CONV_DEPTHW_STD_OUT_PARALLEL": 4,
+    "CONV_DEPTHW_STD_OUT_CH_FIFO_A": 64,
+    "CONV_DEPTHW_STD_FILTER_FIFO_A": 72,
+    "CONV_DEPTHW_STD_CNT_DTH": 64,
+    "CONV_DEPTHW_LITE_PARALLEL": 4,
+    "CONV_DEPTHW_LITE_AW": 7,
+    "ADD_MODE": "DISABLE",
+    "LR_MODE": "DISABLE",
+    "FC_MODE": "LITE",
+    "FC_MAX_IN_NODE": 1024,
+    "FC_MAX_OUT_NODE": 3,
+    "MUL_MODE": "DISABLE",
+    "MIN_MAX_MODE": "DISABLE",
+    "RESHAPE_MODE": "STANDARD",
+    "TINYML_CACHE": "ENABLE",
+    "CACHE_DEPTH": "1024"
+  },
+  "files": {
+    "output\\gesture_int8_core0\\tinyml_core0_define.v": "789d6e090c411f095a6631d942e1739be30651acbbd9ff1c06e86eedd5584419",
+    "output\\gesture_int8_core0\\gesture_int8_model_data.cc": "63035bfb3a7f7b255bbe277ef9827d0db42ffc2846f2e9ef11f1a77b373b6494",
+    "output\\gesture_int8_core0\\gesture_int8_model_data.h": "7261b323494fd12c3dbd8f0a140eb7976b98780f640d70f0c6bc981f2aadae8a"
+  },
+  "hardware_verified": false,
+  "board_verified": false
+}

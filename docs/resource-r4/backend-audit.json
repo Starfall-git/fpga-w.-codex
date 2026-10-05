@@ -1,0 +1,149 @@
+{
+  "tensorflow": "2.15.1",
+  "model_sha256": "7891518a9b70ec6b3be8649123651780ce87ede1e69a9a49c394c17d203a0baa",
+  "evaluation_sha256": "71f22bbd77ea4035bc8f95f5b639ae1c256f1e29e1049b328c2ab4cc281fb909",
+  "samples": 372,
+  "backends": {
+    "default": {
+      "execution_ops": [
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "AVERAGE_POOL_2D",
+        "RESHAPE",
+        "FULLY_CONNECTED",
+        "DELEGATE",
+        "DELEGATE"
+      ],
+      "accuracy": 0.9543010752688172,
+      "changed_output_elements": 0,
+      "maximum_absolute_difference": 0,
+      "class_agreement_with_original": 1.0,
+      "golden_outputs": [
+        [
+          11,
+          0,
+          -2
+        ],
+        [
+          -1,
+          79,
+          -60
+        ],
+        [
+          1,
+          -75,
+          63
+        ]
+      ]
+    },
+    "builtin_reference": {
+      "execution_ops": [
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "AVERAGE_POOL_2D",
+        "RESHAPE",
+        "FULLY_CONNECTED"
+      ],
+      "accuracy": 0.9543010752688172,
+      "changed_output_elements": 46,
+      "maximum_absolute_difference": 1,
+      "class_agreement_with_original": 1.0,
+      "golden_outputs": [
+        [
+          11,
+          0,
+          -2
+        ],
+        [
+          -1,
+          78,
+          -60
+        ],
+        [
+          1,
+          -74,
+          63
+        ]
+      ]
+    },
+    "builtin_without_default_delegates": {
+      "execution_ops": [
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "CONV_2D",
+        "MAX_POOL_2D",
+        "AVERAGE_POOL_2D",
+        "RESHAPE",
+        "FULLY_CONNECTED"
+      ],
+      "accuracy": 0.9543010752688172,
+      "changed_output_elements": 45,
+      "maximum_absolute_difference": 1,
+      "class_agreement_with_original": 1.0,
+      "golden_outputs": [
+        [
+          11,
+          0,
+          -2
+        ],
+        [
+          -1,
+          78,
+          -60
+        ],
+        [
+          1,
+          -74,
+          63
+        ]
+      ]
+    }
+  },
+  "reference_vectors": [
+    {
+      "input_file": "paper_input.bin",
+      "input_sha256": "24b8c15d5be12263a8c0e825cc783be76c2dd6bfe85019376c7329f6e07b1f7e",
+      "output_file": "paper_output.bin",
+      "output_int8": [
+        11,
+        0,
+        -2
+      ],
+      "output_sha256": "0997ad6df802da524757bae59fdfab73644c810c8e5940819d17f00f7e65a17d"
+    },
+    {
+      "input_file": "rock_input.bin",
+      "input_sha256": "e66b500f13ca8e0a4491ddcb89fbb06326a94bdccc44ebafd93880dfc8930ee8",
+      "output_file": "rock_output.bin",
+      "output_int8": [
+        -1,
+        78,
+        -60
+      ],
+      "output_sha256": "e29f6a9f4b5876748a582a88b0593301d26a98234edca06fbce8382789e5527c"
+    },
+    {
+      "input_file": "scissors_input.bin",
+      "input_sha256": "358ff3118f0362059abd5d2c4de82ae5470a16dbcb06dab9e9e2dd5e7725e871",
+      "output_file": "scissors_output.bin",
+      "output_int8": [
+        1,
+        -74,
+        63
+      ],
+      "output_sha256": "c207ad44c0e7bf9e7d2a35d11b266b1e38ff001184c53c555d1e35588367ee31"
+    }
+  ],
+  "reference_equals_builtin_without_delegate": false,
+  "default_reproduces_original_all_outputs": true
+}
