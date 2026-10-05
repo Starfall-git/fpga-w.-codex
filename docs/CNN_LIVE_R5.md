@@ -54,3 +54,5 @@
 - HDMI 实际可见框、类别随手势变化、长时间运行和几何变换仍需用户确认。寄存器的“已提交”不等于 HDMI 视觉验收完成。
 
 原始 `C:/Users/SteLl1a/Desktop/fpga-w.-codex` 未修改。r4 的工程、固件和发布包保持可回退。
+
+发布脚本实际板测PASS：五个ELF段回读一致，CNN_LIVE=1196185137 4 0 0，CPU保持运行等待开关。最后COM8被其他进程占用，agent未重新开启开关，请用户在已连接的GUI中开启推理/叠加。agent启动的OpenOCD已shutdown释放下载器。

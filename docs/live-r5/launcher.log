@@ -1,0 +1,59 @@
+0x000b4e84 in conv_drv (stride_width=stride_width@entry=1, stride_height=stride_height@entry=1, dilation_width_factor=dilation_width_factor@entry=1, dilation_height_factor=dilation_height_factor@entry=1, pad_width=pad_width@entry=1, pad_height=pad_height@entry=1, input_offset=input_offset@entry=128, output_offset=output_offset@entry=-128, batches=batches@entry=1, input_depth=input_depth@entry=32, output_depth=output_depth@entry=64, input_width=input_width@entry=16, input_height=input_height@entry=16, filter_width=filter_width@entry=3, filter_height=filter_height@entry=3, output_width=output_width@entry=16, output_height=output_height@entry=16, output_activation_min=output_activation_min@entry=-128, output_activation_max=output_activation_max@entry=127, output_multiplier=output_multiplier@entry=0x111510 <(anonymous namespace)::tensor_arena+260320>, output_shift=output_shift@entry=0x111410 <(anonymous namespace)::tensor_arena+260064>, input_data=input_data@entry=0xd9c30 <(anonymous namespace)::tensor_arena+32768> "\207｢\200\200\200\200ｩ\200ｨﾆﾗ\200ｬ\357\341\200\200\200\200\201ﾇｴﾚ\200\034\221ﾆ\200\220\200\200\200\200ｭｫ\200\200ﾅｵ\200ｪｾﾖ\200ｪ\374ﾋ\200\200\200\200\200ﾅｬﾒ\200\016\345ﾇ\200\200\200\200\200\200\352\222\200\200ﾇ､\200\236\237ｧｾｵ\037\025\200\200\200\200\200ｵ｣､\200\355\363ｦ\200ｼ\200\200\227ｧ\347\200\200\200\200ｯ\200ｽ｡ｯ\237\366)@\200\200\200\200ｨ\343\200｡\200(\200･\200ﾖ\200\200\200ｯ\221\200\200\200\200\206\200\216\223\232\200ｦ\355\340\200\200\200\200ｲｩ\201\220\200\026\200\216\200ﾊ\200\200\200ｫ\215\200\200\200\200ｪ\200ｯｩﾉ\200ｼ\347\344\200\200\200\200ｪﾈ\205ｲ\2006\200ｧ\200ｿ\200\200\200\240\200ﾚ\200\200ﾅﾒ\200"..., filter_data=filter_data@entry=0xc654c <gesture_int8_model_data+5524> "", bias_data=0xcad58 <gesture_int8_model_data+23968>, bias_data@entry=0x791d4 <tflite::reference_integer_ops::ConvPerChannel(int32_t const*, int32_t const*, tflite::RuntimeShape const&, int8_t const*, tflite::RuntimeShape const&, int8_t const*, int32_t const*, tflite::RuntimeShape const&, int8_t*, tflite::RuntimeShape const&, tflite::ConvParams const&)+460>, input_shape=0x311eac, output_shape=0x311ef4, filter_shape=0x311ec4, output_data=output_data@entry=0xd1c30 <(anonymous namespace)::tensor_arena> "\200\200\222\235ｰ\203\200\200\216\223\200\223\200\200\203\234\221\200\200\200\231ｫ\204\200\200､\237\200\203\200\204\226\200\200\200\200｢\200\200\200ｦ\240\223\225\200\200\215\200\200\200\215ｨ\200ｳ\200\200\200\235\224\200\200\200\200\200\200\222\237\216､\200\200\200ｬ\200\200\226\200\200\200\222｢\200\200\200ｴ\236\200\203｣ｩ､\200\226\200\200\227\200\200\200\200ｭ\200\200\200\215ｨ\225｢\214\200\200\200\215\200\200､\200ｽ\200\200\200\230･\200\200\223\200\224\200\224\223\207ｫ\207\200\200\233\204\200\226\203\200\206\211\232\200\200\200ｹ\224\200ｦ\230ｨ\240\200\227\200\220ｦ\200\200\220\200ｨ\200\200\200\224ｭ\226ｬ\210\200\200\200\200\200\200\235\200ﾋ\200\200\200\224ｦ\200\216\200\200､\200\200\220｡\224\200\200\200"...) at platform/tinyml/ops/conv.cc:258
+Loading section .init, size 0x70 lma 0x1000
+Loading section .text, size 0xbec0c lma 0x1070
+Loading section .init_array, size 0x50 lma 0xbfc7c
+Loading section .fini_array, size 0x4 lma 0xbfccc
+Loading section .data, size 0xf9de lma 0xbfcd0
+Start address 0x00001000, load size 845486
+Transfer rate: 39 KB/sec, 14833 bytes/write.
+Section .init, range 0x1000 -- 0x1070: matched.
+Section .text, range 0x1070 -- 0xbfc7c: matched.
+Section .init_array, range 0xbfc7c -- 0xbfccc: matched.
+Section .fini_array, range 0xbfccc -- 0xbfcd0: matched.
+Section .data, range 0xbfcd0 -- 0xcf6ae: matched.
+0xf9000000 in ?? ()
+$1 = {
+  magic = 1196185137,
+  abi_version = 1,
+  stage = 4,
+  error = 0,
+  clint_hz = 96000000,
+  arena_used = 84140,
+  completed = 0,
+  published = 0,
+  frame = 0,
+  predicted_class = 0,
+  output = {0, 0, 0},
+  invoke_ticks = 0,
+  copy_ticks = 0,
+  period_ticks = 0,
+  input_checksum = 0,
+  input_min = 0,
+  input_max = 0,
+  capture_errors = 0,
+  publish_busy = 0,
+  requested = 0,
+  pause_after_completed = 0
+}
+$2 = {{
+    uuid = 1227057274,
+    core_id = 0,
+    axi_dw = 128,
+    conv_depthw_lite_parallel = 4,
+    cache_depth = 1024,
+    axi_db_w = 16,
+    cache_en = 1,
+    conv_depthw_mode = 2,
+    add_mode = 0,
+    fc_mode = 0,
+    mul_mode = 0,
+    lr_mode = 0,
+    min_max_mode = 0,
+    reshape_mode = 2,
+    conv_depthw_mode_input_cnt = 4,
+    conv_depthw_mode_output_cnt = 4,
+    override_flag = 0,
+    accel_active = 1
+  }}
+CNN_LIVE 1196185137 4 0 0
+PASS: live firmware initialized; CPU is running. Enable inference/overlay in the host TinyML panel.
