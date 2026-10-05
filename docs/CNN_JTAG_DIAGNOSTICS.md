@@ -33,3 +33,13 @@ OpenOCD 的 `riscv set_command_timeout_sec` 仅改变命令等待时限，不修
 ## 验证边界
 
 脚本需通过 PowerShell 语法解析、PrepareOnly 与有效配置差异检查。本次没有代用户访问 JTAG、下载镜像或加载 ELF；100 kHz 板上结果待用户反馈。v0.5-ti60-debug-r1 原 ZIP 与 manifest 保持发布时快照，最新板上反馈以本文为准。
+
+## 100 kHz 用户反馈与日志修复（2026-10-05）
+
+用户运行100 kHz诊断后提供约第37～43秒的日志片段：DTMCS持续为 `0x7c71`，DMI扫描持续返回 `b`，等待周期逐渐增加后仍超时，最终 Target not examined yet。对应运行目录为 `artifacts/jtag-diagnostics/20261005-161501-839-100kHz`；metadata记录prepared_only=false、speed_khz=100和r1比特流文件哈希。用户粘贴片段不包含启动时首次DTMCS/DMI事务，不能确定何时进入Busy。
+
+依据实际生成的 `SapphireSoc.v` 中 `logic_jtagLogic_dtmcs_captureData`：version=1，abits=7，idle=7，dmistat=3（Busy）。这与本版DTM结构相符，表明DTM寄存器能被读取；不等于CPU已可调试。该RTL在DMI请求pending时再次capture会报告Busy。外部ai_reset会保持debugCd复位并影响系统域请求处理。下一重点是首次请求、复位释放与跨域响应；不能由该片段直接判定某一根线或某个复位信号故障。
+
+查明诊断工具的另一独立问题：`-l C:\...` 在厂商OpenOCD内部转成Tcl命令时未保护反斜杠，`\a`等被转义，导致日志文件打开失败，输出退回控制台。已用只执行echo/shutdown、不开适配器的官方OpenOCD命令复现。脚本改为 `-c 'log_output {C:/...}'`，并规范化配置路径；增加 `-OfflineLogCheck`。通过真实厂商工具离线验证，日志文件已创建且包含标记。该修复只解决日志保存，不声称解决DMI Busy。
+
+请使用相同诊断命令再运行一次，约30秒后若仍超时则停止。日志现在写入新运行目录，可在第二终端使用脚本打印的Get-Content命令查看。保留完整openocd.log，而非只复制末尾重试片段，以确定首次DMCONTROL访问前后的状态。下一次无需改速率、超时或重新编译硬件。
