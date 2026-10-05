@@ -43,3 +43,13 @@ OpenOCD 的 `riscv set_command_timeout_sec` 仅改变命令等待时限，不修
 查明诊断工具的另一独立问题：`-l C:\...` 在厂商OpenOCD内部转成Tcl命令时未保护反斜杠，`\a`等被转义，导致日志文件打开失败，输出退回控制台。已用只执行echo/shutdown、不开适配器的官方OpenOCD命令复现。脚本改为 `-c 'log_output {C:/...}'`，并规范化配置路径；增加 `-OfflineLogCheck`。通过真实厂商工具离线验证，日志文件已创建且包含标记。该修复只解决日志保存，不声称解决DMI Busy。
 
 请使用相同诊断命令再运行一次，约30秒后若仍超时则停止。日志现在写入新运行目录，可在第二终端使用脚本打印的Get-Content命令查看。保留完整openocd.log，而非只复制末尾重试片段，以确定首次DMCONTROL访问前后的状态。下一次无需改速率、超时或重新编译硬件。
+
+## 两次完整日志定位到首个 DMCONTROL 请求
+
+已读取 `20261005-162239-234-100kHz/openocd.log` 与 `20261005-162436-106-100kHz/openocd.log`，不再需要重复同样的低速实验。后一份日志187183字节，SHA256=`99cc81eae27de34c841e27e7642aa270afdfa18c5535d4d8b3348590b4daccae`；前一份SHA256=`7babd513bc465db64af044a8bea86a315f6c8cfe68c5424b148b20673df6f88e`。
+
+两次顺序一致：实际时钟100 kHz，Ti60 ID与IR capture校验通过；初次DTMCS=`0x7071`；DTM reset后再读仍为`0x7071`、dmistat=0；首次DMI写`address=0x10, data=0`后，下一NOP取响应即返回Busy，随后增加等待周期仍无法完成。`+`是该扫描返回的上一状态，不能据此声称当前写请求已经到达内部DM。最后的`halt`失败与PowerShell exit1均是CPU examine失败的后续结果。
+
+生成RTL的DebugModule中`io_ctrl_cmd_ready=1`，`0x10`写更新dmactive，并通过系统时钟寄存响应；debugCd复位会清空响应valid。该寄存器操作不依赖模型、固件执行或DDR数据读写。DTM端pending只在收到响应或hard reset时清除。这使下一检查点明确为：外部ai_reset、debugCd复位、系统时钟、命令/响应Toggle跨域通路。DDR校准信号仍可能通过ai_reset门控间接影响它，不可将“无需DDR数据访问”误读成“DDR就绪门控无关”。
+
+当前尚未测到内部复位值，不能宣称已找到硬件根因或归因于时序负裕量。已请求用户提供LED0～3物理状态，以核实现有校准门控。若校准条件满足而DMI仍Busy，下一硬件诊断版应提供AI外部复位、SoC复位输出和握手观察点，而非先删除复位隔离。现有GUI的available受firmware_ready影响，不可用作替代观测。
