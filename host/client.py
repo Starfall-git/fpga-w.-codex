@@ -191,7 +191,9 @@ class DemoClient(SerialClient):
 
     def __init__(self, trace=None):
         self.trace = trace or (lambda direction, raw: None)
-        self.status = DeviceStatus(0, 128, 1, 255, 0, 15)
+        self.status = DeviceStatus(0, 128, 1, 255, 0, 15 | CAP_ADV_CNN)
+        self.cnn_applied = 0
+        self.cnn_available = True  # Explicit simulation only, never hardware proof.
         self.geometry = Geometry()
         self.lock = threading.RLock()
         self.sequence = 0
@@ -200,6 +202,16 @@ class DemoClient(SerialClient):
     def _exchange(self, cmd, payload=bytes(8)):
         request = Frame(self.sequence, cmd, payload)
         self.trace("模拟TX", request.encode())
+        if cmd in (Command.GET_CNN, Command.SET_CNN):
+            requested = payload[0] if cmd == Command.SET_CNN else self.cnn_applied
+            code = 3 if cmd == Command.SET_CNN and requested & 1 and not self.cnn_available else 0
+            if not code:
+                self.cnn_applied = requested
+            body = bytes((code, self.cnn_applied, requested, int(self.cnn_available), 1, 0, 0, 0))
+            response = Frame(self.sequence, cmd | 0x80, body)
+            self.trace("模拟RX", response.encode())
+            self.sequence = (self.sequence + 1) & 255
+            return response
         code = 0
         candidate = self.geometry
         if cmd == Command.SET_THRESHOLD:
@@ -208,6 +220,7 @@ class DemoClient(SerialClient):
         elif cmd == Command.SET_ISP:
             self.status = replace(self.status, code=0, isp_flags=payload[0])
         elif cmd == Command.DEFAULTS:
+            self.cnn_applied = 0
             self.status = replace(self.status, code=0, isp_flags=0)
             candidate = Geometry()
         elif cmd == Command.SET_FLIP:

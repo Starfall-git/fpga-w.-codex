@@ -2,6 +2,22 @@
 
 阶段6实现中；完整实时推理、视频叠加及15FPS尚未验证。
 
+## 2026-10-05 调试版交付
+
+`deliverables/v0.5-ti60-debug-r1.zip` 已生成，版本清单在同名 JSON。
+包含本候选的 JTAG `.bit`、归档 `.hex`、匹配的 `evsoc_tinyml_gesture.elf`、
+官方 OpenOCD/GDB 启动参数、源码快照与48文件SHA256清单。实验版保留已报告的
+JTAG跨域负裕量，不代表时序通过。新ELF提供 `cnn_debug_status` 与 `cnn_debug_done`，
+仍只运行3组静态INT8样本，不声明摄像头推理ready。
+
+Host主窗口增加“TinyML 手势”，入口在曝光按钮旁；旧窗口须重启。
+控制面板区分requested/applied/available，错误时不把请求当实际状态。
+33项相关host测试分套件通过。准备脚本和PGM均不执行板卡下载。
+
+用户首次截图为SPI Active using JTAG Bridge，COM8可打开但GET_STATUS超时。
+需等Flash操作完成后使用JTAG+业务bit确认视频和原UART，再通过OpenOCD加载ELF。
+Build不等于加载/运行；原UART握手不应依赖ELF。详细操作见压缩包README。
+
 ## 本轮完成
 
 `tools/integrate_evsoc_top.py`在独立副本的artifacts/evsoc-system-r1产生实际example_top工程：原视频AW/AR mux接共享DDR端口0；Sapphire CPU和TinyML接隔离端口1/2；DdrCtrl由唯一共享输出驱动。Overlay插入ISP输出和HDMI之间，RGB/HS/VS/DE一致延迟，命令UART的50/51已接实际requested/applied/available。纯视频根目录源码作为生成基线保留。USER1 JTAG按官方EVSoC配置复制，不占用猜测GPIO引脚。

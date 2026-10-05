@@ -7,7 +7,7 @@ class AdvancedTests(unittest.TestCase):
   client=DemoClient()
   status=client.set_isp(False,False,False,False,False,True,True)
   self.assertEqual(status.isp_flags,104)
-  self.assertEqual(status.advanced_capabilities,15)
+  self.assertEqual(status.advanced_capabilities & 15,15)
   self.assertEqual(client.reset_defaults()[0].isp_flags,0)
   with self.assertRaises(ValueError):isp_payload(True,False,False,False,True)
  def test_gui_mutual_selection(self):
